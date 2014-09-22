@@ -1,1 +1,23 @@
 Root directory for the MiniMicro website
+
+Workflow:
+
+    Locally:
+        Edit locally
+        git add <files>
+        socksify git push  sparkslabs master
+
+        Fetch:
+        socksify git fetch sparkslabs
+        git rebase sparkslabs/master master
+
+    Remotely:
+        cd /srv/Websites/minimicro.iotoy.org
+        git fetch origin
+        git rebase origin master
+
+        If make changes
+        git add <files>
+        git push sparkslabs master
+
+        (Then locally fetch)
