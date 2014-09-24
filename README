@@ -28,14 +28,27 @@ Locally installed blockly from here:
 
 Getting started with Blockly.
 
+Build and install dependencies
+==============================
+
+git clone https://github.com/dmfrey/FileLock
+cd FileLock
+python setup.py sdist
+cd dist
+py2dsc FileLock-0.1.0.tar.gz
+cd deb_dist/filelock-0.1.0
+dpkg-buildpackage -rfakeroot -uc -us
+cd ..
+sudo dpkg -i python-filelock_0.1.0-1_all.deb
 
 
 
+with FileLock("test.txt", timeout=2) as lock:
+    print("Lock acquired.")
+    # Do something with the locked file
 
 
-
-
-
+echo "0" > upload/highest
 
 
 
