@@ -1,0 +1,23 @@
+Source: filelock
+Maintainer: Evan Fosmark <me@evanfosmark.com>
+Section: python
+Priority: optional
+Build-Depends: python-all (>= 2.6.6-3), debhelper (>= 7)
+Standards-Version: 3.9.1
+
+Package: python-filelock
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}
+Description: File locking library
+ .
+ ========
+ FileLock
+ ========
+ .
+     A file locking mechanism that has context-manager support so 
+     you can use it in a with statement. This should be relatively cross
+     compatible as it doesn't rely on msvcrt or fcntl for the locking.
+ .
+ .
+     Originally posted at http://www.evanfosmark.com/2009/01/cross-platform-file-locking-support-in-python/
+ .
