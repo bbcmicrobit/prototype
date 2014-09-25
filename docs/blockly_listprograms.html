@@ -1,0 +1,76 @@
+<html>
+<head>
+<style>
+</style>
+<script src="jquery.min.js" type="text/javascript"></script>
+<script src="jquery-ui.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="blockly/blockly_compressed.js"></script>
+<script type="text/javascript" src="blockly/blocks_compressed.js"></script>
+<script type="text/javascript" src="blockly/python_compressed.js"></script>
+<script type="text/javascript" src="blockly/msg/js/en.js"></script>
+<script>
+function buildCode() {
+    var code = Blockly.Python.workspaceToCode();
+
+    var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+    var xml_text = Blockly.Xml.domToText(xml);
+
+    $("#codeblock").html("<P><PRE>" + code  + "</PRE>");
+}
+
+function loadCode() {
+    var prog_id =  $("#prog_id").val();
+    $.post("/cgi-bin/get_program.py",
+           JSON.stringify({"repr" : { "id": prog_id}}),
+           function( data ) {
+                 Blockly.getMainWorkspace().clear(); // If we don't do this, we get duplicate copies of the data added to the workspace.
+                                                     // This is a useful side effect which is useful to know, but not to use right now.
+
+                 var xml = Blockly.Xml.textToDom(data["xml"]);
+                 var code = data["code"];
+                 Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+                 $("#resultblock").html("<P><PRE> "+ code + "</PRE>");
+           }
+          );
+
+}
+
+
+function getProgramList() {
+    $.get("/cgi-bin/list_uploads.py",
+          function( data ) {
+                var uploads = data["data"];
+                var i, len, text;
+                for(i = 0, len= uploads.length, text = ""; i< len; i++) {
+                      var item = uploads[i]
+                      text += "<li> <a href='" +  item["href"] + "'>"+ item["id"] + "</a>\n";
+                };
+                $("#resultblock").html("<P><ul> "+ text+ "</ul>");
+           }
+    );
+}
+
+
+</script>
+</head>
+<body>
+<h1> MicroBug</h1>
+
+<P> List of programs on the server
+
+<div id="resultblock" style="width: 90%; border: dotted;margin:1em; padding: 1em;">
+<P>Server result goes here
+</div>
+
+<div id="blocklyDiv" style="width: 92%; margin:1em; height: 480px; "></div>
+
+  <script type="text/javascript">
+      getProgramList();
+  </script>
+
+
+<hr>
+Contact: michael.sparks@bbc.co.uk
+
+</body>
+</html>
