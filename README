@@ -51,6 +51,11 @@ with FileLock("test.txt", timeout=2) as lock:
 echo "0" > upload/highest
 
 
+Installation on minimicro.iotoy.org:
+
+    $ cd /srv/Websites/minimicro.iotoy.org/upload
+    $ echo 0 >highest
+    $ touch highest.lock
 
 
 
