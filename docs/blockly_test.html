@@ -23,7 +23,8 @@ function buildCode() {
             data: JSON.stringify({"repr" : { "code": code, "xml" : xml_text }}),
             success: function( data ) {
                                       var someid = data["id"];
-                                        $( "#resultblock" ).html( someid );
+                                        text = '<P>Link to this version - <a href="/blockly_reload.html?id=' +  someid + '"> ' + someid.toString() +' </a>';
+                                        $( "#resultblock" ).html( text );
                                       },
            });
 }
