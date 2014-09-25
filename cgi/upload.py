@@ -4,17 +4,13 @@
 #cgitb.enable()
 
 import json
-#import cgi
-import time
 import sys
 from filelock.filelock import FileLock
 
 raw_stdin = sys.stdin.read()
 myjson = json.loads(raw_stdin)
 
-#form = cgi.FieldStorage()
 results = {}
-#myjson = form.getvalue('repr', '')
 
 myjson = json.dumps(myjson )
 
