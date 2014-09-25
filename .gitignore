@@ -1,2 +1,4 @@
 .htpasswd
 upload/*json
+upload/highest
+upload/highest.lock
