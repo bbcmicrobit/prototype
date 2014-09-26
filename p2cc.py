@@ -74,12 +74,11 @@ def parse(source,lexer):
    return result
 
 import pprint
-
-for filename in [
-                 "tests/progs/1.p",
-                 "tests/progs/2.p",
-                 "tests/progs/3.p"
-                ]:
+import os
+files = os.listdir("tests/progs")
+files.sort()
+files = [ "tests/progs/" + x for x in files ]
+for filename in files:
     print "PARSING", filename
     source = open(filename).read()
     yacc.yacc(module=Grammar())
