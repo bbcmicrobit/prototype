@@ -1,0 +1,93 @@
+Generic (ish) Language Parser - "glop"
+--------------------------------------
+
+Valid Languages
+===============
+The Grammar implemented by this system is informally as follows:
+
+program -> block
+block -> BLOCKSTART statement_list BLOCKEND
+statement_list -> statement*
+statement -> (expression | expression ASSIGNMENT expression | ) EOL
+expression -> oldexpression (COMMA expression)*
+oldexpression -> (factor [factorlist] |  factor INFIXOPERATOR expression )
+factorlist -> factor* factor 
+factor -> ( bracketedexpression | constructorexpression | NUMBER | STRING | ID
+          | factor DOT dotexpression | factor trailer | factor trailertoo )
+dotexpression -> (ID bracketedexpression | factor )
+bracketedexpression -> BRA [ expression ] KET
+constructorexpression -> BRA3 [ expression ] KET3
+trailer -> BRA2 expression KET2
+trailertoo -> COLON EOL block
+
+Whilst allowing some commonly known constructs - such as foo.bar(), this
+also allows some more rather unusual ones like 2.("hello"."world") or even
+2.(if self:
+   print "Hello"
+else:
+   print "Rhubarb"
+end)
+
+A rather unusual decision was taken regarding operators - evaluation is left
+to right rather than based on precedence. The only language I'm aware of
+that also does this is Amiga E.
+
+Currently also, the grammar does NOT support continuation over multiple
+lines for expressions beyond block statement exprssions. This will probably
+change at some point.
+
+progs/
+======
+The files in this directory are all tests of valid syntax. They were used,
+in the order they were numbered to drive the development of a PLY parser
+for this language.
+
+This approach has been significantly simpler than attempting to construct
+the grammar the old fashioned way of design something that looks nice and
+work back. Furthermore, it's also worked out to be significantly cleaner 
+and more flexible. Some of the later files in the directory are samples of
+code that are deliberate light touch translations of other languages into
+this syntax to show that the approach is basically valid and that the parser
+is capable of handling very different languages, whilst sharing a basic
+common grammar.
+
+expr_29.p - This is designed as a realistic test and is a direct
+translation of the actual main parser code. The fact this works quite well
+tends to suggest that the parser is realistic in terms of constructs it can
+handle and represent.
+
+expr_33.p - This is an example that assumes a LOGO like language using the
+parser. I haven't looked at LOGO since I was a child so this example is
+skewed by the little I remember of it, but it should show a fairly different
+looking language.
+
+expr_34.p - This is a simple example of defining a custom little language for
+representation of domain specific data. In this case the language is
+designed for defining stochastic L-Systems for modeling generic biological
+systems.
+
+expr_35.p - This is a simple example of a stack implementation in a simple SML-like
+language. Specifically, note that the language allows ids to be prefixed and
+suffixed using ' characters as is common in such languages.
+
+expr_37.p - This is an example of a light touch modification of an ancient
+Amiga E syntax module that implements a simple "person" object. The
+differences from the original code are highly minimal, and the resulting
+code has a very similar look and feel to the original.
+
+Note also - we do NOT require keywords - the reason for this is the strict 
+whitespace/indentation that is enforced allows us to detect the block
+structure, and hence we don't need keywords. However, note that as a result
+that many block structures will require a terminator keyword.
+
+Currently the abstract syntax tree returned is rather OTT, and needs
+simplifying before use in anger, but it is expected that most languages
+implemented using this parser will undertake some form of tree
+transformation anyway.
+
+This parser uses a trivially modified version of the PLY parser toolkit,
+which is included in this directory. (It's a one line patch around line 2184
+in yacc.py)
+
+
+Michael
