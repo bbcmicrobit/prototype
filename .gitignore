@@ -5,3 +5,4 @@ upload/highest.lock
 *.pyc
 genprogs/
 staging/SWP
+*.zip
