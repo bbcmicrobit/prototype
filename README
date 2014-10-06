@@ -59,6 +59,30 @@ Installation on minimicro.iotoy.org:
 
 
 
+Grabbing and installing plyplus, to see if it's useful/worthwhile:
 
+    $ sudo python apt-get install python-ply   # -- dependency of plyplus
+
+    $ git clone https://github.com/erezsh/plyplus
+    $ cd plyplus
+    $ python setup.py sdist
+    $ cd dist/
+    $ py2dsc PlyPlus-0.6.1.tar.gz
+    $ cd deb_dist
+    $ plyplus-0.6.1
+    $ dpkg-buildpackage -rfakeroot -uc -us
+    $ cd ..
+    $ sudo dpkg -i  python-plyplus_0.6.1-1_all.deb
+
+Dug out the SWP code from many moons ago
+ -- Been on google code for the past 5 years here:
+     -- https://code.google.com/p/kamaelian/source/browse/#hg%2FSketches%2FSWP
+ -- Cloned code tree into staging here:
+     -- staging/kamaelian/Sketches
+ -- Extracted out SWP by itself to here:
+     -- SWP
+ -- likely to use this as a basis for moving forward
+
+Ditching the google code stuff fgrom staging, put up a layer.
 
 
