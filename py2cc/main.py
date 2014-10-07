@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import pprint
+import os
 
 # local import
 from codegenerator import CodeGenerator, gen_code
@@ -10,15 +11,15 @@ from lexer_parser import configure_lexer, configure_parser, do_parse
 configure_lexer()
 
 
-def main():
-    import os
+def main(files):
+    global os
     #
     # Build the example test programs, compile them and run them
     #
-
-    files = os.listdir("tests/progs")
-    files = [ x for x in files if "skip" not in x ]
-    files.sort()
+    if len(files) == 0:
+        files = os.listdir("tests/progs")
+        files = [ x for x in files if "skip" not in x ]
+        files.sort()
 
     ditch = os.listdir("tests/genprogs")
     for filename in ditch:
