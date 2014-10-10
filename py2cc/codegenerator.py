@@ -112,6 +112,7 @@ class CodeGenerator(object):
 
 def gen_code(AST):
     cg = CodeGenerator()
+    print repr(AST)
     AST[0] = "program"
     program = cg.program(AST[1])
     return program
