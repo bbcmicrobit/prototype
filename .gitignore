@@ -6,3 +6,6 @@ upload/highest.lock
 genprogs/
 staging/SWP
 *.zip
+parser.out
+parsetab.py
+*~
