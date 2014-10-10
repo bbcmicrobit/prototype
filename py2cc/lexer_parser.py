@@ -161,6 +161,11 @@ class Grammar(object):
     def p_error(self,p):
         print "Syntax error at", p
 
+    # ---------------------------------------------------------------------
+    #
+    # High level program structure
+    #
+    # ---------------------------------------------------------------------
     def p_program1(self,p):
         "program : statementlist"
         p[0] = ["program", p[1] ]
@@ -190,6 +195,25 @@ class Grammar(object):
             statement_list = [ this_statement ] +  following_statements
         p[0] = ["statementlist", statement_list ]
 
+    # ---------------------------------------------------------------------
+    #
+    # Block Structure
+    #
+    # ---------------------------------------------------------------------
+    def p_block_1(self,p):
+        "block : INDENT DEDENT"
+        p[0] = ["block", [] ]
+
+    def p_block_2(self,p):
+        "block : INDENT statementlist DEDENT"
+        p[0] = ["block", p[2] ]
+
+    # ---------------------------------------------------------------------
+    #
+    # Statement types : empty, print, bare expression, forever
+    # TBD: for, while, def
+    # NOTE To be decided - class, import, etc
+    # ---------------------------------------------------------------------
     def p_statement_0(self,p):
         "statement : EOL"
         p[0] = ["null_statement", p[1] ]
@@ -210,41 +234,19 @@ class Grammar(object):
         "forever_statement : WHILE TRUE COLON EOL block"
         p[0] = ["forever_statement", p[5][1] ]
 
-    def p_block_1(self,p):
-        "block : INDENT DEDENT"
-        p[0] = ["block", [] ]
-
-    def p_block_2(self,p):
-        "block : INDENT statementlist DEDENT"
-        p[0] = ["block", p[2] ]
-
-
     def p_print_statement_1(self,p):
         "print_statement : PRINT expression"
         p[0] = ["print_statement", p[2] ]
 
+    # ---------------------------------------------------------------------
+    #
+    # Expressions : literals, functional calls
+    # TBD: infix expressions
+    # ---------------------------------------------------------------------
     def p_expression(self,p):
         """expression : literalvalue
-                      | identifier
                       | func_call """
         p[0] = ["expression", p[1] ]
-
-    def p_expressionatom(self,p):
-        """literalvalue : number 
-                        | string"""
-        p[0] = ["literalvalue", p[1] ]
-
-    def p_number(self,p):
-        "number : NUMBER"
-        p[0] = ["number", p[1] ]
-
-    def p_string(self,p):
-        "string : STRING"
-        p[0] = ["string", p[1] ]
-
-    def p_identifier(self,p):
-        "identifier : IDENTIFIER"
-        p[0] = ["identifier", p[1] ]
 
     def p_func_call1(self,p):
         "func_call : IDENTIFIER PARENL PARENR"
@@ -261,6 +263,31 @@ class Grammar(object):
     def p_func_args2(self,p):
         "func_args : expression COMMA func_args"
         p[0] = ["func_args", p[1], p[3] ]
+
+
+    # ---------------------------------------------------------------------
+    #
+    # Literal Values : number, identifier, string
+    #  TBD: boolean, real, array
+    # ---------------------------------------------------------------------
+    def p_expressionatom(self,p):
+        """literalvalue : number 
+                        | identifier
+                        | string"""
+        p[0] = ["literalvalue", p[1] ]
+
+    def p_number(self,p):
+        "number : NUMBER"
+        p[0] = ["number", p[1] ]
+
+    def p_string(self,p):
+        "string : STRING"
+        p[0] = ["string", p[1] ]
+
+    def p_identifier(self,p):
+        "identifier : IDENTIFIER"
+        p[0] = ["identifier", p[1] ]
+
 
 def mktoken(type, value, lineno, lexpos):
     tok = lex.LexToken()
