@@ -1,4 +1,4 @@
-forever:
-    print "hello"
-    print "world"
-    print 1
+while True:
+    1
+    print "Hello"
+    print "World"
