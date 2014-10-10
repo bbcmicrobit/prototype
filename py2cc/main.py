@@ -6,10 +6,10 @@ import os
 # local import
 from codegenerator import CodeGenerator, gen_code
 
-from lexer_parser import configure_lexer, configure_parser, do_parse
+#from lexer_parser import configure_lexer, configure_parser, do_parse
+from lexer_parser import configure_lexer, parse
 
-configure_lexer()
-
+lexer = configure_lexer()
 
 def main(files):
     global os
@@ -30,11 +30,9 @@ def main(files):
         print
         print "PARSING", filename
         source = open("tests/progs/"+filename).read()
-        configure_parser()
 
-        #yacc.yacc(module=Grammar())
-        # x = yacc.parse(source)
-        x = do_parse(source)
+        x = parse(source, lexer)
+
         pprint.pprint(x,width=120)
         print "-"*120
         y  = gen_code(x)
@@ -49,11 +47,6 @@ def main(files):
             os.system("tests/genprogs/gen-"+trimmed)
 
         print "#"*120
-
-    import os
-    os.unlink("parser.out")
-    os.unlink("parsetab.py")
-    os.unlink("parsetab.pyc")
 
 if __name__ == "__main__":
     main()
