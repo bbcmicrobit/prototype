@@ -299,7 +299,6 @@ class Grammar(object):
         "else_clause : ELSE COLON EOL block"
         p[0] = ["else_clause", p[4][1]]
 
-
     #-------------------------------------------------
     # PRINT statement
     #
@@ -342,9 +341,7 @@ class Grammar(object):
         "func_args : expression COMMA func_args"
         p[0] = ["func_args", p[1], p[3] ]
 
-
     # ---------------------------------------------------------------------
-    #
     # Literal Values : number, identifier, string
     #  TBD: boolean, real, array
     # ---------------------------------------------------------------------
@@ -388,7 +385,6 @@ def parse(source,lexer):
 
 
 def configure_lexer():
-    #    
     global lexer
     lexer =  lex.lex(reflags=re.MULTILINE)
     lexer.curr_spaces_indent = 0
