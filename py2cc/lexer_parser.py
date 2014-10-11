@@ -14,7 +14,7 @@ states = (
 )
 
 tokens = ( "NUMBER", "EOL", "PRINT", "STRING", "COLON",
-           "IDENTIFIER", "WHILE", "TRUE", "FALSE", "IF", "ELSE",
+           "IDENTIFIER", "WHILE", "TRUE", "FALSE", "IF", "ELSE", "ELIF",
            "PARENL", "PARENR", "COMMA",
            "INDENT", "DEDENT" # , "WS"
           )
@@ -30,7 +30,7 @@ t_CODE_INITIAL_COMMA = r','
 
 def t_CODE_INITIAL_IDENTIFIER(t):
     r'[a-zA-Z][a-zA-Z0-9_]*'
-    if t.value in ["print", "while", "True", "False", "if", "else"]: # Check reserved words
+    if t.value in ["print", "while", "True", "False", "if", "else", "elif"]: # Check reserved words
         t.type = t.value.upper()
     return t
 
@@ -255,14 +255,23 @@ class Grammar(object):
         p[0] = ["if_statement", p[2][1], p[5][1] ]
 
     def p_if_statement_2(self,p):
-        "if_statement : IF expression COLON EOL block else_clause"
-        p[0] = ["if_statement", p[2][1], p[5][1], p[6][1]]
+        "if_statement : IF expression COLON EOL block if_trailer"
+        p[0] = ["if_statement", p[2][1], p[5][1], p[6]]
+
+    def p_if_trailer_1(self,p):
+        """if_trailer : elif_clause
+                      | else_clause"""
+
+        print "HERE", len(p), p[0], p[1]
+        p[0] = p[1]
+
+    def p_elif_clause_1(self,p):
+        "elif_clause : ELIF expression COLON EOL block"
+        p[0] = ["elif_clause", p[2][1], p[5][1] ]
 
     def p_else_clause_1(self,p):
         "else_clause : ELSE COLON EOL block"
         p[0] = ["else_clause", p[4][1]]
-
-
 
     def p_print_statement_1(self,p):
         "print_statement : PRINT expression"
