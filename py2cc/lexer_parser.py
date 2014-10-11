@@ -253,7 +253,7 @@ class Grammar(object):
     #---------------------------------------------------
     # IF Statement
     # This could do with some TLC to re-arrange the structure of the if statements here
-    # 
+    #
     def p_if_statement_1(self,p):
         "if_statement : IF expression COLON EOL block"
         p[0] = ["if_statement", p[2][1], p[5][1] ]
@@ -282,13 +282,6 @@ class Grammar(object):
 
         print "HERE", len(p), p[0], p[1]
         p[0] = p[1]
-
-    #def p_elif_clauses_1(self,p):
-        #"""elif_clauses : elif_clause
-                        #| elif_clauses"""
-
-        #print "THERE", len(p), p[0], p[1]
-        #p[0] = p[1]
 
     def p_elif_clause_1(self,p):
         "elif_clause : ELIF expression COLON EOL block"
