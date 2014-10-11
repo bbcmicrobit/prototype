@@ -255,8 +255,14 @@ class Grammar(object):
         p[0] = ["if_statement", p[2][1], p[5][1] ]
 
     def p_if_statement_2(self,p):
-        "if_statement : IF expression COLON EOL block ELSE COLON EOL block"
-        p[0] = ["if_statement", p[2][1], p[5][1], p[9][1]]
+        "if_statement : IF expression COLON EOL block else_clause"
+        p[0] = ["if_statement", p[2][1], p[5][1], p[6][1]]
+
+    def p_else_clause_1(self,p):
+        "else_clause : ELSE COLON EOL block"
+        p[0] = ["else_clause", p[4][1]]
+
+
 
     def p_print_statement_1(self,p):
         "print_statement : PRINT expression"
