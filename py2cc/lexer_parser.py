@@ -250,6 +250,10 @@ class Grammar(object):
 
         p[0] = ["while_statement", p[2][1],p[5][1] ]
 
+    #---------------------------------------------------
+    # IF Statement
+    # This could do with some TLC to re-arrange the structure of the if statements here
+    # 
     def p_if_statement_1(self,p):
         "if_statement : IF expression COLON EOL block"
         p[0] = ["if_statement", p[2][1], p[5][1] ]
