@@ -16,7 +16,7 @@ states = (
 reserved_words = ["print", "while", "True", "False", "if", "else", "elif", "for", "in"]
 
 tokens = [ "NUMBER", "EOL", "STRING", "COLON",
-           "IDENTIFIER",
+           "IDENTIFIER", "OPERATOR", "MINUS",
            "PARENL", "PARENR", "COMMA",
            "INDENT", "DEDENT" # , "WS"
           ] + [x.upper() for x in reserved_words]
@@ -26,6 +26,8 @@ tokens = [ "NUMBER", "EOL", "STRING", "COLON",
 t_CODE_INITIAL_PRINT = r'print'
 # t_CODE_INITIAL_FOREVER = r'while\sTrue'
 t_CODE_INITIAL_COLON = r':'
+t_CODE_INITIAL_OPERATOR = r'[\+\*/]'
+t_CODE_INITIAL_MINUS = r'\-'
 t_CODE_INITIAL_PARENL = r'\('
 t_CODE_INITIAL_PARENR = r'\)'
 t_CODE_INITIAL_COMMA = r','
@@ -354,8 +356,12 @@ class Grammar(object):
                         | boolean"""
         p[0] = ["literalvalue", p[1] ]
 
-    def p_number(self,p):
+    def p_number_1(self,p):
         "number : NUMBER"
+        p[0] = ["number", p[1] ]
+
+    def p_number_2(self,p):
+        "number : MINUS NUMBER"
         p[0] = ["number", p[1] ]
 
     def p_string(self,p):
