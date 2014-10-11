@@ -13,8 +13,8 @@ states = (
   ('EMITDEDENTS', 'exclusive'),
 )
 
-tokens = ( "NUMBER", "EOL", "PRINT", "STRING", "FOREVER", "COLON",
-           "IDENTIFIER", "WHILE", "TRUE",
+tokens = ( "NUMBER", "EOL", "PRINT", "STRING", "COLON",
+           "IDENTIFIER", "WHILE", "TRUE", "FALSE",
            "PARENL", "PARENR", "COMMA",
            "INDENT", "DEDENT" # , "WS"
           )
@@ -22,7 +22,7 @@ tokens = ( "NUMBER", "EOL", "PRINT", "STRING", "FOREVER", "COLON",
 
 # t_EOL = r'\n'
 t_CODE_INITIAL_PRINT = r'print'
-t_CODE_INITIAL_FOREVER = r'while\sTrue'
+# t_CODE_INITIAL_FOREVER = r'while\sTrue'
 t_CODE_INITIAL_COLON = r':'
 t_CODE_INITIAL_PARENL = r'\('
 t_CODE_INITIAL_PARENR = r'\)'
@@ -30,7 +30,7 @@ t_CODE_INITIAL_COMMA = r','
 
 def t_CODE_INITIAL_IDENTIFIER(t):
     r'[a-zA-Z][a-zA-Z0-9_]*'
-    if t.value in ["print", "while", "True"]: # Check reserved words
+    if t.value in ["print", "while", "True", "False"]: # Check reserved words
         t.type = t.value.upper()
     return t
 
@@ -227,12 +227,24 @@ class Grammar(object):
         p[0] = ["statement", p[1] ]
 
     def p_statement_4(self,p):
-        "statement : forever_statement"
+        "statement : while_statement"
         p[0] = ["statement", p[1] ]
 
-    def p_forever_statement_1(self,p):
-        "forever_statement : WHILE TRUE COLON EOL block"
-        p[0] = ["forever_statement", p[5][1] ]
+    def p_while_statement_1(self,p):
+        "while_statement : WHILE expression COLON EOL block"
+        if p[2][0] == "expression":
+            expr = p[2][1]
+            if expr[0] == "literalvalue":
+                value = expr[1]
+                if value[0] == "boolean":
+                    if value[1] == "True":
+                        p[0] = ["forever_statement", p[5][1] ]
+                        return
+                    elif value[1] == "False":
+                        p[0] = ["never_statement", p[5][1] ]
+                        return
+
+        p[0] = ["while_statement", p[2][1],p[5][1] ]
 
     def p_print_statement_1(self,p):
         "print_statement : PRINT expression"
@@ -273,7 +285,8 @@ class Grammar(object):
     def p_expressionatom(self,p):
         """literalvalue : number 
                         | identifier
-                        | string"""
+                        | string
+                        | boolean"""
         p[0] = ["literalvalue", p[1] ]
 
     def p_number(self,p):
@@ -283,6 +296,11 @@ class Grammar(object):
     def p_string(self,p):
         "string : STRING"
         p[0] = ["string", p[1] ]
+
+    def p_boolean(self,p):
+        """boolean : TRUE
+                   | FALSE"""
+        p[0] = ["boolean", p[1] ]
 
     def p_identifier(self,p):
         "identifier : IDENTIFIER"
