@@ -14,7 +14,7 @@ states = (
 )
 
 tokens = ( "NUMBER", "EOL", "PRINT", "STRING", "COLON",
-           "IDENTIFIER", "WHILE", "TRUE", "FALSE", "IF", "ELSE", "ELIF",
+           "IDENTIFIER", "WHILE", "TRUE", "FALSE", "IF", "ELSE", "ELIF", "FOR", "IN",
            "PARENL", "PARENR", "COMMA",
            "INDENT", "DEDENT" # , "WS"
           )
@@ -30,7 +30,7 @@ t_CODE_INITIAL_COMMA = r','
 
 def t_CODE_INITIAL_IDENTIFIER(t):
     r'[a-zA-Z][a-zA-Z0-9_]*'
-    if t.value in ["print", "while", "True", "False", "if", "else", "elif"]: # Check reserved words
+    if t.value in ["print", "while", "True", "False", "if", "else", "elif", "for", "in"]: # Check reserved words
         t.type = t.value.upper()
     return t
 
@@ -234,6 +234,14 @@ class Grammar(object):
         "statement : if_statement"
         p[0] = ["statement", p[1] ]
 
+    def p_statement_5(self,p):
+        "statement : for_statement"
+        p[0] = ["statement", p[1] ]
+
+    # --------------------------------------------
+    # WHILE Statement
+    #
+
     def p_while_statement_1(self,p):
         "while_statement : WHILE expression COLON EOL block"
         if p[2][0] == "expression":
@@ -252,7 +260,7 @@ class Grammar(object):
 
     #---------------------------------------------------
     # IF Statement
-    # This could do with some TLC to re-arrange the structure of the if statements here
+    # FIXME: elif_clauses are currently nested, they'd be better flattened to make the AST nicer
     #
     def p_if_statement_1(self,p):
         "if_statement : IF expression COLON EOL block"
@@ -291,9 +299,20 @@ class Grammar(object):
         "else_clause : ELSE COLON EOL block"
         p[0] = ["else_clause", p[4][1]]
 
+
+    #-------------------------------------------------
+    # PRINT statement
+    #
     def p_print_statement_1(self,p):
         "print_statement : PRINT expression"
         p[0] = ["print_statement", p[2] ]
+
+    #-------------------------------------------------
+    # FOR statement
+    #
+    def p_for_statement_1(self,p):
+        "for_statement : FOR identifier IN expression COLON EOL block"
+        p[0] = ["for_statement", p[2], p[4][1], p[7][1] ]
 
     # ---------------------------------------------------------------------
     #
@@ -313,6 +332,8 @@ class Grammar(object):
         "func_call : IDENTIFIER PARENL func_args PARENR"
         p[0] = ["func_call", p[1], p[3] ]
 
+    # ------------------------------
+    # FIXME: func_args lists are currently nested, they'd be better flattened
     def p_func_args1(self,p):
         "func_args : expression "
         p[0] = ["func_args", p[1] ]
