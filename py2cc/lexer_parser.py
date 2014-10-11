@@ -13,11 +13,13 @@ states = (
   ('EMITDEDENTS', 'exclusive'),
 )
 
-tokens = ( "NUMBER", "EOL", "PRINT", "STRING", "COLON",
-           "IDENTIFIER", "WHILE", "TRUE", "FALSE", "IF", "ELSE", "ELIF", "FOR", "IN",
+reserved_words = ["print", "while", "True", "False", "if", "else", "elif", "for", "in"]
+
+tokens = [ "NUMBER", "EOL", "STRING", "COLON",
+           "IDENTIFIER",
            "PARENL", "PARENR", "COMMA",
            "INDENT", "DEDENT" # , "WS"
-          )
+          ] + [x.upper() for x in reserved_words]
 # tokens = ( "NUMBER", "EOL", "PRINT", "STRING", "FOREVER", "COLON", "SPACE")
 
 # t_EOL = r'\n'
@@ -30,7 +32,7 @@ t_CODE_INITIAL_COMMA = r','
 
 def t_CODE_INITIAL_IDENTIFIER(t):
     r'[a-zA-Z][a-zA-Z0-9_]*'
-    if t.value in ["print", "while", "True", "False", "if", "else", "elif", "for", "in"]: # Check reserved words
+    if t.value in reserved_words: # Check reserved words
         t.type = t.value.upper()
     return t
 
@@ -230,11 +232,11 @@ class Grammar(object):
         "statement : while_statement"
         p[0] = ["statement", p[1] ]
 
-    def p_statement_4(self,p):
+    def p_statement_5(self,p):
         "statement : if_statement"
         p[0] = ["statement", p[1] ]
 
-    def p_statement_5(self,p):
+    def p_statement_6(self,p):
         "statement : for_statement"
         p[0] = ["statement", p[1] ]
 
