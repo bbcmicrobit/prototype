@@ -259,11 +259,32 @@ class Grammar(object):
         p[0] = ["if_statement", p[2][1], p[5][1], p[6]]
 
     def p_if_trailer_1(self,p):
-        """if_trailer : elif_clause
-                      | else_clause"""
+        """if_trailer : elif_clauses"""
+        print "HERE", len(p), p[0], p[1]
+        p[0] = p[1]
+
+    def p_elif_clauses_1(self,p):
+        """elif_clauses : elif_clause"""
+        print "HERE", len(p), p[0], p[1]
+        p[0] = p[1]
+
+    def p_elif_clauses_2(self,p):
+        """elif_clauses : elif_clause if_trailer"""
+        print "HERE", len(p), p[0], p[1]
+        p[0] = [ p[1], p[2] ]
+
+    def p_if_trailer_2(self,p):
+        """if_trailer : else_clause"""
 
         print "HERE", len(p), p[0], p[1]
         p[0] = p[1]
+
+    #def p_elif_clauses_1(self,p):
+        #"""elif_clauses : elif_clause
+                        #| elif_clauses"""
+
+        #print "THERE", len(p), p[0], p[1]
+        #p[0] = p[1]
 
     def p_elif_clause_1(self,p):
         "elif_clause : ELIF expression COLON EOL block"
