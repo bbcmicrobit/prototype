@@ -18,15 +18,13 @@ reserved_words = ["print", "while", "True", "False", "if", "else", "elif",
 
 tokens = [ "NUMBER", "EOL", "STRING", "COLON",
            "IDENTIFIER", "PLUS", "MINUS", "TIMES", "DIVIDE",
-           "PARENL", "PARENR", "COMMA",
+           "PARENL", "PARENR", "COMMA", "EQUALS",
            "INDENT", "DEDENT" # , "WS"
           ] + [x.upper() for x in reserved_words]
-# tokens = ( "NUMBER", "EOL", "PRINT", "STRING", "FOREVER", "COLON", "SPACE")
 
-# t_EOL = r'\n'
 t_CODE_INITIAL_PRINT = r'print'
-# t_CODE_INITIAL_FOREVER = r'while\sTrue'
 t_CODE_INITIAL_COLON = r':'
+t_CODE_INITIAL_EQUALS = r'='
 t_CODE_INITIAL_MINUS = r'\-'
 t_CODE_INITIAL_PLUS = r'\+'
 t_CODE_INITIAL_TIMES = r'\*'
@@ -71,7 +69,6 @@ def t_CODE_INITIAL_WS(t):
           v += 0
 
   t.lexer.curr_indent = v
-#  return t
 
 def t_BLOCKS_WS(t):
     r'[ \t]+'
@@ -261,6 +258,10 @@ class Grammar(object):
         "statement : yield_statement"
         p[0] = ["statement", p[1] ]
 
+    def p_statement_10(self,p):
+        "statement : assignment_statement"
+        p[0] = ["statement", p[1] ]
+
 
     # --------------------------------------------
     # WHILE Statement
@@ -338,6 +339,13 @@ class Grammar(object):
         p[0] = ["yield_statement", p[2] ]
 
     #-------------------------------------------------
+    # YIELD statement
+    #
+    def p_assignment_statement_1(self,p):
+        "assignment_statement : identifier EQUALS expression"
+        p[0] = ["assignment_statement", p[2],p[1],p[3] ]
+
+    #-------------------------------------------------
     # IMPORT statement
     #
     def p_import_statement_1(self,p):
@@ -380,8 +388,8 @@ class Grammar(object):
         p[0] = p[2]
 
     def p_expression_3(self,p):
-        """expression : arith_expression TIMES arith_expression
-                      | arith_expression DIVIDE arith_expression"""
+        """expression : arith_expression TIMES expression
+                      | arith_expression DIVIDE expression"""
         p[0] = ["infix_expression", p[2], p[1], p[3] ]
 
     def p_expression_4(self,p):
@@ -389,8 +397,8 @@ class Grammar(object):
         p[0] = p[1]
 
     def p_expression_5(self,p):
-        """arith_expression : expression_atom PLUS expression_atom
-                            | expression_atom MINUS expression_atom"""
+        """arith_expression : expression_atom PLUS arith_expression
+                            | expression_atom MINUS arith_expression"""
         p[0] = ["infix_expression", p[2], p[1],  p[3] ]
 
     # ---------------------------------------------------------------------
@@ -459,11 +467,11 @@ class Grammar(object):
 
     def p_ident_list1(self,p):
         "ident_list : identifier"
-        p[0] = ["expr_list", p[1] ]
+        p[0] = ["ident_list", p[1] ]
 
     def p_ident_list2(self,p):
         "ident_list : identifier COMMA ident_list"
-        p[0] = ["expr_list", p[1], p[3] ]
+        p[0] = ["ident_list", p[1], p[3] ]
 
 def mktoken(type, value, lineno, lexpos):
     tok = lex.LexToken()
@@ -516,4 +524,3 @@ def configure_lexer():
     lexer.begin('BLOCKS')
 
     return lexer
-#    return lex.lexer
