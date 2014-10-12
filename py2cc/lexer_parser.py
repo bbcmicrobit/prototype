@@ -36,7 +36,7 @@ t_CODE_INITIAL_PARENR = r'\)'
 t_CODE_INITIAL_COMMA = r','
 
 def t_CODE_INITIAL_IDENTIFIER(t):
-    r'[a-zA-Z][a-zA-Z0-9_]*'
+    r'[a-zA-Z_][a-zA-Z0-9_]*'
     if t.value in reserved_words: # Check reserved words
         t.type = t.value.upper()
     return t
