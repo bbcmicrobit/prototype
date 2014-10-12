@@ -13,10 +13,11 @@ states = (
   ('EMITDEDENTS', 'exclusive'),
 )
 
-reserved_words = ["print", "while", "True", "False", "if", "else", "elif", "for", "in"]
+reserved_words = ["print", "while", "True", "False", "if", "else", "elif",
+                  "for", "in", "from", "import", "def", "yield"]
 
 tokens = [ "NUMBER", "EOL", "STRING", "COLON",
-           "IDENTIFIER", "OPERATOR", "MINUS",
+           "IDENTIFIER", "PLUS", "MINUS", "TIMES", "DIVIDE",
            "PARENL", "PARENR", "COMMA",
            "INDENT", "DEDENT" # , "WS"
           ] + [x.upper() for x in reserved_words]
@@ -26,8 +27,10 @@ tokens = [ "NUMBER", "EOL", "STRING", "COLON",
 t_CODE_INITIAL_PRINT = r'print'
 # t_CODE_INITIAL_FOREVER = r'while\sTrue'
 t_CODE_INITIAL_COLON = r':'
-t_CODE_INITIAL_OPERATOR = r'[\+\*/]'
 t_CODE_INITIAL_MINUS = r'\-'
+t_CODE_INITIAL_PLUS = r'\+'
+t_CODE_INITIAL_TIMES = r'\*'
+t_CODE_INITIAL_DIVIDE = r'/'
 t_CODE_INITIAL_PARENL = r'\('
 t_CODE_INITIAL_PARENR = r'\)'
 t_CODE_INITIAL_COMMA = r','
@@ -133,7 +136,8 @@ def t_EMITDEDENTS_DEDENT(t):
 
 
 def t_CODE_INITIAL_NUMBER(t):
-    r'[-]?\d+'
+    r'\d+'
+    # r'[-]?\d+'
     try:
          t.value = int(t.value)
     except ValueError:
@@ -161,6 +165,9 @@ def t_ANY_error(t):
     t.skip(1)
 
 class Grammar(object):
+    precedence = (
+        ('right', 'MINUS'),
+    )
     tokens = tokens
     def p_error(self,p):
         print "Syntax error at", p
@@ -242,6 +249,19 @@ class Grammar(object):
         "statement : for_statement"
         p[0] = ["statement", p[1] ]
 
+    def p_statement_7(self,p):
+        "statement : import_statement"
+        p[0] = ["statement", p[1] ]
+
+    def p_statement_8(self,p):
+        "statement : def_statement"
+        p[0] = ["statement", p[1] ]
+
+    def p_statement_9(self,p):
+        "statement : yield_statement"
+        p[0] = ["statement", p[1] ]
+
+
     # --------------------------------------------
     # WHILE Statement
     #
@@ -311,20 +331,91 @@ class Grammar(object):
         p[0] = ["print_statement", p[2] ]
 
     #-------------------------------------------------
+    # YIELD statement
+    #
+    def p_yield_statement_1(self,p):
+        "yield_statement : YIELD expression"
+        p[0] = ["yield_statement", p[2] ]
+
+    #-------------------------------------------------
+    # IMPORT statement
+    #
+    def p_import_statement_1(self,p):
+        "import_statement : FROM identifier IMPORT identifier"
+        p[0] = ["from_import_statement ", p[2][1], p[4][1] ]
+
+    def p_import_statement_2(self,p):
+        "import_statement : IMPORT identifier"
+        p[0] = ["import_statement ", p[2][1] ]
+
+    #-------------------------------------------------
     # FOR statement
     #
     def p_for_statement_1(self,p):
         "for_statement : FOR identifier IN expression COLON EOL block"
         p[0] = ["for_statement", p[2], p[4][1], p[7][1] ]
 
-    # ---------------------------------------------------------------------
+    #-------------------------------------------------
+    # DEF statement
     #
+    def p_def_statement_1(self,p):
+        "def_statement : DEF identifier PARENL PARENR COLON EOL block"
+        p[0] = ["def_statement", p[2], None, p[7][1] ]
+
+    def p_def_statement_2(self,p):
+        "def_statement : DEF identifier PARENL ident_list PARENR COLON EOL block"
+        p[0] = ["def_statement", p[2], p[4], p[8][1] ]
+
+
+    # ---------------------------------------------------------------------
     # Expressions : literals, functional calls
     # TBD: infix expressions
     # ---------------------------------------------------------------------
-    def p_expression(self,p):
-        """expression : literalvalue
-                      | func_call """
+    def p_expression_1(self,p):
+        "expression : arith_expression"
+        p[0] = ["expression", p[1] ]
+
+    def p_expression_2(self,p):
+        "expression : PARENL expression PARENR"
+        p[0] = p[2]
+
+    def p_expression_3(self,p):
+        """expression : arith_expression TIMES arith_expression
+                      | arith_expression DIVIDE arith_expression"""
+        p[0] = ["infix_expression", p[2], p[1], p[3] ]
+
+    def p_expression_4(self,p):
+        """arith_expression : expression_atom"""
+        p[0] = p[1]
+
+    def p_expression_5(self,p):
+        """arith_expression : expression_atom PLUS expression_atom
+                            | expression_atom MINUS expression_atom"""
+        p[0] = ["infix_expression", p[2], p[1],  p[3] ]
+
+    # ---------------------------------------------------------------------
+    # Literal Values : number, identifier, string
+    #  TBD: boolean, real, array
+    # ---------------------------------------------------------------------
+
+    def p_expressionatom_1(self,p):
+        "expression_atom : number"
+        p[0] = ["literalvalue", p[1] ]
+
+    def p_expressionatom_2(self,p):
+        "expression_atom : identifier"
+        p[0] = ["literalvalue", p[1] ]
+
+    def p_expressionatom_3(self,p):
+        "expression_atom : string"
+        p[0] = ["literalvalue", p[1] ]
+
+    def p_expressionatom_4(self,p):
+        "expression_atom : boolean"
+        p[0] = ["literalvalue", p[1] ]
+
+    def p_expressionatom_5(self,p):
+        "expression_atom : func_call"
         p[0] = ["expression", p[1] ]
 
     def p_func_call1(self,p):
@@ -332,37 +423,16 @@ class Grammar(object):
         p[0] = ["func_call", p[1] ]
 
     def p_func_call2(self,p):
-        "func_call : IDENTIFIER PARENL func_args PARENR"
+        "func_call : IDENTIFIER PARENL expr_list PARENR"
         p[0] = ["func_call", p[1], p[3] ]
-
-    # ------------------------------
-    # FIXME: func_args lists are currently nested, they'd be better flattened
-    def p_func_args1(self,p):
-        "func_args : expression "
-        p[0] = ["func_args", p[1] ]
-
-    def p_func_args2(self,p):
-        "func_args : expression COMMA func_args"
-        p[0] = ["func_args", p[1], p[3] ]
-
-    # ---------------------------------------------------------------------
-    # Literal Values : number, identifier, string
-    #  TBD: boolean, real, array
-    # ---------------------------------------------------------------------
-    def p_expressionatom(self,p):
-        """literalvalue : number 
-                        | identifier
-                        | string
-                        | boolean"""
-        p[0] = ["literalvalue", p[1] ]
 
     def p_number_1(self,p):
         "number : NUMBER"
         p[0] = ["number", p[1] ]
 
     def p_number_2(self,p):
-        "number : MINUS NUMBER"
-        p[0] = ["number", p[1] ]
+        "number : MINUS number"
+        p[0] = ["number", -p[2][1] ]
 
     def p_string(self,p):
         "string : STRING"
@@ -377,6 +447,23 @@ class Grammar(object):
         "identifier : IDENTIFIER"
         p[0] = ["identifier", p[1] ]
 
+    # ------------------------------
+    # FIXME: these lists are currently nested, they'd be better flattened
+    def p_expr_list1(self,p):
+        "expr_list : expression "
+        p[0] = ["expr_list", p[1] ]
+
+    def p_expr_list2(self,p):
+        "expr_list : expression COMMA expr_list"
+        p[0] = ["expr_list", p[1], p[3] ]
+
+    def p_ident_list1(self,p):
+        "ident_list : identifier"
+        p[0] = ["expr_list", p[1] ]
+
+    def p_ident_list2(self,p):
+        "ident_list : identifier COMMA ident_list"
+        p[0] = ["expr_list", p[1], p[3] ]
 
 def mktoken(type, value, lineno, lexpos):
     tok = lex.LexToken()
