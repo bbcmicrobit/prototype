@@ -22,6 +22,8 @@ tokens = [ "NUMBER", "EOL", "STRING", "COLON",
            "INDENT", "DEDENT" # , "WS"
           ] + [x.upper() for x in reserved_words]
 
+tadwidth = 8
+
 t_CODE_INITIAL_PRINT = r'print'
 t_CODE_INITIAL_COLON = r':'
 t_CODE_INITIAL_EQUALS = r'='
@@ -64,9 +66,7 @@ def t_CODE_INITIAL_WS(t):
       if char == " ":
           v += 1
       elif char == "\t":
-          v += 8
-      else:
-          v += 0
+          v += tadwidth
 
   t.lexer.curr_indent = v
 
@@ -79,7 +79,7 @@ def t_BLOCKS_WS(t):
       if char == " ":
           count += 1
       if char == "\t":
-          count += 8
+          count += tadwidth
 
     lexer.curr_spaces_indent = count
 
@@ -293,23 +293,18 @@ class Grammar(object):
 
     def p_if_trailer_1(self,p):
         """if_trailer : elif_clauses"""
-        print "HERE", len(p), p[0], p[1]
         p[0] = p[1]
 
     def p_elif_clauses_1(self,p):
         """elif_clauses : elif_clause"""
-        print "HERE", len(p), p[0], p[1]
         p[0] = p[1]
 
     def p_elif_clauses_2(self,p):
         """elif_clauses : elif_clause if_trailer"""
-        print "HERE", len(p), p[0], p[1]
         p[0] = [ p[1], p[2] ]
 
     def p_if_trailer_2(self,p):
         """if_trailer : else_clause"""
-
-        print "HERE", len(p), p[0], p[1]
         p[0] = p[1]
 
     def p_elif_clause_1(self,p):
