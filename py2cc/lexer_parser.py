@@ -208,10 +208,6 @@ class Grammar(object):
     # Block Structure
     #
     # ---------------------------------------------------------------------
-    def p_block_1(self,p):
-        "block : INDENT DEDENT"
-        p[0] = ["block", [] ]
-
     def p_block_2(self,p):
         "block : INDENT statementlist DEDENT"
         p[0] = ["block", p[2] ]
