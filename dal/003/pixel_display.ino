@@ -21,7 +21,7 @@ int counter =0;
 
 
 #define ledPin 7
-int timer1_counter;
+int timer4_counter;
 
 int mycounter;
 int display[5][5] = {
@@ -74,18 +74,18 @@ void setup()
   mySetup();
   pinMode(ledPin, OUTPUT);
 
-  // initialize timer1 
+  // initialize timer4 
   noInterrupts();           // disable all interrupts
-  TCCR1A = 0;
-  TCCR1B = 0;
+  TCCR4A = 0;
+  TCCR4B = 0;
 
-  // Set timer1_counter to the correct value for our interrupt interval
-  timer1_counter = 64911;     // preload timer 65536-16MHz/256/100Hz
-  timer1_counter = 65224;     // preload timer 65536-16MHz/256/200Hz
+  // Set timer4_counter to the correct value for our interrupt interval
+  timer4_counter = 64911;     // preload timer 65536-16MHz/256/100Hz
+  timer4_counter = 65224;     // preload timer 65536-16MHz/256/200Hz
   
-  TCNT1 = timer1_counter;   // preload timer
-  TCCR1B |= (1 << CS12);    // 256 prescaler 
-  TIMSK1 |= (1 << TOIE1);   // enable timer overflow interrupt
+  TCNT4 = timer4_counter;   // preload timer
+  TCCR4B |= (1 << CS12);    // 256 prescaler 
+  TIMSK4 |= (1 << TOIE4);   // enable timer overflow interrupt
   interrupts();             // enable all interrupts
 }
 
@@ -99,9 +99,9 @@ void display_column(int i) {
 }
 
 
-ISR(TIMER1_OVF_vect)        // interrupt service routine 
+ISR(TIMER4_OVF_vect)        // interrupt service routine 
 {
-  TCNT1 = timer1_counter;   // preload timer
+  TCNT4 = timer4_counter;   // preload timer
 
   display_column(mycounter % 5);
 
