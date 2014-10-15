@@ -267,10 +267,7 @@ void eye_off(char id) {
     set_eye(id, LOW);
 }
 
-
-
-void loop()
-{
+void BasicBehaviours() {
     if ((getButton('A') == HIGH) && (getButton('B') == HIGH)) {
         loop_letters();
     } else if (getButton('A') == HIGH) {
@@ -284,5 +281,10 @@ void loop()
         eye_off('A');
         print_message(" WORLD!",400);
     }
+}
+
+void loop()
+{
+    BasicBehaviours();
 }
 
