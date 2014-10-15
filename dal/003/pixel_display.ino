@@ -1,3 +1,5 @@
+#include "spark_font.h"
+
 int row0 = 11; // Arduino Pin for row 0
 int row1 = 3; // Arduino Pin for row 1
 int row2 = 2; // Arduino Pin for row 2
@@ -198,6 +200,35 @@ int getButton(char id) {
     return -1; // Signify error
 }
 
+void showLetter(char c) {
+    int letter_index = c-32;
+    if (c>126) return;
+    if (c<32) return;
+    if (font[letter_index][0] != c) return;
+    clear_display();
+    for(int row=0; row<5; row++) {
+        int this_row = font[letter_index][row+1];
+        int L0 = 0b1000 & this_row ? HIGH : LOW;
+        int L1 = 0b0100 & this_row ? HIGH : LOW;
+        int L2 = 0b0010 & this_row ? HIGH : LOW;
+        int L3 = 0b0001 & this_row ? HIGH : LOW;
+        display[0][row] = L0;
+        display[1][row] = L1;
+        display[2][row] = L2;
+        display[3][row] = L3;
+        display[4][row] = LOW;
+    }
+}
+
+int cur_letter = 65;
+void loop_letters() {
+    showLetter(cur_letter);
+    delay(500);
+    cur_letter++;
+    if (cur_letter>90) {
+        cur_letter=65;
+    }
+}
 
 void loop()
 {
@@ -207,7 +238,16 @@ void loop()
         checker_flash();
         clear_display();
     } else {
-        delay(100);
+        loop_letters();
+//        showLetter(cur_letter);
+//        delay(500);
+//        cur_letter++;
+//        if (cur_letter>90) {
+//            cur_letter=65;
+//        }
+//       showLetter('B');
+//        delay(1000);
+//        showLetter('C');
     }
 }
 
