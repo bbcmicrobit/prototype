@@ -76,40 +76,40 @@ void setup_display() {
 }
 
 void microbug_setup() { // This is a really MicroBug setup
-      display_strobe_counter = 0;
+    display_strobe_counter = 0;
 
-      pinMode(row0, OUTPUT);
-      pinMode(row1, OUTPUT);
-      pinMode(row2, OUTPUT);
-      pinMode(row3, OUTPUT);
-      pinMode(row4, OUTPUT);
+    pinMode(row0, OUTPUT);
+    pinMode(row1, OUTPUT);
+    pinMode(row2, OUTPUT);
+    pinMode(row3, OUTPUT);
+    pinMode(row4, OUTPUT);
 
-      pinMode(col0, OUTPUT);
-      pinMode(col1, OUTPUT);
-      pinMode(col2, OUTPUT);
-      pinMode(col3, OUTPUT);
-      pinMode(col4, OUTPUT);
+    pinMode(col0, OUTPUT);
+    pinMode(col1, OUTPUT);
+    pinMode(col2, OUTPUT);
+    pinMode(col3, OUTPUT);
+    pinMode(col4, OUTPUT);
 
-      pinMode(lefteye, OUTPUT);
-      pinMode(righteye, OUTPUT);
+    pinMode(lefteye, OUTPUT);
+    pinMode(righteye, OUTPUT);
 
-      pinMode(ButtonA, INPUT);
-      pinMode(ButtonB, INPUT);
+    pinMode(ButtonA, INPUT);
+    pinMode(ButtonB, INPUT);
 
-      digitalWrite(row0, LOW);
-      digitalWrite(row1, LOW);
-      digitalWrite(row2, LOW);
-      digitalWrite(row3, LOW);
-      digitalWrite(row4, LOW);
+    digitalWrite(row0, LOW);
+    digitalWrite(row1, LOW);
+    digitalWrite(row2, LOW);
+    digitalWrite(row3, LOW);
+    digitalWrite(row4, LOW);
 
-      digitalWrite(col0, LOW);
-      digitalWrite(col1, LOW);
-      digitalWrite(col2, LOW);
-      digitalWrite(col3, LOW);
-      digitalWrite(col4, LOW);
+    digitalWrite(col0, LOW);
+    digitalWrite(col1, LOW);
+    digitalWrite(col2, LOW);
+    digitalWrite(col3, LOW);
+    digitalWrite(col4, LOW);
 
-      digitalWrite(lefteye, LOW);
-      digitalWrite(righteye, LOW);
+    digitalWrite(lefteye, LOW);
+    digitalWrite(righteye, LOW);
 }
 
 void display_column(int i) {
@@ -124,20 +124,20 @@ void display_column(int i) {
 
 ISR(TIMER4_OVF_vect)        // interrupt service routine 
 {
-  TCNT4 = timer4_counter;   // preload timer
+    TCNT4 = timer4_counter;   // preload timer
 
-  display_column(display_strobe_counter % 5);
+    display_column(display_strobe_counter % 5);
 
-  display_strobe_counter += 1;
-  if (display_strobe_counter > 200) {
-    display_strobe_counter = 0; // reset
-  }
+    display_strobe_counter += 1;
+    if (display_strobe_counter > 200) {
+        display_strobe_counter = 0; // reset
+    }
 }
 
 void set_display(int sprite[5][5]) {
     for(int i=0; i<5; i++) {
         for(int j=0; j<5; j++) {
-           display[i][j] = sprite[i][j];
+            display[i][j] = sprite[i][j];
         }
     }
 }
