@@ -9,3 +9,6 @@ staging/SWP
 parser.out
 parsetab.py
 *~
+build-leonardo/
+docs/4weeks.txt
+docs/stage
