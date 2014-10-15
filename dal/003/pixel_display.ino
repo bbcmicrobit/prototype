@@ -21,11 +21,9 @@ int ButtonB = 16; // Arduino Pin for left eye
 int counter =0;
 #define DELAY 5
 
-
-#define ledPin 7
 int timer4_counter;
 
-int mycounter;
+int display_strobe_counter;
 int display[5][5] = {
                       { LOW, LOW, LOW, LOW, LOW},
                       { LOW, LOW, LOW, LOW, LOW},
@@ -33,6 +31,19 @@ int display[5][5] = {
                       { LOW, LOW, LOW, LOW, LOW},
                       { LOW, LOW, LOW, LOW, LOW}
                     };
+
+/* API ---------------------------------------------------------------------------------------- */
+
+#define DISPLAY_WIDTH 5
+#define DISPLAY_HEIGHT 5
+
+#define ___ 0
+
+typedef struct Image {
+    int width;
+    int height;
+    int *data ;
+} Image;
 
 void set_eye(char id, int state);
 void eye_on(char id);
@@ -44,9 +55,29 @@ void clear_display();
 void plot(int x, int y);
 void unplot(int x, int y);
 void set_display(int sprite[5][5]);
+void showViewport(Image& someImage, int x, int y);
 
-void mySetup() {
-      mycounter = 0;
+/* END API ------------------------------------------------------------------------------------ */
+
+
+void setup_display() {
+    // initialize timer4 
+    noInterrupts();           // disable all interrupts
+    TCCR4A = 0;
+    TCCR4B = 0;
+    // Set timer4_counter to the correct value for our interrupt interval
+    timer4_counter = 64911;     // preload timer 65536-16MHz/256/100Hz
+    timer4_counter = 65224;     // preload timer 65536-16MHz/256/200Hz
+
+    TCNT4 = timer4_counter;   // preload timer
+    TCCR4B |= (1 << CS12);    // 256 prescaler 
+    TIMSK4 |= (1 << TOIE4);   // enable timer overfLOW interrupt
+    interrupts();             // enable all interrupts
+}
+
+void microbug_setup() { // This is a really MicroBug setup
+      display_strobe_counter = 0;
+
       pinMode(row0, OUTPUT);
       pinMode(row1, OUTPUT);
       pinMode(row2, OUTPUT);
@@ -81,27 +112,6 @@ void mySetup() {
       digitalWrite(righteye, LOW);
 }
 
-
-void setup()
-{
-  mySetup();
-  pinMode(ledPin, OUTPUT);
-
-  // initialize timer4 
-  noInterrupts();           // disable all interrupts
-  TCCR4A = 0;
-  TCCR4B = 0;
-
-  // Set timer4_counter to the correct value for our interrupt interval
-  timer4_counter = 64911;     // preload timer 65536-16MHz/256/100Hz
-  timer4_counter = 65224;     // preload timer 65536-16MHz/256/200Hz
-
-  TCNT4 = timer4_counter;   // preload timer
-  TCCR4B |= (1 << CS12);    // 256 prescaler 
-  TIMSK4 |= (1 << TOIE4);   // enable timer overflow interrupt
-  interrupts();             // enable all interrupts
-}
-
 void display_column(int i) {
     digitalWrite(row0, display[i][0] ); digitalWrite(row1, display[i][1] ); digitalWrite(row2, display[i][2]); digitalWrite(row3, display[i][3] ); digitalWrite(row4, display[i][4] );
     digitalWrite(col0, i != 0 ? HIGH : LOW );
@@ -116,11 +126,11 @@ ISR(TIMER4_OVF_vect)        // interrupt service routine
 {
   TCNT4 = timer4_counter;   // preload timer
 
-  display_column(mycounter % 5);
+  display_column(display_strobe_counter % 5);
 
-  mycounter += 1;
-  if (mycounter > 200) {
-    mycounter = 0; // reset
+  display_strobe_counter += 1;
+  if (display_strobe_counter > 200) {
+    display_strobe_counter = 0; // reset
   }
 }
 
@@ -131,9 +141,6 @@ void set_display(int sprite[5][5]) {
         }
     }
 }
-
-#define DISPLAY_WIDTH 5
-#define DISPLAY_HEIGHT 5
 
 void plot(int x, int y) {
     if (x <0) return;
@@ -161,44 +168,6 @@ void clear_display() {
             unplot(i,j);
         }
     }
-}
-
-void checker_flash() {
-    int checker_sprite[5][5] = {
-                                  { HIGH, LOW, HIGH, LOW, HIGH },
-                                  { LOW, HIGH, LOW, HIGH, LOW },
-                                  { HIGH, LOW, HIGH, LOW, HIGH },
-                                  { LOW, HIGH, LOW, HIGH, LOW },
-                                  { HIGH, LOW, HIGH, LOW, HIGH }
-                                };
-    int inv_checker_sprite[5][5] = {
-                                  { LOW, HIGH, LOW, HIGH, LOW },
-                                  { HIGH, LOW, HIGH, LOW, HIGH },
-                                  { LOW, HIGH, LOW, HIGH, LOW },
-                                  { HIGH, LOW, HIGH, LOW, HIGH },
-                                  { LOW, HIGH, LOW, HIGH, LOW }
-                                };
-    set_display(checker_sprite);
-    digitalWrite(ledPin, HIGH);
-    delay(500); 
-    set_display(inv_checker_sprite);
-    digitalWrite(ledPin, LOW);
-    delay(500); 
-}
-
-void strobing_pixel_plot() {
-   for(int i=0; i<5; i++) {
-       for(int j=0; j<5; j++) {
-           plot(i,j);
-           delay(50); 
-       }
-   }
-   for(int i=0; i<5; i++) {
-       for(int j=0; j<5; j++) {
-           unplot(i,j);
-           delay(50); 
-       }
-   }
 }
 
 int getButton(char id) {
@@ -231,16 +200,6 @@ void showLetter(char c) {
     }
 }
 
-int cur_letter = 65;
-void loop_letters() {
-    showLetter(cur_letter);
-    delay(500);
-    cur_letter++;
-    if (cur_letter>90) {
-        cur_letter=65;
-    }
-}
-
 void print_message(char * message, int pausetime) {
     while(*message) {
         showLetter(*message);
@@ -248,7 +207,6 @@ void print_message(char * message, int pausetime) {
         delay(pausetime);
     }
 }
-
 
 void set_eye(char id, int state) {
     if ((id == 'A') || (id == 'L')) {
@@ -267,6 +225,69 @@ void eye_off(char id) {
     set_eye(id, LOW);
 }
 
+void showViewport(Image& someImage, int x, int y) {
+    if (someImage.width<4) return; // Not implemented yet
+    if (someImage.height<4) return; // Not implemented yet
+    for(int i=0; (i+x<someImage.width) && (i<5); i++) {
+        for(int j=y; (j+y<someImage.height) && (j<5); j++) {
+            int value = someImage.data[(j+y)*someImage.width+ x+i ];
+            display[i][j]=value;
+        }
+    }
+}
+
+/* END - API IMPLEMENTATION ------------------------------------------------------------------*/
+
+/* -- Test / application functions ---------------------------------------------------------- */
+int cur_letter = 65;
+void loop_letters() {
+    showLetter(cur_letter);
+    delay(500);
+    cur_letter++;
+    if (cur_letter>90) {
+        cur_letter=65;
+    }
+}
+
+void strobing_pixel_plot() {
+   for(int i=0; i<5; i++) {
+       for(int j=0; j<5; j++) {
+           plot(i,j);
+           delay(50); 
+       }
+   }
+   for(int i=0; i<5; i++) {
+       for(int j=0; j<5; j++) {
+           unplot(i,j);
+           delay(50); 
+       }
+   }
+}
+
+void checker_flash() {
+    int checker_sprite[5][5] = {
+                                  { HIGH, LOW, HIGH, LOW, HIGH },
+                                  { LOW, HIGH, LOW, HIGH, LOW },
+                                  { HIGH, LOW, HIGH, LOW, HIGH },
+                                  { LOW, HIGH, LOW, HIGH, LOW },
+                                  { HIGH, LOW, HIGH, LOW, HIGH }
+                                };
+    int inv_checker_sprite[5][5] = {
+                                  { LOW, HIGH, LOW, HIGH, LOW },
+                                  { HIGH, LOW, HIGH, LOW, HIGH },
+                                  { LOW, HIGH, LOW, HIGH, LOW },
+                                  { HIGH, LOW, HIGH, LOW, HIGH },
+                                  { LOW, HIGH, LOW, HIGH, LOW }
+                                };
+    set_display(checker_sprite);
+    digitalWrite(lefteye, HIGH);
+    delay(500); 
+    set_display(inv_checker_sprite);
+    digitalWrite(lefteye, LOW);
+    delay(500); 
+}
+
+
 void BasicBehaviours() {
     if ((getButton('A') == HIGH) && (getButton('B') == HIGH)) {
         loop_letters();
@@ -283,8 +304,37 @@ void BasicBehaviours() {
     }
 }
 
+/* END  Test / application functions -------------------------------------------------------- */
+
+Image myImage;
+int image_data[] = {
+    ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,
+    HIGH, ___, HIGH,  ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  ___,  HIGH, ___,  HIGH, ___,  ___,
+    ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  HIGH, ___,  ___,  HIGH, ___,  ___,  HIGH, ___,  HIGH,
+    ___,  HIGH, ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, HIGH, ___,  ___,  ___,  ___,  HIGH, ___,
+    HIGH, ___,  ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, HIGH, ___,
+    ___,  ___,  ___,  ___,  HIGH, ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  HIGH, ___,  ___,  HIGH,
+    ___,  ___,  ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  ___,  HIGH,
+    HIGH, ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,  ___,  ___
+};
+
+void setup()
+{
+    setup_display();
+    microbug_setup();
+    myImage.width=16;
+    myImage.height=8;
+    myImage.data = image_data;
+}
+
 void loop()
 {
-    BasicBehaviours();
+    // BasicBehaviours();
+    print_message("MICROBUG!",400);
+    for(int i=0; i<12; i++) {
+        clear_display();
+        showViewport(myImage, i,0);
+        delay(250);
+    }
 }
 
