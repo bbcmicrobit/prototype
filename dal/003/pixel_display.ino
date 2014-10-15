@@ -188,7 +188,26 @@ void strobing_pixel_plot() {
    }
 }
 
+int getButton(char id) {
+    if (id == 'A') {
+        return digitalRead(ButtonA);
+    }
+    if (id == 'B') {
+        return digitalRead(ButtonB);
+    }
+    return -1; // Signify error
+}
+
+
 void loop()
 {
-    strobing_pixel_plot();
+    if (getButton('A') == HIGH) {
+        strobing_pixel_plot();
+    } else if  (getButton('B') == HIGH) {
+        checker_flash();
+        clear_display();
+    } else {
+        delay(100);
+    }
 }
+
