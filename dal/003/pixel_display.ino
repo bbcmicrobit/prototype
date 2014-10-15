@@ -142,6 +142,14 @@ void unplot(int x, int y) {
      display[x][y] = LOW;
 }
 
+void clear_display() {
+    for(int i=0; i< DISPLAY_WIDTH; i++) {
+        for(int j=0; j< DISPLAY_HEIGHT; j++) {
+            unplot(i,j);
+        }
+    }
+}
+
 void checker_flash() {
     int checker_sprite[5][5] = {
                                   { HIGH, LOW, HIGH, LOW, HIGH },
