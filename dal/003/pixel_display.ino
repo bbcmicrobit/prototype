@@ -34,6 +34,17 @@ int display[5][5] = {
                       { LOW, LOW, LOW, LOW, LOW}
                     };
 
+void set_eye(char id, int state);
+void eye_on(char id);
+void eye_off(char id);
+void print_message(char * message, int pausetime);
+void showLetter(char c);
+int getButton(char id);
+void clear_display();
+void plot(int x, int y);
+void unplot(int x, int y);
+void set_display(int sprite[5][5]);
+
 void mySetup() {
       mycounter = 0;
       pinMode(row0, OUTPUT);
@@ -230,24 +241,48 @@ void loop_letters() {
     }
 }
 
+void print_message(char * message, int pausetime) {
+    while(*message) {
+        showLetter(*message);
+        message++;
+        delay(pausetime);
+    }
+}
+
+
+void set_eye(char id, int state) {
+    if ((id == 'A') || (id == 'L')) {
+        digitalWrite(lefteye, state );
+    }
+    if ((id == 'B') || (id == 'R')) {
+        digitalWrite(righteye, state );
+    }
+}
+
+void eye_on(char id) {
+    set_eye(id, HIGH);
+}
+
+void eye_off(char id) {
+    set_eye(id, LOW);
+}
+
+
+
 void loop()
 {
-    if (getButton('A') == HIGH) {
+    if ((getButton('A') == HIGH) && (getButton('B') == HIGH)) {
+        loop_letters();
+    } else if (getButton('A') == HIGH) {
         strobing_pixel_plot();
     } else if  (getButton('B') == HIGH) {
         checker_flash();
         clear_display();
     } else {
-        loop_letters();
-//        showLetter(cur_letter);
-//        delay(500);
-//        cur_letter++;
-//        if (cur_letter>90) {
-//            cur_letter=65;
-//        }
-//       showLetter('B');
-//        delay(1000);
-//        showLetter('C');
+        eye_on('A');
+        print_message("HELLO",400);
+        eye_off('A');
+        print_message(" WORLD!",400);
     }
 }
 
