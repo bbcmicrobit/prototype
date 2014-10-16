@@ -56,6 +56,7 @@ void plot(int x, int y);
 void unplot(int x, int y);
 void set_display(int sprite[5][5]);
 void showViewport(Image& someImage, int x, int y);
+void ScrollImage(Image someImage, boolean loop, int trailing_spaces);
 
 /* END API ------------------------------------------------------------------------------------ */
 
@@ -236,6 +237,18 @@ void showViewport(Image& someImage, int x, int y) {
     }
 }
 
+void ScrollImage(Image someImage, boolean loop=false, int trailing_spaces=false) {
+    // Example, width is 16
+    // Display width is 5
+    // This counts from 0 <= i < 12 -- ie from 0 to 11
+    // The last viewport therefore tries to display indices 11, 12, 13, 14, 15
+    for(int i=0; i<someImage.width-DISPLAY_WIDTH+1; i++) {
+        clear_display();
+        showViewport(someImage, i,0);
+        delay(250);
+    }
+}
+
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
 
 /* -- Test / application functions ---------------------------------------------------------- */
@@ -304,6 +317,8 @@ void BasicBehaviours() {
     }
 }
 
+
+
 /* END  Test / application functions -------------------------------------------------------- */
 
 Image myImage;
@@ -331,10 +346,6 @@ void loop()
 {
     // BasicBehaviours();
     print_message("MICROBUG!",400);
-    for(int i=0; i<12; i++) {
-        clear_display();
-        showViewport(myImage, i,0);
-        delay(250);
-    }
+    ScrollImage(myImage);
 }
 
