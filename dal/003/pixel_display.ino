@@ -1,5 +1,10 @@
 #include "spark_font.h"
 
+#define MICROBUG
+// #define Megabug
+
+#ifdef MEGABUG
+
 int row0 = 11; // Arduino Pin for row 0
 int row1 = 3; // Arduino Pin for row 1
 int row2 = 2; // Arduino Pin for row 2
@@ -17,6 +22,29 @@ int righteye = 17; // Arduino Pin for left eye
 
 int ButtonA = 15; // Arduino Pin for left eye
 int ButtonB = 16; // Arduino Pin for left eye
+
+#endif
+
+#ifdef MICROBUG
+int row0 = 12; // Arduino Pin for row 0
+int row1 = 4; // Arduino Pin for row 1
+int row2 = 2; // Arduino Pin for row 2
+int row3 = 3; // Arduino Pin for row 3
+int row4 = 11; // Arduino Pin for row 4
+
+int col0 = 6; // Arduino Pin for row 0
+int col1 = 8; // Arduino Pin for row 1
+int col2 = 9; // Arduino Pin for row 2
+int col3 = 10; // Arduino Pin for row 3
+int col4 = 5; // Arduino Pin for row 4
+
+int lefteye = 7; // Arduino Pin for left eye
+int righteye = 17; // Arduino Pin for left eye
+
+int ButtonA = 15; // Arduino Pin for left eye
+int ButtonB = 16; // Arduino Pin for left eye
+
+#endif
 
 int counter =0;
 #define DELAY 5
