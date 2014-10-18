@@ -86,6 +86,7 @@ void set_display(int sprite[5][5]);
 void showViewport(Image& someImage, int x, int y);
 void ScrollImage(Image someImage, boolean loop, int trailing_spaces);
 
+void display_column(int i);
 /* END API ------------------------------------------------------------------------------------ */
 
 
@@ -95,13 +96,26 @@ void setup_display() {
     TCCR4A = 0;
     TCCR4B = 0;
     // Set timer4_counter to the correct value for our interrupt interval
-    timer4_counter = 64911;     // preload timer 65536-16MHz/256/100Hz
-    timer4_counter = 65224;     // preload timer 65536-16MHz/256/200Hz
+    // timer4_counter = 64911;     // preload timer 65536-16MHz/256/100Hz
+    // timer4_counter = 65224;     // preload timer 65536-16MHz/256/200Hz
+    timer4_counter = 65497;     // preload timer 65536-2MHz/256/200Hz // For some reason current microbug is operating at 2MHz
 
     TCNT4 = timer4_counter;   // preload timer
     TCCR4B |= (1 << CS12);    // 256 prescaler 
     TIMSK4 |= (1 << TOIE4);   // enable timer overfLOW interrupt
     interrupts();             // enable all interrupts
+}
+
+
+ISR(TIMER4_OVF_vect)        // interrupt service routine 
+{
+    TCNT4 = timer4_counter;   // preload timer
+    display_column(display_strobe_counter % 5);
+
+    display_strobe_counter += 1;
+    if (display_strobe_counter > 200) {
+        display_strobe_counter = 0; // reset
+    }
 }
 
 void microbug_setup() { // This is a really MicroBug setup
@@ -131,37 +145,36 @@ void microbug_setup() { // This is a really MicroBug setup
     digitalWrite(row3, LOW);
     digitalWrite(row4, LOW);
 
-    digitalWrite(col0, LOW);
-    digitalWrite(col1, LOW);
-    digitalWrite(col2, LOW);
-    digitalWrite(col3, LOW);
-    digitalWrite(col4, LOW);
+    digitalWrite(col0, HIGH);
+    digitalWrite(col1, HIGH);
+    digitalWrite(col2, HIGH);
+    digitalWrite(col3, HIGH);
+    digitalWrite(col4, HIGH);
 
     digitalWrite(lefteye, LOW);
     digitalWrite(righteye, LOW);
 }
 
 void display_column(int i) {
-    digitalWrite(row0, display[i][0] ); digitalWrite(row1, display[i][1] ); digitalWrite(row2, display[i][2]); digitalWrite(row3, display[i][3] ); digitalWrite(row4, display[i][4] );
-    digitalWrite(col0, i != 0 ? HIGH : LOW );
-    digitalWrite(col1, i != 1 ? HIGH : LOW );
-    digitalWrite(col2, i != 2 ? HIGH : LOW );
-    digitalWrite(col3, i != 3 ? HIGH : LOW );
-    digitalWrite(col4, i != 4 ? HIGH : LOW );
+    digitalWrite(col0, HIGH);
+    digitalWrite(col1, HIGH);
+    digitalWrite(col2, HIGH);
+    digitalWrite(col3, HIGH);
+    digitalWrite(col4, HIGH);
+
+    digitalWrite(row0, display[i][0] );
+    digitalWrite(row1, display[i][1] );
+    digitalWrite(row2, display[i][2] );
+    digitalWrite(row3, display[i][3] );
+    digitalWrite(row4, display[i][4] );
+
+    if (i == 0) digitalWrite(col0, LOW );
+    if (i == 1) digitalWrite(col1, LOW );
+    if (i == 2) digitalWrite(col2, LOW );
+    if (i == 3) digitalWrite(col3, LOW );
+    if (i == 4) digitalWrite(col4, LOW );
 }
 
-
-ISR(TIMER4_OVF_vect)        // interrupt service routine 
-{
-    TCNT4 = timer4_counter;   // preload timer
-
-    display_column(display_strobe_counter % 5);
-
-    display_strobe_counter += 1;
-    if (display_strobe_counter > 200) {
-        display_strobe_counter = 0; // reset
-    }
-}
 
 void set_display(int sprite[5][5]) {
     for(int i=0; i<5; i++) {
@@ -273,7 +286,7 @@ void ScrollImage(Image someImage, boolean loop=false, int trailing_spaces=false)
     for(int i=0; i<someImage.width-DISPLAY_WIDTH+1; i++) {
         clear_display();
         showViewport(someImage, i,0);
-        delay(250);
+        delay(250/8);
     }
 }
 
@@ -283,7 +296,7 @@ void ScrollImage(Image someImage, boolean loop=false, int trailing_spaces=false)
 int cur_letter = 65;
 void loop_letters() {
     showLetter(cur_letter);
-    delay(500);
+    delay(500/8);
     cur_letter++;
     if (cur_letter>90) {
         cur_letter=65;
@@ -294,13 +307,13 @@ void strobing_pixel_plot() {
    for(int i=0; i<5; i++) {
        for(int j=0; j<5; j++) {
            plot(i,j);
-           delay(50); 
+           delay(50/8); 
        }
    }
    for(int i=0; i<5; i++) {
        for(int j=0; j<5; j++) {
            unplot(i,j);
-           delay(50); 
+           delay(50/8); 
        }
    }
 }
@@ -322,10 +335,10 @@ void checker_flash() {
                                 };
     set_display(checker_sprite);
     digitalWrite(lefteye, HIGH);
-    delay(500); 
+    delay(500/8); 
     set_display(inv_checker_sprite);
     digitalWrite(lefteye, LOW);
-    delay(500); 
+    delay(500/8); 
 }
 
 
@@ -339,9 +352,9 @@ void BasicBehaviours() {
         clear_display();
     } else {
         eye_on('A');
-        print_message("HELLO",400);
+        print_message("HELLO",400/8);
         eye_off('A');
-        print_message(" WORLD!",400);
+        print_message(" WORLD!",400/8);
     }
 }
 
@@ -373,7 +386,7 @@ void setup()
 void loop()
 {
     // BasicBehaviours();
-    print_message("MICROBUG!",400);
+    print_message("MICROBUG!",400/8);
     ScrollImage(myImage);
 }
 
