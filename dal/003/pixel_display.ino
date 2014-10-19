@@ -26,6 +26,7 @@ int ButtonB = 16; // Arduino Pin for left eye
 #endif
 
 #ifdef MICROBUG
+
 int row0 = 12; // Arduino Pin for row 0
 int row1 = 4; // Arduino Pin for row 1
 int row2 = 2; // Arduino Pin for row 2
@@ -91,6 +92,12 @@ void display_column(int i);
 
 
 void setup_display() {
+#ifdef MICROBUG
+
+CLKPR = 0x80;
+CLKPR = 0x01;
+#endif
+
     // initialize timer4 
     noInterrupts();           // disable all interrupts
     TCCR4A = 0;
