@@ -365,10 +365,6 @@ void BasicBehaviours() {
     }
 }
 
-
-
-/* END  Test / application functions -------------------------------------------------------- */
-
 Image myImage;
 int image_data[] = {
     ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,
@@ -381,19 +377,30 @@ int image_data[] = {
     HIGH, ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,  ___,  ___
 };
 
-void setup()
-{
-    setup_display();
-    microbug_setup();
+void FontSpriteTest_setup() {
     myImage.width=16;
     myImage.height=8;
     myImage.data = image_data;
 }
 
-void loop()
-{
-    // BasicBehaviours();
+void FontSpriteTest() {
     print_message("MICROBUG!",400);
     ScrollImage(myImage);
+}
+
+
+
+/* END  Test / application functions -------------------------------------------------------- */
+
+void setup()
+{
+    setup_display();
+    microbug_setup();
+    FontSpriteTest_setup();
+}
+
+void loop()
+{
+    FontSpriteTest();
 }
 
