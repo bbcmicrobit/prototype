@@ -320,6 +320,12 @@ void ScrollImage(Image someImage, boolean loop=false, int trailing_spaces=false)
 
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
 
+
+
+
+
+
+
 /* -- Test / application functions ---------------------------------------------------------- */
 int cur_letter = 65;
 void loop_letters() {
@@ -422,6 +428,61 @@ void PixelReadTest_setup() {
 void PixelReadTest() {
 }
 
+typedef void (*AppPtr_t)(void) __attribute__ ((noreturn));
+/**
+ * Enter the DFU bootloader.
+ */
+
+#define Usb_detach()                              (UDCON   |=  (1<<DETACH))
+
+
+#include "avr/boot.h"
+#include "avr/wdt.h"
+#include <avr/interrupt.h>
+#include "atmel_bootloader.h"
+
+void bootloader_start(void) {
+  AppPtr_t BootStart = (AppPtr_t) 0x3800;
+  Usb_detach();
+
+  cli();
+
+  delay(200);
+  // Disable watchdog if enabled by bootloader/fuses
+
+  MCUSR &= ~(1 << WDRF);
+  wdt_disable();
+
+  // Return device to power-up state
+
+  TIMSK0 = 0x00;
+  USBCON = 0x20;
+  UHWCON = 0x80;
+  USBSTA = 0x08;
+  USBINT = 0x00;
+  OTGCON = 0x00;
+  OTGTCON = 0x00;
+  OTGIEN = 0x00;
+  OTGINT = 0x00;
+  PLLCSR  = 0x00;
+  TCNT1L  = 0x00;
+  TCNT1H  = 0x00;
+  TIMSK3  = 0x00;
+  TCCR1B  = 0x00;
+
+
+  TCNT4L  = 0x00;
+  TCNT4H  = 0x00;
+  TCCR4B  = 0x00;
+
+
+  // Call the DFU bootloader
+
+  // BootStart();
+  run_bootloader();
+}
+
+
 int bootmode = 0;
 
 void setup()
@@ -432,6 +493,7 @@ void setup()
         bootmode = 1;
     }
     if (bootmode == 1) {
+        bootloader_start();
         FontSpriteTest_setup();
     }
 }
