@@ -104,8 +104,8 @@ CLKPR = 0x01;
     TCCR4B = 0;
     // Set timer4_counter to the correct value for our interrupt interval
     // timer4_counter = 64911;     // preload timer 65536-16MHz/256/100Hz
-    // timer4_counter = 65224;     // preload timer 65536-16MHz/256/200Hz
-    timer4_counter = 65497;     // preload timer 65536-2MHz/256/200Hz // For some reason current microbug is operating at 2MHz
+    timer4_counter = 65224;     // preload timer 65536-16MHz/256/200Hz
+    // timer4_counter = 65497;     // preload timer 65536-2MHz/256/200Hz // For some reason current microbug is operating at 2MHz
 
     TCNT4 = timer4_counter;   // preload timer
     TCCR4B |= (1 << CS12);    // 256 prescaler 
@@ -293,7 +293,7 @@ void ScrollImage(Image someImage, boolean loop=false, int trailing_spaces=false)
     for(int i=0; i<someImage.width-DISPLAY_WIDTH+1; i++) {
         clear_display();
         showViewport(someImage, i,0);
-        delay(250/8);
+        delay(250);
     }
 }
 
@@ -303,7 +303,7 @@ void ScrollImage(Image someImage, boolean loop=false, int trailing_spaces=false)
 int cur_letter = 65;
 void loop_letters() {
     showLetter(cur_letter);
-    delay(500/8);
+    delay(500);
     cur_letter++;
     if (cur_letter>90) {
         cur_letter=65;
@@ -314,13 +314,13 @@ void strobing_pixel_plot() {
    for(int i=0; i<5; i++) {
        for(int j=0; j<5; j++) {
            plot(i,j);
-           delay(50/8); 
+           delay(50); 
        }
    }
    for(int i=0; i<5; i++) {
        for(int j=0; j<5; j++) {
            unplot(i,j);
-           delay(50/8); 
+           delay(50); 
        }
    }
 }
@@ -342,10 +342,10 @@ void checker_flash() {
                                 };
     set_display(checker_sprite);
     digitalWrite(lefteye, HIGH);
-    delay(500/8); 
+    delay(500); 
     set_display(inv_checker_sprite);
     digitalWrite(lefteye, LOW);
-    delay(500/8); 
+    delay(500); 
 }
 
 
@@ -359,9 +359,9 @@ void BasicBehaviours() {
         clear_display();
     } else {
         eye_on('A');
-        print_message("HELLO",400/8);
+        print_message("HELLO",400);
         eye_off('A');
-        print_message(" WORLD!",400/8);
+        print_message(" WORLD!",400);
     }
 }
 
@@ -393,7 +393,7 @@ void setup()
 void loop()
 {
     // BasicBehaviours();
-    print_message("MICROBUG!",400/8);
+    print_message("MICROBUG!",400);
     ScrollImage(myImage);
 }
 
