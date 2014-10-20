@@ -314,7 +314,7 @@ void ScrollImage(Image someImage, boolean loop=false, int trailing_spaces=false)
     for(int i=0; i<someImage.width-DISPLAY_WIDTH+1; i++) {
         clear_display();
         showViewport(someImage, i,0);
-        delay(250);
+        delay(80);
     }
 }
 
@@ -380,9 +380,9 @@ void BasicBehaviours() {
         clear_display();
     } else {
         eye_on('A');
-        print_message("HELLO",400);
+        print_message("HELLO",200);
         eye_off('A');
-        print_message(" WORLD!",400);
+        print_message(" WORLD!",200);
     }
 }
 
@@ -405,7 +405,7 @@ void FontSpriteTest_setup() {
 }
 
 void FontSpriteTest() {
-    print_message("MICROBUG!",400);
+    print_message("MICROBUG!",200);
     ScrollImage(myImage);
 }
 
@@ -422,16 +422,27 @@ void PixelReadTest_setup() {
 void PixelReadTest() {
 }
 
+int bootmode = 0;
 
 void setup()
 {
     setup_display();
     microbug_setup();
-
+    if (digitalRead(ButtonA) == HIGH) {
+        bootmode = 1;
+    }
+    if (bootmode == 1) {
+        FontSpriteTest_setup();
+    }
 }
 
 void loop()
 {   
-   BasicBehaviours();
+    if (bootmode == 1) {
+        FontSpriteTest();
+    } else {
+        BasicBehaviours();
+    }
+
 }
 
