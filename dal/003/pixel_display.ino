@@ -222,6 +222,16 @@ int point(int x, int y) {
 
      return display[x][y];
 }
+
+int image_point(Image& someImage, int x, int y) {
+    if (x<0) return -1;
+    if (y<0) return -2;
+    if (x>someImage.width-1) return -1;
+    if (x>someImage.height-1) return -2;
+
+    return someImage.data[x*someImage.width +y ];
+}
+
 void clear_display() {
     for(int i=0; i< DISPLAY_WIDTH; i++) {
         for(int j=0; j< DISPLAY_HEIGHT; j++) {
@@ -400,18 +410,28 @@ void FontSpriteTest() {
 }
 
 
-
 /* END  Test / application functions -------------------------------------------------------- */
+
+void PixelReadTest_setup() {
+    myImage.width=16;
+    myImage.height=8;
+    myImage.data = image_data;
+    showViewport(myImage,0,0);
+}
+
+void PixelReadTest() {
+}
+
 
 void setup()
 {
     setup_display();
     microbug_setup();
-    FontSpriteTest_setup();
+
 }
 
 void loop()
-{
-    FontSpriteTest();
+{   
+   BasicBehaviours();
 }
 
