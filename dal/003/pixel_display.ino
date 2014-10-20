@@ -83,6 +83,7 @@ int getButton(char id);
 void clear_display();
 void plot(int x, int y);
 void unplot(int x, int y);
+int point(int x, int y);
 void set_display(int sprite[5][5]);
 void showViewport(Image& someImage, int x, int y);
 void ScrollImage(Image someImage, boolean loop, int trailing_spaces);
@@ -211,6 +212,16 @@ void unplot(int x, int y) {
      display[x][y] = LOW;
 }
 
+int point(int x, int y) {
+    // Bounds checking
+    if (x <0) return -1;
+    if (x >DISPLAY_WIDTH-1) return -1;
+
+    if (y <0) return -2;
+    if (y >DISPLAY_HEIGHT -1) return -2;
+
+     return display[x][y];
+}
 void clear_display() {
     for(int i=0; i< DISPLAY_WIDTH; i++) {
         for(int j=0; j< DISPLAY_HEIGHT; j++) {
