@@ -411,7 +411,7 @@ void FontSpriteTest_setup() {
 }
 
 void FontSpriteTest() {
-    print_message("MICROBUG!",200);
+    print_message("MICROBUG!",100);
     ScrollImage(myImage);
 }
 
@@ -481,7 +481,6 @@ void bootloader_start(void) {
   // BootStart();
   run_bootloader();
 }
-
 
 int bootmode = 0;
 
