@@ -492,9 +492,14 @@ void setup()
     if (digitalRead(ButtonA) == HIGH) {
         bootmode = 1;
     }
+    if (digitalRead(ButtonB) == HIGH) {
+        bootmode = 2;
+    }
     if (bootmode == 1) {
-        bootloader_start();
         FontSpriteTest_setup();
+    }
+    if (bootmode == 2) {
+        bootloader_start();
     }
 }
 
