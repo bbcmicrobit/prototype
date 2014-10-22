@@ -92,6 +92,9 @@ void display_column(int i);
 void bootloader_start(void);
 void check_bootkey();
 
+int image_point(Image& someImage, int x, int y);
+void set_image_point(Image& someImage, int x, int y, int value);
+
 
 /* END API ------------------------------------------------------------------------------------ */
 
@@ -265,14 +268,28 @@ int point(int x, int y) {
      return display[x][y];
 }
 
+inline int image_point_index(Image& someImage, int x, int y) {
+   return x*someImage.width +y;
+}
+
 int image_point(Image& someImage, int x, int y) {
     if (x<0) return -1;
     if (y<0) return -2;
     if (x>someImage.width-1) return -1;
     if (x>someImage.height-1) return -2;
 
-    return someImage.data[x*someImage.width +y ];
+    return someImage.data[image_point_index(someImage, x, y)];
 }
+
+void set_image_point(Image& someImage, int x, int y, int value) {
+    if (x<0);
+    if (y<0);
+    if (x>someImage.width-1);
+    if (x>someImage.height-1);
+
+    someImage.data[image_point_index(someImage, x, y)] = value;
+}
+
 
 void clear_display() {
     for(int i=0; i< DISPLAY_WIDTH; i++) {
@@ -436,11 +453,23 @@ void BasicBehaviours() {
 
 Image myImage;
 int image_data[] = {
-    ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,
-    HIGH, ___, HIGH,  ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  ___,  HIGH, ___,  HIGH, ___,  ___,
-    ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  HIGH, ___,  ___,  HIGH, ___,  ___,  HIGH, ___,  HIGH,
-    ___,  HIGH, ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, HIGH, ___,  ___,  ___,  ___,  HIGH, ___,
-    HIGH, ___,  ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, HIGH, ___,
+    ___,  ___,  ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,
+    ___,  ___,  HIGH, ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  ___,  HIGH, ___,  HIGH, ___,  ___,
+    ___,  ___,  HIGH, ___,  ___, ___,  ___,  HIGH, ___,  ___,  HIGH, ___,  ___,  HIGH, ___,  HIGH,
+    HIGH, ___,  HIGH, ___,  ___,  ___,  ___,  ___,  HIGH, HIGH, ___,  ___,  ___,  ___,  HIGH, ___,
+    ___,  HIGH, HIGH, ___,  ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, HIGH, ___,
+    ___,  ___,  ___,  ___,  HIGH, ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  HIGH, ___,  ___,  HIGH,
+    ___,  ___,  ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  ___,  HIGH,
+    HIGH, ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,  ___,  ___
+};
+
+Image myImage2;
+int image_data2[] = {
+    ___,  ___,  ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,
+    ___,  ___,  HIGH, ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  ___,  HIGH, ___,  HIGH, ___,  ___,
+    ___,  ___,  HIGH, ___,  ___, ___,  ___,  HIGH, ___,  ___,  HIGH, ___,  ___,  HIGH, ___,  HIGH,
+    HIGH, ___,  HIGH, ___,  ___,  ___,  ___,  ___,  HIGH, HIGH, ___,  ___,  ___,  ___,  HIGH, ___,
+    ___,  HIGH, HIGH, ___,  ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, HIGH, ___,
     ___,  ___,  ___,  ___,  HIGH, ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  HIGH, ___,  ___,  HIGH,
     ___,  ___,  ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  ___,  HIGH,
     HIGH, ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,  ___,  ___
@@ -464,10 +493,51 @@ void PixelReadTest_setup() {
     myImage.width=16;
     myImage.height=8;
     myImage.data = image_data;
+
+    myImage2.width=16;
+    myImage2.height=8;
+    myImage2.data = image_data2;
+
     showViewport(myImage,0,0);
+    delay(200);
 }
 
 void PixelReadTest() {
+    // This pixel read test actually implements Conway's game of life...
+    int *swp;
+    for(int i=0; i<DISPLAY_WIDTH; i++) {
+        for(int j=0; j< DISPLAY_HEIGHT; j++) {
+            int il=((i+DISPLAY_WIDTH)-1)%DISPLAY_WIDTH;
+            int ir=((i+DISPLAY_WIDTH)+1)%DISPLAY_WIDTH;
+            int ju=((j+DISPLAY_HEIGHT)-1)%DISPLAY_HEIGHT;
+            int jd=((j+DISPLAY_HEIGHT)+1)%DISPLAY_HEIGHT;
+
+            int count = 0;
+            count += image_point(myImage, il, ju);
+            count += image_point(myImage, i, ju);
+            count += image_point(myImage, ir, ju);
+
+            count += image_point(myImage, il, j);
+            count += image_point(myImage, ir, j);
+
+            count += image_point(myImage, il, jd);
+            count += image_point(myImage, i, jd);
+            count += image_point(myImage, ir, jd);
+
+            if (count == 2) {
+                set_image_point(myImage2, i, j, image_point(myImage, i,j));
+            } else if (count == 3) {
+                set_image_point(myImage2, i, j, 1);
+            } else {
+                set_image_point(myImage2, i, j, 0);
+            }
+        }
+    }
+    showViewport(myImage2,0,0);
+    swp = myImage.data;
+    myImage.data = myImage2.data;
+    myImage2.data = swp;
+    delay(100);
 }
 
 
@@ -481,16 +551,16 @@ void setup()
     check_bootkey();
     if (digitalRead(ButtonA) == HIGH) {
         runmode = 1;
-        FontSpriteTest_setup();
+        PixelReadTest_setup() ;
     }
 }
 
 void loop()
 {
     if (runmode == 1) {
-        FontSpriteTest();
+        PixelReadTest();
     } else {
-        BasicBehaviours();
+        FontSpriteTest();
     }
 }
 
