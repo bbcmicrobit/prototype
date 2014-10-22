@@ -457,27 +457,10 @@ void bootloader_start(void) {
 
   TIMSK0 = USBINT = OTGCON = OTGTCON = OTGIEN = OTGINT = PLLCSR = TCNT1L = TCNT1H = TIMSK3 = TCCR1B = TCNT4L = TCNT4H = TCCR4B = 0x00;
 
-
   USBCON = 0x20;
   UHWCON = 0x80;
   USBSTA = 0x08;
 
-//  USBINT = 0x00;
-//  OTGCON = 0x00;
-//  OTGTCON = 0x00;
-//  OTGIEN = 0x00;
-//  OTGINT = 0x00;
-//  PLLCSR  = 0x00;
-//  TCNT1L  = 0x00;
-//  TCNT1H  = 0x00;
-//  TIMSK3  = 0x00;
-//  TCCR1B  = 0x00;
-
-
-//  TCNT4L  = 0x00;
-//  TCNT4H  = 0x00;
-//  TCCR4B  = 0x00;
- 
   run_bootloader();
 }
 
