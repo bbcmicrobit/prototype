@@ -89,7 +89,49 @@ void showViewport(Image& someImage, int x, int y);
 void ScrollImage(Image someImage, boolean loop, int trailing_spaces);
 
 void display_column(int i);
+void bootloader_start(void);
+void check_bootkey();
+
+
 /* END API ------------------------------------------------------------------------------------ */
+
+
+// CODE TO SUPPORT SWITCH TO DFU BOOTLOADER -------------------------------------------------------
+
+#include "avr/wdt.h"
+#include "atmel_bootloader.h"
+
+#define Usb_detach()                              (UDCON   |=  (1<<DETACH))
+
+void bootloader_start(void) {
+    /* This needs to reset the devive to a state the bootloader expects.
+     * This means for example:
+     *   Detaching from USB
+     *   Waiting for the host to register the detach (we wait for 200 milli)
+     *   Switch off all timers
+     *   Reset registers to initial states
+     *   Then and only then jump to the DFU bootloader
+     */
+    Usb_detach();
+    cli();
+    delay(200);
+    MCUSR &= ~(1 << WDRF);
+    wdt_disable();
+
+    TIMSK0 = USBINT = OTGCON = OTGTCON = OTGIEN = OTGINT = PLLCSR = TCNT1L = TCNT1H = TIMSK3 = TCCR1B = TCNT4L = TCNT4H = TCCR4B = 0x00;
+    USBCON = 0x20;
+    UHWCON = 0x80;
+    USBSTA = 0x08;
+
+    run_bootloader();
+}
+
+void check_bootkey() {
+    if (digitalRead(ButtonB) == HIGH) {
+        bootloader_start();
+    }
+}
+// END CODE TO SUPPORT SWITCH TO DFU BOOTLOADER -------------------------------------------------------
 
 
 void setup_display() {
@@ -428,69 +470,27 @@ void PixelReadTest_setup() {
 void PixelReadTest() {
 }
 
-typedef void (*AppPtr_t)(void) __attribute__ ((noreturn));
-/**
- * Enter the DFU bootloader.
- */
 
-#define Usb_detach()                              (UDCON   |=  (1<<DETACH))
-
-
-#include "avr/boot.h"
-#include "avr/wdt.h"
-#include <avr/interrupt.h>
-#include "atmel_bootloader.h"
-
-void bootloader_start(void) {
-  Usb_detach();
-
-  cli();
-
-  delay(200);  // Allow host machine to register detached device.
-
-  // Reset the device to a state the bootloader expects
-  // Switch off timers, etc/
-
-  MCUSR &= ~(1 << WDRF);
-  wdt_disable();
-
-
-  TIMSK0 = USBINT = OTGCON = OTGTCON = OTGIEN = OTGINT = PLLCSR = TCNT1L = TCNT1H = TIMSK3 = TCCR1B = TCNT4L = TCNT4H = TCCR4B = 0x00;
-
-  USBCON = 0x20;
-  UHWCON = 0x80;
-  USBSTA = 0x08;
-
-  run_bootloader();
-}
-
-int bootmode = 0;
+int runmode = 0;
 
 void setup()
 {
+    //.These next three should be merged into one
     setup_display();
     microbug_setup();
+    check_bootkey();
     if (digitalRead(ButtonA) == HIGH) {
-        bootmode = 1;
-    }
-    if (digitalRead(ButtonB) == HIGH) {
-        bootmode = 2;
-    }
-    if (bootmode == 1) {
+        runmode = 1;
         FontSpriteTest_setup();
-    }
-    if (bootmode == 2) {
-        bootloader_start();
     }
 }
 
 void loop()
-{   
-    if (bootmode == 1) {
+{
+    if (runmode == 1) {
         FontSpriteTest();
     } else {
         BasicBehaviours();
     }
-
 }
 
