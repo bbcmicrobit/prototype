@@ -172,6 +172,8 @@ ISR(TIMER4_OVF_vect)        // interrupt service routine
 }
 
 void microbug_setup() { // This is a really MicroBug setup
+    setup_display();
+
     display_strobe_counter = 0;
 
     pinMode(row0, OUTPUT);
@@ -206,6 +208,8 @@ void microbug_setup() { // This is a really MicroBug setup
 
     digitalWrite(lefteye, LOW);
     digitalWrite(righteye, LOW);
+check_bootkey();
+
 }
 
 void display_column(int i) {
@@ -541,26 +545,15 @@ void PixelReadTest() {
 }
 
 
-int runmode = 0;
 
 void setup()
 {
     //.These next three should be merged into one
-    setup_display();
     microbug_setup();
-    check_bootkey();
-    if (digitalRead(ButtonA) == HIGH) {
-        runmode = 1;
-        PixelReadTest_setup() ;
-    }
 }
 
 void loop()
 {
-    if (runmode == 1) {
-        PixelReadTest();
-    } else {
-        FontSpriteTest();
-    }
+    FontSpriteTest();
 }
 
