@@ -6,7 +6,7 @@ erase:
 	sudo dfu-programmer atmega32u4 erase --force
 
 flash_device:
-	sudo dfu-programmer atmega32u4 flash build-leonardo/dal.hex
+	sudo dfu-programmer atmega32u4 flash build-leonardo/*.hex
 
 clean:
 	rm -rf build-leonardo
