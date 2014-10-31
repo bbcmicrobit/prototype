@@ -2,6 +2,7 @@
 
 import pprint
 import os
+import shutil
 
 # local import
 from codegenerator import CodeGenerator, gen_code
@@ -23,7 +24,8 @@ def main(files):
 
     ditch = os.listdir("tests/genprogs")
     for filename in ditch:
-        os.unlink("tests/genprogs/"+ filename)
+        os.system("rm -rf tests/genprogs/"+ filename)
+        # os.unlink("tests/genprogs/"+ filename)
 
 
     for filename in files:
@@ -36,15 +38,35 @@ def main(files):
         pprint.pprint(x,width=120)
         print "-"*120
         y  = gen_code(x)
-        f = open("tests/genprogs/"+filename+".cpp", "w")
+        basedir = "tests/genprogs/"+filename
+        os.mkdir(basedir)
+        f = open(basedir+"/user_code.ino", "w")
         f.write(y)
         f.close()
-        trimmed = filename[:filename.find(".p")]
-        os.system("g++ " + "tests/genprogs/"+filename+".cpp" + " -o " + "tests/genprogs/gen-"+trimmed )
 
-        if "no_run" not in trimmed:
-            print "Compiled program output:"
-            os.system("tests/genprogs/gen-"+trimmed)
+        shutil.copyfile("dal/dal.h", basedir+"/dal.h")
+        shutil.copyfile("dal/Makefile", basedir+"/Makefile")
+        shutil.copyfile("dal/Makefile_arduino", basedir+"/Makefile_arduino")
+        shutil.copyfile("dal/spark_font.h", basedir+"/spark_font.h")
+        shutil.copyfile("dal/atmel_bootloader.h", basedir+"/atmel_bootloader.h")
+        here = os.getcwd()
+        os.chdir(basedir)
+        os.system("make")
+        print "READY TO UPLOAD"
+        print "PRESS RETURN TO ERASE"
+        raw_input(">")
+        os.system("make erase")
+        print "PRESS RETURN TO FLASH DEVICE"
+        raw_input(">")
+        os.system("make flash_device")
+        os.chdir(here)
+
+        #trimmed = filename[:filename.find(".p")]
+        #os.system("g++ " + "tests/genprogs/"+filename+".cpp" + " -o " + "tests/genprogs/gen-"+trimmed )
+
+        #if "no_run" not in trimmed:
+            #print "Compiled program output:"
+            #os.system("tests/genprogs/gen-"+trimmed)
 
         print "#"*120
 

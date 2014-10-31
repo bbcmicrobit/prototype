@@ -1,22 +1,29 @@
 #!/usr/bin/python
 
 print_int = """void print(int value) {
-   std::cout << value << std::endl;
+    char temp_str[11];
+    itoa (value, temp_str, 10); 
+    print_message(temp_str);
 }"""
 
-print_str = """void print(std::string value) {
-   std::cout << value << std::endl;
+print_str = """void print(char *value) {
+   print_message(value);
 }"""
 
 
 program_template = """\
-#include <iostream>
+#include "dal.h"
 
 %DECLARATIONS%
 
-int main(int argc, char* argv[]) {
-%STATEMENTS%;
-    return 0;
+void setup()
+{
+    microbug_setup();
+}
+
+void loop()
+{
+    %STATEMENTS%;
 }
 """
 
