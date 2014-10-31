@@ -1,6 +1,8 @@
 
 #include "spark_font.h"
 
+#define PRESSED HIGH
+
 #define MICROBUG
 // #define Megabug
 
@@ -130,7 +132,7 @@ void bootloader_start(void) {
 }
 
 void check_bootkey() {
-    if (digitalRead(ButtonB) == HIGH) {
+    if (digitalRead(ButtonA) == PRESSED) {
         bootloader_start();
     }
 }
