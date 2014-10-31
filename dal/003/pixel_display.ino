@@ -1,3 +1,4 @@
+
 #include "spark_font.h"
 
 #define MICROBUG
@@ -94,7 +95,6 @@ void check_bootkey();
 
 int image_point(Image& someImage, int x, int y);
 void set_image_point(Image& someImage, int x, int y, int value);
-
 
 /* END API ------------------------------------------------------------------------------------ */
 
@@ -479,6 +479,7 @@ int image_data2[] = {
     HIGH, ___,  ___,  HIGH, ___,  HIGH, ___,  ___,  ___,  ___,  HIGH, ___,  ___,  ___,  ___,  ___
 };
 
+
 void FontSpriteTest_setup() {
     myImage.width=16;
     myImage.height=8;
@@ -505,6 +506,8 @@ void PixelReadTest_setup() {
     showViewport(myImage,0,0);
     delay(200);
 }
+
+
 
 void PixelReadTest() {
     // This pixel read test actually implements Conway's game of life...
@@ -560,43 +563,38 @@ typedef struct StringSprite {
         mStrlen = strlen(mString);
     }
 
-//     void show_display() {
-//         int mPP = mPixelPos%5;
-//         for(int i=0; i<5; i++) {
-//             for(int j=0; j<5; j++) {
-//                 std::cout << ( mPixelData[((i*10)+j+mPP)] == 0 ? " " : "#" );
-//             }
-//             std::cout << "|                            "<< std::endl;
-//         }
-//     }
+    void update_display() {
+        Image myImage;
+        int mPP = mPixelPos%5;
+        myImage.width=10;
+        myImage.height=5;
+        myImage.data = mPixelData;
+        showViewport(myImage, mPP,0);
 
-//     void show_buffer() {
-//         for(int i=0; i<5; i++) {
-//             for(int j=0; j<10; j++) {
-//                 std::cout << ( mPixelData[((i*10)+j)] == 0 ? " " : "#" );
-//             }
-//             std::cout << "|                            "<< std::endl;
-//         }
-//     }
+    }
     void render_string(){
         // Renders into the pixel data buffer
         int first_char;
         int second_char;
-        int char_index0 = (mPixelPos / 5) % mStrlen;
-        int char_index1 = (char_index0 +1) % mStrlen;
         int *first_char_data;
         int *second_char_data;
+        int char_index1;
+
+        int char_index0 = (mPixelPos / 5);
+
+        char_index0 = char_index0 % mStrlen;
 
         first_char = mString[char_index0];
-        second_char = mString[char_index1];
+        first_char_data = (int*) (font[first_char-32] );
 
-//         std::cout << ":" << char(first_char) << char(second_char) << ": ";
-//         std::cout << ">>" << first_char << ", " << second_char << "<< ";
-//         std::cout << mPixelPos << ", " << char_index0 << ", " << char_index1 << ", "<< mStrlen;
-//         std::cout << std::endl;
-
-        first_char_data = font[first_char-32];
-        second_char_data = font[second_char-32];
+        char_index1 = (char_index0 +1) ;
+        if (char_index1 < mStrlen) {
+            char_index1 = char_index1 % mStrlen;
+            second_char = mString[char_index1];
+            second_char_data = (int*) ( font[second_char-32] );
+        } else {
+            second_char_data = (int*) ( font[0] );
+        }
 
         for(int row=0; row<5; row++) {
             int row_first = first_char_data[row + 1];
@@ -624,14 +622,14 @@ typedef struct StringSprite {
             mPixelData[8+row*10] = S3;
             mPixelData[9+row*10] = 0;
         }
-// show_buffer();
-// show_display();
-
-
+        update_display();
     }
     void pan_right() {
         // Move the viewport 1 pixel to the right. (Looks like scrolling left)
         mPixelPos += 1;
+        if (mPixelPos>=pixel_width()) {
+            mPixelPos =0;
+        }
     }
     int pixel_width() {
         return mStrlen * 5;
@@ -640,22 +638,33 @@ typedef struct StringSprite {
 
 StringSprite myspr;
 
-
-
-
 // - END SCROLLING TEXT PROTOTYPE ---------------------------------------
 
 
-
+// void ScrollStringSprite() {
+//    myspr.setString("HELLO WORLD");
+// 
+//    for(int i=0; i<100; i++) {
+//         myspr.render_string();
+//         myspr.pan_right();
+//    }
+// }
 
 void setup()
-{
-    //.These next three should be merged into one
+{    //.These next three should be merged into one
     microbug_setup();
+//    myspr.setString("HELLO WORLD");
+   myspr.setString("Project Microbug");
 }
 
 void loop()
 {
-    FontSpriteTest();
+    for(int i=0; i<myspr.pixel_width(); i++) {
+        myspr.render_string();
+        myspr.pan_right();
+        delay(70);
+    }
+    delay(70);
+    print_message("* * ", 100);
 }
 
