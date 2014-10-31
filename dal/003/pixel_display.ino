@@ -320,11 +320,11 @@ void showLetter(char c) {
     if (font[letter_index][0] != c) return;
     clear_display();
     for(int row=0; row<5; row++) {
-        int this_row = font[letter_index][row+1];
-        int L0 = 0b1000 & this_row ? HIGH : LOW;
-        int L1 = 0b0100 & this_row ? HIGH : LOW;
-        int L2 = 0b0010 & this_row ? HIGH : LOW;
-        int L3 = 0b0001 & this_row ? HIGH : LOW;
+        unsigned char this_row = font[letter_index][row+1];
+        unsigned char L0 = 0b1000 & this_row ? HIGH : LOW;
+        unsigned char L1 = 0b0100 & this_row ? HIGH : LOW;
+        unsigned char L2 = 0b0010 & this_row ? HIGH : LOW;
+        unsigned char L3 = 0b0001 & this_row ? HIGH : LOW;
         display[0][row] = L0;
         display[1][row] = L1;
         display[2][row] = L2;
@@ -576,8 +576,8 @@ typedef struct StringSprite {
         // Renders into the pixel data buffer
         int first_char;
         int second_char;
-        int *first_char_data;
-        int *second_char_data;
+        unsigned char *first_char_data;
+        unsigned char *second_char_data;
         int char_index1;
 
         int char_index0 = (mPixelPos / 5);
@@ -585,15 +585,15 @@ typedef struct StringSprite {
         char_index0 = char_index0 % mStrlen;
 
         first_char = mString[char_index0];
-        first_char_data = (int*) (font[first_char-32] );
+        first_char_data = (unsigned char*)(font[first_char-32] );
 
         char_index1 = (char_index0 +1) ;
         if (char_index1 < mStrlen) {
             char_index1 = char_index1 % mStrlen;
             second_char = mString[char_index1];
-            second_char_data = (int*) ( font[second_char-32] );
+            second_char_data = (unsigned char*) ( font[second_char-32] );
         } else {
-            second_char_data = (int*) ( font[0] );
+            second_char_data =  (unsigned char*) ( font[0] );
         }
 
         for(int row=0; row<5; row++) {

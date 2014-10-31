@@ -710,7 +710,7 @@ int main(int argc, char* argv[]) {
 
     array_def = ",\n                      ".join(nfont_def)
 
-    font_lines = ( "   const int font[95][6] = {" + "\n" 
+    font_lines = ( "   const unsigned char font[95][6] = {" + "\n" 
                    "                      " + array_def + "\n"
                    "                     };" + "\n" )
 
