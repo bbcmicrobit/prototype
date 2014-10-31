@@ -45,8 +45,8 @@ int col4 = 5; // Arduino Pin for row 4
 int lefteye = 7; // Arduino Pin for left eye
 int righteye = 17; // Arduino Pin for left eye
 
-int ButtonA = 15; // Arduino Pin for left eye
-int ButtonB = 16; // Arduino Pin for left eye
+int ButtonA = 16; // Arduino Pin for left eye
+int ButtonB = 15; // Arduino Pin for left eye
 
 #endif
 
@@ -90,13 +90,21 @@ int point(int x, int y);
 void set_display(int sprite[5][5]);
 void showViewport(Image& someImage, int x, int y);
 void ScrollImage(Image someImage, boolean loop, int trailing_spaces);
-
-void display_column(int i);
-void bootloader_start(void);
-void check_bootkey();
-
 int image_point(Image& someImage, int x, int y);
 void set_image_point(Image& someImage, int x, int y, int value);
+void showLetter(char c); // Could be just internal, but useful.
+void print_message(const char * message, int pausetime);
+
+struct StringSprite;
+void scroll_sprite(StringSprite theSprite, int pausetime);
+
+// Functions internal to the API
+inline int image_point_index(Image& someImage, int x, int y);
+void display_column(int i);
+void setup_display();
+void microbug_setup();
+void bootloader_start(void);
+void check_bootkey();
 
 /* END API ------------------------------------------------------------------------------------ */
 
@@ -335,7 +343,7 @@ void showLetter(char c) {
     }
 }
 
-void print_message(const char * message, int pausetime) {
+void print_message(const char * message, int pausetime=100) {
     while(*message) {
         showLetter(*message);
         message++;
@@ -383,12 +391,109 @@ void ScrollImage(Image someImage, boolean loop=false, int trailing_spaces=false)
     }
 }
 
+typedef struct StringSprite {
+    int mPixelPos;
+    int mPixelData[50]; // Sufficient to hold two characters.
+    char *mString;
+    int mStrlen;
+
+    StringSprite() {}
+    StringSprite(const char * str) {
+        setString(str);
+    }
+    ~StringSprite() {}
+
+    void setString(const char * str) {
+        mString = (char *) str;
+        mPixelPos = 0;
+        for(int i=0; i++; i<50) {
+            mPixelData[i] = 0;
+        }
+        mStrlen = strlen(mString);
+    }
+
+    void update_display() {
+        Image myImage;
+        int mPP = mPixelPos%5;
+        myImage.width=10;
+        myImage.height=5;
+        myImage.data = mPixelData;
+        showViewport(myImage, mPP,0);
+
+    }
+    void render_string(){
+        // Renders into the pixel data buffer
+        int first_char;
+        int second_char;
+        unsigned char *first_char_data;
+        unsigned char *second_char_data;
+        int char_index1;
+
+        int char_index0 = (mPixelPos / 5);
+
+        char_index0 = char_index0 % mStrlen;
+
+        first_char = mString[char_index0];
+        first_char_data = (unsigned char*)(font[first_char-32] );
+
+        char_index1 = (char_index0 +1) ;
+        if (char_index1 < mStrlen) {
+            char_index1 = char_index1 % mStrlen;
+            second_char = mString[char_index1];
+            second_char_data = (unsigned char*) ( font[second_char-32] );
+        } else {
+            second_char_data =  (unsigned char*) ( font[0] );
+        }
+
+        for(int row=0; row<5; row++) {
+            int row_first = first_char_data[row + 1];
+            int row_second = second_char_data[row + 1];
+
+            int F0 = 0b1000 & row_first ? HIGH : LOW;
+            int F1 = 0b0100 & row_first ? HIGH : LOW;
+            int F2 = 0b0010 & row_first ? HIGH : LOW;
+            int F3 = 0b0001 & row_first ? HIGH : LOW;
+
+            int S0 = 0b1000 & row_second ? HIGH : LOW;
+            int S1 = 0b0100 & row_second ? HIGH : LOW;
+            int S2 = 0b0010 & row_second ? HIGH : LOW;
+            int S3 = 0b0001 & row_second ? HIGH : LOW;
+
+            mPixelData[0+row*10] = F0;
+            mPixelData[1+row*10] = F1;
+            mPixelData[2+row*10] = F2;
+            mPixelData[3+row*10] = F3;
+            mPixelData[4+row*10] = 0;
+
+            mPixelData[5+row*10] = S0;
+            mPixelData[6+row*10] = S1;
+            mPixelData[7+row*10] = S2;
+            mPixelData[8+row*10] = S3;
+            mPixelData[9+row*10] = 0;
+        }
+        update_display();
+    }
+    void pan_right() {
+        // Move the viewport 1 pixel to the right. (Looks like scrolling left)
+        mPixelPos += 1;
+        if (mPixelPos>=pixel_width()) {
+            mPixelPos =0;
+        }
+    }
+    int pixel_width() {
+        return mStrlen * 5;
+    }
+} StringSprite;
+
+void scroll_sprite(StringSprite theSprite, int pausetime=100) {
+    for(int i=0; i<theSprite.pixel_width(); i++) {
+        theSprite.render_string();
+        theSprite.pan_right();
+        delay(pausetime);
+    }
+}
+
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
-
-
-
-
-
 
 
 /* -- Test / application functions ---------------------------------------------------------- */
@@ -549,124 +654,24 @@ void PixelReadTest() {
     delay(100);
 }
 
-// - SCROLLING TEXT PROTOTYPE ---------------------------------------
-typedef struct StringSprite {
-    int mPixelPos;
-    int mPixelData[50]; // Sufficient to hold two characters.
-    char *mString;
-    int mStrlen;
-
-    void setString(const char * str) {
-        mString = (char *) str;
-        mPixelPos = 0;
-        for(int i=0; i++; i<50) {
-            mPixelData[i] = 0;
-        }
-        mStrlen = strlen(mString);
+void ScrollSpriteStringSpriteExample_Test18() {
+    while(1) {
+        if (getButton('A') == PRESSED) break;
+        delay(50);
     }
-
-    void update_display() {
-        Image myImage;
-        int mPP = mPixelPos%5;
-        myImage.width=10;
-        myImage.height=5;
-        myImage.data = mPixelData;
-        showViewport(myImage, mPP,0);
-
-    }
-    void render_string(){
-        // Renders into the pixel data buffer
-        int first_char;
-        int second_char;
-        unsigned char *first_char_data;
-        unsigned char *second_char_data;
-        int char_index1;
-
-        int char_index0 = (mPixelPos / 5);
-
-        char_index0 = char_index0 % mStrlen;
-
-        first_char = mString[char_index0];
-        first_char_data = (unsigned char*)(font[first_char-32] );
-
-        char_index1 = (char_index0 +1) ;
-        if (char_index1 < mStrlen) {
-            char_index1 = char_index1 % mStrlen;
-            second_char = mString[char_index1];
-            second_char_data = (unsigned char*) ( font[second_char-32] );
-        } else {
-            second_char_data =  (unsigned char*) ( font[0] );
-        }
-
-        for(int row=0; row<5; row++) {
-            int row_first = first_char_data[row + 1];
-            int row_second = second_char_data[row + 1];
-
-            int F0 = 0b1000 & row_first ? HIGH : LOW;
-            int F1 = 0b0100 & row_first ? HIGH : LOW;
-            int F2 = 0b0010 & row_first ? HIGH : LOW;
-            int F3 = 0b0001 & row_first ? HIGH : LOW;
-
-            int S0 = 0b1000 & row_second ? HIGH : LOW;
-            int S1 = 0b0100 & row_second ? HIGH : LOW;
-            int S2 = 0b0010 & row_second ? HIGH : LOW;
-            int S3 = 0b0001 & row_second ? HIGH : LOW;
-
-            mPixelData[0+row*10] = F0;
-            mPixelData[1+row*10] = F1;
-            mPixelData[2+row*10] = F2;
-            mPixelData[3+row*10] = F3;
-            mPixelData[4+row*10] = 0;
-
-            mPixelData[5+row*10] = S0;
-            mPixelData[6+row*10] = S1;
-            mPixelData[7+row*10] = S2;
-            mPixelData[8+row*10] = S3;
-            mPixelData[9+row*10] = 0;
-        }
-        update_display();
-    }
-    void pan_right() {
-        // Move the viewport 1 pixel to the right. (Looks like scrolling left)
-        mPixelPos += 1;
-        if (mPixelPos>=pixel_width()) {
-            mPixelPos =0;
-        }
-    }
-    int pixel_width() {
-        return mStrlen * 5;
-    }
-} StringSprite;
-
-StringSprite myspr;
-
-// - END SCROLLING TEXT PROTOTYPE ---------------------------------------
-
-
-// void ScrollStringSprite() {
-//    myspr.setString("HELLO WORLD");
-// 
-//    for(int i=0; i<100; i++) {
-//         myspr.render_string();
-//         myspr.pan_right();
-//    }
-// }
+    scroll_sprite(StringSprite("HELLO WORLD"),50);
+    delay(70);
+    scroll_sprite(StringSprite(":-) (:)"),50);
+    print_message("* * ", 100);
+}
 
 void setup()
 {    //.These next three should be merged into one
     microbug_setup();
-//    myspr.setString("HELLO WORLD");
-   myspr.setString("Project Microbug");
 }
 
 void loop()
 {
-    for(int i=0; i<myspr.pixel_width(); i++) {
-        myspr.render_string();
-        myspr.pan_right();
-        delay(70);
-    }
-    delay(70);
-    print_message("* * ", 100);
+    ScrollSpriteStringSpriteExample_Test18();
 }
 
