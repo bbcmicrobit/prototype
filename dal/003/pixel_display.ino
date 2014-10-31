@@ -78,7 +78,7 @@ typedef struct Image {
 void set_eye(char id, int state);
 void eye_on(char id);
 void eye_off(char id);
-void print_message(char * message, int pausetime);
+void print_message(const char * message, int pausetime);
 void showLetter(char c);
 int getButton(char id);
 void clear_display();
@@ -333,7 +333,7 @@ void showLetter(char c) {
     }
 }
 
-void print_message(char * message, int pausetime) {
+void print_message(const char * message, int pausetime) {
     while(*message) {
         showLetter(*message);
         message++;
