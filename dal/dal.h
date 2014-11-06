@@ -107,6 +107,11 @@ void microbug_setup();
 void bootloader_start(void);
 void check_bootkey();
 
+
+// Crutch during development
+void scroll_string(const char * str); // FIXME: Crutch during development
+
+
 /* END API ------------------------------------------------------------------------------------ */
 
 
@@ -504,6 +509,10 @@ void scroll_sprite(StringSprite theSprite, int pausetime=100) {
         theSprite.pan_right();
         delay(pausetime);
     }
+}
+
+void scroll_string(const char * str) {
+    scroll_sprite(StringSprite(str), 50);
 }
 
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
