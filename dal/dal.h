@@ -1,5 +1,6 @@
 
 #include "spark_font.h"
+#include <avr/pgmspace.h>
 
 #define PRESSED HIGH
 
@@ -327,10 +328,10 @@ void showLetter(char c) {
     int letter_index = c-32;
     if (c>126) return;
     if (c<32) return;
-    if (font[letter_index][0] != c) return;
+    if (pgm_read_byte(&(font[letter_index][0])) != c) return;
     clear_display();
     for(int row=0; row<5; row++) {
-        unsigned char this_row = font[letter_index][row+1];
+        unsigned char this_row = pgm_read_byte(&(font[letter_index][row+1]));
         unsigned char L0 = 0b1000 & this_row ? HIGH : LOW;
         unsigned char L1 = 0b0100 & this_row ? HIGH : LOW;
         unsigned char L2 = 0b0010 & this_row ? HIGH : LOW;
@@ -425,8 +426,11 @@ typedef struct StringSprite {
         // Renders into the pixel data buffer
         int first_char;
         int second_char;
-        unsigned char *first_char_data;
-        unsigned char *second_char_data;
+//         unsigned char *first_char_data;
+//         unsigned char *second_char_data;
+
+        unsigned char first_char_data1[6];
+        unsigned char second_char_data1[16];
         int char_index1;
 
         int char_index0 = (mPixelPos / 5);
@@ -434,20 +438,29 @@ typedef struct StringSprite {
         char_index0 = char_index0 % mStrlen;
 
         first_char = mString[char_index0];
-        first_char_data = (unsigned char*)(font[first_char-32] );
+        for(int i=0; i<6; i++){
+            first_char_data1[i] = pgm_read_byte(&(font[first_char-32][i]));
+        }
 
         char_index1 = (char_index0 +1) ;
         if (char_index1 < mStrlen) {
             char_index1 = char_index1 % mStrlen;
             second_char = mString[char_index1];
-            second_char_data = (unsigned char*) ( font[second_char-32] );
+//            second_char_data = (unsigned char*) ( font[second_char-32] );
+
+            for(int i=0; i<6; i++){
+                second_char_data1[i] = pgm_read_byte(&(font[second_char-32][i]));
+            }
         } else {
-            second_char_data =  (unsigned char*) ( font[0] );
+//            second_char_data =  (unsigned char*) ( font[0] );
+            for(int i=0; i<6; i++){
+                second_char_data1[i] = pgm_read_byte(&(font[0][i]));
+            }
         }
 
         for(int row=0; row<5; row++) {
-            int row_first = first_char_data[row + 1];
-            int row_second = second_char_data[row + 1];
+            int row_first = first_char_data1[row + 1];
+            int row_second = second_char_data1[row + 1];
 
             int F0 = 0b1000 & row_first ? HIGH : LOW;
             int F1 = 0b0100 & row_first ? HIGH : LOW;
