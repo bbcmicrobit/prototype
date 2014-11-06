@@ -30,6 +30,8 @@ int main(void)
         USBDevice.attach();
 #endif
         setup();
+set_eye('L', LOW);
+// set_eye('R', LOW);
         for (;;) {
                 loop();
                 if (serialEventRun) serialEventRun();

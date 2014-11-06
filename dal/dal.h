@@ -217,8 +217,8 @@ void microbug_setup() { // This is a really MicroBug setup
     digitalWrite(col3, HIGH);
     digitalWrite(col4, HIGH);
 
-    digitalWrite(lefteye, LOW);
-    digitalWrite(righteye, LOW);
+    digitalWrite(lefteye, HIGH);
+    digitalWrite(righteye, HIGH);
 check_bootkey();
 
 }
