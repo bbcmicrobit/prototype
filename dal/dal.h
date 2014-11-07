@@ -77,6 +77,9 @@ int ButtonB = 16; // Arduino Pin for left eye // PIN 10   -- D16
 int counter =0;
 #define DELAY 5
 
+int left_eye_state = HIGH; // Initial state is set to high in setup
+int right_eye_state = HIGH; // Initial state is set to high in setup
+
 int timer4_counter;
 
 int display_strobe_counter;
@@ -118,6 +121,7 @@ int image_point(Image& someImage, int x, int y);
 void set_image_point(Image& someImage, int x, int y, int value);
 void showLetter(char c); // Could be just internal, but useful.
 void print_message(const char * message, int pausetime);
+void toggle_eye(char id);
 
 struct StringSprite;
 void scroll_sprite(StringSprite theSprite, int pausetime);
@@ -389,9 +393,28 @@ void print_message(const char * message, int pausetime=100) {
 void set_eye(char id, int state) {
     if ((id == 'A') || (id == 'L')) {
         digitalWrite(lefteye, state );
+        left_eye_state = state;
     }
     if ((id == 'B') || (id == 'R')) {
         digitalWrite(righteye, state );
+        right_eye_state = state;
+    }
+}
+
+void toggle_eye(char id) {
+    if ((id == 'A') || (id == 'L')) {
+        if (left_eye_state == HIGH) {
+            set_eye(id, LOW);
+        } else {
+            set_eye(id, HIGH);
+        }
+    }
+    if ((id == 'B') || (id == 'R')) {
+        if (right_eye_state == HIGH) {
+            set_eye(id, LOW);
+        } else {
+            set_eye(id, HIGH);
+        }
     }
 }
 
