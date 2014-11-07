@@ -4,7 +4,8 @@
 
 #define PRESSED HIGH
 
-#define MICROBUG
+#define MICROKIT
+// #define MICROBUG
 // #define Megabug
 
 #ifdef MEGABUG
@@ -50,6 +51,28 @@ int ButtonA = 16; // Arduino Pin for left eye
 int ButtonB = 15; // Arduino Pin for left eye
 
 #endif
+
+#ifdef MICROKIT
+
+int row0 = 1; // Arduino Pin for row 4 // PIN 21 -- D1
+int row1 = 0; // Arduino Pin for row 3  // PIN 20 -- D0
+int row2 = 2; // Arduino Pin for row 2  // PIN 19 -- D2
+int row3 = 3; // Arduino Pin for row 1  // PIN 18 -- D3
+int row4 = 11; // Arduino Pin for row 0 // PIN 12 -- D11
+
+int col0 = 4; // Arduino Pin for row 0  // PIN 25 -- D4
+int col1 = 12; // Arduino Pin for row 1  // PIN 26 -- D12
+int col2 = 6; // Arduino Pin for row 2  // PIN 27 -- D6
+int col3 = 9; // Arduino Pin for row 3 // PIN 29 -- D9
+int col4 = 13; // Arduino Pin for row 4  // PIN 32 -- D13
+
+int lefteye = 7; // Arduino Pin for left eye // PIN 1     -- D7
+int righteye = 14; // Arduino Pin for left eye // PIN 11  -- D14
+
+int ButtonA = 17; // Arduino Pin for left eye // PIN 8    -- D17
+int ButtonB = 16; // Arduino Pin for left eye // PIN 10   -- D16
+#endif
+
 
 int counter =0;
 #define DELAY 5
@@ -155,6 +178,12 @@ void check_bootkey() {
 
 void setup_display() {
 #ifdef MICROBUG
+
+CLKPR = 0x80;
+CLKPR = 0x01;
+#endif
+
+#ifdef MICROKIT
 
 CLKPR = 0x80;
 CLKPR = 0x01;
