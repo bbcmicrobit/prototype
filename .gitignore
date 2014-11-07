@@ -1,7 +1,7 @@
 .htpasswd
-upload/*json
-upload/highest
-upload/highest.lock
+website/upload/*json
+website/upload/highest
+website/upload/highest.lock
 *.pyc
 genprogs/
 staging/SWP
@@ -10,5 +10,5 @@ parser.out
 parsetab.py
 *~
 build-leonardo/
-docs/4weeks.txt
-docs/stage
+website/docs/4weeks.txt
+website/docs/stage

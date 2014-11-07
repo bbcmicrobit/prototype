@@ -724,7 +724,9 @@ int main(int argc, char* argv[]) {
     f.flush()
     f.close()
 
-    INCLUDE_FILE = os.path.join("../dal/spark_font.h")
+    # NOTE: Assumes this is being run in this directory.
+    # Having a better way of finding where to generate the font would be good.
+    INCLUDE_FILE = os.path.join("../../dal/spark_font.h")
 
     c_prog = c_include_template
     c_prog = c_prog.replace("%FONTDEF%", font_lines)
