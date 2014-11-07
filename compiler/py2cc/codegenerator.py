@@ -25,6 +25,26 @@ void loop()
 {
     %STATEMENTS%;
 }
+
+int main(void)
+{
+        init();
+
+#if defined(USBCON)
+        USBDevice.attach();
+#endif
+        setup(); // Switches on "eyes", and switches to bootloader if required
+
+set_eye('L', LOW);  // Switch off eyes if bootloader not required
+set_eye('R', LOW);
+        for (;;) {
+                loop();
+                if (serialEventRun) serialEventRun();
+        }
+        return 0;
+}
+
+
 """
 
 class CodeGenerator(object):
