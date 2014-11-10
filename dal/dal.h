@@ -137,6 +137,7 @@ void check_bootkey();
 
 // Crutch during development
 void scroll_string(const char * str); // FIXME: Crutch during development
+void scroll_string(const char * str, int delay); // FIXME: Crutch during development
 
 
 /* END API ------------------------------------------------------------------------------------ */
@@ -565,6 +566,9 @@ void scroll_sprite(StringSprite theSprite, int pausetime=100) {
 
 void scroll_string(const char * str) {
     scroll_sprite(StringSprite(str), 50);
+}
+void scroll_string(const char * str, int delay) {
+    scroll_sprite(StringSprite(str), delay);
 }
 
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
