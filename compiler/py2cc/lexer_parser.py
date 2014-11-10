@@ -19,6 +19,7 @@ reserved_words = ["print", "while", "True", "False", "if", "else", "elif",
 tokens = [ "NUMBER", "EOL", "STRING", "COLON",
            "IDENTIFIER", "PLUS", "MINUS", "TIMES", "DIVIDE",
            "PARENL", "PARENR", "COMMA", "EQUALS",
+           "EQUALITY",
            "INDENT", "DEDENT" # , "WS"
           ] + [x.upper() for x in reserved_words]
 
@@ -26,6 +27,8 @@ tadwidth = 8
 
 t_CODE_INITIAL_PRINT = r'print'
 t_CODE_INITIAL_COLON = r':'
+t_CODE_INITIAL_EQUALITY = r'=='
+
 t_CODE_INITIAL_EQUALS = r'='
 t_CODE_INITIAL_MINUS = r'\-'
 t_CODE_INITIAL_PLUS = r'\+'

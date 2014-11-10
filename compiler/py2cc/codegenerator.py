@@ -94,7 +94,6 @@ class CodeGenerator(object):
 
         if the_statement[0] == "forever_statement":
             return self.forever_statement(the_statement)
-#            return "//WIP (forever_statement) " + repr(the_statement)
 
         return "//TBD (statement) " + the_statement[0]
 
