@@ -92,3 +92,47 @@ TEMPLATE_LOADERS = (
     'django_jinja.loaders.FileSystemLoader',
 
 )
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+        'custom': {
+            'format': '*** %(asctime)s: %(message)s',
+        }
+    },
+    'filters': {
+    },
+    'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'custom'
+        },
+    },
+    'loggers': {
+        'test': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'django': {
+            'handlers': ['null'],
+            'propagate': True,
+            'level': 'INFO',
+        },
+        'microbug.views': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        }
+    }
+}

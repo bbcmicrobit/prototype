@@ -28,12 +28,13 @@ function compileBlockly() {
     $("#code").html("<P><PRE>" + code + "</PRE>");
     $.ajax({
         type: "POST",
-        url: "/microbug/compile_blockly",
+        url: "/microbug/build_code/",
         data: JSON.stringify({"repr": {"code": code, "xml": xml_text}}),
         success: function (data) {
-            var someid = data["id"];
-            text = '<P>Link to this version - <a href="/blockly_reload.html?id=' + someid + '"> ' + someid.toString() + ' </a>';
-            $("#resultblock").html(text);
+            console.log("Success, data is "+data);
+            //var someid = data["id"];
+            //text = '<P>Link to this version - <a href="/blockly_reload.html?id=' + someid + '"> ' + someid.toString() + ' </a>';
+            //$("#resultblock").html(text);
         }
     });
 }
