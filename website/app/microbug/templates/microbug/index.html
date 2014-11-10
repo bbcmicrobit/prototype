@@ -1,21 +1,100 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 <html>
-    <head lang="en">
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Test Page</title>
-        <link rel="stylesheet" type="text/css" href="{%  static "microbug/css/bootstrap.css" %}"/>
-    </head>
-    <body>
-        <div class="container">
-            <h1>Test Page</h1>
-            <p>This is a simple test page with Static CSS.</p>
-            <p>It links to <a href="{% url "microbug:index" %}">Microbug</a>.</p>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test Page</title>
+    <link rel="stylesheet" type="text/css" href="{% static "microbug/css/bootstrap.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "microbug/css/test.css" %}"/>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url "microbug:index" %}">Microbug</a>
         </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Yada</a></li>
+            <li><a href="#">Things</a></li>
+            <li><a href="#">Stuff</a></li>
+        </ul>
+    </div>
+</nav>
 
-        <script src="{% static 'microbug/js/jquery-1.11.1.js' %}"></script>
-        <script src="{% static 'microbug/js/bootstrap/bootstrap.js' %}"></script>
-    </body>
- </html>
+<div class="container-fluid">
+    <h1>Test Page</h1>
+
+    <p>This is a simple test page with Static CSS.</p>
+
+    <p>It links to <a href="{% url "microbug:index" %}">Microbug</a>.</p>
+
+    <div id="emulator" class="emulator col-md-3">
+        Emulator
+    </div>
+    <div class="editor col-md-6">
+        <ul class="nav nav-tabs" role="tablist" id="editor-tabs">
+            <li role="presentation" class="active">
+                <a href="#blockly-tab" data-toggle="tab">Blockly</a>
+            </li>
+            <li role="presentation">
+                <a href="#code-tab" data-toggle="tab">Code</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" id="blockly-tab" class="tab-pane active">
+                Blockly
+                <button type="button" id="buildCode">Build Code</button>
+
+                <div id="blockly" style="width: 92%; margin:1em; height: 480px; "></div>
+
+                <xml id="toolbox" style="display: none">
+                    <category name="Control Structures">
+                        <block type="controls_if"></block>
+                        <block type="controls_if_elseif"></block>
+                        <block type="controls_repeat_ext"></block>
+                    </category>
+                    <category name="operations">
+                        <block type="logic_compare"></block>
+                        <block type="math_arithmetic"></block>
+                    </category>
+
+                    <category name="Values">
+                        <block type="math_number"></block>
+                        <block type="text"></block>
+                    </category>
+
+                    <category name="Functions">
+                        <block type="text_print"></block>
+                    </category>
+                    <category name="User functions">
+                        <block type="text_print"></block>
+                    </category>
+                </xml>
+
+            </div>
+            <div role="tabpanel" id="code-tab" class="tab-pane">
+                Code
+                <div id="code"></div>
+            </div>
+        </div>
+    </div>
+    <div class="emulator col-md-3">
+        Tutorial
+    </div>
+</div>
+
+<div class="footer">
+    Copyright stuff lives here
+</div>
+
+<script src="{% static 'microbug/js/jquery-1.11.1.js' %}"></script>
+<script src="{% static 'microbug/js/bootstrap/bootstrap.js' %}"></script>
+<script src="{% static 'microbug/blockly/blockly_compressed.js' %}"></script>
+<script src="{% static 'microbug/blockly/blocks_compressed.js' %}"></script>
+<script src="{% static 'microbug/blockly/python_compressed.js' %}"></script>
+<script src="{% static 'microbug/blockly/msg/js/en.js' %}"></script>
+<script src="{% static 'microbug/js/test.js' %}"></script>
+</body>
+</html>

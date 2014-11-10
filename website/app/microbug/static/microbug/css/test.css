@@ -1,0 +1,16 @@
+/* This file contains the CSS required specifically for the test page */
+
+.tab-content {
+    border-top: 0px;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+
+    min-height: 10em;
+}
+
+.footer {
+    margin-top: 0.5em;
+    text-align: center;
+    color: #ddd;
+}
