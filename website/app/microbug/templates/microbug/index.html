@@ -3,11 +3,19 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Test Page</title>
-        <link rel="stylesheet" type="text/css" href="{%  static "microbug/test.css" %}"/>
+        <link rel="stylesheet" type="text/css" href="{%  static "microbug/css/bootstrap.css" %}"/>
     </head>
     <body>
-        <h1>Test Page</h1>
-        <p>This is a simple test page with Static CSS.</p>
+        <div class="container">
+            <h1>Test Page</h1>
+            <p>This is a simple test page with Static CSS.</p>
+            <p>It links to <a href="{% url "microbug:index" %}">Microbug</a>.</p>
+        </div>
+
+        <script src="{% static 'microbug/js/jquery-1.11.1.js' %}"></script>
+        <script src="{% static 'microbug/js/bootstrap/bootstrap.js' %}"></script>
     </body>
-</html>
+ </html>
