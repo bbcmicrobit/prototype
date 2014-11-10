@@ -5,4 +5,4 @@ from django.http import HttpResponse
 
 # The main page
 def index(request):
-    return HttpResponse('Hello from Microbug')
+    return render(request, 'microbug/index.html', {})
