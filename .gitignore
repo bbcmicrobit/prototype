@@ -12,3 +12,6 @@ parsetab.py
 build-leonardo/
 website/docs/4weeks.txt
 website/docs/stage
+**/.DS_Store
+**/.idea
+**/.sqlite3
