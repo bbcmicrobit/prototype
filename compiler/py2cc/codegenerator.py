@@ -92,7 +92,20 @@ class CodeGenerator(object):
             print_statement_lines = self.print_statement(the_statement)
             return print_statement_lines
 
+        if the_statement[0] == "forever_statement":
+            return self.forever_statement(the_statement)
+#            return "//WIP (forever_statement) " + repr(the_statement)
+
         return "//TBD (statement) " + the_statement[0]
+
+    def forever_statement(self, forever_statement):
+        assert forever_statement[0] == "forever_statement"
+        the_statement = forever_statement[1]
+        body_lines = ""
+        if the_statement[0] == "statementlist":
+            body_lines = self.statementlist(the_statement)
+
+        return "while(1) {// Forever\n"+";\n".join(body_lines)+";"+ "\n}\n"
 
     def print_statement(self, print_statement):
         assert print_statement[0] == "print_statement"
