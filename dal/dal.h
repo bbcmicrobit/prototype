@@ -4,8 +4,8 @@
 
 #define PRESSED HIGH
 
-#define MICROKIT
-// #define MICROBUG
+// #define MICROKIT
+#define MICROBUG
 // #define Megabug
 
 #ifdef MEGABUG
