@@ -1,0 +1,1 @@
+SUBSYSTEMS=="usb", ATTRS{idProduct}=="2ff4", ATTRS{idVendor}=="03eb", MODE="0666", SYMLINK+="m2"
