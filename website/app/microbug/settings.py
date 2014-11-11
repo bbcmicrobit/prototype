@@ -8,3 +8,6 @@ PRIMARY_STORE_DIRECTORY = '/Users/molt/Documents/microbug_store/primary'
 
 # The pending queue for the compiler
 PENDING_QUEUE_DIRECTORY = '/Users/molt/Documents/microbug_store/pending'
+
+# The directory where compiled programs will be stored by the compiler process
+COMPILED_PROGRAMS_DIRECTORY = '/Users/molt/Documents/microbug_store/compiled'
