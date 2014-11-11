@@ -1,0 +1,67 @@
+Design Rule Check Report
+------------------------
+
+Report File    : C:\Users\michaels\Documents\MicroBug\MicroBug (PCB - Design Rule Check Report).txt
+Report Written : Friday, September 19, 2014
+Project Path   : C:\Users\michaels\Documents\MicroBug\MicroBug.prj
+Design Path    : C:\Users\michaels\Documents\MicroBug\MicroBug.pcb
+Design Title   : 
+Created        : 18/09/2014 23:45:43
+Last Saved     : 19/09/2014 01:48:45
+Editing Time   : 121 min
+Units          : thou (precision 0)
+
+
+Results
+=======
+
+Pad to Silkscreen error (P-S) at (9306 11914) on layer "Top Silkscreen".
+    Silkscreen text '?' overlaps pad.
+
+Number of errors found : 1
+
+
+Settings
+========
+
+
+Spacings
+
+=========
+
+Tracks         Yes
+Pads and Vias  Yes
+Shapes         Yes
+Text           Yes
+Board          Yes
+Drills         Yes
+Components     No
+
+
+Manufacturing
+
+==============
+
+Drill Breakout                   Yes
+Drill Backoff                    Yes
+Silkscreen Overlap               Yes
+Copper Text In Board             Yes
+Min Track Width                  Yes
+Min Annular Ring                 Yes
+Min Paste Size                   Yes
+Vias In Pads                     Yes
+Unplated Vias                    Yes
+Unplated Pads With Inner Tracks  Yes
+
+
+Nets
+
+=====
+
+Net Completion                Yes
+Dangling Tracks               Yes
+Net Track Length Differences  No
+
+
+
+End Of Report.

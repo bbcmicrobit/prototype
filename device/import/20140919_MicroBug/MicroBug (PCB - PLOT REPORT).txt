@@ -1,0 +1,185 @@
+PLOT REPORT
+-----------
+
+Report File    : C:\Users\michaels\Documents\MicroBug\MicroBug (PCB - PLOT REPORT).txt
+Report Written : Friday, September 19, 2014
+Project Path   : C:\Users\michaels\Documents\MicroBug\MicroBug.prj
+Design Path    : C:\Users\michaels\Documents\MicroBug\MicroBug.pcb
+Design Title   : 
+Created        : 18/09/2014 23:45:43
+Last Saved     : 19/09/2014 01:56:42
+Editing Time   : 155 min
+Units          : thou (precision 0)
+
+
+Device Settings
+===============
+
+
+Gerber Settings
+===============
+
+    Leading zero suppression.
+    G01 assumed throughout.
+    Line termination <*> <CR> <LF>.
+    2.3 format absolute inches.
+    Format commands defined in Gerber file.
+    Aperture table defined in Gerber file.
+    Hardware arcs allowed.
+
+
+Drill Settings
+==============
+
+    Excellon Format 1    Format 2.3 absolute in mm.
+    No zero suppression.
+
+PDF Settings
+============
+
+Combine Plots Yes
+Use Bookmarks Yes
+Component Details Yes
+Symbol Details Yes
+Link Net Names Yes
+View PDF Yes
+All Colours Black Yes
+
+
+
+Plots Output
+============
+
+    Plot Job: "C:\Users\michaels\Documents\MicroBug\MicroBug.mop"
+
+
+PDF Output
+==========
+
+    Layer
+    --------------
+    Bottom Copper
+    Top Copper
+    Top Silkscreen
+
+
+Gerber Output
+=============
+
+C:\Users\michaels\Documents\MicroBug\MicroBug - Top Copper.gbr
+
+    Layers:
+    ------------
+    Top Copper
+
+    D-Code  Shape  (thou)
+    --------------------------------------------
+    D10     Rectangle 14.00 X 46.00  Rotation 90
+    D11     Rectangle 14.00 X 46.00
+    D12     Rectangle 60.00 X 80.00  Rotation 90
+    D13     Round 15.00
+    D71     Round 48.00
+
+Gerber Output
+=============
+
+C:\Users\michaels\Documents\MicroBug\MicroBug - Top Copper (Resist).gbr
+
+    Layers:
+    ------------
+    Top Copper
+
+    D-Code  Shape  (thou)
+    --------------------------------------------
+    D14     Rectangle 24.00 X 56.00  Rotation 90
+    D15     Rectangle 24.00 X 56.00
+    D16     Rectangle 70.00 X 90.00  Rotation 90
+
+Gerber Output
+=============
+
+C:\Users\michaels\Documents\MicroBug\MicroBug - Top Copper (Paste).gbr
+
+    Layers:
+    ------------
+    Top Copper
+
+    D-Code  Shape  (thou)
+    --------------------------------------------
+    D17     Rectangle 10.00 X 42.00  Rotation 90
+    D18     Rectangle 10.00 X 42.00
+
+Gerber Output
+=============
+
+C:\Users\michaels\Documents\MicroBug\MicroBug - Bottom Copper (Resist).gbr
+
+    Layers:
+    ---------------
+    Bottom Copper
+
+    D-Code  Shape  (thou)
+    --------------------------------------------
+    D16     Rectangle 70.00 X 90.00  Rotation 90
+
+Gerber Output
+=============
+
+C:\Users\michaels\Documents\MicroBug\MicroBug - Bottom Copper (Paste).gbr
+
+    Layers:
+    ---------------
+    Bottom Copper
+
+    D-Code  Shape  (thou)
+    ---------------------
+
+NC Drill Output
+===============
+
+C:\Users\michaels\Documents\MicroBug\MicroBug - Drill Data - Through Hole.drl
+
+    Output:
+    --------------------------
+    Plated Round Drill Holes
+    Plated Slots
+    Plated Board Outlines
+
+    Tool   Size       Count    ID
+    -----------------------------
+    T001   00.024 in  38     B
+    T002   00.030 in  50     A
+    -----------------------------
+    Total             88
+    -----------------------------
+    Tool   Size       Count    ID
+    -----------------------------
+    T001   00.025 in  1
+    -----------------------------
+    Total             1
+    -----------------------------
+
+Gerber Output
+=============
+
+C:\Users\michaels\Documents\MicroBug\MicroBug - Drill Ident Drawing - Through Hole.gbr
+
+    Layers:
+    ----------------
+    [Through Hole]
+
+
+Drill Ident Drawing
+===================
+
+    Drill  Plated  Size  Shape  ID
+    ------------------------------
+    30     Y       100   Round  A
+    24     Y       100   Round  B
+
+    D-Code  Shape  (thou)
+    ---------------------
+    D19     Round 100.00
+    D70     Round 5.00
+
+End Of Report.

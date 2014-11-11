@@ -1,0 +1,81 @@
+Design Rule Check Report
+------------------------
+
+Report File    : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921 (PCB - Design Rule Check Report).txt
+Report Written : Monday, September 22, 2014
+Project Path   : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921.prj
+Design Path    : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921.pcb
+Design Title   : 
+Created        : 21/09/2014 12:47:43
+Last Saved     : 22/09/2014 12:11:49
+Editing Time   : 608 min
+Units          : thou (precision 0)
+
+
+Results
+=======
+
+Pad to Pad Error (P-P) between (9960 10276) and (9967 10276) on Layer "[Top]".
+    Error between Component Pad J1.1 (Net '+5VUSB') and Component Pad J1.2 (Net 'USB D-'), Gap is 8 needs to be 10.
+Pad to Pad Error (P-P) between (9985 10276) and (9993 10276) on Layer "[Top]".
+    Error between Component Pad J1.2 (Net 'USB D-') and Component Pad J1.3 (Net 'USB D+'), Gap is 8 needs to be 10.
+Pad to Pad Error (P-P) between (10011 10276) and (10018 10276) on Layer "[Top]".
+    Error between Component Pad J1.3 (Net 'USB D+') and Component Pad J1.4, Gap is 8 needs to be 10.
+Pad to Pad Error (P-P) between (10036 10276) and (10044 10276) on Layer "[Top]".
+    Error between Component Pad J1.4 and Component Pad J1.5 (Net '0V'), Gap is 8 needs to be 10.
+Component to Component error (Cm-Cm) at (10276 9297) on layer "[Top]".
+    U1 - XTAL2, Gap is 0.
+Component to Component error (Cm-Cm) at (10626 7808) on layer "[Bottom]".
+    U3 - BH2, Gap is 0.
+Component to Component error (Cm-Cm) at (9417 7808) on layer "[Bottom]".
+    U2 - BH2, Gap is 0.
+Component to Board error (Cm-B) at (10526 7539) on layer "[Bottom]".
+    BH2.
+
+Number of errors found : 8
+
+
+Settings
+========
+
+
+Spacings
+
+=========
+
+Tracks         Yes
+Pads and Vias  Yes
+Shapes         Yes
+Text           Yes
+Board          Yes
+Drills         Yes
+Components     Yes
+
+
+Manufacturing
+
+==============
+
+Drill Breakout                   Yes
+Drill Backoff                    Yes
+Silkscreen Overlap               No
+Copper Text In Board             Yes
+Min Track Width                  Yes
+Min Annular Ring                 Yes
+Min Paste Size                   Yes
+Vias In Pads                     Yes
+Unplated Vias                    Yes
+Unplated Pads With Inner Tracks  Yes
+
+
+Nets
+
+=====
+
+Net Completion                Yes
+Dangling Tracks               Yes
+Net Track Length Differences  No
+
+
+
+End Of Report.

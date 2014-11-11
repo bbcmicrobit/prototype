@@ -1,0 +1,21 @@
+Schematic and PCB Check Report
+------------------------------
+
+Report File    : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921 (PCB - Schematic and PCB Check Report).txt
+Report Written : Monday, September 22, 2014
+Project Path   : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921.prj
+Design Path    : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921.pcb
+Design Title   : 
+Created        : 21/09/2014 12:47:43
+Last Saved     : 22/09/2014 12:27:17
+Editing Time   : 624 min
+Units          : thou (precision 0)
+
+
+Checking integrity of Schematic and Pcb designs in project "MiniMicro_20140921"
+===============================================================================
+
+The designs are the same.
+
+
+End Of Report.

@@ -1,0 +1,15 @@
+Value Check Report
+------------------
+
+Report File    : C:\Users\michaels\Documents\MicroBug\MicroBug (PCB - Value Check Report).txt
+Report Written : Friday, September 19, 2014
+Project Path   : C:\Users\michaels\Documents\MicroBug\MicroBug.prj
+Design Path    : C:\Users\michaels\Documents\MicroBug\MicroBug.pcb
+Design Title   : 
+Created        : 18/09/2014 23:45:43
+Last Saved     : 19/09/2014 01:56:42
+Editing Time   : 130 min
+Units          : thou (precision 0)
+
+
+End Of Report.

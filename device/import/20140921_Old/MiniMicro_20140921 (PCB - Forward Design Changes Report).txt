@@ -1,0 +1,20 @@
+Forward Design Changes Report
+-----------------------------
+
+Report File    : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921 (PCB - Forward Design Changes Report).txt
+Report Written : Monday, September 22, 2014
+Project Path   : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921.prj
+Design Path    : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921.pcb
+Design Title   : 
+Created        : 21/09/2014 12:47:43
+Last Saved     : 22/09/2014 01:08:37
+Editing Time   : 411 min
+Units          : thou (precision 0)
+
+Added net "N0160".
+
+Connected pin "U1-40" to net "N0160".
+Connected pin "CCLIP2-1" to net "N0160".
+
+
+End Of Report.

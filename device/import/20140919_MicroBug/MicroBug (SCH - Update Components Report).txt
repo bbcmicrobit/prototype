@@ -1,0 +1,88 @@
+Update Components Report
+------------------------
+
+Report File    : C:\Users\michaels\Documents\MicroBug\MicroBug (SCH - Update Components Report).txt
+Report Written : Friday, September 19, 2014
+Project Path   : C:\Users\michaels\Documents\MicroBug\MicroBug.prj
+Design Path    : C:\Users\michaels\Documents\MicroBug\MicroBug.sch
+Design Title   : 
+Created        : 
+Last Saved     : 18/09/2014 21:33:53
+Editing Time   : 226 min
+Units          : thou (precision 2)
+
+
+Library Files:
+==============
+
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Semiconductors-Processors & Microcontrollers-Microcontrollers.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\User\User.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\Default\DesignSpark.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\Default\ltspice.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\Default\XSpice.cml
+
+Selected items to be updated:
+=============================
+
+
+Components:
+===========
+
+    (None) 
+
+Symbols:
+========
+
+    (None) 
+
+Additional items to be updated:
+===============================
+
+
+Components:
+===========
+
+    (None) 
+
+Symbols:
+========
+
+    (None) 
+
+Selected items not to be updated  (Same version as library)
+===========================================================
+
+
+Components:
+===========
+
+LED  C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\Default\DesignSpark.cml
+
+Symbols:
+========
+
+LED  C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\Default\DesignSpark.ssl
+
+
+
+Update Components Summary
+=========================
+
+Updating single component.
+Update component values
+Update component value positions
+
+	Selected for update:			   1  Component 
+						   1  Symbol 
+
+	Selected items to be updated:		   0  Components
+						   0  Symbols
+
+	Additional items to be updated:		   0  Components
+						   0  Symbols
+
+	Selected items NOT to be updated:	   1  Component 
+	  (Same version as library)		   1  Symbol 
+
+
+End Of Report.

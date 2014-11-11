@@ -1,0 +1,23 @@
+Back Annotation Results Report
+------------------------------
+
+Report File    : C:\Users\michaels\Documents\MicroBugAlpha\MicroBugBeta (PCB - Back Annotation Results Report).txt
+Report Written : Monday, October 06, 2014
+Design Path    : C:\Users\michaels\Documents\MicroBugAlpha\MicroBugBeta.pcb
+Design Title   : 
+Created        : 06/10/2014 12:11:33
+Last Saved     : 06/10/2014 15:25:19
+Editing Time   : 196 min
+Units          : thou (precision 0)
+
+Back Annotate renames from PCB "C:\Users\michaels\Documents\MicroBugAlpha\MicroBugBeta.pcb" to Schematic "C:\Users\michaels\Documents\MicroBugAlpha\MicroBugBeta.sch".
+
+Change Value on Component 'CCLIP6' - 'AnalogPin'.
+Change Value on Component 'CCLIP5' - 'AnalogPin'.
+Change Value on Component 'CCLIP4' - 'AnalogPin'.
+Change Value on Component 'CCLIP1' - 'AnalogPin'.
+Change Value on Component 'CCLIP2' - 'AnalogPin'.
+Change Value on Component 'CCLIP3' - 'AnalogPin'.
+
+
+End Of Report.

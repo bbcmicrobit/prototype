@@ -1,0 +1,215 @@
+PLOT REPORT
+-----------
+
+Report File    : C:\Users\michaels\Documents\MiniMicro\MiniMicro (PCB - PLOT REPORT).txt
+Report Written : Sunday, September 21, 2014
+Design Path    : C:\Users\michaels\Documents\MiniMicro\MiniMicro.pcb
+Design Title   : 
+Created        : 19/09/2014 13:37:57
+Last Saved     : 21/09/2014 04:09:29
+Editing Time   : 1987 min
+Units          : thou (precision 1)
+
+
+Device Settings
+===============
+
+
+Gerber Settings
+===============
+
+    Leading zero suppression.
+    G01 assumed throughout.
+    Line termination <*> <CR> <LF>.
+    2.3 format absolute inches.
+    Format commands defined in Gerber file.
+    Aperture table defined in Gerber file.
+    Hardware arcs allowed.
+
+
+Drill Settings
+==============
+
+    Excellon Format 1    Format 2.3 absolute in mm.
+    No zero suppression.
+
+PDF Settings
+============
+
+Combine Plots Yes
+Use Bookmarks Yes
+Component Details Yes
+Symbol Details Yes
+Link Net Names Yes
+View PDF Yes
+All Colours Black Yes
+
+
+
+Plots Output
+============
+
+    Plot Job: "C:\Users\michaels\Documents\MiniMicro\MiniMicro.mop"
+
+
+PDF Output
+==========
+
+    Layer
+    --------------
+    Bottom Copper
+    Top Copper
+    Top Silkscreen
+
+
+Gerber Output
+=============
+
+C:\Users\michaels\Documents\MiniMicro\MiniMicro - Top Copper (Resist).gbr
+
+    Layers:
+    ------------
+    Top Copper
+
+    D-Code  Shape  (thou)
+    --------------------------------------------
+    D14     Rectangle 24.00 X 56.00  Rotation 90
+    D15     Rectangle 24.00 X 56.00
+    D25     Rectangle 27.52 X 47.40
+    D26     Rectangle 46.00 X 67.00
+    D27     Square 69.00
+    D28     Round 69.00
+    D29     Rectangle 28.00 X 65.00
+    D72     Rectangle 65.00 X 73.00
+    D73     Rectangle 63.00 X 67.00  Rotation 90
+    D83     Rectangle 27.52 X 47.40  Rotation 90
+    D84     Rectangle 36.00 X 65.00  Rotation 90
+    D85     Rectangle 65.00 X 69.00
+    D86     Rectangle 65.00 X 69.00  Rotation 90
+    D87     Rectangle 40.00 X 65.00
+    D88     Square 57.00
+    D89     Round 57.00
+    D90     Round 72.99
+    D91     Round 88.74
+    D92     Round 128.11
+
+Gerber Output
+=============
+
+C:\Users\michaels\Documents\MiniMicro\MiniMicro - Top Copper (Paste).gbr
+
+    Layers:
+    ------------
+    Top Copper
+
+    D-Code  Shape  (thou)
+    --------------------------------------------
+    D17     Rectangle 10.00 X 42.00  Rotation 90
+    D18     Rectangle 10.00 X 42.00
+    D77     Rectangle 13.52 X 33.40
+    D78     Rectangle 32.00 X 53.00
+    D79     Rectangle 14.00 X 51.00
+    D80     Rectangle 51.00 X 59.00
+    D81     Rectangle 49.00 X 53.00  Rotation 90
+    D93     Rectangle 13.52 X 33.40  Rotation 90
+    D94     Rectangle 22.00 X 51.00  Rotation 90
+    D95     Rectangle 51.00 X 55.00
+    D96     Rectangle 51.00 X 55.00  Rotation 90
+    D97     Rectangle 26.00 X 51.00
+
+Gerber Output
+=============
+
+C:\Users\michaels\Documents\MiniMicro\MiniMicro - Bottom Copper (Resist).gbr
+
+    Layers:
+    ---------------
+    Bottom Copper
+
+    D-Code  Shape  (thou)
+    ---------------------------------
+    D20     Round 70.00
+    D27     Square 69.00
+    D28     Round 69.00
+    D88     Square 57.00
+    D89     Round 57.00
+    D90     Round 72.99
+    D91     Round 88.74
+    D92     Round 128.11
+    D98     Rectangle 246.22 X 246.22
+
+Gerber Output
+=============
+
+C:\Users\michaels\Documents\MiniMicro\MiniMicro - Bottom Copper (Paste).gbr
+
+    Layers:
+    ---------------
+    Bottom Copper
+
+    D-Code  Shape  (thou)
+    ---------------------------------
+    D99     Round 56.00
+    D100    Rectangle 232.22 X 232.22
+
+NC Drill Output
+===============
+
+C:\Users\michaels\Documents\MiniMicro\MiniMicro - Drill Data - Through Hole.drl
+
+    Output:
+    --------------------------
+    Plated Round Drill Holes
+    Plated Slots
+    Plated Board Outlines
+
+    Tool   Size       Count    ID
+    -----------------------------
+    T001   00.024 in  37     B
+    T002   00.027 in  2      F
+    T003   00.031 in  3      G
+    T004   00.032 in  13     C
+    T005   00.039 in  12     E
+    T006   00.057 in  1      H
+    T007   00.059 in  1      I
+    T008   00.071 in  2      J
+    -----------------------------
+    Total             71
+    -----------------------------
+    Tool   Size       Count    ID
+    -----------------------------
+    T001   00.025 in  1
+    -----------------------------
+    Total             1
+    -----------------------------
+
+Gerber Output
+=============
+
+C:\Users\michaels\Documents\MiniMicro\MiniMicro - Drill Ident Drawing - Through Hole.gbr
+
+    Layers:
+    ----------------
+    [Through Hole]
+
+
+Drill Ident Drawing
+===================
+
+    Drill  Plated  Size  Shape  ID
+    ------------------------------
+    24     Y       100   Round  B
+    32     Y       100   Round  C
+    39     Y       100   Round  E
+    27     Y       100   Round  F
+    31     Y       100   Round  G
+    57     Y       100   Round  H
+    59     Y       100   Round  I
+    71     Y       100   Round  J
+
+    D-Code  Shape  (thou)
+    ---------------------
+    D19     Round 100.00
+    D70     Round 5.00
+
+End Of Report.

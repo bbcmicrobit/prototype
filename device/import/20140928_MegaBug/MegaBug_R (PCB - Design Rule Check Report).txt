@@ -1,0 +1,304 @@
+Design Rule Check Report
+------------------------
+
+Report File    : C:\Users\michaels\Documents\MegaBug\MegaBug_R (PCB - Design Rule Check Report).txt
+Report Written : Sunday, September 28, 2014
+Design Path    : C:\Users\michaels\Documents\MegaBug\MegaBug_R.pcb
+Design Title   : 
+Created        : 28/09/2014 11:23:08
+Last Saved     : 28/09/2014 18:50:45
+Editing Time   : 447 min
+Units          : thou (precision 0)
+
+
+Results
+=======
+
+Track to Pad error (T-P) at (22100 23630) on layer "wiring".
+    Error between Component Pad HDR1.11 and Track (Net 'VCC'), Gap is 0 needs to be 10.
+Track to Pad Error (T-P) between (23470 24410) and (23470 24400) on Layer "wiring".
+    Error between Component Pad R12.1 (Net 'N0109') and Track (Net 'N0069'), Gap is 0 needs to be 10.
+Track to Pad Error (T-P) between (23470 24410) and (23470 24400) on Layer "wiring".
+    Error between Component Pad R12.1 (Net 'N0109') and Track (Net 'N0070'), Gap is 0 needs to be 10.
+Track to Pad Error (T-P) between (23470 24410) and (23470 24400) on Layer "wiring".
+    Error between Component Pad R12.1 (Net 'N0109') and Track (Net 'N0071'), Gap is 0 needs to be 10.
+Track to Pad Error (T-P) between (23470 24410) and (23470 24400) on Layer "wiring".
+    Error between Component Pad R12.1 (Net 'N0109') and Track (Net 'N0072'), Gap is 0 needs to be 10.
+Track to Pad Error (T-P) between (23470 24410) and (23470 24400) on Layer "wiring".
+    Error between Component Pad R12.1 (Net 'N0109') and Track (Net 'N0073'), Gap is 0 needs to be 10.
+Track to Pad Error (T-P) between (23470 24410) and (23470 24400) on Layer "wiring".
+    Error between Component Pad R12.1 (Net 'N0109') and Track (Net 'N0084'), Gap is 0 needs to be 10.
+Track to Pad Error (T-P) between (23470 24410) and (23470 24400) on Layer "wiring".
+    Error between Component Pad R12.1 (Net 'N0109') and Track (Net 'N0085'), Gap is 0 needs to be 10.
+Track to Pad error (T-P) at (20650 24570) on layer "Top Copper".
+    Error between Component Pad LED26.2 (Net 'N0108') and Track (Net 'GROUND'), Gap is 0 needs to be 10.
+Pad to Board Error (P-B) between (23630 24670) and (23700 24670) on Layer "[All]".
+    Error between Component Pad LED27.1 (Net 'GROUND') and Board, Gap is 68 needs to be 100.
+Pad to Board Error (P-B) between (23630 24600) and (23700 24600) on Layer "[All]".
+    Error between Component Pad LED27.2 (Net 'N0109') and Board, Gap is 68 needs to be 100.
+Track to Pad Error (T-P) between (22580 23000) and (22575 23000) on Layer "wiring".
+    Error between Component Pad C4.1 (Net 'GROUND') and Track (Net 'N0073'), Gap is 0 needs to be 10.
+Track to Pad error (T-P) at (22520 23200) on layer "wiring".
+    Error between Component Pad C4.2 (Net 'N0114') and Track (Net 'N0069'), Gap is 0 needs to be 10.
+Track to Pad error (T-P) at (22770 23000) on layer "wiring".
+    Error between Component Pad C5.1 (Net 'GROUND') and Track (Net 'N0073'), Gap is 0 needs to be 10.
+Track to Pad error (T-P) at (22710 23200) on layer "wiring".
+    Error between Component Pad C5.2 (Net 'N0116') and Track (Net 'N0069'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (21300 24400) on layer "Top Copper".
+    Error between Track (Net 'VCC') and Track (Net 'N0059'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (21300 24400) on layer "Top Copper".
+    Error between Track (Net 'VCC') and Track (Net 'N0059'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (21100 24400) on layer "Top Copper".
+    Error between Track (Net 'VCC') and Track (Net 'N0059'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (21100 24400) on layer "Top Copper".
+    Error between Track (Net 'VCC') and Track (Net 'N0059'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (22400 23800) on layer "wiring".
+    Error between Track (Net 'VCC') and Track (Net 'N0080'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (20975 24475) on layer "wiring".
+    Error between Track (Net 'N0058') and Track (Net 'GROUND'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24200 23200) on layer "wiring".
+    Error between Track (Net 'N0069') and Track (Net 'N0070'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24150 23200) on layer "wiring".
+    Error between Track (Net 'N0069') and Track (Net 'N0071'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24100 23200) on layer "wiring".
+    Error between Track (Net 'N0069') and Track (Net 'N0072'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24050 23200) on layer "wiring".
+    Error between Track (Net 'N0069') and Track (Net 'N0073'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24250 24400) on layer "wiring".
+    Error between Track (Net 'N0069') and Track (Net 'N0084'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (23030 24400) on layer "wiring".
+    Error between Track (Net 'N0069') and Via (Net 'N0084'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24250 24400) on layer "wiring".
+    Error between Track (Net 'N0069') and Track (Net 'N0085'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (22930 24400) on layer "wiring".
+    Error between Track (Net 'N0069') and Via (Net 'N0085'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23350 23200) on layer "wiring".
+    Error between Track (Net 'N0069') and Track (Net 'N0080'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23300 23200) on layer "wiring".
+    Error between Track (Net 'N0069') and Track (Net 'N0081'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23250 23200) on layer "wiring".
+    Error between Track (Net 'N0069') and Track (Net 'N0082'), Gap is 0 needs to be 10.
+Track to Board error (T-B) at (23700 23200) on layer "wiring".
+    Error between Track (Net 'N0069') and Board, Gap is 0 needs to be 80.
+Track to Via error (T-V) at (22830 24400) on layer "wiring".
+    Error between Via (Net 'N0069') and Track (Net 'N0070'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (22830 24400) on layer "wiring".
+    Error between Via (Net 'N0069') and Track (Net 'N0071'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (22830 24400) on layer "wiring".
+    Error between Via (Net 'N0069') and Track (Net 'N0072'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (22830 24400) on layer "wiring".
+    Error between Via (Net 'N0069') and Track (Net 'N0073'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24150 23150) on layer "wiring".
+    Error between Track (Net 'N0070') and Track (Net 'N0071'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24100 23150) on layer "wiring".
+    Error between Track (Net 'N0070') and Track (Net 'N0072'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24050 23150) on layer "wiring".
+    Error between Track (Net 'N0070') and Track (Net 'N0073'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24200 24400) on layer "wiring".
+    Error between Track (Net 'N0070') and Track (Net 'N0084'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (23030 24400) on layer "wiring".
+    Error between Track (Net 'N0070') and Via (Net 'N0084'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24200 24400) on layer "wiring".
+    Error between Track (Net 'N0070') and Track (Net 'N0085'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (22930 24400) on layer "wiring".
+    Error between Track (Net 'N0070') and Via (Net 'N0085'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23350 23150) on layer "wiring".
+    Error between Track (Net 'N0070') and Track (Net 'N0080'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23300 23150) on layer "wiring".
+    Error between Track (Net 'N0070') and Track (Net 'N0081'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23250 23150) on layer "wiring".
+    Error between Track (Net 'N0070') and Track (Net 'N0082'), Gap is 0 needs to be 10.
+Track to Board error (T-B) at (23700 23150) on layer "wiring".
+    Error between Track (Net 'N0070') and Board, Gap is 0 needs to be 80.
+Track to Via error (T-V) at (22730 24400) on layer "wiring".
+    Error between Via (Net 'N0070') and Track (Net 'N0071'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (22730 24400) on layer "wiring".
+    Error between Via (Net 'N0070') and Track (Net 'N0072'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (22730 24400) on layer "wiring".
+    Error between Via (Net 'N0070') and Track (Net 'N0073'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24100 23100) on layer "wiring".
+    Error between Track (Net 'N0071') and Track (Net 'N0072'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24050 23100) on layer "wiring".
+    Error between Track (Net 'N0071') and Track (Net 'N0073'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24150 24400) on layer "wiring".
+    Error between Track (Net 'N0071') and Track (Net 'N0084'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (23030 24400) on layer "wiring".
+    Error between Track (Net 'N0071') and Via (Net 'N0084'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24150 24400) on layer "wiring".
+    Error between Track (Net 'N0071') and Track (Net 'N0085'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (22930 24400) on layer "wiring".
+    Error between Track (Net 'N0071') and Via (Net 'N0085'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23350 23100) on layer "wiring".
+    Error between Track (Net 'N0071') and Track (Net 'N0080'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23300 23100) on layer "wiring".
+    Error between Track (Net 'N0071') and Track (Net 'N0081'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23250 23100) on layer "wiring".
+    Error between Track (Net 'N0071') and Track (Net 'N0082'), Gap is 0 needs to be 10.
+Track to Board error (T-B) at (23700 23100) on layer "wiring".
+    Error between Track (Net 'N0071') and Board, Gap is 0 needs to be 80.
+Track to Via error (T-V) at (22630 24400) on layer "wiring".
+    Error between Via (Net 'N0071') and Track (Net 'N0072'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (22630 24400) on layer "wiring".
+    Error between Via (Net 'N0071') and Track (Net 'N0073'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24050 23050) on layer "wiring".
+    Error between Track (Net 'N0072') and Track (Net 'N0073'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24100 24400) on layer "wiring".
+    Error between Track (Net 'N0072') and Track (Net 'N0084'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (23030 24400) on layer "wiring".
+    Error between Track (Net 'N0072') and Via (Net 'N0084'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24100 24400) on layer "wiring".
+    Error between Track (Net 'N0072') and Track (Net 'N0085'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (22930 24400) on layer "wiring".
+    Error between Track (Net 'N0072') and Via (Net 'N0085'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23350 23050) on layer "wiring".
+    Error between Track (Net 'N0072') and Track (Net 'N0080'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23300 23050) on layer "wiring".
+    Error between Track (Net 'N0072') and Track (Net 'N0081'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23250 23050) on layer "wiring".
+    Error between Track (Net 'N0072') and Track (Net 'N0082'), Gap is 0 needs to be 10.
+Track to Board error (T-B) at (23700 23050) on layer "wiring".
+    Error between Track (Net 'N0072') and Board, Gap is 0 needs to be 80.
+Track to Via error (T-V) at (22530 24400) on layer "wiring".
+    Error between Via (Net 'N0072') and Track (Net 'N0073'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24050 24400) on layer "wiring".
+    Error between Track (Net 'N0073') and Track (Net 'N0084'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (23030 24400) on layer "wiring".
+    Error between Track (Net 'N0073') and Via (Net 'N0084'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (24050 24400) on layer "wiring".
+    Error between Track (Net 'N0073') and Track (Net 'N0085'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (22930 24400) on layer "wiring".
+    Error between Track (Net 'N0073') and Via (Net 'N0085'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23350 23000) on layer "wiring".
+    Error between Track (Net 'N0073') and Track (Net 'N0080'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23300 23000) on layer "wiring".
+    Error between Track (Net 'N0073') and Track (Net 'N0081'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23250 23000) on layer "wiring".
+    Error between Track (Net 'N0073') and Track (Net 'N0082'), Gap is 0 needs to be 10.
+Track to Board error (T-B) at (23700 23000) on layer "wiring".
+    Error between Track (Net 'N0073') and Board, Gap is 0 needs to be 80.
+Track to Track error (T-T) at (24300 24400) on layer "wiring".
+    Error between Track (Net 'N0084') and Track (Net 'N0085'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23350 22900) on layer "wiring".
+    Error between Track (Net 'N0084') and Track (Net 'N0080'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (23058 22900) on layer "wiring".
+    Error between Track (Net 'N0084') and Via (Net 'N0080'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23300 22900) on layer "wiring".
+    Error between Track (Net 'N0084') and Track (Net 'N0081'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (22958 22900) on layer "wiring".
+    Error between Track (Net 'N0084') and Via (Net 'N0081'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23250 22900) on layer "wiring".
+    Error between Track (Net 'N0084') and Track (Net 'N0082'), Gap is 0 needs to be 10.
+Track to Via error (T-V) at (22858 22900) on layer "wiring".
+    Error between Track (Net 'N0084') and Via (Net 'N0082'), Gap is 0 needs to be 10.
+Track to Board error (T-B) at (23700 22900) on layer "wiring".
+    Error between Track (Net 'N0084') and Board, Gap is 0 needs to be 80.
+Track to Via error (T-V) at (23030 24400) on layer "wiring".
+    Error between Via (Net 'N0084') and Track (Net 'N0085'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23350 22950) on layer "wiring".
+    Error between Track (Net 'N0085') and Track (Net 'N0080'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23300 22950) on layer "wiring".
+    Error between Track (Net 'N0085') and Track (Net 'N0081'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23250 22950) on layer "wiring".
+    Error between Track (Net 'N0085') and Track (Net 'N0082'), Gap is 0 needs to be 10.
+Track to Board error (T-B) at (23700 22950) on layer "wiring".
+    Error between Track (Net 'N0085') and Board, Gap is 0 needs to be 80.
+Track to Track error (T-T) at (21950 23325) on layer "wiring".
+    Error between Track (Net 'N0094') and Track (Net 'GROUND'), Gap is 0 needs to be 10.
+Track to Board Error (T-B) between (21810 20400) and (21810 20325) on Layer "Top Copper".
+    Error between Track (Net 'N0095') and Board, Gap is 63 needs to be 80.
+Track to Track error (T-T) at (20775 24550) on layer "Top Copper".
+    Error between Track (Net 'N0108') and Track (Net 'GROUND'), Gap is 0 needs to be 10.
+Track to Board Error (T-B) between (22400 20400) and (22400 20325) on Layer "Top Copper".
+    Error between Track (Net 'GROUND') and Board, Gap is 63 needs to be 80.
+Track to Track error (T-T) at (22500 23800) on layer "wiring".
+    Error between Track (Net 'GROUND') and Track (Net 'N0080'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23300 22875) on layer "wiring".
+    Error between Track (Net 'N0080') and Track (Net 'N0081'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (23250 22875) on layer "wiring".
+    Error between Track (Net 'N0080') and Track (Net 'N0082'), Gap is 0 needs to be 10.
+Track to Track error (T-T) at (22975 22825) on layer "wiring".
+    Error between Track (Net 'N0081') and Track (Net 'N0082'), Gap is 0 needs to be 10.
+Gap in Net "N0069" between (21821,22121) and (21821,21821) 
+    N0069.
+Gap in Net "N0069" between (21821,21821) and (21821,21521) 
+    N0069.
+Gap in Net "N0069" between (21821,21521) and (21821,21221) 
+    N0069.
+Gap in Net "N0069" between (21821,21221) and (21821,20921) 
+    N0069.
+Gap in Net "N0070" between (22121,22121) and (22121,21821) 
+    N0070.
+Gap in Net "N0070" between (22121,21821) and (22121,21521) 
+    N0070.
+Gap in Net "N0070" between (22121,21521) and (22121,21221) 
+    N0070.
+Gap in Net "N0070" between (22121,21221) and (22121,20921) 
+    N0070.
+Gap in Net "N0071" between (22421,22121) and (22421,21821) 
+    N0071.
+Gap in Net "N0071" between (22421,21821) and (22421,21521) 
+    N0071.
+Gap in Net "N0071" between (22421,21521) and (22421,21221) 
+    N0071.
+Gap in Net "N0071" between (22421,21221) and (22421,20921) 
+    N0071.
+Gap in Net "N0072" between (22721,22121) and (22721,21821) 
+    N0072.
+Gap in Net "N0072" between (22721,21821) and (22721,21521) 
+    N0072.
+Gap in Net "N0072" between (22721,21521) and (22721,21221) 
+    N0072.
+Gap in Net "N0072" between (22721,21221) and (22721,20921) 
+    N0072.
+Gap in Net "N0073" between (23021,21821) and (23021,21521) 
+    N0073.
+Gap in Net "N0073" between (23021,21521) and (23021,20921) 
+    N0073.
+
+Number of errors found : 120
+
+
+Settings
+========
+
+
+Spacings
+
+=========
+
+Tracks         Yes
+Pads and Vias  Yes
+Shapes         Yes
+Text           Yes
+Board          Yes
+Drills         Yes
+Components     No
+
+
+Manufacturing
+
+==============
+
+Drill Breakout                   No
+Drill Backoff                    No
+Silkscreen Overlap               No
+Copper Text In Board             No
+Min Track Width                  No
+Min Annular Ring                 No
+Min Paste Size                   No
+Vias In Pads                     No
+Unplated Vias                    No
+Unplated Pads With Inner Tracks  No
+
+
+Nets
+
+=====
+
+Net Completion                Yes
+Dangling Tracks               Yes
+Net Track Length Differences  No
+
+
+
+End Of Report.

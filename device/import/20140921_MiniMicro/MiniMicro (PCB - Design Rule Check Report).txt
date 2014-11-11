@@ -1,0 +1,252 @@
+Design Rule Check Report
+------------------------
+
+Report File    : C:\Users\michaels\Documents\MiniMicro\MiniMicro (PCB - Design Rule Check Report).txt
+Report Written : Saturday, September 20, 2014
+Design Path    : C:\Users\michaels\Documents\MiniMicro\MiniMicro.pcb
+Design Title   : 
+Created        : 19/09/2014 13:37:57
+Last Saved     : 20/09/2014 13:23:44
+Editing Time   : 1425 min
+Units          : thou (precision 0)
+
+
+Results
+=======
+
+Pad to Pad Error (P-P) between (18107 27438) and (18114 27438) on Layer "[Top]".
+    Error between Component Pad J1.1 (Net 'N0090') and Component Pad J1.2 (Net 'N0089'), Gap is 8 needs to be 10.
+Pad to Pad Error (P-P) between (18132 27438) and (18140 27438) on Layer "[Top]".
+    Error between Component Pad J1.2 (Net 'N0089') and Component Pad J1.3 (Net 'N0088'), Gap is 8 needs to be 10.
+Pad to Pad Error (P-P) between (18158 27438) and (18165 27438) on Layer "[Top]".
+    Error between Component Pad J1.3 (Net 'N0088') and Component Pad J1.4, Gap is 8 needs to be 10.
+Pad to Pad Error (P-P) between (18183 27438) and (18191 27438) on Layer "[Top]".
+    Error between Component Pad J1.4 and Component Pad J1.5 (Net 'N0102'), Gap is 8 needs to be 10.
+Gap in Net "N0012" between (17474,18500) and (16560,18500) 
+    N0012.
+Gap in Net "N0012" between (17474,18500) and (18474,18500) 
+    N0012.
+Gap in Net "N0012" between (18474,18500) and (19474,18500) 
+    N0012.
+Gap in Net "N0012" between (19474,18500) and (20474,18500) 
+    N0012.
+Gap in Net "N0012" between (20474,18500) and (21474,18500) 
+    N0012.
+Gap in Net "N0019" between (17474,17500) and (16560,17500) 
+    N0019.
+Gap in Net "N0019" between (17474,17500) and (18474,17500) 
+    N0019.
+Gap in Net "N0019" between (18474,17500) and (19474,17500) 
+    N0019.
+Gap in Net "N0019" between (19474,17500) and (20474,17500) 
+    N0019.
+Gap in Net "N0019" between (20474,17500) and (21474,17500) 
+    N0019.
+Gap in Net "N0022" between (17474,16500) and (16560,16500) 
+    N0022.
+Gap in Net "N0022" between (17474,16500) and (18474,16500) 
+    N0022.
+Gap in Net "N0022" between (18474,16500) and (19474,16500) 
+    N0022.
+Gap in Net "N0022" between (19474,16500) and (20474,16500) 
+    N0022.
+Gap in Net "N0022" between (20474,16500) and (21474,16500) 
+    N0022.
+Gap in Net "N0026" between (17474,15500) and (16560,15500) 
+    N0026.
+Gap in Net "N0026" between (17474,15500) and (18474,15500) 
+    N0026.
+Gap in Net "N0026" between (18474,15500) and (19474,15500) 
+    N0026.
+Gap in Net "N0026" between (19474,15500) and (20474,15500) 
+    N0026.
+Gap in Net "N0026" between (20474,15500) and (21474,15500) 
+    N0026.
+Gap in Net "N0030" between (17474,14500) and (16560,14500) 
+    N0030.
+Gap in Net "N0030" between (17474,14500) and (18474,14500) 
+    N0030.
+Gap in Net "N0030" between (18474,14500) and (19474,14500) 
+    N0030.
+Gap in Net "N0030" between (19474,14500) and (20474,14500) 
+    N0030.
+Gap in Net "N0030" between (20474,14500) and (21474,14500) 
+    N0030.
+Gap in Net "N0036" between (17526,14500) and (17526,15500) 
+    N0036.
+Gap in Net "N0036" between (17526,15500) and (17526,16500) 
+    N0036.
+Gap in Net "N0036" between (17526,16500) and (17526,17500) 
+    N0036.
+Gap in Net "N0036" between (17526,17500) and (17526,18500) 
+    N0036.
+Gap in Net "N0036" between (17526,18500) and (19134,20571) 
+    N0036.
+Gap in Net "N0040" between (18526,14500) and (18526,15500) 
+    N0040.
+Gap in Net "N0040" between (18526,15500) and (18526,16500) 
+    N0040.
+Gap in Net "N0040" between (18526,16500) and (18526,17500) 
+    N0040.
+Gap in Net "N0040" between (18526,17500) and (18526,18500) 
+    N0040.
+Gap in Net "N0040" between (18526,18500) and (19156,20594) 
+    N0040.
+Gap in Net "N0045" between (19526,14500) and (19526,15500) 
+    N0045.
+Gap in Net "N0045" between (19526,15500) and (19526,16500) 
+    N0045.
+Gap in Net "N0045" between (19526,16500) and (19526,17500) 
+    N0045.
+Gap in Net "N0045" between (19526,17500) and (19526,18500) 
+    N0045.
+Gap in Net "N0050" between (20526,14500) and (20526,15500) 
+    N0050.
+Gap in Net "N0050" between (20526,15500) and (20526,16500) 
+    N0050.
+Gap in Net "N0050" between (20526,16500) and (20526,17500) 
+    N0050.
+Gap in Net "N0050" between (20526,17500) and (20526,18500) 
+    N0050.
+Gap in Net "N0050" between (20526,18500) and (19201,20638) 
+    N0050.
+Gap in Net "N0051" between (21526,14500) and (21526,15500) 
+    N0051.
+Gap in Net "N0051" between (21526,15500) and (21526,16500) 
+    N0051.
+Gap in Net "N0051" between (21526,16500) and (21526,17500) 
+    N0051.
+Gap in Net "N0051" between (21526,17500) and (21526,18500) 
+    N0051.
+Gap in Net "N0051" between (21526,18500) and (19223,20661) 
+    N0051.
+Gap in Net "N0076" between (16441,14500) and (18732,20705) 
+    N0076.
+Gap in Net "N0077" between (18866,20571) and (16441,15500) 
+    N0077.
+Gap in Net "N0078" between (18888,20549) and (16441,16500) 
+    N0078.
+Gap in Net "N0079" between (19089,20527) and (16441,17500) 
+    N0079.
+Gap in Net "N0080" between (19112,20549) and (16441,18500) 
+    N0080.
+Gap in Net "N0088" between (18149,27410) and (18437,22625) 
+    N0088.
+Gap in Net "N0089" between (18123,27410) and (17937,22625) 
+    N0089.
+Gap in Net "N0090" between (19067,20505) and (18777,20661) 
+    N0090.
+Gap in Net "N0090" between (19067,20505) and (19268,20795) 
+    N0090.
+Gap in Net "N0090" between (19268,20795) and (19089,20973) 
+    N0090.
+Gap in Net "N0090" between (19089,20973) and (19045,21018) 
+    N0090.
+Gap in Net "N0090" between (19045,21018) and (18933,20995) 
+    N0090.
+Gap in Net "N0090" between (18777,20661) and (14400,21991) 
+    N0090.
+Gap in Net "N0090" between (19045,21018) and (18098,27410) 
+    N0090.
+Gap in Net "N0090" between (19067,20505) and (21894,9977) 
+    N0090.
+Gap in Net "N0090" between (21894,9977) and (15994,9977) 
+    N0090.
+Gap in Net "N0096" between (16250,9800) and (16241,10950) 
+    N0096.
+Gap in Net "N0096" between (16241,10950) and (18777,20839) 
+    N0096.
+Gap in Net "N0097" between (22150,9800) and (21891,10950) 
+    N0097.
+Gap in Net "N0097" between (21891,10950) and (18755,20817) 
+    N0097.
+Gap in Net "N0102" between (18200,27410) and (14624,23550) 
+    N0102.
+Gap in Net "N0102" between (14624,23550) and (13650,21900) 
+    N0102.
+Gap in Net "N0102" between (13650,21900) and (13919,21000) 
+    N0102.
+Gap in Net "N0102" between (13919,21000) and (14032,19000) 
+    N0102.
+Gap in Net "N0102" between (14032,19000) and (16360,10950) 
+    N0102.
+Gap in Net "N0102" between (16360,10950) and (22010,10950) 
+    N0102.
+Gap in Net "N0102" between (18200,27410) and (27624,24625) 
+    N0102.
+Gap in Net "N0107" between (14676,23550) and (15217,23000) 
+    N0107.
+Gap in Net "N0114" between (18799,20862) and (15284,23000) 
+    N0114.
+Gap in Net "N0117" between (18755,20683) and (14400,22110) 
+    N0117.
+Gap in Net "N0117" between (14400,22110) and (13394,22077) 
+    N0117.
+Gap in Net "N0124" between (13950,20000) and (13969,19000) 
+    N0124.
+Gap in Net "N0124" between (13950,20000) and (18821,20616) 
+    N0124.
+Gap in Net "N0125" between (13950,20200) and (13982,21000) 
+    N0125.
+Gap in Net "N0125" between (13982,21000) and (18844,20594) 
+    N0125.
+Gap in Net "N0132" between (27676,24625) and (27684,24525) 
+    N0132.
+Gap in Net "N0134" between (18955,21018) and (27617,24525) 
+    N0134.
+Gap in Net "N0135" between (18844,20906) and (18269,21500) 
+    N0135.
+Gap in Net "N0136" between (18866,20929) and (18332,21500) 
+    N0136.
+Gap in Net "N0137" between (18911,20973) and (17864,22625) 
+    N0137.
+Gap in Net "N0138" between (18888,20951) and (18364,22625) 
+    N0138.
+
+Number of errors found : 94
+
+
+Settings
+========
+
+
+Spacings
+
+=========
+
+Tracks         Yes
+Pads and Vias  Yes
+Shapes         Yes
+Text           Yes
+Board          Yes
+Drills         Yes
+Components     No
+
+
+Manufacturing
+
+==============
+
+Drill Breakout                   No
+Drill Backoff                    No
+Silkscreen Overlap               No
+Copper Text In Board             No
+Min Track Width                  No
+Min Annular Ring                 No
+Min Paste Size                   No
+Vias In Pads                     No
+Unplated Vias                    No
+Unplated Pads With Inner Tracks  No
+
+
+Nets
+
+=====
+
+Net Completion                Yes
+Dangling Tracks               Yes
+Net Track Length Differences  No
+
+
+
+End Of Report.

@@ -1,0 +1,60 @@
+Value Check Report
+------------------
+
+Report File    : C:\Users\michaels\Documents\MicroBugAlpha\MicroBugBeta (SCH - Value Check Report).txt
+Report Written : Wednesday, October 08, 2014
+Design Path    : C:\Users\michaels\Documents\MicroBugAlpha\MicroBugBeta.sch
+Design Title   : 
+Created        : 
+Last Saved     : 06/10/2014 15:28:19
+Editing Time   : 230 min
+Units          : thou (precision 2)
+
+
+Errors Found
+============
+
+Capacitor C1 value not found
+Capacitor C2 value not found
+Capacitor C3 value not found
+Inductor L1 value not found
+Inductor L2 value not found
+Inductor L3 value not found
+Inductor L4 value not found
+Inductor L5 value not found
+Inductor L6 value not found
+Inductor L7 value not found
+Inductor L8 value not found
+Inductor L9 value not found
+Inductor L10 value not found
+Inductor L11 value not found
+Inductor L12 value not found
+Inductor L13 value not found
+Inductor L14 value not found
+Inductor L15 value not found
+Inductor L16 value not found
+Inductor L17 value not found
+Inductor L18 value not found
+Inductor L19 value not found
+Inductor L20 value not found
+Inductor L21 value not found
+Inductor L22 value not found
+Inductor L23 value not found
+Inductor L24 value not found
+Inductor L25 value not found
+Inductor L26 value not found
+Inductor L27 value not found
+Resistor R1 value not found
+Resistor R2 value not found
+Resistor R3 value not found
+Resistor R4 value not found
+Resistor R5 value not found
+Resistor R6 value not found
+Resistor R7 value not found
+Resistor R8 value not found
+Resistor R9 value not found
+Resistor R10 value not found
+Resistor R11 value not found
+Resistor R12 value not found
+
+End Of Report.

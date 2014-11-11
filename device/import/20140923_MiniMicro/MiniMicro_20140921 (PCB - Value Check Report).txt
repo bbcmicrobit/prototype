@@ -1,0 +1,54 @@
+Value Check Report
+------------------
+
+Report File    : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921 (PCB - Value Check Report).txt
+Report Written : Monday, September 22, 2014
+Project Path   : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921.prj
+Design Path    : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921.pcb
+Design Title   : 
+Created        : 21/09/2014 12:47:43
+Last Saved     : 22/09/2014 12:14:15
+Editing Time   : 613 min
+Units          : thou (precision 0)
+
+
+Errors Found
+============
+
+Capacitor C1 value not found
+Capacitor C2 value not found
+Capacitor C4 value not found
+Inductor L1 value not found
+Inductor L2 value not found
+Inductor L3 value not found
+Inductor L4 value not found
+Inductor L5 value not found
+Inductor L6 value not found
+Inductor L7 value not found
+Inductor L8 value not found
+Inductor L9 value not found
+Inductor L10 value not found
+Inductor L11 value not found
+Inductor L12 value not found
+Inductor L13 value not found
+Inductor L14 value not found
+Inductor L15 value not found
+Inductor L16 value not found
+Inductor L17 value not found
+Inductor L18 value not found
+Inductor L19 value not found
+Inductor L20 value not found
+Inductor L21 value not found
+Inductor L22 value not found
+Inductor L23 value not found
+Inductor L24 value not found
+Inductor L25 value not found
+Resistor R1 value not found
+Resistor R2 value not found
+Resistor R10 value not found
+Resistor R11 value not found
+Resistor R13 value not found
+Resistor R14 value not found
+Resistor R15 value not found
+
+End Of Report.

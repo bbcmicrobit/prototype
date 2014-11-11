@@ -1,0 +1,21 @@
+Back Annotation Renames Report
+------------------------------
+
+Report File    : C:\Users\michaels\Documents\MicroBugGamma\MicroBugGamma (PCB - Back Annotation Renames Report).txt
+Report Written : Tuesday, October 28, 2014
+Project Path   : C:\Users\michaels\Documents\MicroBugGamma\MicroBugGamma.prj
+Design Path    : C:\Users\michaels\Documents\MicroBugGamma\MicroBugGamma.pcb
+Design Title   : 
+Created        : 26/10/2014 01:28:37
+Last Saved     : 28/10/2014 20:26:16
+Editing Time   : 3445 min
+Units          : thou (precision 0)
+
+Outstanding PCB renames awaiting back annotation to the Schematics design.
+
+Rename Component from "VCC" to "PWR".
+Rename Net from "LED_ANODES_4" to "PIN20_RX".
+Rename Net from "PIN18" to "LED_ANODES_2".
+Rename Net from "LED_ANODES_2" to "PIN18".
+
+End Of Report.

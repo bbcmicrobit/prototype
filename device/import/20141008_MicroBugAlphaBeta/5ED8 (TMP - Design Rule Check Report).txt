@@ -1,0 +1,80 @@
+Design Rule Check Report
+------------------------
+
+Report File    : C:\Users\michaels\Documents\MicroBugAlpha\5ED8 (TMP - Design Rule Check Report).txt
+Report Written : Monday, October 06, 2014
+Design Path    : C:\Users\michaels\Documents\MicroBugAlpha\5ED8.tmp
+Design Title   : 
+Created        : 05/10/2014 22:26:50
+Last Saved     : 06/10/2014 03:14:22
+Editing Time   : 287 min
+Units          : thou (precision 0)
+
+
+Results
+=======
+
+Pad to Pad Error (P-P) between (9257 10088) and (9264 10088) on Layer "[Top]".
+    Error between Component Pad MicroUSB.1 (Net 'GND') and Component Pad MicroUSB.2, Gap is 8 needs to be 10.
+Pad to Pad Error (P-P) between (9282 10088) and (9290 10088) on Layer "[Top]".
+    Error between Component Pad MicroUSB.2 and Component Pad MicroUSB.3 (Net 'N0045'), Gap is 8 needs to be 10.
+Track to Pad Error (T-P) between (9264 10060) and (9248 10060) on Layer "Top Copper".
+    Error between Component Pad MicroUSB.2 and Track (Net 'GND'), Gap is 9 needs to be 10.
+Pad to Pad Error (P-P) between (9308 10088) and (9315 10088) on Layer "[Top]".
+    Error between Component Pad MicroUSB.3 (Net 'N0045') and Component Pad MicroUSB.4 (Net 'N0047'), Gap is 8 needs to be 10.
+Pad to Pad Error (P-P) between (9333 10088) and (9341 10088) on Layer "[Top]".
+    Error between Component Pad MicroUSB.4 (Net 'N0047') and Component Pad MicroUSB.5 (Net 'VCC'), Gap is 8 needs to be 10.
+Track to Pad Error (T-P) between (9333 10033) and (9350 10033) on Layer "Top Copper".
+    Error between Component Pad MicroUSB.4 (Net 'N0047') and Track (Net 'VCC'), Gap is 9 needs to be 10.
+Track to Pad Error (T-P) between (9333 10088) and (9350 10088) on Layer "Top Copper".
+    Error between Component Pad MicroUSB.4 (Net 'N0047') and Track (Net 'VCC'), Gap is 9 needs to be 10.
+Track to Pad error (T-P) at (9890 9802) on layer "Bottom Copper".
+    Error between Component Pad BH1.3 and Track (Net 'VCC'), Gap is 0 needs to be 10.
+
+Number of errors found : 8
+
+
+Settings
+========
+
+
+Spacings
+
+=========
+
+Tracks         Yes
+Pads and Vias  Yes
+Shapes         Yes
+Text           Yes
+Board          No
+Drills         Yes
+Components     No
+
+
+Manufacturing
+
+==============
+
+Drill Breakout                   No
+Drill Backoff                    No
+Silkscreen Overlap               No
+Copper Text In Board             No
+Min Track Width                  No
+Min Annular Ring                 No
+Min Paste Size                   No
+Vias In Pads                     No
+Unplated Vias                    No
+Unplated Pads With Inner Tracks  No
+
+
+Nets
+
+=====
+
+Net Completion                Yes
+Dangling Tracks               Yes
+Net Track Length Differences  No
+
+
+
+End Of Report.

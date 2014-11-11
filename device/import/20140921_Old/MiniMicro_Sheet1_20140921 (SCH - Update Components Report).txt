@@ -1,0 +1,202 @@
+Update Components Report
+------------------------
+
+Report File    : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_Sheet1_20140921 (SCH - Update Components Report).txt
+Report Written : Sunday, September 21, 2014
+Project Path   : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921.prj
+Design Path    : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_Sheet1_20140921.sch
+Design Title   : 
+Created        : 
+Last Saved     : 21/09/2014 20:40:49
+Editing Time   : 2722 min
+Units          : thou (precision 2)
+
+
+Library Files:
+==============
+
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\User\User.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Batteries-Battery Chargers & Battery Accessories-Battery Holders & Mounts.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Connectors-USB, D-sub & Computing Connectors-Micro USB Connectors.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Displays & Optoelectronics-LEDs & LED Accessories-Visible LEDs.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Passive Components-Capacitors-Ceramic Multilayer Capacitors.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Passive Components-Capacitors-Ceramic Single Layer Capacitors.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Passive Components-Fixed Resistors-Surface Mount Fixed Resistors.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Passive Components-Fixed Resistors-Through Hole Fixed Resistors.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Semiconductors-Crystals, Oscillators & Resonators-Ceramic Resonators.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Semiconductors-Crystals, Oscillators & Resonators-Crystal Units.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Semiconductors-Processors & Microcontrollers-Microcontrollers.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Switches-Tactile Switches & Accessories-Tactile Switches.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\Default\DesignSpark.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\Default\ltspice.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\Default\XSpice.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\3m.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\74hc.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\74hct.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\74ls.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\4000.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\actel.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\ad.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\adsp.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\altera.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\alteracyclone.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\amp.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\atmel.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\atmel8051.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\atmelarm.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\atmelatsam7.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\atmelavr.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\avx.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\capacitor.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\coldfire.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\connector.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\csm.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\cypress.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\diode.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\discrete.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\dsm.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\fairchild.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\fairchild1.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\fairchildacex.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\fci.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\fuse.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\hamlin.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\hybrid.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\infineontc116x.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\intel8051.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\ir.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\lattice.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\lt.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\ltspice.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\luminarycortex.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\maxim.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\maxim8051.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\maximmp.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\mc68hc.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\microchip.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\microchippic.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\molex.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\msp430.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\murata.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\natsemi.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\nxp-lpc32x0.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\omron.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\onsemi.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\opamps.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\pcb.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\philips80c51.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\philipsarm.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\philipsp89.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\philipsxa.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\picaxe.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\powerpc.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\qbsm.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\qcsm.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\qsm.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\quicklogic.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\relay.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\renesasr8c.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\resistor.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\rfmicro.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\schema.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\sm.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\sonycx.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\st-arm7.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\st.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\testpoint.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\ti.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\tms320.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\tms470.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\toshibatmp86.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\trans.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\transistor.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\vishay.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\xilinx.cml
+C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\zilog.cml
+
+Selected items to be updated:
+=============================
+
+
+Components:
+===========
+
+    (None) 
+
+Symbols:
+========
+
+CAPH  C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Passive Components-Capacitors-Ceramic Multilayer Capacitors.ssl
+RES   C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Passive Components-Fixed Resistors-Surface Mount Fixed Resistors.ssl
+
+Additional items to be updated:
+===============================
+
+
+Components:
+===========
+
+    (None) 
+
+Symbols:
+========
+
+    (None) 
+
+Selected items not to be updated  (Same version as library)
+===========================================================
+
+
+Components:
+===========
+
+16MhzCrystal                 C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Semiconductors-Crystals, Oscillators & Resonators-Crystal Units.cml
+2032_BatteryHolder_OnePiece  C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\User\User.cml
+08051A220JAT2A               C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Passive Components-Capacitors-Ceramic Multilayer Capacitors.cml
+1981568-1                    C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Connectors-USB, D-sub & Computing Connectors-Micro USB Connectors.cml
+ATMEGA32U4-AU                C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Semiconductors-Processors & Microcontrollers-Microcontrollers.cml
+C0805C106K4PACTU             C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Passive Components-Capacitors-Ceramic Multilayer Capacitors.cml
+CMA02040X2200GB300           C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Passive Components-Fixed Resistors-Surface Mount Fixed Resistors.cml
+CRCW080522R0FKEA             C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Passive Components-Fixed Resistors-Surface Mount Fixed Resistors.cml
+CRG0805F1K0                  C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Passive Components-Fixed Resistors-Surface Mount Fixed Resistors.cml
+FSM2JH                       C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Switches-Tactile Switches & Accessories-Tactile Switches.cml
+LNJ237W82RA                  C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Displays & Optoelectronics-LEDs & LED Accessories-Visible LEDs.cml
+LNJ837W83RA                  C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Displays & Optoelectronics-LEDs & LED Accessories-Visible LEDs.cml
+MMA02040E1002BB100           C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Passive Components-Fixed Resistors-Surface Mount Fixed Resistors.cml
+SlideSwitch                  C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\User\User.cml
+
+Symbols:
+========
+
+ATMEGA32U4-AU   C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Semiconductors-Processors & Microcontrollers-Microcontrollers.ssl
+CMA_0204        C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Passive Components-Fixed Resistors-Surface Mount Fixed Resistors.ssl
+CONN_1981568-1  C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Connectors-USB, D-sub & Computing Connectors-Micro USB Connectors.ssl
+CRYSTAL         C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Semiconductors-Crystals, Oscillators & Resonators-Crystal Units.ssl
+LED             C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Displays & Optoelectronics-LEDs & LED Accessories-Visible LEDs.ssl
+PWR2            C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\Default\DesignSpark.ssl
+SPDT            C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\Default\DesignSpark.ssl
+SWITCH_FSM10JH  C:\Users\Public\Documents\DesignSpark PCB 6.1\Library\DownloadedLibrary\Switches-Tactile Switches & Accessories-Tactile Switches.ssl
+
+
+
+Update Components Summary
+=========================
+
+Updating all components.
+Update component values
+Update component value positions
+
+	Selected for update:			  14  Components
+						  10  Symbols
+
+	Selected items to be updated:		   0  Components
+						   2  Symbols
+
+	Additional items to be updated:		   0  Components
+						   0  Symbols
+
+	Selected items NOT to be updated:	  14  Components
+	  (Same version as library)		   8  Symbols
+
+
+End Of Report.

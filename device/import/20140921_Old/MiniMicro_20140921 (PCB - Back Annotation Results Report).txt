@@ -1,0 +1,19 @@
+Back Annotation Results Report
+------------------------------
+
+Report File    : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921 (PCB - Back Annotation Results Report).txt
+Report Written : Monday, September 22, 2014
+Project Path   : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921.prj
+Design Path    : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921.pcb
+Design Title   : 
+Created        : 21/09/2014 12:47:43
+Last Saved     : 22/09/2014 12:14:15
+Editing Time   : 623 min
+Units          : thou (precision 0)
+
+Back Annotate renames from the PCB design to all Schematic designs in project "MiniMicro_20140921".
+
+Change Value on Component 'BH2' - 'Manufacturer_Part_Number'. - MiniMicro_Sheet1_20140921.sch
+
+
+End Of Report.

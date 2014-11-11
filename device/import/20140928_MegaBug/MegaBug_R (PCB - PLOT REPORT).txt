@@ -1,0 +1,45 @@
+PLOT REPORT
+-----------
+
+Report File    : C:\Users\michaels\Documents\MegaBug\MegaBug_R (PCB - PLOT REPORT).txt
+Report Written : Monday, September 29, 2014
+Design Path    : C:\Users\michaels\Documents\MegaBug\MegaBug_R.pcb
+Design Title   : 
+Created        : 28/09/2014 11:23:08
+Last Saved     : 29/09/2014 01:03:06
+Editing Time   : 824 min
+Units          : thou (precision 0)
+
+
+Device Settings
+===============
+
+
+PDF Settings
+============
+
+Combine Plots Yes
+Use Bookmarks Yes
+Component Details Yes
+Symbol Details Yes
+Link Net Names Yes
+View PDF Yes
+All Colours Black Yes
+
+
+
+Plots Output
+============
+
+    Plot Job: "C:\Users\michaels\Documents\MegaBug\MegaBug_R.mop"
+
+
+PDF Output
+==========
+
+    Layer
+    -------------
+    Bottom Copper
+
+
+End Of Report.

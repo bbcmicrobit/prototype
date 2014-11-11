@@ -1,0 +1,20 @@
+Schematic and PCB Check Report
+------------------------------
+
+Report File    : C:\Users\michaels\Documents\MegaBug\MegaBug (PCB - Schematic and PCB Check Report).txt
+Report Written : Sunday, September 28, 2014
+Design Path    : C:\Users\michaels\Documents\MegaBug\MegaBug.pcb
+Design Title   : 
+Created        : 28/09/2014 11:23:08
+Last Saved     : 28/09/2014 13:15:40
+Editing Time   : 114 min
+Units          : thou (precision 0)
+
+
+Checking integrity of Schematic "C:\Users\michaels\Documents\MegaBug\MegaBug.sch" with PCB "C:\Users\michaels\Documents\MegaBug\MegaBug.pcb"
+============================================================================================================================================
+
+The designs are the same.
+
+
+End Of Report.

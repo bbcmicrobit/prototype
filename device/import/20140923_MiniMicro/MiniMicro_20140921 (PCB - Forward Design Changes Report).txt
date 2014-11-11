@@ -1,0 +1,18 @@
+Forward Design Changes Report
+-----------------------------
+
+Report File    : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921 (PCB - Forward Design Changes Report).txt
+Report Written : Tuesday, September 23, 2014
+Project Path   : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921.prj
+Design Path    : C:\Users\michaels\Documents\MiniMicro_20140921\MiniMicro_20140921.pcb
+Design Title   : 
+Created        : 21/09/2014 12:47:43
+Last Saved     : 22/09/2014 12:53:18
+Editing Time   : 673 min
+Units          : thou (precision 0)
+
+Added value "description=16MhzCrystal" to component reference "XTAL2".
+
+
+
+End Of Report.

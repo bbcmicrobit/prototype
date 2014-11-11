@@ -1,0 +1,72 @@
+Design Rule Check Report
+------------------------
+
+Report File    : C:\Users\michaels\Documents\MicroBugAlpha\MicroBugBeta (PCB - Design Rule Check Report).txt
+Report Written : Monday, October 06, 2014
+Design Path    : C:\Users\michaels\Documents\MicroBugAlpha\MicroBugBeta.pcb
+Design Title   : 
+Created        : 06/10/2014 12:11:33
+Last Saved     : 06/10/2014 15:51:07
+Editing Time   : 223 min
+Units          : thou (precision 0)
+
+
+Results
+=======
+
+Pad to Pad Error (P-P) between (8973 8677) and (8973 8684) on Layer "[Top]".
+    Error between Component Pad MicroUSB.1 (Net 'GND') and Component Pad MicroUSB.2, Gap is 8 needs to be 10.
+Pad to Pad Error (P-P) between (8973 8702) and (8973 8710) on Layer "[Top]".
+    Error between Component Pad MicroUSB.2 and Component Pad MicroUSB.3 (Net 'N0016'), Gap is 8 needs to be 10.
+Pad to Pad Error (P-P) between (8973 8728) and (8973 8735) on Layer "[Top]".
+    Error between Component Pad MicroUSB.3 (Net 'N0016') and Component Pad MicroUSB.4 (Net 'N0018'), Gap is 8 needs to be 10.
+Pad to Pad Error (P-P) between (8973 8753) and (8973 8761) on Layer "[Top]".
+    Error between Component Pad MicroUSB.4 (Net 'N0018') and Component Pad MicroUSB.5 (Net 'VCC'), Gap is 8 needs to be 10.
+
+Number of errors found : 4
+
+
+Settings
+========
+
+
+Spacings
+
+=========
+
+Tracks         Yes
+Pads and Vias  Yes
+Shapes         Yes
+Text           Yes
+Board          No
+Drills         Yes
+Components     No
+
+
+Manufacturing
+
+==============
+
+Drill Breakout                   No
+Drill Backoff                    No
+Silkscreen Overlap               No
+Copper Text In Board             No
+Min Track Width                  No
+Min Annular Ring                 No
+Min Paste Size                   No
+Vias In Pads                     No
+Unplated Vias                    No
+Unplated Pads With Inner Tracks  No
+
+
+Nets
+
+=====
+
+Net Completion                Yes
+Dangling Tracks               Yes
+Net Track Length Differences  No
+
+
+
+End Of Report.

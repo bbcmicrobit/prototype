@@ -1,0 +1,16 @@
+Forward Design Changes Report
+-----------------------------
+
+Report File    : C:\Users\michaels\Documents\MicroBugAlpha\MicroBugBeta (PCB - Forward Design Changes Report).txt
+Report Written : Monday, October 06, 2014
+Design Path    : C:\Users\michaels\Documents\MicroBugAlpha\MicroBugBeta.pcb
+Design Title   : 
+Created        : 06/10/2014 12:11:33
+Last Saved     : 06/10/2014 15:28:05
+Editing Time   : 196 min
+Units          : thou (precision 0)
+
+Connected pin "R6-1" to net "GND".
+
+
+End Of Report.

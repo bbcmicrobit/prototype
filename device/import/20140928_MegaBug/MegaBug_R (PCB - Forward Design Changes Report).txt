@@ -1,0 +1,16 @@
+Forward Design Changes Report
+-----------------------------
+
+Report File    : C:\Users\michaels\Documents\MegaBug\MegaBug_R (PCB - Forward Design Changes Report).txt
+Report Written : Sunday, September 28, 2014
+Design Path    : C:\Users\michaels\Documents\MegaBug\MegaBug_R.pcb
+Design Title   : 
+Created        : 28/09/2014 11:23:08
+Last Saved     : 28/09/2014 22:08:05
+Editing Time   : 644 min
+Units          : thou (precision 0)
+
+Connected pin "LED22-1" to net "N0073".
+
+
+End Of Report.

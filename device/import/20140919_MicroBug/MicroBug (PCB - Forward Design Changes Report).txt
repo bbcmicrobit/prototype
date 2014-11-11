@@ -1,0 +1,17 @@
+Forward Design Changes Report
+-----------------------------
+
+Report File    : C:\Users\michaels\Documents\MicroBug\MicroBug (PCB - Forward Design Changes Report).txt
+Report Written : Friday, September 19, 2014
+Project Path   : C:\Users\michaels\Documents\MicroBug\MicroBug.prj
+Design Path    : C:\Users\michaels\Documents\MicroBug\MicroBug.pcb
+Design Title   : 
+Created        : 18/09/2014 23:45:43
+Last Saved     : 19/09/2014 01:41:26
+Editing Time   : 114 min
+Units          : thou (precision 0)
+
+Connected pin "LED4-1" to net "N0013".
+
+
+End Of Report.

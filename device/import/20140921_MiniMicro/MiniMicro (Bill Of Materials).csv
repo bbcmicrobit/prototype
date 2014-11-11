@@ -1,0 +1,52 @@
+Report Written :   Friday, September 19, 2014  12:25
+Project Path   :   C:\Users\michaels\Documents\MiniMicro\MiniMicro.prj
+Design Path    :   C:\Users\michaels\Documents\MiniMicro\MiniMicro_Sheet1.sch
+Design Title   :
+Created        :
+Last Saved     :   19/09/2014 12:19:49
+Editing Time   :   59 min
+Units          :   thou (precision 2)
+
+Bill of Materials generated with DesignSpark PCB - www.DesignSpark.com/pcb
+--------------------------------------------------------------------------
+
+
+"Ref Name","Qty","Component","Value","Package","Manufacturer","MPN","RS Part Number","Other Part Number","Description"
+"U1","1","ATMEGA32U4-AU","","44ML-L","Atmel","ATMEGA32U4-AU","7153805","","MCU AVR 32K FLASH 16MHZ 44-TQFP"
+"C4","1","C0805C106K4PACTU","","CAP_C0805-L","Kemet Electronics","C0805C106K4PACTU","","",""
+"R2","1","CFR25J10K","","RES_CFR25_TYCO","Tyco Electronics","CFR25J10K","131378","","CFR25 carbon film resistor,10K 0.33W"
+"R1","1","CFR25J10K","","RES_CFR25_TYCO","Tyco Electronics","CFR25J10K","131378","","CFR25 carbon film resistor,10K 0.33W"
+"R4","1","CFR25J220R","","RES_CFR25_TYCO","Tyco Electronics","CFR25J220R","131176","","CFR25 carbon film resistor,220R 0.33W"
+"R3","1","CFR25J220R","","RES_CFR25_TYCO","Tyco Electronics","CFR25J220R","131176","","CFR25 carbon film resistor,220R 0.33W"
+"R7","1","CFR25J220R","","RES_CFR25_TYCO","Tyco Electronics","CFR25J220R","131176","","CFR25 carbon film resistor,220R 0.33W"
+"R6","1","CFR25J220R","","RES_CFR25_TYCO","Tyco Electronics","CFR25J220R","131176","","CFR25 carbon film resistor,220R 0.33W"
+"R5","1","CFR25J220R","","RES_CFR25_TYCO","Tyco Electronics","CFR25J220R","131176","","CFR25 carbon film resistor,220R 0.33W"
+"C1","1","DEC1X3J220JC4B","","CAP_9X7","Murata","DEC1X3J220JC4B","","",""
+"C2","1","DEC1X3J220JC4B","","CAP_9X7","Murata","DEC1X3J220JC4B","","",""
+"C3","1","DEC1X3J220JC4B","","CAP_9X7","Murata","DEC1X3J220JC4B","","",""
+"LED7","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED8","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED24","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED9","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED25","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED22","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED23","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED13","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED20","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED12","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED21","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED11","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED10","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED17","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED16","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED15","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED1","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED14","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED2","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED3","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED4","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED19","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED5","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED18","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"LED6","1","LNJ237W82RA","","LED_LNJ","Panasonic","LNJ237W82RA","7160522","","LED, Red, SMD, Top view"
+"XTAL1","1","XTAL","16KHZ","DSC","Euroquartz","16.000MHz HC49/4H/30/50/-40+85/18pF/ATF","6938819","",""

@@ -1,0 +1,16 @@
+Forward Design Changes Report
+-----------------------------
+
+Report File    : C:\Users\michaels\Documents\MicroBugAlpha\MicroBugAlpha (PCB - Forward Design Changes Report).txt
+Report Written : Monday, October 06, 2014
+Design Path    : C:\Users\michaels\Documents\MicroBugAlpha\MicroBugAlpha.pcb
+Design Title   : 
+Created        : 05/10/2014 22:26:50
+Last Saved     : 06/10/2014 02:48:54
+Editing Time   : 262 min
+Units          : thou (precision 0)
+
+Connected pin "Switch1-1" to net "VCC".
+
+
+End Of Report.
