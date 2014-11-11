@@ -1,3 +1,10 @@
 from django.contrib import admin
+from microbug.models import Version
 
-# Register your models here.
+
+class VersionAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None, {'fields': ['name','store_uuid']})
+    ]
+
+admin.site.register(Version, VersionAdmin)

@@ -24,12 +24,20 @@ function compileBlockly() {
     var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
     var xml_text = Blockly.Xml.domToText(xml);
 
+    // Grab other useful data
+    var program_name = $('#program_name')[0].value;
 
     $("#code").html("<P><PRE>" + code + "</PRE>");
     $.ajax({
         type: "POST",
         url: "/microbug/build_code/",
-        data: JSON.stringify({"repr": {"code": code, "xml": xml_text}}),
+        data: JSON.stringify({
+            "repr": {
+                "program_name": program_name,
+                "code": code,
+                "xml": xml_text
+            }
+        }),
         success: function (data) {
             console.log("Success, data is "+data);
             //var someid = data["id"];

@@ -25,8 +25,13 @@
         </ul>
         <div class="tab-content">
             <div role="tabpanel" id="blockly-tab" class="tab-pane active">
-                Blockly
-                <button type="button" id="buildCode"><i class="fa fa-cog">&nbsp;</i>Build Code</button>
+                <label for="program_name">Name:</label>
+                <input type="text" id="program_name" name="program_name" placeholder="Program Name"></input>
+                <br/>
+
+                <button type="button" id="buildCode" class="btn btn-primary"><i class="fa fa-cog">&nbsp;</i>Build Code</button>
+                <br/>
+
 
                 <div id="blockly" style="width: 92%; margin:1em; height: 480px; "></div>
 

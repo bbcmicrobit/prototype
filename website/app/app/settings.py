@@ -133,7 +133,7 @@ LOGGING = {
         'django': {
             'handlers': ['console'],
             'propagate': True,
-            'level': 'DEBUG',
+            'level': 'INFO',
         },
         'microbug.views': {
             'handlers': ['console'],
