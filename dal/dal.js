@@ -147,7 +147,7 @@ var MKITJS = (function(){
 		var width;
 		var height;
 		var data; //int*
-	};
+	}
 
 	function digitalWrite(pin, state)
 	{
@@ -191,7 +191,7 @@ var MKITJS = (function(){
 		digitalWrite(row3, display[i][3] );
 		digitalWrite(row4, display[i][4] );
 
-		if (i == 0) digitalWrite(col0, LOW );
+		if (i === 0) digitalWrite(col0, LOW );
 		if (i == 1) digitalWrite(col1, LOW );
 		if (i == 2) digitalWrite(col2, LOW );
 		if (i == 3) digitalWrite(col3, LOW );
@@ -319,7 +319,7 @@ var MKITJS = (function(){
 		if (y <0) return;
 		if (y >DISPLAY_HEIGHT -1) return;
 
-		 display[x][y] = HIGH;
+		display[x][y] = HIGH;
 	};
 
 	var unplot = function(x, y) {
@@ -329,7 +329,7 @@ var MKITJS = (function(){
 		if (y <0) return;
 		if (y >DISPLAY_HEIGHT -1) return;
 
-		 display[x][y] = LOW;
+		display[x][y] = LOW;
 	};
 
 	var point = function(x, y) {
@@ -410,30 +410,6 @@ var MKITJS = (function(){
 		}
 	};
 
-	return {
-		set_eye : set_eye,
-		eye_on : eye_on,
-		eye_off : eye_off,
-		print_message : print_message,
-		showLetter : showLetter,
-		getButton : getButton,
-		clear_display : clear_display,
-		plot : plot,
-		unplot : unplot,
-		point : point,
-		set_display : set_display,
-		showViewport : showViewport,
-		ScrollImage : ScrollImage,
-		image_point : image_point,
-		set_image_point : set_image_point,
-		toggle_eye : toggle_eye
-	};
-})();
-
-//TBD
-//struct StringSprite;
-//void scroll_sprite(StringSprite theSprite, int pausetime);
-
 // typedef struct StringSprite {
 //     int mPixelPos;
 //     int mPixelData[50]; // Sufficient to hold two characters.
@@ -446,6 +422,16 @@ var MKITJS = (function(){
 //     }
 //     ~StringSprite() {}
 
+	function StringSprite(str) {
+		this.mPixelPos = 0;
+		this.mPixelData = []; // was [50] Sufficient to hold two characters.
+		this.mString = "";
+		this.mStrlen = 0;
+
+		if(str !== undefined)
+			setString(str);
+	}
+
 //     void setString(const char * str) {
 //         mString = (char *) str;
 //         mPixelPos = 0;
@@ -455,34 +441,69 @@ var MKITJS = (function(){
 //         mStrlen = strlen(mString);
 //     }
 
-//     void update_display() {
-//         Image myImage;
-//         int mPP = mPixelPos%5;
-//         myImage.width=10;
-//         myImage.height=5;
-//         myImage.data = mPixelData;
-//         showViewport(myImage, mPP,0);
+	StringSprite.prototype.setString = function(str)
+	{
+		this.mString = str;
+		this.mPixelPos = 0;
+		for(var i=0; i++; i<50) {
+			this.mPixelData[i] = 0;
+		}
+		this.mStrlen = this.mString.length;
+	};
 
-//     }
-//     void render_string(){
+	StringSprite.prototype.update_display = function()
+	{
+		//Image myImage;
+		//int mPP = mPixelPos%5;
+		//myImage.width=10;
+		//myImage.height=5;
+		//myImage.data = mPixelData;
+		//showViewport(myImage, mPP,0);
+
+		var myImage = new Image();
+		var mPP = this.mPixelPos%5;
+		myImage.width = 10;
+		myImage.height = 5;
+		myImage.data = this.mPixelData;
+		showViewport(myImage, mPP, 0);
+	};
+
+	StringSprite.prototype.render_string = function() {
 //         // Renders into the pixel data buffer
 //         int first_char;
 //         int second_char;
 // //         unsigned char *first_char_data;
 // //         unsigned char *second_char_data;
+		var i;
+
+		var first_char;
+		var second_char;
+		var first_char_data;
+		var second_char_data;
 
 //         unsigned char first_char_data1[6];
 //         unsigned char second_char_data1[16];
 //         int char_index1;
 
 //         int char_index0 = (mPixelPos / 5);
-
 //         char_index0 = char_index0 % mStrlen;
+
+		var first_char_data1 = [];//6
+		var second_char_data1 = [];//16
+		var char_index1;
+
+		var char_index0 = (this.mPixelPos / 5);
+		char_index0 = char_index0 % this.mStrlen;
 
 //         first_char = mString[char_index0];
 //         for(int i=0; i<6; i++){
 //             first_char_data1[i] = pgm_read_byte(&(font[first_char-32][i]));
 //         }
+
+		first_char = this.mString[char_index0];
+		for(i = 0; i < 6; i++){
+			first_char_data1[i] = font[first_char-32][i];
+		}
 
 //         char_index1 = (char_index0 +1) ;
 //         if (char_index1 < mStrlen) {
@@ -499,6 +520,20 @@ var MKITJS = (function(){
 //                 second_char_data1[i] = pgm_read_byte(&(font[0][i]));
 //             }
 //         }
+
+		char_index1 = (char_index0 + 1);
+		if (char_index1 < this.mStrlen) {
+			char_index1 = char_index1 % this.mStrlen;
+			second_char = this.mString[char_index1];
+
+			for(i=0; i<6; i++){
+				second_char_data1[i] = font[second_char-32][i];
+			}
+		} else {
+			for(i=0; i<6; i++){
+				second_char_data1[i] = font[0][i];
+			}
+		}
 
 //         for(int row=0; row<5; row++) {
 //             int row_first = first_char_data1[row + 1];
@@ -527,7 +562,36 @@ var MKITJS = (function(){
 //             mPixelData[9+row*10] = 0;
 //         }
 //         update_display();
-//     }
+
+		for(var row=0; row<5; row++) {
+			var row_first = first_char_data1[row + 1];
+			var row_second = second_char_data1[row + 1];
+
+			var F0 = 8 & row_first ? HIGH : LOW;
+			var F1 = 4 & row_first ? HIGH : LOW;
+			var F2 = 2 & row_first ? HIGH : LOW;
+			var F3 = 1 & row_first ? HIGH : LOW;
+
+			var S0 = 8 & row_second ? HIGH : LOW;
+			var S1 = 4 & row_second ? HIGH : LOW;
+			var S2 = 2 & row_second ? HIGH : LOW;
+			var S3 = 1 & row_second ? HIGH : LOW;
+
+			mPixelData[0+row*10] = F0;
+			mPixelData[1+row*10] = F1;
+			mPixelData[2+row*10] = F2;
+			mPixelData[3+row*10] = F3;
+			mPixelData[4+row*10] = 0;
+
+			mPixelData[5+row*10] = S0;
+			mPixelData[6+row*10] = S1;
+			mPixelData[7+row*10] = S2;
+			mPixelData[8+row*10] = S3;
+			mPixelData[9+row*10] = 0;
+		}
+		update_display();
+	};
+
 //     void pan_right() {
 //         // Move the viewport 1 pixel to the right. (Looks like scrolling left)
 //         mPixelPos += 1;
@@ -535,10 +599,17 @@ var MKITJS = (function(){
 //             mPixelPos =0;
 //         }
 //     }
-//     int pixel_width() {
-//         return mStrlen * 5;
-//     }
-// } StringSprite;
+
+	StringSprite.prototype.pan_right = function() {
+		this.mPixelPos += 1;
+		if (this.mPixelPos>=pixel_width()) {
+			this.mPixelPos = 0;
+		}
+	};
+
+	StringSprite.prototype.pixel_width = function() {
+		return this.mStrlen * 5;
+	};
 
 // void scroll_sprite(StringSprite theSprite, int pausetime=100) {
 //     for(int i=0; i<theSprite.pixel_width(); i++) {
@@ -547,6 +618,15 @@ var MKITJS = (function(){
 //         delay(pausetime);
 //     }
 // }
+	var scroll_sprite = function(theSprite, pausetime)
+	{
+		pausetime = pausetime || 100;
+		for (var i = 0; i<theSprite.pixel_width(); i++) {
+			theSprite.render_string();
+			theSprite.pan_right();
+			delay(pausetime);
+		}
+	};
 
 // void scroll_string(const char * str) {
 //     scroll_sprite(StringSprite(str), 50);
@@ -554,5 +634,32 @@ var MKITJS = (function(){
 // void scroll_string(const char * str, int delay) {
 //     scroll_sprite(StringSprite(str), delay);
 // }
+	var scroll_string = function(str, delay)
+	{
+		delay = delay || 50;
+		scroll_sprite(new StringSprite(str));
+	};
+
+	return {
+		set_eye : set_eye,
+		eye_on : eye_on,
+		eye_off : eye_off,
+		print_message : print_message,
+		showLetter : showLetter,
+		getButton : getButton,
+		clear_display : clear_display,
+		plot : plot,
+		unplot : unplot,
+		point : point,
+		set_display : set_display,
+		showViewport : showViewport,
+		ScrollImage : ScrollImage,
+		image_point : image_point,
+		set_image_point : set_image_point,
+		toggle_eye : toggle_eye,
+		scroll_sprite: scroll_sprite,
+		scroll_string: scroll_string
+	};
+})();
 
 
