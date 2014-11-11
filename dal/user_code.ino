@@ -35,6 +35,8 @@ void setup()
     lasttime = 0;
     time = 0;
     buttondown = 0;
+set_eye('L', HIGH);
+set_eye('R', HIGH);
 }
 
 void loop()
@@ -49,9 +51,9 @@ int main(void)
 #if defined(USBCON)
         USBDevice.attach();
 #endif
-        setup();
 set_eye('L', LOW);
 set_eye('R', LOW);
+        setup();
 // set_eye('R', LOW);
         for (;;) {
                 loop();
