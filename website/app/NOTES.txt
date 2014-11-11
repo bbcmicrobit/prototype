@@ -2,8 +2,9 @@ Things needing doing for setup:
 
 * Create the Primary Store directory unless it exists
 * Create the Pending Queue directory unless it exists
-* Create the 'highest.txt' file in the Primary Store, load it with '0'.
-* Set the superuser for the Django admin page
+* Create the Compilied Programs directory unless it exists
+* Create the 'highest.txt' file in the Primary Store unless it exists, load it with '0'.
+* Set the superuser for the Django admin page.  For production this would either be secured, or disabled.
 
 Required Python modules:
 * django

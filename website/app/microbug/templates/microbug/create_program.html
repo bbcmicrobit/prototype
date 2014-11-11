@@ -1,20 +1,27 @@
 {% extends 'microbug/_master.html' %}
 
 {% block head %}
-    <title>Test Page</title>
+    <title>Microbug: Create Program</title>
 {% endblock %}
 
 {% block body %}
-    <h1>Test Page</h1>
+    <h1>Create Program</h1>
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur
+    </p>
 
-    <p>This is a simple test page with Static CSS.</p>
+    <div class="name_entry col-md-12">
+        <input type="text" id="original_program_name" class="hidden">
+        <div class="input-group">
+            <input type="text" class="form-control" id="program_name" placeholder="Program name">
+            <span class="input-group-addon" id="program_rename">Rename</span>
+        </div>
+    </div>
 
-    <p>It links to <a href="{% url "microbug:index" %}">Microbug</a>.</p>
-
-    <div id="emulator" class="emulator col-md-3">
+    <div id="emulator" class="rounded emulator col-md-3">
         Emulator
     </div>
-    <div class="editor col-md-6">
+    <div class="editor col-md-9">
         <ul class="nav nav-tabs" role="tablist" id="editor-tabs">
             <li role="presentation" class="active">
                 <a href="#blockly-tab" data-toggle="tab">Blockly</a>
@@ -25,11 +32,7 @@
         </ul>
         <div class="tab-content">
             <div role="tabpanel" id="blockly-tab" class="tab-pane active">
-                <label for="program_name">Name:</label>
-                <input type="text" id="program_name" name="program_name" placeholder="Program Name"></input>
-                <br/>
-
-                <button type="button" id="buildCode" class="btn btn-primary"><i class="fa fa-cog">&nbsp;</i>Build Code</button>
+                <button type="button" id="buildCode" class="btn btn-primary"><i class="fa fa-cog">&nbsp;</i>Create Program</button>
                 <br/>
 
                 <div id="blockly" style="width: 92%; margin:1em; height: 480px; "></div>
@@ -65,7 +68,4 @@
             </div>
         </div>
     </div>
-    <div class="emulator col-md-3">
-        Tutorial
-    </div>
-{% endblock %}
+{%  endblock %}

@@ -1,0 +1,16 @@
+{% extends 'microbug/_master.html' %}
+
+{% block head %}
+    <title>Microbug: Programs</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Programs</h1>
+    {% for program in programs %}
+        <li><a href="{{ program.name }}">{{ program.name }}</a></li>
+    {% endfor %}
+
+    <a href="{% url 'microbug:create_program' %}" class="btn btn-primary">
+        <i class="fa fa-plus-square">&nbsp;</i>New Program</button>
+    </a>
+{%  endblock %}

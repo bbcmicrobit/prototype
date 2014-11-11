@@ -20,7 +20,7 @@
                     <a class="navbar-brand" href="{% url "microbug:index" %}">Microbug</a>
                 </div>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Yada</a></li>
+                    <li><a href="{% url 'microbug:create_program' %}">Create Program</a></li>
                     <li><a href="#">Things</a></li>
                     <li><a href="#">Stuff</a></li>
                 </ul>
@@ -42,6 +42,7 @@
         <script src="{% static 'microbug/blockly/blocks_compressed.js' %}"></script>
         <script src="{% static 'microbug/blockly/python_compressed.js' %}"></script>
         <script src="{% static 'microbug/blockly/msg/js/en.js' %}"></script>
+        <script src="{% static 'microbug/js/bootbox.js' %}"></script>
         <script src="{% static 'microbug/js/test.js' %}"></script>
     </body>
 </html>

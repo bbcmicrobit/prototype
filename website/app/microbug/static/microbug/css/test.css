@@ -14,3 +14,23 @@
     text-align: center;
     color: #ddd;
 }
+
+.changed_name {
+    color: red !important;
+}
+
+.changed_button {
+    color: red !important;
+}
+
+.name_entry {
+    margin-bottom: 1em;
+    padding: 0;
+}
+
+.rounded {
+    border: 1px solid #ddd;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}

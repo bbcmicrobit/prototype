@@ -1,26 +1,51 @@
 from django.db import models
-from django.utils import timezone
-import datetime
 
 
 # This reflects a single version which the user has uploaded
 class Version(models.Model):
-    # The name of the version, not guaranteed to be unique
-    name = models.CharField(max_length=200)
+    # The UUID in the file store
+    store_uuid = models.CharField(max_length=64)
+
+    # The number of lines of code in the Python file
+    lines_of_code_count = models.IntegerField()
 
     # The time which the version was created by the user.
     created_at = models.DateTimeField('Created At', auto_now_add=True)
 
-    # The UUID in the file store
-    store_uuid = models.CharField(max_length=64)
+    # The previous version for this.  Optional
+    previous_version = models.ForeignKey('self', blank=True, null=True)
 
     # The base filename
     def base_filename(self):
         return "{0}_{1}".format(self.id, self.store_uuid)
-
     base_filename.admin_order_field = 'id'
     base_filename.short_description = 'Base filename'
 
-    # Stringify as 'My Demo Program (1_bcff_2313)'
+    # Stringify as '1_bcff_2313 (11 LoC, base 2_dbff_2312')'
     def __str__(self):
-        return "{0} ({1})".format(self.name, self.base_filename())
+        if self.previous_version is None:
+            return "{0} ({1} LoC)".format(self.base_filename(), self.lines_of_code_count)
+        else:
+            return "{0} ({1} Loc, Prev: {2})".format(self.base_filename(), self.lines_of_code_count, self.previous_version.base_filename())
+
+
+# This reflects a program
+class Program(models.Model):
+    # The name of the program, not guaranteed to be unique
+    name = models.CharField(max_length=200)
+
+    # A description of the program
+    description = models.TextField(default="")
+
+    # The time which the version was created by the user.
+    created_at = models.DateTimeField('Created At', auto_now_add=True)
+
+    # The current version, all history between versions is stored within them
+    version = models.ForeignKey(Version)
+
+    # Stringifies to '1: My Test Program' or '1: Unnamed Program'.
+    def __str__(self):
+        if self.program_name:
+            return "{0}: {1}".format(self.id, self.program_name)
+        else:
+            return "{0}: Unnamed Program"
