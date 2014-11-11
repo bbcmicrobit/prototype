@@ -3,10 +3,10 @@ all:
 	make -f Makefile_arduino all
 
 erase:
-	sudo dfu-programmer atmega32u4 erase --force
+	dfu-programmer atmega32u4 erase --force
 
 flash_device:
-	sudo dfu-programmer atmega32u4 flash build-leonardo/*.hex
+	dfu-programmer atmega32u4 flash build-leonardo/*.hex
 
 clean:
 	rm -rf build-leonardo
