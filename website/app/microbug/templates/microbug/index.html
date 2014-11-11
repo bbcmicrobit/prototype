@@ -1,29 +1,10 @@
-<!DOCTYPE html>
-{% load staticfiles %}
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Test Page</title>
-    <link rel="stylesheet" type="text/css" href="{% static "microbug/css/bootstrap.css" %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static "microbug/css/test.css" %}"/>
-</head>
-<body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="{% url "microbug:index" %}">Microbug</a>
-        </div>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Yada</a></li>
-            <li><a href="#">Things</a></li>
-            <li><a href="#">Stuff</a></li>
-        </ul>
-    </div>
-</nav>
+{% extends 'microbug/_master.html' %}
 
-<div class="container-fluid">
+{% block head %}
+    <title>Test Page</title>
+{% endblock %}
+
+{% block body %}
     <h1>Test Page</h1>
 
     <p>This is a simple test page with Static CSS.</p>
@@ -83,18 +64,4 @@
     <div class="emulator col-md-3">
         Tutorial
     </div>
-</div>
-
-<div class="footer">
-    Copyright stuff lives here
-</div>
-
-<script src="{% static 'microbug/js/jquery-1.11.1.js' %}"></script>
-<script src="{% static 'microbug/js/bootstrap/bootstrap.js' %}"></script>
-<script src="{% static 'microbug/blockly/blockly_compressed.js' %}"></script>
-<script src="{% static 'microbug/blockly/blocks_compressed.js' %}"></script>
-<script src="{% static 'microbug/blockly/python_compressed.js' %}"></script>
-<script src="{% static 'microbug/blockly/msg/js/en.js' %}"></script>
-<script src="{% static 'microbug/js/test.js' %}"></script>
-</body>
-</html>
+{% endblock %}

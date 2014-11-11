@@ -1,0 +1,11 @@
+Things needing doing for setup:
+
+* Create the Primary Store directory unless it exists
+* Create the Pending Queue directory unless it exists
+* Create the 'highest.txt' file in the Primary Store, load it with '0'.
+
+
+Required Python modules:
+* django
+* django-jinja
+* filelock
