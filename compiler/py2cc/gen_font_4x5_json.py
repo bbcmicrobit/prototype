@@ -695,7 +695,7 @@ if __name__ == "__main__":
 """
 
     array_def = ",\n               ".join(nfont_def)
-    font_lines = ("{" + '"font"' + ":[" + "\n" + "               " + array_def + "\n" + "]};" + "\n") 
+    font_lines = ("{" + '"font"' + ":[" + "\n" + "               " + array_def + "\n" + "]}" + "\n") 
 
     # NOTE: Assumes this is being run in this directory.
     # Having a better way of finding where to generate the font would be good.
