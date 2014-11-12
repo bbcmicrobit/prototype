@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<script src="jquery.min.js"></script>
 	<script src="js/dal.js"></script>
+	<script src="js/simio.js"></script>
 </head>
 <body>
 	<h1> Simulator Test </h1>
 	<script type='text/javascript'>
-
-		DALJS.showLetter('H');
-		DALJS.printMessage('Hello World');
-		DALJS.scrollString("Hello World! Hello Ducks! Hello Sky! Hello Sausages! 1234567890");
+		$(document).ready(function() {
+			SIMIO.init("SIMIO");
+			DALJS.scrollString('ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890', 100);
+		});
 	</script>
+	<div id="SIMIO" style="width:128px">
+	</div>
 </body>
 </html>

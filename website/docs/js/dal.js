@@ -341,7 +341,8 @@ var DALJS = (function(){
 			display[4][row] = LOW;
 		}
 
-		debug();
+		if (dirtyCallback)
+			dirtyCallback(display);
 	};
 
 	var getButton = function(id) {
@@ -371,6 +372,9 @@ var DALJS = (function(){
 		if (y >DISPLAY_HEIGHT -1) return;
 
 		display[x][y] = HIGH;
+
+		if (dirtyCallback)
+			dirtyCallback(display);
 	};
 
 	var unplot = function(x, y) {
@@ -381,6 +385,9 @@ var DALJS = (function(){
 		if (y >DISPLAY_HEIGHT -1) return;
 
 		display[x][y] = LOW;
+
+		if (dirtyCallback)
+			dirtyCallback(display);
 	};
 
 	var point = function(x, y) {
@@ -401,6 +408,8 @@ var DALJS = (function(){
 				display[i][j] = sprite[i][j];
 			}
 		}
+		if (dirtyCallback != undefined)
+			dirtyCallback(display);
 	};
 
 //    void showViewport(Image& someImage, int x, int y) {
@@ -414,6 +423,8 @@ var DALJS = (function(){
 			}
 		}
 		debug();
+		if (dirtyCallback != undefined)
+			dirtyCallback(display);
 	};
 
 	var scrollImage = function(someImage, loop, trailing_spaces)
@@ -602,6 +613,10 @@ var DALJS = (function(){
 		return display;
 	}
 
+	var setDirtyCallback= function(fn) {
+		dirtyCallback = fn;
+	}
+
 	return {
 		setEye : setEye,
 		eyeOn : eyeOn,
@@ -623,6 +638,7 @@ var DALJS = (function(){
 		scrollString: scrollString,
 
 		debug:debug,
-		getDisplay:getDisplay
+		getDisplay:getDisplay,
+		setDirtyCallback:setDirtyCallback
 	};
 })();
