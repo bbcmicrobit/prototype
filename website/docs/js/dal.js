@@ -200,7 +200,6 @@ var DALJS = (function(){
 		if (imageScrollOffsetH < imageToScroll.width-DISPLAY_WIDTH+1)
 		{
 			imageScrollOffsetH++;
-			debug();
 			setTimeout(handleScrollImage, imageScrollInterval);
 		}
 	}
@@ -212,9 +211,14 @@ var DALJS = (function(){
 			spriteToScroll.render_string();
 			spriteToScroll.pan_right();
 			spriteScrollOffsetH++;
-			debug();
 			setTimeout(handleScrollSprite, spriteScrollInterval);
 		}
+	}
+
+	function dirty()
+	{
+		if (dirtyCallback)
+			dirtyCallback(display, [left_eye_state, right_eye_state]);
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -224,70 +228,10 @@ var DALJS = (function(){
 		return x*someImage.width +y;
 	}
 
-	function displayColumn(i) {
-		digitalWrite(col0, HIGH);
-		digitalWrite(col1, HIGH);
-		digitalWrite(col2, HIGH);
-		digitalWrite(col3, HIGH);
-		digitalWrite(col4, HIGH);
-
-		digitalWrite(row0, display[i][0] );
-		digitalWrite(row1, display[i][1] );
-		digitalWrite(row2, display[i][2] );
-		digitalWrite(row3, display[i][3] );
-		digitalWrite(row4, display[i][4] );
-
-		if (i === 0) digitalWrite(col0, LOW );
-		if (i == 1) digitalWrite(col1, LOW );
-		if (i == 2) digitalWrite(col2, LOW );
-		if (i == 3) digitalWrite(col3, LOW );
-		if (i == 4) digitalWrite(col4, LOW );
-	}
-
-	function setup_display()
-	{
-
-	}
-
-	function microbugSetup()
-	{  
-		setup_display();
-		//     display_strobe_counter = 0;
-		//     pinMode(row0, OUTPUT);
-		//     pinMode(row1, OUTPUT);
-		//     pinMode(row2, OUTPUT);
-		//     pinMode(row3, OUTPUT);
-		//     pinMode(row4, OUTPUT);
-		//     pinMode(col0, OUTPUT);
-		//     pinMode(col1, OUTPUT);
-		//     pinMode(col2, OUTPUT);
-		//     pinMode(col3, OUTPUT);
-		//     pinMode(col4, OUTPUT);
-		//     pinMode(lefteye, OUTPUT);
-		//     pinMode(righteye, OUTPUT);
-		//     pinMode(ButtonA, INPUT);
-		//     pinMode(ButtonB, INPUT);
-		digitalWrite(row0, LOW);
-		digitalWrite(row1, LOW);
-		digitalWrite(row2, LOW);
-		digitalWrite(row3, LOW);
-		digitalWrite(row4, LOW);
-
-		digitalWrite(col0, HIGH);
-		digitalWrite(col1, HIGH);
-		digitalWrite(col2, HIGH);
-		digitalWrite(col3, HIGH);
-		digitalWrite(col4, HIGH);
-
-		digitalWrite(lefteye, HIGH);
-		digitalWrite(righteye, HIGH);
-	}
-
-
 	////////////////////////////////////////////////////////////////
 	// API implementation
 
-	var setEye = function(cId, iState)
+	var setEye = function(id, state)
 	{
 		if ((id == 'A') || (id == 'L')) {
 			digitalWrite(lefteye, state );
@@ -341,8 +285,7 @@ var DALJS = (function(){
 			display[4][row] = LOW;
 		}
 
-		if (dirtyCallback)
-			dirtyCallback(display);
+		dirty();
 	};
 
 	var getButton = function(id) {
@@ -373,8 +316,7 @@ var DALJS = (function(){
 
 		display[x][y] = HIGH;
 
-		if (dirtyCallback)
-			dirtyCallback(display);
+		dirty();
 	};
 
 	var unplot = function(x, y) {
@@ -386,8 +328,7 @@ var DALJS = (function(){
 
 		display[x][y] = LOW;
 
-		if (dirtyCallback)
-			dirtyCallback(display);
+		dirty();
 	};
 
 	var point = function(x, y) {
@@ -408,8 +349,7 @@ var DALJS = (function(){
 				display[i][j] = sprite[i][j];
 			}
 		}
-		if (dirtyCallback != undefined)
-			dirtyCallback(display);
+		dirty();
 	};
 
 //    void showViewport(Image& someImage, int x, int y) {
@@ -422,9 +362,7 @@ var DALJS = (function(){
 				display[i][j]=value;
 			}
 		}
-		debug();
-		if (dirtyCallback != undefined)
-			dirtyCallback(display);
+		dirty();
 	};
 
 	var scrollImage = function(someImage, loop, trailing_spaces)
