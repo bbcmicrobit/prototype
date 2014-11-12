@@ -1,4 +1,4 @@
-var MKITJS = (function(){  
+var DALJS = (function(){  
 
 	// Cheat for now: font data here rather than using spark_font.json
 
@@ -137,10 +137,22 @@ var MKITJS = (function(){
 
 	var pins = [];
 	var left_eye_state;
+	var right_eye_state;
 
 
 	////////////////////////////////////////////////////////////////
 	// Simulator implementation
+
+	var printMessageStr = "";
+	var printMessageInterval;
+
+	var imageToScroll;
+	var imageScrollInterval;
+	var imageScrollOffsetH;
+
+	var spriteToScroll;
+	var spriteScrollInterval;
+	var spriteScrollOffsetH;
 
 	function Image()
 	{
@@ -163,22 +175,56 @@ var MKITJS = (function(){
 		return pins[pin];   
 	}
 
-	function bootloader_start(){}
+	function bootloaderStart(){}
 
-	function check_bootkey() {
+	function checkBootKey() {
 		if (digitalRead(ButtonA) == PRESSED) {
-			bootloader_start();
+			bootloaderStart();
 		}
-	}	
+	}
+
+	function handlePrintMessage()
+	{
+		showLetter(printMessageStr[0]);
+		printMessageStr = printMessageStr.substr(1);
+
+		if (printMessageStr.length)
+			setTimeout(handlePrintMessage, printMessageInterval);
+	}
+
+	function handleScrollImage()
+	{
+		clearDisplay();
+		showViewport(imageToScroll, imageScrollOffsetH, 0);
+
+		if (imageScrollOffsetH < imageToScroll.width-DISPLAY_WIDTH+1)
+		{
+			imageScrollOffsetH++;
+			debug();
+			setTimeout(handleScrollImage, imageScrollInterval);
+		}
+	}
+
+	function handleScrollSprite()
+	{
+		if (spriteScrollOffsetH < spriteToScroll.pixel_width())
+		{
+			spriteToScroll.render_string();
+			spriteToScroll.pan_right();
+			spriteScrollOffsetH++;
+			debug();
+			setTimeout(handleScrollSprite, spriteScrollInterval);
+		}
+	}
 
 	////////////////////////////////////////////////////////////////
 	// Abstraction Layer Internals
 
-	function image_point_index(someImage, x ,y) {
+	function imagePointIndex(someImage, x ,y) {
 		return x*someImage.width +y;
 	}
 
-	function display_column(i) {
+	function displayColumn(i) {
 		digitalWrite(col0, HIGH);
 		digitalWrite(col1, HIGH);
 		digitalWrite(col2, HIGH);
@@ -203,7 +249,7 @@ var MKITJS = (function(){
 
 	}
 
-	function microbug_setup()
+	function microbugSetup()
 	{  
 		setup_display();
 		//     display_strobe_counter = 0;
@@ -241,7 +287,7 @@ var MKITJS = (function(){
 	////////////////////////////////////////////////////////////////
 	// API implementation
 
-	var set_eye = function(cId, iState)
+	var setEye = function(cId, iState)
 	{
 		if ((id == 'A') || (id == 'L')) {
 			digitalWrite(lefteye, state );
@@ -253,31 +299,34 @@ var MKITJS = (function(){
 		}
 	};
 
-	var eye_on = function (cId) {
-		set_eye(cId, HIGH);
+	var eyeOn = function (cId) {
+		setEye(cId, HIGH);
 	};
 
-	var eye_off = function(cId) {
-		set_eye(cId, LOW);
+	var eyeOff = function(cId) {
+		setEye(cId, LOW);
 	};
 
-	var print_message = function(message, pausetime) {
-		console.log("print_message TBD");
-		//     while(*message) {
-		//         showLetter(*message);
-		//         message++;
-		//         delay(pausetime);
-		//     }
+	var printMessage = function(message, pausetime) {
+		printMessageStr = message;
+		printMessageInterval = pausetime | 100;
+		handlePrintMessage();
 	};
 
 	var showLetter = function(c) {
+
+		if (typeof(c) === "string")
+		{
+			c = c.charCodeAt(0);
+		}
+
 		var letter_index = c-32;
 		if (c>126) return;
 		if (c<32) return;
 
 		if (font[letter_index][0] != c) return;
 
-		clear_display();
+		clearDisplay();
 
 		for(var row=0; row<5; row++) {
 			var this_row = font[letter_index][row+1];
@@ -291,6 +340,8 @@ var MKITJS = (function(){
 			display[3][row] = L3;
 			display[4][row] = LOW;
 		}
+
+		debug();
 	};
 
 	var getButton = function(id) {
@@ -303,7 +354,7 @@ var MKITJS = (function(){
 		return -1; // Signify error
 	};
 
-	var clear_display = function()
+	var clearDisplay = function()
 	{
 		for(var i=0; i< DISPLAY_WIDTH; i++) {
 			for(var j=0; j< DISPLAY_HEIGHT; j++) {
@@ -343,8 +394,8 @@ var MKITJS = (function(){
 		return display[x][y];
 	};
 
-//  var set_display = function(int sprite[5][5]) {
-	var set_display = function(sprite) {
+//  var setDisplay = function(int sprite[5][5]) {
+	var setDisplay = function(sprite) {
 		for(var i=0; i<5; i++) {
 			for(var j=0; j<5; j++) {
 				display[i][j] = sprite[i][j];
@@ -362,65 +413,55 @@ var MKITJS = (function(){
 				display[i][j]=value;
 			}
 		}
+		debug();
 	};
 
-	var ScrollImage = function(someImage, loop, trailing_spaces)
+	var scrollImage = function(someImage, loop, trailing_spaces)
 	{
-		loop = loop || false;
-		trailing_spaces = trailing_spaces || false;
-		console.log("ScrollImage TBD");
-		// for(var i=0; i<someImage.width-DISPLAY_WIDTH+1; i++) {
-		//     clear_display();
-		//     showViewport(someImage, i,0);
-		//     delay(80);
-		// }
+		//NOT YET USED
+		//loop = loop || false;
+		//trailing_spaces = trailing_spaces || false;
+
+		imageToScroll = someImage;
+		imageScrollInterval = 80;
+		imageScrollOffsetH = 0;
+
+		handleScrollImage();
 	};
 
-	var image_point = function(someImage, x, y) {
+	var imagePoint = function(someImage, x, y) {
 		if (x<0) return -1;
 		if (y<0) return -2;
 		if (x>someImage.width-1) return -1;
 		if (x>someImage.height-1) return -2;
-		return someImage.data[image_point_index(someImage, x, y)];
+		return someImage.data[imagePointIndex(someImage, x, y)];
 	};
 
-	var set_image_point = function(someImage, x, y, value) {
+	var setImagePoint = function(someImage, x, y, value) {
 		if (x<0);
 		if (y<0);
 		if (x>someImage.width-1);
 		if (x>someImage.height-1);
 
-		someImage.data[image_point_index(someImage, x, y)] = value;
+		someImage.data[imagePointIndex(someImage, x, y)] = value;
 	};
 
-	var toggle_eye = function(id) {
+	var toggleEye = function(id) {
 		if ((id == 'A') || (id == 'L')) {
 			if (left_eye_state == HIGH) {
-				set_eye(id, LOW);
+				setEye(id, LOW);
 			} else {
-				set_eye(id, HIGH);
+				setEye(id, HIGH);
 			}
 		}
 		if ((id == 'B') || (id == 'R')) {
 			if (right_eye_state == HIGH) {
-				set_eye(id, LOW);
+				setEye(id, LOW);
 			} else {
-				set_eye(id, HIGH);
+				setEye(id, HIGH);
 			}
 		}
 	};
-
-// typedef struct StringSprite {
-//     int mPixelPos;
-//     int mPixelData[50]; // Sufficient to hold two characters.
-//     char *mString;
-//     int mStrlen;
-
-//     StringSprite() {}
-//     StringSprite(const char * str) {
-//         setString(str);
-//     }
-//     ~StringSprite() {}
 
 	function StringSprite(str) {
 		this.mPixelPos = 0;
@@ -429,17 +470,8 @@ var MKITJS = (function(){
 		this.mStrlen = 0;
 
 		if(str !== undefined)
-			setString(str);
+			this.setString(str);
 	}
-
-//     void setString(const char * str) {
-//         mString = (char *) str;
-//         mPixelPos = 0;
-//         for(int i=0; i++; i<50) {
-//             mPixelData[i] = 0;
-//         }
-//         mStrlen = strlen(mString);
-//     }
 
 	StringSprite.prototype.setString = function(str)
 	{
@@ -453,13 +485,6 @@ var MKITJS = (function(){
 
 	StringSprite.prototype.update_display = function()
 	{
-		//Image myImage;
-		//int mPP = mPixelPos%5;
-		//myImage.width=10;
-		//myImage.height=5;
-		//myImage.data = mPixelData;
-		//showViewport(myImage, mPP,0);
-
 		var myImage = new Image();
 		var mPP = this.mPixelPos%5;
 		myImage.width = 10;
@@ -469,11 +494,6 @@ var MKITJS = (function(){
 	};
 
 	StringSprite.prototype.render_string = function() {
-//         // Renders into the pixel data buffer
-//         int first_char;
-//         int second_char;
-// //         unsigned char *first_char_data;
-// //         unsigned char *second_char_data;
 		var i;
 
 		var first_char;
@@ -481,45 +501,17 @@ var MKITJS = (function(){
 		var first_char_data;
 		var second_char_data;
 
-//         unsigned char first_char_data1[6];
-//         unsigned char second_char_data1[16];
-//         int char_index1;
-
-//         int char_index0 = (mPixelPos / 5);
-//         char_index0 = char_index0 % mStrlen;
-
 		var first_char_data1 = [];//6
 		var second_char_data1 = [];//16
 		var char_index1;
 
-		var char_index0 = (this.mPixelPos / 5);
+		var char_index0 = Math.floor(this.mPixelPos / 5); //GOTCHA!
 		char_index0 = char_index0 % this.mStrlen;
-
-//         first_char = mString[char_index0];
-//         for(int i=0; i<6; i++){
-//             first_char_data1[i] = pgm_read_byte(&(font[first_char-32][i]));
-//         }
 
 		first_char = this.mString[char_index0];
 		for(i = 0; i < 6; i++){
-			first_char_data1[i] = font[first_char-32][i];
+			first_char_data1[i] = font[first_char.charCodeAt(0)-32][i];
 		}
-
-//         char_index1 = (char_index0 +1) ;
-//         if (char_index1 < mStrlen) {
-//             char_index1 = char_index1 % mStrlen;
-//             second_char = mString[char_index1];
-// //            second_char_data = (unsigned char*) ( font[second_char-32] );
-
-//             for(int i=0; i<6; i++){
-//                 second_char_data1[i] = pgm_read_byte(&(font[second_char-32][i]));
-//             }
-//         } else {
-// //            second_char_data =  (unsigned char*) ( font[0] );
-//             for(int i=0; i<6; i++){
-//                 second_char_data1[i] = pgm_read_byte(&(font[0][i]));
-//             }
-//         }
 
 		char_index1 = (char_index0 + 1);
 		if (char_index1 < this.mStrlen) {
@@ -527,41 +519,13 @@ var MKITJS = (function(){
 			second_char = this.mString[char_index1];
 
 			for(i=0; i<6; i++){
-				second_char_data1[i] = font[second_char-32][i];
+				second_char_data1[i] = font[second_char.charCodeAt(0)-32][i];
 			}
 		} else {
 			for(i=0; i<6; i++){
 				second_char_data1[i] = font[0][i];
 			}
 		}
-
-//         for(int row=0; row<5; row++) {
-//             int row_first = first_char_data1[row + 1];
-//             int row_second = second_char_data1[row + 1];
-
-//             int F0 = 0b1000 & row_first ? HIGH : LOW;
-//             int F1 = 0b0100 & row_first ? HIGH : LOW;
-//             int F2 = 0b0010 & row_first ? HIGH : LOW;
-//             int F3 = 0b0001 & row_first ? HIGH : LOW;
-
-//             int S0 = 0b1000 & row_second ? HIGH : LOW;
-//             int S1 = 0b0100 & row_second ? HIGH : LOW;
-//             int S2 = 0b0010 & row_second ? HIGH : LOW;
-//             int S3 = 0b0001 & row_second ? HIGH : LOW;
-
-//             mPixelData[0+row*10] = F0;
-//             mPixelData[1+row*10] = F1;
-//             mPixelData[2+row*10] = F2;
-//             mPixelData[3+row*10] = F3;
-//             mPixelData[4+row*10] = 0;
-
-//             mPixelData[5+row*10] = S0;
-//             mPixelData[6+row*10] = S1;
-//             mPixelData[7+row*10] = S2;
-//             mPixelData[8+row*10] = S3;
-//             mPixelData[9+row*10] = 0;
-//         }
-//         update_display();
 
 		for(var row=0; row<5; row++) {
 			var row_first = first_char_data1[row + 1];
@@ -577,32 +541,24 @@ var MKITJS = (function(){
 			var S2 = 2 & row_second ? HIGH : LOW;
 			var S3 = 1 & row_second ? HIGH : LOW;
 
-			mPixelData[0+row*10] = F0;
-			mPixelData[1+row*10] = F1;
-			mPixelData[2+row*10] = F2;
-			mPixelData[3+row*10] = F3;
-			mPixelData[4+row*10] = 0;
+			this.mPixelData[0+row*10] = F0;
+			this.mPixelData[1+row*10] = F1;
+			this.mPixelData[2+row*10] = F2;
+			this.mPixelData[3+row*10] = F3;
+			this.mPixelData[4+row*10] = 0;
 
-			mPixelData[5+row*10] = S0;
-			mPixelData[6+row*10] = S1;
-			mPixelData[7+row*10] = S2;
-			mPixelData[8+row*10] = S3;
-			mPixelData[9+row*10] = 0;
+			this.mPixelData[5+row*10] = S0;
+			this.mPixelData[6+row*10] = S1;
+			this.mPixelData[7+row*10] = S2;
+			this.mPixelData[8+row*10] = S3;
+			this.mPixelData[9+row*10] = 0;
 		}
-		update_display();
+		this.update_display();
 	};
-
-//     void pan_right() {
-//         // Move the viewport 1 pixel to the right. (Looks like scrolling left)
-//         mPixelPos += 1;
-//         if (mPixelPos>=pixel_width()) {
-//             mPixelPos =0;
-//         }
-//     }
 
 	StringSprite.prototype.pan_right = function() {
 		this.mPixelPos += 1;
-		if (this.mPixelPos>=pixel_width()) {
+		if (this.mPixelPos>=this.pixel_width()) {
 			this.mPixelPos = 0;
 		}
 	};
@@ -611,55 +567,62 @@ var MKITJS = (function(){
 		return this.mStrlen * 5;
 	};
 
-// void scroll_sprite(StringSprite theSprite, int pausetime=100) {
-//     for(int i=0; i<theSprite.pixel_width(); i++) {
-//         theSprite.render_string();
-//         theSprite.pan_right();
-//         delay(pausetime);
-//     }
-// }
-	var scroll_sprite = function(theSprite, pausetime)
+	var scrollSprite = function(theSprite, delay)
 	{
-		pausetime = pausetime || 100;
-		for (var i = 0; i<theSprite.pixel_width(); i++) {
-			theSprite.render_string();
-			theSprite.pan_right();
-			delay(pausetime);
-		}
+		delay = delay || 100;
+		spriteToScroll = theSprite;
+		spriteScrollInterval = delay;
+		spriteScrollOffsetH = 0;
+		handleScrollSprite();
 	};
 
-// void scroll_string(const char * str) {
-//     scroll_sprite(StringSprite(str), 50);
-// }
-// void scroll_string(const char * str, int delay) {
-//     scroll_sprite(StringSprite(str), delay);
-// }
-	var scroll_string = function(str, delay)
+	var scrollString = function(str, delay)
 	{
 		delay = delay || 50;
-		scroll_sprite(new StringSprite(str));
+		scrollSprite(new StringSprite(str), delay);
 	};
 
+	var debug = function()
+	{
+		var rowString = "";
+		for(var i = 0; i < DISPLAY_HEIGHT; i++) {
+			for (var j = 0; j < DISPLAY_WIDTH; j++) {
+				if (display[j][i] === HIGH)
+					rowString+= "*";
+				else
+					rowString+= " ";
+			}
+			rowString+="\n";
+		}
+		console.log(rowString);
+	}
+
+	var getDisplay = function()
+	{
+		return display;
+	}
+
 	return {
-		set_eye : set_eye,
-		eye_on : eye_on,
-		eye_off : eye_off,
-		print_message : print_message,
+		setEye : setEye,
+		eyeOn : eyeOn,
+		eyeOff : eyeOff,
+		printMessage : printMessage,
 		showLetter : showLetter,
 		getButton : getButton,
-		clear_display : clear_display,
+		clearDisplay : clearDisplay,
 		plot : plot,
 		unplot : unplot,
 		point : point,
-		set_display : set_display,
+		setDisplay : setDisplay,
 		showViewport : showViewport,
-		ScrollImage : ScrollImage,
-		image_point : image_point,
-		set_image_point : set_image_point,
-		toggle_eye : toggle_eye,
-		scroll_sprite: scroll_sprite,
-		scroll_string: scroll_string
+		scrollImage : scrollImage,
+		imagePoint : imagePoint,
+		setImagePoint : setImagePoint,
+		toggleEye : toggleEye,
+		scrollSprite: scrollSprite,
+		scrollString: scrollString,
+
+		debug:debug,
+		getDisplay:getDisplay
 	};
 })();
-
-
