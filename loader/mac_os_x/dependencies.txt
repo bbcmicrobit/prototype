@@ -1,0 +1,3 @@
+qt-mac-opensource-4.8.5.dmg
+pyside-1.2.1-qt4.8.5-py27apple-developer-signed.pkg
+libusb.pkg
