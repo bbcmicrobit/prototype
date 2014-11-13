@@ -76,7 +76,8 @@ function showTutorialPage(page_id) {
 
     // Show only the page we're after.
     tutorial_content_elem.children().hide();
-    tutorial_content_elem.find(':nth-child('+page_id+')').show();
+    selected_page = tutorial_content_elem.find(':nth-child('+page_id+')')
+    selected_page.show();
 
     // Disable the back button only on the first page
     if (page_id==1) {
@@ -92,6 +93,10 @@ function showTutorialPage(page_id) {
     } else {
         tutorial_forward_button.removeClass('disabled');
     }
+
+    // Find the XML from the selected page, it's the Blockly toolbox.
+    blockly_xml = selected_page.find('xml')[0];
+    Blockly.updateToolbox(blockly_xml);
 }
 
 function setupNameRename() {

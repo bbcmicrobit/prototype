@@ -2,18 +2,24 @@
 
 {% block tutorial_pages %}
     <section>
-        Page 1
+        <h1>Page 1</h1>
+        <p>My content lives here</p>
+        {% include "microbug/partials/blockly_toolboxes/_tutorial_toolbox_1.html" %}
     </section>
     <section>
         Page 2
+        {% include "microbug/partials/blockly_toolboxes/_tutorial_toolbox_2.html" %}
     </section>
     <section>
         Page 3
+        {% include "microbug/partials/blockly_toolboxes/_tutorial_toolbox_3.html" %}
     </section>
     <section>
         Page 4
+        {% include "microbug/partials/blockly_toolboxes/_tutorial_toolbox_4.html" %}
     </section>
     <section>
         Page 5
+        {% include "microbug/partials/blockly_toolboxes/_tutorial_toolbox_5.html" %}
     </section>
 {% endblock %}
