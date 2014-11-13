@@ -1,0 +1,30 @@
+{% extends 'microbug/_master.html' %}
+
+{% block head %}
+    <!-- Main page: program.html -->
+    <title>Microbug: Viewing {{ program.id }}</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Viewing {{ program.name }} ({{ program.id }})</h1>
+
+    {% if program.version %}
+        <div class="rounded">
+            <h1>Version: {{ program.version.id }}</h1>
+
+            <p><em>UUID:</em> {{ program.version.store_uuid }}</p>
+            <p><em>Base filename:</em> {{ program.version.base_filename }}</p>
+
+            <h2>Stored JSON</h2>
+            <pre>{{ program.version.json }}</pre>
+
+            <h2>XML</h2>
+            <pre>{{ program.version.xml }}</pre>
+
+            <h2>Code</h2>
+            <pre>{{ program.version.code }}</pre>
+        </div>
+    {% else %}
+        <div class="error">Error: Program has no Version</div>
+    {% endif %}
+{% endblock %}

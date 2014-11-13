@@ -15,15 +15,14 @@ function enablePageInteraction() {
         console.log("No buildCode button, skipping");
     }
 
-    // Wire up the Create Code button if it's available.
-    var create_code_btn = $('#createCode')
-    if (create_code_btn.length) {
-        console.log("Activating create code on ", create_code_btn);
-        build_code_btn.click(function () {
+    // Wire up the Create Program button if it's available.
+    var create_program_btn = $('#createProgram')
+    if (create_program_btn.length) {
+        console.log("Activating create program on ", create_program_btn);
+        create_program_btn.click(function () {
             console.log("Building code");
             compileBlockly(function(program_id) {
-                console.log("ID: ",program_id);
-                //window.location.replace('/microbug/program/'+program_id);
+                window.location.replace('/microbug/program/'+program_id);
             });
         })
     } else {
@@ -140,6 +139,7 @@ function compileBlockly(successCallback) {
     console.log("XML is ", xml_text);
 
     $("#code").html("<P><PRE>" + code + "</PRE>");
+
     $.ajax({
         type: "POST",
         url: "/microbug/build_code/",

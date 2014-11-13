@@ -7,7 +7,7 @@
 {% block body %}
     <h1>Programs</h1>
     {% for program in programs %}
-        <li><a href="{{ program.name }}">{{ program.name }}</a></li>
+        <li><a href="{% url 'microbug:program' program_id=program.id program_name=program.name %}">{{ program.name }}</a></li>
     {% endfor %}
 
     <a href="{% url 'microbug:create_program' %}" class="btn btn-primary">

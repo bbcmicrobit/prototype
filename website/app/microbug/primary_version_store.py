@@ -10,6 +10,12 @@ class PrimaryVersionStore:
         if not os.path.isdir(root_directory):
             raise Exception("Primary version store cannot find directory '%s'" % root_directory)
 
+    # Retrieves the item with the specified base filename (not including .json suffix
+    def retrieve(self, base_filename):
+        filename = os.path.join(self._root_directory, "{0}.json".format(base_filename))
+        with open(filename, 'r') as file:
+            return file.read()
+
     # Writes a new version file out, returns a tuple containing the
     # numeric ID and the UUID.
     def write_new_version(self, data):

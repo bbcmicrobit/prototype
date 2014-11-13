@@ -11,7 +11,9 @@
         <link rel="stylesheet" type="text/css" href="{% static "microbug/css/test.css" %}"/>
         <link rel="stylesheet" type="text/css" href="{% static "microbug/css/font-awesome.css" %}"/>
 
+        <!-- Start of head block -->
         {% block head %}{% endblock %}
+        <!-- End of head block -->
     </head>
     <body>
         <nav class="navbar navbar-default">
@@ -28,7 +30,9 @@
         </nav>
 
         <div class="container-fluid">
+            <!-- Start of body block -->
             {% block body %}{% endblock %}
+            <!-- End of body block -->
         </div>
 
         <div class="footer">

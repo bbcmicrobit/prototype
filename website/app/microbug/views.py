@@ -1,6 +1,6 @@
 # This is all of the views that the Microbug application supports
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 import logging
@@ -29,7 +29,8 @@ def create_program(request):
 
 # View a single program
 def program(request, program_id):
-    return HttpResponse("Viewing {0}.".format(program_id))
+    viewed_program = get_object_or_404(Program, pk=program_id)
+    return render(request, 'microbug/program.html', {'program': viewed_program})
 
 # List all of the Programs available on the system
 def programs(request):
@@ -65,7 +66,8 @@ def build_code(request):
         version.save()
 
         # Write the Program to the database
-        program = Program(version=version)
+        program_name = json_obj['program_name']
+        program = Program(version=version, name=program_name)
         program.save()
 
         # Return the program's ID

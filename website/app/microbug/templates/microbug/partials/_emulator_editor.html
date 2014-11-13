@@ -1,0 +1,37 @@
+<!-- Start of _emulator_editor_block.html -->
+{% comment %}
+    builtBtnId: The ID of the build button
+    buildBtnText: The text to be displayed on the build button.
+{% endcomment %}
+
+<div id="emulator" class="rounded emulator col-md-3">
+    {% include "microbug/partials/_emulator.html" %}
+</div>
+
+<div class="editor col-md-9">
+    <ul class="nav nav-tabs" role="tablist" id="editor-tabs">
+        <li role="presentation" class="active">
+            <a href="#blockly-tab" data-toggle="tab">Blockly</a>
+        </li>
+        <li role="presentation">
+            <a href="#code-tab" data-toggle="tab">Code</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" id="blockly-tab" class="tab-pane active">
+            <button type="button" id="{{ buildBtnId }}" class="btn btn-primary">
+                <i class="fa fa-cog">&nbsp;</i>
+                {{ buildBtnText }}
+            </button>
+            <br/>
+
+            <div id="blockly" style="width: 100%; margin:0.5em 0 0 0; height: 480px; "></div>
+            {% include "microbug/partials/_blockly_toolbox.html" %}
+        </div>
+        <div role="tabpanel" id="code-tab" class="tab-pane">
+            Code
+            <div id="code"></div>
+        </div>
+    </div>
+</div>
+<!-- End of _emulator_editor_block.html -->

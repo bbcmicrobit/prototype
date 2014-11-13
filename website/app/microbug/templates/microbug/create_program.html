@@ -1,6 +1,7 @@
 {% extends 'microbug/_master.html' %}
 
 {% block head %}
+    <!-- Main page: create_program.html -->
     <title>Microbug: Create Program</title>
 {% endblock %}
 
@@ -20,31 +21,5 @@
         <input type="text" class="form-control" id="program_name" placeholder="Program name">
     </div>
 
-    <div id="emulator" class="rounded emulator col-md-3">
-        {% include "microbug/partials/_emulator.html" %}
-    </div>
-
-    <div class="editor col-md-9">
-        <ul class="nav nav-tabs" role="tablist" id="editor-tabs">
-            <li role="presentation" class="active">
-                <a href="#blockly-tab" data-toggle="tab">Blockly</a>
-            </li>
-            <li role="presentation">
-                <a href="#code-tab" data-toggle="tab">Code</a>
-            </li>
-        </ul>
-        <div class="tab-content">
-            <div role="tabpanel" id="blockly-tab" class="tab-pane active">
-                <button type="button" id="buildCode" class="btn btn-primary"><i class="fa fa-cog">&nbsp;</i>Create Program</button>
-                <br/>
-
-                <div id="blockly" style="width: 92%; margin:1em; height: 480px; "></div>
-                {% include "microbug/partials/_blockly_toolbox.html" %}
-            </div>
-            <div role="tabpanel" id="code-tab" class="tab-pane">
-                Code
-                <div id="code"></div>
-            </div>
-        </div>
-    </div>
+    {% include "microbug/partials/_emulator_editor.html" with buildBtnId='createProgram' buildBtnText='Create Program Test'%}
 {%  endblock %}

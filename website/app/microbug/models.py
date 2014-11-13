@@ -1,5 +1,9 @@
 from django.db import models
+import settings
+from primary_version_store import PrimaryVersionStore
+import json
 
+primary_version_store = PrimaryVersionStore(settings.PRIMARY_STORE_DIRECTORY)
 
 # This reflects a single version which the user has uploaded
 class Version(models.Model):
@@ -14,6 +18,19 @@ class Version(models.Model):
 
     # The previous version for this.  Optional
     previous_version = models.ForeignKey('self', blank=True, null=True)
+
+    # Returns the JSON from the primary store
+    def json(self):
+        json_str = primary_version_store.retrieve(self.base_filename())
+        return json.loads(json_str)
+
+    # Reads the JSON from the primary store and returns the Python code stored therein
+    def code(self):
+        return self.json()['repr']['code']
+
+    # Reads the JSON from the primary store and returns the Blockly XML stored therein
+    def xml(self):
+        return self.json()['repr']['xml']
 
     # The base filename
     def base_filename(self):
@@ -45,7 +62,7 @@ class Program(models.Model):
 
     # Stringifies to '1: My Test Program' or '1: Unnamed Program'.
     def __str__(self):
-        if self.program_name:
-            return "{0}: {1}".format(self.id, self.program_name)
+        if self.name:
+            return "{0}: {1}".format(self.id, self.name)
         else:
-            return "{0}: Unnamed Program"
+            return "{0}: Unnamed Program".format(self.id)
