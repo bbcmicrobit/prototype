@@ -36,46 +36,61 @@ function enablePageInteraction() {
     setupNameRename();
 }
 
+function loadBlocklyXml() {
+    blockly_xml_src = $('')
+}
+
 function setupNameRename() {
     // Store these in closure so we don't have to keep finding them again
-    var program_name_elem = $('#program_name')
-    var original_name_elem = $('#original_program_name')
+    var program_name_elem = $('#program_name');
+    var original_name_elem = $('#original_program_name');
     var rename_button_elem = $('#program_rename');
+
     var was_same = true;
-    var program_name;
+    var program_id, program_name;
 
     // Check if we have the rename controls
     if (original_name_elem.length) {
+        // Get the program ID, we can store it in a closure.
+        var program_id_elem = $('#program_id');
+        if (program_id_elem.length) {
+            program_id = program_id_elem.text();
+            console.log("Program ID is ",program_id,", storing for later use");
+        } else {
+            console.error("Cannot set of rename box, no '#program_id' element")
+        }
+
         // Link up the behavior for the rename button
         console.log("Setitng up rename bar functionality");
-        console.log("ONE: ", original_name_elem);
 
         rename_button_elem.on('click', function() {
+            var program_name = program_name_elem[0].value;
+            var original_program_name = original_name_elem[0].value;
+
             // Cannot rename to an empty value.  TODO: Regular expression version!
-            if (program_name_elem[0].value == '') {
+            if (program_name == '' || typeof(program_name)=='undefined') {
                 bootbox.alert("You need to provide a name");
                 return;
             }
             // Auto-accept if there's no current name
-            if (original_name_elem[0].value == '') {
-                original_name_elem[0].value = program_name_elem[0].value;
-                program_name_elem.removeClass('changed_name');
-                rename_button_elem.removeClass('changed_button');
-                was_same = true;
-                return true;
+            if (original_program_name == '') {
+                //programRenameAjax()
+                //original_name_elem[0].value = program_name_elem[0].value;
+                //program_name_elem.removeClass('changed_name');
+                //rename_button_elem.removeClass('changed_button');
+                //was_same = true;
+                //return true;
             }
             bootbox.confirm("This will rename your program\nAre you sure?", function(result) {
                 if (result) {
-                    original_name_elem[0].value = program_name_elem[0].value;
-                    program_name_elem.removeClass('changed_name');
-                    rename_button_elem.removeClass('changed_button');
-                    was_same = true;
+                    programRenameAjax(program_id, program_name_elem, original_name_elem, rename_button_elem);
+                    //original_name_elem[0].value = program_name_elem[0].value;
+                    //program_name_elem.removeClass('changed_name');
+                    //rename_button_elem.removeClass('changed_button');
+                    //was_same = true;
                 }
             });
         });
-
-        console.log("PNE: ",program_name_elem);
-        console.log("ONE: ",original_name_elem);
 
         program_name_elem.on("change keyup paste", function() {
             console.log("Click");
@@ -101,6 +116,41 @@ function setupNameRename() {
     }
 }
 
+// Wrapper round the Ajax part of the program renaming.
+function programRenameAjax(program_id, program_name_elem, original_program_name_elem, rename_button_elem) {
+    var program_name = program_name_elem[0].value;
+    var original_program_name = original_program_name_elem[0].value;
+
+    console.log("Renaming program ",program_id," to '",program_name,"', (Was '",original_program_name,"')")
+
+    $.ajax({
+        type: "POST",
+        url: "/microbug/rename_program/",
+        data: JSON.stringify({
+            "program_id": program_id,
+            "program_name": program_name,
+            "original_program_name": original_program_name
+        }),
+        success: function (data) {
+            console.log("Rename successful.")
+            // We've successfully renamed the object, but need to recheck equality to make sure
+            // it's not changed since the submission.
+            original_program_name_elem[0].value = program_name;
+            if (program_name == program_name_elem[0].value) {
+                program_name_elem.removeClass('changed_name');
+                rename_button_elem.removeClass('changed_button');
+            } else {
+                console.log("Name changed since request,  ",program_name," vs. ",program_name_elem[0].value);
+                program_name_elem.addClass('changed_name');
+                rename_button_elem.addClass('changed_button');
+            }
+        },
+        error: function(data) {
+            bootbox.alert("Something went wrong, could not rename the program");
+        }
+    });
+}
+
 function setupBlockly() {
     if (document.getElementById('blockly')) {
         Blockly.inject(document.getElementById('blockly'),
@@ -109,6 +159,19 @@ function setupBlockly() {
                 toolbox: document.getElementById('toolbox'),
                 trashcan: false
             });
+
+        // Load the XML from blocklyXmlSrc, if it exists.
+        xml_src = $('#blocklyXmlSrc')
+        if (xml_src.length) {
+            console.log("Loading XML from BlocklyXmlSrc");
+            var blockly_xml_text = xml_src.text();
+            console.log("XML Text: ",blockly_xml_text);
+            var blockly_xml = Blockly.Xml.textToDom(blockly_xml_text);
+            console.log("XML: ",blockly_xml);
+            Blockly.Xml.domToWorkspace( Blockly.mainWorkspace, blockly_xml);
+        } else {
+            console.log("No BlocklyXmlSrc, not loading");
+        }
     }
 }
 

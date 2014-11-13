@@ -10,3 +10,7 @@ Required Python modules:
 * django
 * django-jinja
 * filelock
+
+TODO:
+* Check error handling
+* Check CSRF for Ajax requests
