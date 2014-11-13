@@ -19,7 +19,7 @@ var SIMIO = (function(){
 		context.fillStyle = 'white';
 		context.clearRect(0,0,canvas.width, canvas.height);
 
-		context.fillStyle = 'green';
+		context.fillStyle = 'red';
 
 		for(var x = 0; x < displayWidth; x++){
 			for(var y = 0; y < displayHeight; y++){
@@ -53,7 +53,7 @@ var SIMIO = (function(){
 				context.stroke();				
 			}
 		}
-		
+
 		// For console display output
 		// DALJS.debug();
 	};

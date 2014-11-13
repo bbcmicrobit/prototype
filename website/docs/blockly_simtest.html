@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script src="jquery.min.js" type="text/javascript"></script>
+	<script src="jquery-ui.min.js" type="text/javascript"></script>
+
+	<script type="text/javascript" src="blockly/blockly_compressed.js"></script>
+	<script type="text/javascript" src="blockly/blocks_compressed.js"></script>
+	<script type="text/javascript" src="blockly/python_compressed.js"></script>
+	<script type="text/javascript" src="blockly/javascript_compressed.js"></script>
+	<script type="text/javascript" src="blockly/msg/js/en.js"></script>
+
+	<script type="text/javascript" src="js/acorn_interpreter.js"></script>
+
+	<script type="text/javascript" src="blockly/blocks/microbug.js"></script>
+	<script type="text/javascript" src="blockly/generators/javascript/microbug.js"></script>
+
+	<script type="text/javascript" src="js/dal.js"></script>
+	<script type="text/javascript" src="js/simio.js"></script>
+
+	<script>
+		function buildCode() {
+//			var code = Blockly.Python.workspaceToCode();
+			var code = Blockly.JavaScript.workspaceToCode();
+
+			var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+			var xml_text = Blockly.Xml.domToText(xml);
+
+			$("#codeblock").html("<P><PRE>" + code  + "</PRE>");
+			// $.ajax({
+			// 	type: "POST",
+			// 	url: "/cgi-bin/upload.py",
+			// 	data: JSON.stringify({"repr" : { "code": code, "xml" : xml_text }}),
+			// 	success: function( data ) {
+			// 		var someid = data["id"];
+			// 		text = '<P>Link to this version - <a href="/blockly_reload.html?id=' +  someid + '"> ' + someid.toString() +' </a>';
+			// 		$( "	#resultblock" ).html( text );
+			// 	},
+			// });
+		}
+	</script>
+</head>
+<body>
+	<h1> MicroBug</h1>
+	<P> [ <a href="/blockly_create.html">Create</a> | <a href="/blockly_listprograms.html">all programs</a> | <a href="/cgi-bin/dump_uploads.py">debug dump</a>]
+	<hr>
+<P>
+
+<button type="button" onclick="buildCode()">Build Code</button>
+
+<div id="codeblock" style="width: 90%; border: dotted;margin:1em; padding: 1em;">
+	<PRE>
+	# Codeblock
+	</PRE>
+</div>
+
+<!-- div id="resultblock" style="width: 90%; border: dotted;margin:1em; padding: 1em;">
+	<P>Server result goes here
+</div -->
+
+<div id="SIMIO" style="width:128px;"></div>
+
+<div id="blocklyDiv" style="width: 80%; margin:1em; height: 480px;"></div>
+
+	<xml id="toolbox" style="display: none">
+		<category name="Microbug">
+			<block type="microbug_scrollString"></block>
+		</category>
+		<category name="Variables">
+			<block type="variables_get"></block>
+			<block type="variables_set"></block>
+		</category>
+		<category name="Control Structures">
+				<block type="controls_if"></block>
+				<block type="controls_if_elseif"></block>
+				<block type="controls_repeat_ext"></block>
+		</category>
+		<category name="operations">
+				<block type="logic_compare"></block>
+				<block type="math_arithmetic"></block>
+		</category>
+
+		<category name="Values">
+				<block type="math_number"></block>
+				<block type="text"></block>
+		</category>
+
+		<category name="Functions">
+				<block type="text_print"></block>
+		</category>
+		<category name="User functions">
+				<block type="text_print"></block>
+		</category>
+	</xml>
+</div>
+
+	<script type="text/javascript">
+		Blockly.inject(document.getElementById('blocklyDiv'),
+		{
+			path: './',
+			toolbox: document.getElementById('toolbox'),
+			trashcan: false
+		});
+		$(document).ready(function() {
+			SIMIO.init("SIMIO");
+			DALJS.scrollString("Hello");
+		});
+	</script>
+
+	<hr>
+	Contact: michael.sparks@bbc.co.uk
+</body>
+</html>
