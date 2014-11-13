@@ -1,26 +1,33 @@
 function enablePageInteraction() {
-    $('#editor-tabs').tab();
-    console.log("Tabs enabled on ", $('#editor-tabs'))
+    var editor_tabs = $('#editor_tabs');
+    editor_tabs.tab();
+    console.log("Tabs enabled on ", editor_tabs)
 
     // Wire up the Build Code button if it's available.
     var build_code_btn = $('#buildCode')
-    if (build_code_btn) {
+    if (build_code_btn.length) {
+        console.log("Activating buildCode on ",build_code_btn);
         build_code_btn.click(function () {
             console.log("Building code");
             compileBlockly();
         })
+    } else {
+        console.log("No buildCode button, skipping");
     }
 
     // Wire up the Create Code button if it's available.
     var create_code_btn = $('#createCode')
-    if (create_code_btn) {
+    if (create_code_btn.length) {
+        console.log("Activating create code on ", create_code_btn);
         build_code_btn.click(function () {
             console.log("Building code");
             compileBlockly(function(program_id) {
                 console.log("ID: ",program_id);
-                window.location.replace('/microbug/program/'+program_id);
+                //window.location.replace('/microbug/program/'+program_id);
             });
         })
+    } else {
+        console.log("No createCode button, skipping");
     }
 
     // Wire up the Blockly UI if it's working
@@ -31,16 +38,19 @@ function enablePageInteraction() {
 }
 
 function setupNameRename() {
-    console.log("Setting up rename");
+    // Store these in closure so we don't have to keep finding them again
+    var program_name_elem = $('#program_name')
+    var original_name_elem = $('#original_program_name')
+    var rename_button_elem = $('#program_rename');
+    var was_same = true;
+    var program_name;
 
-    if ($('#program_name')) {
-        // Store these in closure so we don't have to keep finding them again
-        var program_name_elem = $('#program_name')
-        var original_name_elem = $('#original_program_name')
-        var rename_button_elem = $('#program_rename');
-        var was_same = true;
-
+    // Check if we have the rename controls
+    if (original_name_elem.length) {
         // Link up the behavior for the rename button
+        console.log("Setitng up rename bar functionality");
+        console.log("ONE: ", original_name_elem);
+
         rename_button_elem.on('click', function() {
             // Cannot rename to an empty value.  TODO: Regular expression version!
             if (program_name_elem[0].value == '') {
@@ -68,7 +78,7 @@ function setupNameRename() {
         console.log("PNE: ",program_name_elem);
         console.log("ONE: ",original_name_elem);
 
-        $("#program_name").on("change keyup paste", function() {
+        program_name_elem.on("change keyup paste", function() {
             console.log("Click");
             if (program_name_elem[0].value == original_name_elem[0].value) {
                 if (!was_same) {
@@ -103,14 +113,31 @@ function setupBlockly() {
     }
 }
 
+// Gets the name of the program whether or not we're using the rename bar.
+function getProgramName() {
+    // Get the program name from the original_program_name box if it exists,
+    //  if not go for the program_name box
+    var original_program_name_elem = $('#original_program_name');
+    var program_name_elem = $('#program_name');
+
+    if (original_program_name_elem.length) {
+        return original_program_name_elem[0].value;
+    } else {
+        return program_name_elem[0].value;
+    }
+
+}
 function compileBlockly(successCallback) {
     var code = Blockly.Python.workspaceToCode();
 
     var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
     var xml_text = Blockly.Xml.domToText(xml);
 
-    // Grab other useful data
-    var program_name = $('#program_name')[0].value;
+    var program_name = getProgramName();
+
+    console.log("Program name is: ",program_name);
+    console.log("Code is ", code);
+    console.log("XML is ", xml_text);
 
     $("#code").html("<P><PRE>" + code + "</PRE>");
     $.ajax({

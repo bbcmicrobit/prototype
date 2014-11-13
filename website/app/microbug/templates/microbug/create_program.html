@@ -11,16 +11,19 @@
     </p>
 
     <div class="name_entry col-md-12">
-        <input type="text" id="original_program_name" class="hidden">
+        <!--<input type="text" id="original_program_name" class="hidden">
         <div class="input-group">
             <input type="text" class="form-control" id="program_name" placeholder="Program name">
             <span class="input-group-addon" id="program_rename">Rename</span>
         </div>
+        -->
+        <input type="text" class="form-control" id="program_name" placeholder="Program name">
     </div>
 
     <div id="emulator" class="rounded emulator col-md-3">
-        Emulator
+        {% include "microbug/partials/_emulator.html" %}
     </div>
+
     <div class="editor col-md-9">
         <ul class="nav nav-tabs" role="tablist" id="editor-tabs">
             <li role="presentation" class="active">
@@ -36,31 +39,7 @@
                 <br/>
 
                 <div id="blockly" style="width: 92%; margin:1em; height: 480px; "></div>
-
-                <xml id="toolbox" style="display: none">
-                    <category name="Control Structures">
-                        <block type="controls_if"></block>
-                        <block type="controls_if_elseif"></block>
-                        <block type="controls_repeat_ext"></block>
-                    </category>
-                    <category name="operations">
-                        <block type="logic_compare"></block>
-                        <block type="math_arithmetic"></block>
-                    </category>
-
-                    <category name="Values">
-                        <block type="math_number"></block>
-                        <block type="text"></block>
-                    </category>
-
-                    <category name="Functions">
-                        <block type="text_print"></block>
-                    </category>
-                    <category name="User functions">
-                        <block type="text_print"></block>
-                    </category>
-                </xml>
-
+                {% include "microbug/partials/_blockly_toolbox.html" %}
             </div>
             <div role="tabpanel" id="code-tab" class="tab-pane">
                 Code
