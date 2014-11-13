@@ -1,3 +1,9 @@
+// These are all of the controls that we're going to be using.
+// Selecting them at the top here means we don't have to ever
+//   request them from JQuery again.
+var tutorial_back_button = $('#tutorial_back');
+var tutorial_forward_button = $('#tutorial_forward');
+
 function enablePageInteraction() {
     var editor_tabs = $('#editor_tabs');
     editor_tabs.tab();
@@ -34,10 +40,58 @@ function enablePageInteraction() {
 
     // Wire up the nifty rename button trickery
     setupNameRename();
+
+    setupTutorial();
 }
 
-function loadBlocklyXml() {
-    blockly_xml_src = $('')
+function setupTutorial() {
+    var tutorial_elem = $('#tutorial');
+    if (tutorial_elem.length) {
+        console.log("Setting up tutorial");
+
+        // Move 'tutorial_content' into 'tutorial'.
+        var tutorial_content_elem = $('#tutorial_content');
+        tutorial_content_elem.appendTo($('#tutorial'));
+
+        // Connect the buttons
+        var page_number = 1;
+        tutorial_back_button.click(function() {
+            page_number -= 1;
+            showTutorialPage(page_number);
+        });
+        tutorial_forward_button.click(function() {
+            page_number += 1;
+            showTutorialPage(page_number);
+        });
+
+        // Show the first page
+        showTutorialPage(page_number);
+    } else {
+        console.log("No tutorial on page");
+    }
+}
+
+function showTutorialPage(page_id) {
+    var tutorial_content_elem = $('#tutorial_content');
+
+    // Show only the page we're after.
+    tutorial_content_elem.children().hide();
+    tutorial_content_elem.find(':nth-child('+page_id+')').show();
+
+    // Disable the back button only on the first page
+    if (page_id==1) {
+        tutorial_back_button.addClass('disabled');
+    } else {
+        tutorial_back_button.removeClass('disabled');
+    }
+
+    // Disable the forward button only for the last page
+    console.log("on page ",page_id," of ",tutorial_content_elem.children().length);
+    if (page_id == tutorial_content_elem.children().length) {
+        tutorial_forward_button.addClass('disabled');
+    } else {
+        tutorial_forward_button.removeClass('disabled');
+    }
 }
 
 function setupNameRename() {

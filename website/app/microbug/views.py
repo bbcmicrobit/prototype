@@ -37,6 +37,12 @@ def programs(request):
     programs = Program.objects.all()
     return render(request, 'microbug/programs.html', {'programs': programs})
 
+# Show the tutorials
+def tutorial(request, tutorial_name, page_number=1):
+    return render(request, 'microbug/tutorial_multiple_toolboxes.html', {})
+
+##########################################
+
 # Called when the user clicks the 'build_code' button in the editor.
 @csrf_exempt
 def build_code(request):

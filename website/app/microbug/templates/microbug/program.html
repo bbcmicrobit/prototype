@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block body %}
-
     <div id="program_id" class="hidden">{{ program.id }}</div>
     <input type="text" id="original_program_name" class="hidden" value="{{ program.name }}">
     <div class="input-group">
@@ -15,7 +14,7 @@
     </div>
 
     <p><em>ID: </em>{{ program.id }}</p>
-    
+
     {% if program.version %}
         <div class="rounded">
             <h1>Version: {{ program.version.id }}</h1>

@@ -19,6 +19,10 @@ urlpatterns = patterns('',
     # Ex: /program/23/big_new_programme
     url(r'^program/(?P<program_id>\d+)/(?P<program_name>.*)', views.program, name='program'),
 
+    # Ex: /tutorials/juggling%20badgers
+    url(r'^tutorial/(?P<tutorial_name>[^#]*)', views.tutorial, name='tutorial'),
+
+
     ###########################################################################
 
     # Ajax urls

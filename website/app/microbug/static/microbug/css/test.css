@@ -34,3 +34,7 @@
     -moz-border-radius: 8px;
     border-radius: 8px;
 }
+
+#tutorial_content > * {
+    display: none;
+}
