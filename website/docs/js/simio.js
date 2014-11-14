@@ -53,9 +53,6 @@ var SIMIO = (function(){
 				context.stroke();				
 			}
 		}
-
-		// For console display output
-		// DALJS.debug();
 	};
 
 	var init = function(divId) {
@@ -66,7 +63,6 @@ var SIMIO = (function(){
 		context = canvas.getContext('2d');
 
 		document.getElementById(divId).appendChild(canvas);
-		DALJS.setDirtyCallback(render);
 	};
 
 	return {

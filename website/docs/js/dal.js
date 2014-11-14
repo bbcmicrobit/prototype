@@ -139,6 +139,8 @@ var DALJS = (function(){
 	var left_eye_state;
 	var right_eye_state;
 
+	//var blocking = true;
+	var blocking = false;
 
 	////////////////////////////////////////////////////////////////
 	// Simulator implementation
@@ -183,35 +185,85 @@ var DALJS = (function(){
 		}
 	}
 
+	function delay(ms)
+	{
+		var start = new Date().getTime();
+		for (var i = 0; i < 1e7; i++) {
+			if ((new Date().getTime() - start) > ms)
+			{
+				console.log(".");
+				break;
+			}
+		}
+    }
+
 	function handlePrintMessage()
 	{
-		showLetter(printMessageStr[0]);
-		printMessageStr = printMessageStr.substr(1);
+		if (blocking)
+		{
+			while (printMessageStr.length)
+			{
+				showLetter(printMessageStr[0]);
+				printMessageStr = printMessageStr.substr(1);
+				delay(printMessageInterval);				
+			}
+		}
+		else
+		{
+			showLetter(printMessageStr[0]);
+			printMessageStr = printMessageStr.substr(1);
 
-		if (printMessageStr.length)
-			setTimeout(handlePrintMessage, printMessageInterval);
+			if (printMessageStr.length)
+				setTimeout(handlePrintMessage, printMessageInterval);
+		}
 	}
 
 	function handleScrollImage()
 	{
-		clearDisplay();
-		showViewport(imageToScroll, imageScrollOffsetH, 0);
-
-		if (imageScrollOffsetH < imageToScroll.width-DISPLAY_WIDTH+1)
+		if (blocking)
 		{
-			imageScrollOffsetH++;
-			setTimeout(handleScrollImage, imageScrollInterval);
+			while (imageScrollOffsetH < imageToScroll.width-DISPLAY_WIDTH+1)
+			{
+				clearDisplay();
+				showViewport(imageToScroll, imageScrollOffsetH, 0);
+				imageScrollOffsetH++;
+				delay(imageScrollInterval);
+			}	
+		}
+		else
+		{
+			clearDisplay();
+			showViewport(imageToScroll, imageScrollOffsetH, 0);
+
+			if (imageScrollOffsetH < imageToScroll.width-DISPLAY_WIDTH+1)
+			{
+				imageScrollOffsetH++;
+				setTimeout(handleScrollImage, imageScrollInterval);
+			}
 		}
 	}
 
 	function handleScrollSprite()
 	{
-		if (spriteScrollOffsetH < spriteToScroll.pixel_width())
+		if (blocking)
 		{
-			spriteToScroll.render_string();
-			spriteToScroll.pan_right();
-			spriteScrollOffsetH++;
-			setTimeout(handleScrollSprite, spriteScrollInterval);
+			while(spriteScrollOffsetH < spriteToScroll.pixel_width())
+			{
+				spriteToScroll.render_string();
+				spriteToScroll.pan_right();
+				spriteScrollOffsetH++;
+				delay(spriteScrollInterval);				
+			}
+		}
+		else
+		{
+			if (spriteScrollOffsetH < spriteToScroll.pixel_width())
+			{
+				spriteToScroll.render_string();
+				spriteToScroll.pan_right();
+				spriteScrollOffsetH++;
+				setTimeout(handleScrollSprite, spriteScrollInterval);
+			}
 		}
 	}
 
@@ -544,16 +596,16 @@ var DALJS = (function(){
 			rowString+="\n";
 		}
 		console.log(rowString);
-	}
+	};
 
 	var getDisplay = function()
 	{
 		return display;
-	}
+	};
 
 	var setDirtyCallback= function(fn) {
 		dirtyCallback = fn;
-	}
+	};
 
 	return {
 		setEye : setEye,
