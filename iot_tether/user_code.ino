@@ -17,6 +17,27 @@ private:
   double ratio;              // Advertised attribute - type double
   bool some_flag;            // Advertised attribute - type bool
 
+
+//   void set_eye(char id, int state);
+//   void showLetter(char c);
+//   int getButton(char id);
+//   void clear_display();
+//   void plot(int x, int y);
+//   void unplot(int x, int y);
+//   int point(int x, int y);
+//   void set_display(int sprite[5][5]);
+//   void showViewport(Image& someImage, int x, int y);
+//   void ScrollImage(Image someImage, boolean loop, int trailing_spaces);
+//   int image_point(Image& someImage, int x, int y);
+//   void set_image_point(Image& someImage, int x, int y, int value);
+//   void showLetter(char c); // Could be just internal, but useful.
+//   void print_message(const char * message, int pausetime);
+//   void toggle_eye(char id);
+//
+//   struct StringSprite;
+//   void scroll_sprite(StringSprite theSprite, int pausetime);
+
+
   char temp_str[128];
 public:
   TestHost() : drive_forward_time_ms(DRIVE_FORWARD_TIME_MS), turn_time_ms(TURN_TIME_MS), ratio(0), some_flag(true) {
