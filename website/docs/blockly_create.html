@@ -4,9 +4,13 @@
 </style>
 <script src="jquery.min.js" type="text/javascript"></script>
 <script src="jquery-ui.min.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="acorn_interpreter.js"></script>
+
 <script type="text/javascript" src="blockly/blockly_compressed.js"></script>
 <script type="text/javascript" src="blockly/blocks_compressed.js"></script>
 <script type="text/javascript" src="blockly/python_compressed.js"></script>
+<script type="text/javascript" src="blockly/javascript_compressed.js"></script>
 <script type="text/javascript" src="blockly/msg/js/en.js"></script>
 <script>
 function buildCode() {
@@ -28,7 +32,13 @@ function buildCode() {
                                       },
            });
 }
+
 </script>
+
+
+
+
+
 </head>
 <body>
 <h1> MicroBug</h1>
@@ -38,6 +48,10 @@ function buildCode() {
 
 
 <button type="button" onclick="buildCode()">Build Code</button>
+    <button onclick="runCode()">Run JavaScript</button>
+    <input type="text" id="pausetime" value="1000">
+<!--    <button onclick="parseCode()">Parse JavaScript</button>
+    <button onclick="stepCode()" id="stepButton" disabled="disabled">Step JavaScript</button> -->
 
 <div id="codeblock" style="width: 90%; border: dotted;margin:1em; padding: 1em;">
 <PRE>
@@ -75,12 +89,95 @@ function buildCode() {
     </category>
   </xml>
 
+  <xml id="startBlocks" style="display: none">
+  </xml>
+
   <script type="text/javascript">
-    Blockly.inject(document.getElementById('blocklyDiv'),
+  Blockly.inject(document.getElementById('blocklyDiv'),
                    { path: './',
                      toolbox: document.getElementById('toolbox'),
                      trashcan: false
                    });
+    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace,
+        document.getElementById('startBlocks'));
+
+    var myInterpreter = null;
+    var myInterval = null;
+    function initApi(interpreter, scope) {
+      // Add an API function for the alert() block.
+      var wrapper = function(text) {
+        text = text ? text.toString() : '';
+        return interpreter.createPrimitive(alert(text));
+      };
+      interpreter.setProperty(scope, 'alert',
+          interpreter.createNativeFunction(wrapper));
+
+      // Add an API function for the prompt() block.
+      var wrapper = function(text) {
+        text = text ? text.toString() : '';
+        return interpreter.createPrimitive(prompt(text));
+      };
+      interpreter.setProperty(scope, 'prompt',
+          interpreter.createNativeFunction(wrapper));
+
+      // Add an API function for highlighting blocks.
+      var wrapper = function(id) {
+        id = id ? id.toString() : '';
+        return interpreter.createPrimitive(highlightBlock(id));
+      };
+      interpreter.setProperty(scope, 'highlightBlock',
+          interpreter.createNativeFunction(wrapper));
+    }
+
+    var highlightPause = false;
+
+    function highlightBlock(id) {
+      Blockly.mainWorkspace.highlightBlock(id);
+      highlightPause = true;
+    }
+
+    function runCode() {
+        parseCode();
+        stepCode();
+    }
+    function parseCode() {
+      // Generate JavaScript code and parse it.
+      Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
+      Blockly.JavaScript.addReservedWords('highlightBlock');
+      var code = Blockly.JavaScript.workspaceToCode();
+      myInterpreter = new Interpreter(code, initApi);
+
+      alert('Ready to execute this code:\n\n' + code);
+      highlightPause = false;
+      Blockly.mainWorkspace.traceOn(true);
+      Blockly.mainWorkspace.highlightBlock(null);
+    }
+
+
+    function stepCode() {
+      try {
+        var ok = myInterpreter.step();
+      } finally {
+        if (!ok) {
+          // Program complete, no more code to execute.
+          return;
+        }
+      }
+      if (highlightPause) {
+        // A block has been highlighted.  Pause execution here.
+            var pausebutton = document.getElementById('pausetime');
+            var delay = parseInt(document.getElementById('pausetime').value);
+
+            highlightPause = false;
+            setTimeout(function () {
+                stepCode();
+                },delay );
+      } else {
+        // Keep executing until a highlight statement is reached.
+        stepCode();
+      }
+    }
+
   </script>
 
 
