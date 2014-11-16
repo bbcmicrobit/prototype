@@ -12,6 +12,15 @@
 <script type="text/javascript" src="blockly/python_compressed.js"></script>
 <script type="text/javascript" src="blockly/javascript_compressed.js"></script>
 <script type="text/javascript" src="blockly/msg/js/en.js"></script>
+
+        <script type="text/javascript" src="blockly/blocks/microbug.js"></script>
+        <script type="text/javascript" src="blockly/generators/javascript/microbug.js"></script>
+        <script type="text/javascript" src="blockly/generators/python/microbug.js"></script>
+        <script type="text/javascript" src="js/simio.js"></script>
+    // Sim Renderer
+        <script type="text/javascript" src="dal_worker_esque.js"></script>
+
+
 <script>
 function buildCode() {
     var code = Blockly.Python.workspaceToCode();
@@ -47,6 +56,7 @@ function buildCode() {
 <P>
 
 
+<button type="button" onclick="flibbleCode()">flibbleCode</button>
 <button type="button" onclick="buildCode()">Build Code</button>
     <button onclick="runCode()">Run JavaScript</button>
     <input type="text" id="pausetime" value="1000">
@@ -63,9 +73,33 @@ function buildCode() {
 <P>Server result goes here
 </div>
 
+        <div id="SIMIO" style="width:128px;"></div>
+
+
 <div id="blocklyDiv" style="width: 92%; margin:1em; height: 480px; "></div>
 
   <xml id="toolbox" style="display: none">
+    <category name="Microbug">
+            <category name="Eyes">
+                    <block type="microbug_seteye"></block>
+                    <block type="microbug_eyeon"></block>
+                    <block type="microbug_eyeoff"></block>
+            </category>
+            <category name="Display">
+                    <block type="microbug_scrollstring"></block>
+                    <block type="microbug_printmessage"></block>
+                    <block type="microbug_showletter"></block>
+                    <block type="microbug_cleardisplay"></block>
+                    <block type="microbug_plot"></block>
+                    <block type="microbug_unplot"></block>
+                    <block type="microbug_point"></block>
+            </category>
+            <category name="Buttons">
+                    <block type="microbug_getbutton"></block>
+            </category>
+    </category>
+
+
     <category name="Control Structures">
         <block type="controls_if"></block>
         <block type="controls_if_elseif"></block>
@@ -90,6 +124,9 @@ function buildCode() {
   </xml>
 
   <xml id="startBlocks" style="display: none">
+
+<block type="controls_repeat_ext" id="1" inline="true" x="81" y="90"><value name="TIMES"><block type="math_number" id="2"><field name="NUM">5</field></block></value><statement name="DO"><block type="microbug_scrollstring" id="15" inline="false"><value name="Message"><block type="text" id="18"><field name="TEXT">HELLO WORLD</field></block></value><value name="Speed"><block type="math_number" id="21"><field name="NUM">100</field></block></value><next><block type="microbug_printmessage" id="3" inline="false"><value name="message"><block type="text" id="4"><field name="TEXT">HELLO</field></block></value><value name="pausetime"><block type="math_number" id="5"><field name="NUM">100</field></block></value><next><block type="text_print" id="6" inline="false"><value name="TEXT"><block type="text" id="7"><field name="TEXT">WORLD</field></block></value></block></next></block></next></block></statement></block>
+
   </xml>
 
   <script type="text/javascript">
@@ -98,12 +135,22 @@ function buildCode() {
                      toolbox: document.getElementById('toolbox'),
                      trashcan: false
                    });
+
+    // Sim Renderer
+    SIMIO.init("SIMIO");
+                       eyeOn("L");
+                       eyeOn("R");
+                       scrollString('READY', 100);
+                       setDirtyCallback(SIMIO.render);
+
     Blockly.Xml.domToWorkspace(Blockly.mainWorkspace,
         document.getElementById('startBlocks'));
 
     var myInterpreter = null;
     var myInterval = null;
+
     function initApi(interpreter, scope) {
+
       // Add an API function for the alert() block.
       var wrapper = function(text) {
         text = text ? text.toString() : '';
@@ -111,6 +158,7 @@ function buildCode() {
       };
       interpreter.setProperty(scope, 'alert',
           interpreter.createNativeFunction(wrapper));
+
 
       // Add an API function for the prompt() block.
       var wrapper = function(text) {
@@ -120,6 +168,26 @@ function buildCode() {
       interpreter.setProperty(scope, 'prompt',
           interpreter.createNativeFunction(wrapper));
 
+
+      // Add an API function for the printMessage() block.
+      var wrapper = function(text) {
+        text = text ? text.toString() : '';
+        return interpreter.createPrimitive(printMessage(text));
+      };
+      interpreter.setProperty(scope, 'printMessage',
+          interpreter.createNativeFunction(wrapper));
+
+
+      // Add an API function for the scrollString() block.
+      var wrapper = function(text) {
+        text = text ? text.toString() : '';
+        return interpreter.createPrimitive(scrollString(text));
+      };
+      interpreter.setProperty(scope, 'scrollString',
+          interpreter.createNativeFunction(wrapper));
+
+
+
       // Add an API function for highlighting blocks.
       var wrapper = function(id) {
         id = id ? id.toString() : '';
@@ -127,6 +195,9 @@ function buildCode() {
       };
       interpreter.setProperty(scope, 'highlightBlock',
           interpreter.createNativeFunction(wrapper));
+
+
+
     }
 
     var highlightPause = false;
@@ -145,7 +216,12 @@ function buildCode() {
       Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
       Blockly.JavaScript.addReservedWords('highlightBlock');
       var code = Blockly.JavaScript.workspaceToCode();
+
+
       myInterpreter = new Interpreter(code, initApi);
+
+
+
 
       alert('Ready to execute this code:\n\n' + code);
       highlightPause = false;
@@ -153,8 +229,14 @@ function buildCode() {
       Blockly.mainWorkspace.highlightBlock(null);
     }
 
-
+    
     function stepCode() {
+      if (! device_ready()) {
+          setTimeout(function () {
+                stepCode();
+                }, 50);
+          return;
+      }
       try {
         var ok = myInterpreter.step();
       } finally {
@@ -178,8 +260,17 @@ function buildCode() {
       }
     }
 
-  </script>
+function flibbleCode() {
+Blockly.mainWorkspace.highlightBlock('1');
+for(var count = 0; count < 5;count++) {
+   Blockly.mainWorkspace.highlightBlock('3');
+   printMessage('HELLO',200);Blockly.mainWorkspace.highlightBlock('6');
+   alert('WORLD');
+   Blockly.mainWorkspace.highlightBlock('1');
+};
+}
 
+</script>
 
 <hr>
 Contact: michael.sparks@bbc.co.uk
