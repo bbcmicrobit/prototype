@@ -10,8 +10,12 @@
 	<script type="text/javascript" src="blockly/javascript_compressed.js"></script>
 	<script type="text/javascript" src="blockly/msg/js/en.js"></script>
 
+	<script type="text/javascript" src="js/dal_worker.js"></script>
+	<script type="text/javascript" src="js/acorn_interpreter.js"></script>
+
 	<script type="text/javascript" src="blockly/blocks/microbug.js"></script>
 	<script type="text/javascript" src="blockly/generators/javascript/microbug.js"></script>
+	<script type="text/javascript" src="blockly/generators/python/microbug.js"></script>
 
 	<script type="text/javascript" src="js/simio.js"></script>
 </head>
@@ -22,6 +26,9 @@
 	<hr>
 	<P>
 	<button type="button" id="BuildCodeButton">Build Code</button>
+	<button type="button" id="RunCodeButton">Run Simulator</button>
+    <input type="text" id="pausetime" value="1000">
+
 	<div id="codeblock" style="width: 90%; border: dotted;margin:1em; padding: 1em;">
 		<PRE>
 		# Codeblock
@@ -49,6 +56,8 @@
 					<block type="microbug_plot"></block>
 					<block type="microbug_unplot"></block>
 					<block type="microbug_point"></block>
+					<block type="microbug_buildsprite"></block>
+					<block type="microbug_setdisplay"></block>
 				</category>
 				<category name="Buttons">
 					<block type="microbug_getbutton"></block>
@@ -76,6 +85,7 @@
 			<category name="Loops">
 				<block type="controls_whileUntil"></block>
 				<block type="controls_for"></block>
+				<block type="controls_repeat_ext"></block>
 			</category>
 
 			<category name="Values">
@@ -83,6 +93,9 @@
 					<block type="text"></block>
 			</category>
 		</xml>
+		
+		<xml id="startBlocks" style="display: none">
+<block type="microbug_eyeon" id="9" inline="true" x="111" y="-7"><value name="id"><block type="text" id="15"><field name="TEXT">R</field></block></value><next><block type="controls_repeat_ext" id="1" inline="true"><value name="TIMES"><block type="math_number" id="2"><field name="NUM">3</field></block></value><statement name="DO"><block type="microbug_printmessage" id="3" inline="false"><value name="message"><block type="text" id="4"><field name="TEXT">MONKEY</field></block></value><value name="pausetime"><block type="math_number" id="5"><field name="NUM">100</field></block></value></block></statement></block></next></block>
 	</div>
 	<hr>
 	Contact: michael.sparks@bbc.co.uk
@@ -96,38 +109,184 @@
 		});
 
 		$(document).ready(function() {
-			// DAL (sim) worker
-			var worker = new Worker('js/dal_worker.js');
-
 			// Sim Renderer
 			SIMIO.init("SIMIO");
+			//printMessage('READY', 200);
+			DALJS.scrollString('READY', 50)
+			DALJS.setDirtyCallback(SIMIO.render);
 
-			worker.addEventListener('message', function(e) {
-				SIMIO.render(e.data.display, e.data.eyes);
-			});
+			//Add start blocks if defined - idea: dump them out to console?
+			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, document.getElementById('startBlocks'));
+
+		    var myInterpreter = null;
+		    var myInterval = null;
+
+			function initInterpreterApi(interpreter, scope)
+			{
+			    // Add an API function for the alert() block.
+			    var wrapper = function(text)
+			    {
+			        text = text ? text.toString() : '';
+			        return interpreter.createPrimitive(alert(text));
+			    };
+			    interpreter.setProperty(scope, 'alert',
+			    interpreter.createNativeFunction(wrapper));
+
+			    // Add an API function for the prompt() block.
+			    wrapper = function(text)
+			    {
+			        text = text ? text.toString() : '';
+			        return interpreter.createPrimitive(prompt(text));
+			    };
+			    interpreter.setProperty(scope, 'prompt',
+			    interpreter.createNativeFunction(wrapper));
+
+			    // Add an API function for highlighting blocks.
+			    wrapper = function(id)
+			    {
+			        id = id ? id.toString() : '';
+			        return interpreter.createPrimitive(highlightBlock(id));
+			    };
+			    interpreter.setProperty(scope, 'highlightBlock',
+			    interpreter.createNativeFunction(wrapper));
+
+
+
+
+
+			    // Add API for eyeOn
+			    wrapper = function(text)
+			    {
+			        text = text ? text.toString() : '';
+			        return interpreter.createPrimitive(DALJS.eyeOn(text));
+			    }
+			    interpreter.setProperty(scope, 'eyeOn',
+			    interpreter.createNativeFunction(wrapper));
+
+			    // Add an API function for the printMessage() block.
+			    wrapper = function(text)
+			    {
+			        text = text ? text.toString() : '';
+			        return interpreter.createPrimitive(DALJS.printMessage(text));
+			    };
+			    interpreter.setProperty(scope, 'printMessage',
+			    interpreter.createNativeFunction(wrapper));
+
+
+			    // Add an API function for the scrollString() block.
+			    wrapper = function(text)
+			    {
+			        text = text ? text.toString() : '';
+			        return interpreter.createPrimitive(DALJS.scrollString(text));
+			    };
+			    interpreter.setProperty(scope, 'scrollString',
+			    interpreter.createNativeFunction(wrapper));
+
+			}	    
+//////
+			var highlightPause = false;
+
+			function highlightBlock(id)
+			{
+			    Blockly.mainWorkspace.highlightBlock(id);
+			    highlightPause = true;
+			}
+
+			function runCode()
+			{
+				DALJS.reset();
+			    parseCode();
+			    stepCode();
+			}
+
+			function parseCode()
+			{
+			    // Generate JavaScript code and parse it.
+			    Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
+			    Blockly.JavaScript.addReservedWords('highlightBlock');
+			    
+			    var code = Blockly.JavaScript.workspaceToCode();
+			    myInterpreter = new Interpreter(code, initInterpreterApi);
+			    alert('Ready to execute this code:\n\n' + code);
+			    highlightPause = false;
+			    Blockly.mainWorkspace.traceOn(true);
+			    Blockly.mainWorkspace.highlightBlock(null);
+			}
+
+			function stepCode()
+			{
+				console.log("step code!");
+			    if (!DALJS.deviceReady())
+			    {
+			        setTimeout(function()
+			        {
+			            stepCode();
+			        }, 50);
+			        return;
+			    }
+
+			    try
+			    {
+			    	console.log("stepping...");
+			        var ok = myInterpreter.step();
+			        console.log(myInterpreter.value);
+//					console.log("stepCode ok?" + ok);
+			    }
+			    finally
+			    {
+			        if (!ok)
+			        {
+			            // Program complete, no more code to execute.
+			            return;
+			        }
+			    }
+
+			    if (highlightPause)
+			    {
+			        // A block has been highlighted.  Pause execution here.
+			        var pausebutton = document.getElementById('pausetime');
+			        var delay = parseInt(document.getElementById('pausetime').value);
+
+			        highlightPause = false;
+			        setTimeout(function()
+			        {
+			            stepCode();
+			        }, delay);
+			    }
+			    else
+			    {
+			        // Keep executing until a highlight statement is reached.
+			        stepCode();
+			    }
+			}
+//////
+
 
 			// Code Build
 			var buildCode = function() {
 				//var code = Blockly.Python.workspaceToCode();
-				var code = Blockly.JavaScript.workspaceToCode();
-				worker.postMessage(code);
+				//var jscode = Blockly.JavaScript.workspaceToCode();
+				var pycode = "";//Blockly.Python.workspaceToCode();
 
 				var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 				var xml_text = Blockly.Xml.domToText(xml);
+				console.log(xml_text);
 
-				$("#codeblock").html("<P><PRE>" + code  + "</PRE>");
-				// $.ajax({
+				$("#codeblock").html("<P><PRE>" + jscode  + "</PRE>" + "<P><PRE>" + pycode + "</PRE>");
+    // 			$.ajax({
 				// 	type: "POST",
-				// 	url: "/cgi-bin/upload.py",
-				// 	data: JSON.stringify({"repr" : { "code": code, "xml" : xml_text }}),
+				// 	url: "/cgi-bin/upload_mb.py",
+				// 	data: JSON.stringify({"repr" : { "code": pycode, "xml" : xml_text }}),
 				// 	success: function( data ) {
 				// 		var someid = data["id"];
 				// 		text = '<P>Link to this version - <a href="/blockly_reload.html?id=' +  someid + '"> ' + someid.toString() +' </a>';
-				// 		$( "	#resultblock" ).html( text );
-				// 	},
+				// 		$( "#resultblock" ).html( text );
+				// 		},
 				// });
-			}
+			};
+
 			document.getElementById("BuildCodeButton").addEventListener("click", buildCode);
+			document.getElementById("RunCodeButton").addEventListener("click", runCode);
 
 		});
 	</script>

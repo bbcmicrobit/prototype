@@ -4,7 +4,7 @@ goog.provide('Blockly.JavaScript.microbug');
 
 goog.require('Blockly.JavaScript');
 
-var prefix = ''; //any prefix can be added to the function names, just in case they end up being namespaced or in an object
+var prefix = 'DALJS.'; //any prefix can be added to the function names, just in case they end up being namespaced or in an object
 
 Blockly.JavaScript['microbug_scrollstring'] = function(block) {
   var value_message = Blockly.JavaScript.valueToCode(block, 'Message', Blockly.JavaScript.ORDER_ATOMIC);
@@ -69,7 +69,7 @@ Blockly.JavaScript['microbug_plot'] = function(block) {
   var value_x = Blockly.JavaScript.valueToCode(block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
   var value_y = Blockly.JavaScript.valueToCode(block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = 'DALJS.plot(' + value_x + ',' + value_y + ');';
+  var code = 'plot(' + value_x + ',' + value_y + ');';
   return prefix+code;
 };
 
@@ -89,6 +89,26 @@ Blockly.JavaScript['microbug_point'] = function(block) {
   // TODO: Change ORDER_NONE to the correct strength.
   return [prefix+code, Blockly.JavaScript.ORDER_NONE];
 };
+
+Blockly.JavaScript['microbug_buildsprite'] = function(block)
+{
+    for (var b = "buildSprite([", c = 0; 5 > c; c++)
+    {
+        for (var b = b + "[", d = 0; 5 > d; d++) b += "TRUE" == block.getFieldValue("LED" + d + c) ? 1 : 0, b += 4 > d ? ", " : "";
+        b += "]";
+        b += 4 > c ? ", " : ""
+    }
+    return [prefix + b + "])", Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.JavaScript['microbug_setdisplay'] = function(block)
+{
+  var value_var = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_ATOMIC);
+  var code = 'setDisplay(' + value_var + ');';
+  return [prefix+code, Blockly.JavaScript.ORDER_NONE];
+}
+
+
 
 // FOREVER LOOP (while true?)
 
