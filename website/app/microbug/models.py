@@ -1,9 +1,14 @@
 from django.db import models
 import settings
+from compiled_version_store import CompiledVersionStore
 from primary_version_store import PrimaryVersionStore
+from pending_version_store import PendingVersionStore
 import json
+import datetime
 
 primary_version_store = PrimaryVersionStore(settings.PRIMARY_STORE_DIRECTORY)
+pending_store = PendingVersionStore(settings.PENDING_PYTHON_QUEUE_DIRECTORY)
+compiled_store = CompiledVersionStore(settings.COMPILED_PYTHON_PROGRAMS_DIRECTORY)
 
 # This reflects a single version which the user has uploaded
 class Version(models.Model):
@@ -32,11 +37,27 @@ class Version(models.Model):
     def xml(self):
         return self.json()['repr']['xml']
 
+    # Returns a boolean indicating if this version has been compiled
+    def is_compiled(self):
+        return compiled_store.contains(self.base_filename())
+    is_compiled.boolean = True
+
     # The base filename
     def base_filename(self):
         return "{0}_{1}".format(self.id, self.store_uuid)
     base_filename.admin_order_field = 'id'
     base_filename.short_description = 'Base filename'
+
+    # The position of this item in the pending queue (Actually the number of items to be
+    # processed before this one).
+    def python_pending_queue(self):
+        return len(pending_store.items_before(self.base_filename()))
+
+    # The ETA for the item being processed.
+    def python_compilation_eta(self):
+        # Add one, this item needs compiling itself
+        time_in_seconds = settings.PYTHON_ITEM_COMPILATION_TIME * (self.python_pending_queue()+1)
+        return datetime.timedelta(seconds=time_in_seconds)
 
     # Stringify as '1_bcff_2313 (11 LoC, base 2_dbff_2312')'
     def __str__(self):

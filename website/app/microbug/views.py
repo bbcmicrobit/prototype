@@ -1,20 +1,23 @@
 # This is all of the views that the Microbug application supports
 
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseServerError
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseServerError, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
 import logging
 import json
 import settings
 import sys
+from compiled_version_store import CompiledVersionStore
 from primary_version_store import PrimaryVersionStore
 from pending_version_store import PendingVersionStore
 from microbug.models import Program, Version
 import re
+from django.template.defaultfilters import slugify
 
 # Get a version store we can keep uploaded files in.
+compiled_version_store = CompiledVersionStore(settings.COMPILED_PYTHON_PROGRAMS_DIRECTORY)
 primary_version_store = PrimaryVersionStore(settings.PRIMARY_STORE_DIRECTORY)
-pending_queue_store = PendingVersionStore(settings.PENDING_QUEUE_DIRECTORY)
+pending_queue_store = PendingVersionStore(settings.PENDING_PYTHON_QUEUE_DIRECTORY)
 
 # Get the logger for these views
 logger = logging.getLogger(__name__)
@@ -41,6 +44,27 @@ def programs(request):
 def tutorial(request, tutorial_name, page_number=1):
     return render(request, 'microbug/tutorial_multiple_toolboxes.html', {})
 
+# Downloads a compiled .hex program
+def download(request, program_id, program_name=None):
+    program = get_object_or_404(Program, pk=program_id)
+
+    # Program name defaults to the name in the DB.
+    if program_name is None:
+        program_name = program.name
+
+    # Obtain the data from the compiled store, if it's not there then return a HTTP
+    # error
+    content = compiled_version_store.hex(program.version.base_filename())
+    if content is None:
+        return HttpResponseNotFound("No compiled version found")
+
+    response = HttpResponse(content, content_type='application/octet-stream')
+    saved_filename = "%s.hex" % slugify(program_name)
+    logger.debug("Saving as '{0}'".format(saved_filename))
+
+    response['Content-Disposition'] = 'attachment; filename="{0}"'.format(saved_filename)
+
+    return response
 ##########################################
 
 # Called when the user clicks the 'build_code' button in the editor.
@@ -64,13 +88,30 @@ def build_code(request):
     python_code = json_obj['repr']['code']
     lines_of_code = _count_lines(python_code)
 
-    # Write the Version to the database
+    # Pull out program details from request
+    program_name = json_obj['program_name']
+    program_id = json_obj['program_id']
+
+    # Check if we've been provided with a Program ID, if so find the program now so we can
+    # maintain the version links
+    new_program = None
+    if program_id:
+        new_program = get_object_or_404(Program, pk=program_id)
+
+    # Write the new Version to the database
     version = Version(id=numeric_id, store_uuid=random_uuid, lines_of_code_count=lines_of_code)
+    if new_program:
+        version.previous_version = new_program.version
+        json_obj['previous_version'] = new_program.version
     version.save()
 
-    # Write the Program to the database
-    program_name = json_obj['program_name']
-    new_program = Program(version=version, name=program_name)
+    # If we didn't obtain a Program from the ID we'll create one now, if we did we'll update it
+    # to point to new version
+    if new_program:
+        new_program.version = version
+        new_program.name = program_name
+    else:
+        new_program = Program(version=version, name=program_name)
     new_program.save()
 
     # Add the program details to the JSON
@@ -78,7 +119,7 @@ def build_code(request):
 
     # Write it to both of the stores
     pretty_json = _prettify_json(json_obj)
-    (numeric_id, random_uuid) = primary_version_store.write_new_version(pretty_json, numeric_id, random_uuid)
+    primary_version_store.write_new_version(pretty_json, numeric_id, random_uuid)
     pending_queue_store.write_new_version(python_code, numeric_id, random_uuid)
 
     # Return the program's ID

@@ -18,7 +18,7 @@ function enablePageInteraction() {
         console.log("Activating buildCode on ",build_code_btn);
         build_code_btn.click(function () {
             console.log("Building code");
-            compileBlockly();
+            compileNewProgram();
         })
     } else {
         console.log("No buildCode button, skipping");
@@ -274,6 +274,7 @@ function compileNewProgram(successCallback) {
         url: "/microbug/build_code/",
         data: JSON.stringify({
             "program_name": getProgramName(),
+            "program_id": getProgramId(),
             "repr": {
                 "code": blocklyCode(),
                 "xml": blocklyCodeAsPython()
@@ -294,6 +295,7 @@ function recompileProgram(successCallback) {
         url: "/microbug/build_code/",
         data: JSON.stringify({
             "program_name": getProgramName(),
+            "program_id": getProgramId(),
             "repr": {
                 "code": blocklyCode(),
                 "xml": blocklyCodeAsPython()

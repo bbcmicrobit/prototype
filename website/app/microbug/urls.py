@@ -13,6 +13,12 @@ urlpatterns = patterns('',
     # Ex: /create_program
     url(r'^create_program/$', views.create_program, name='create_program'),
 
+    # Ex: /download/23/big_new_programme
+    url(r'^download/(?P<program_id>\d+)/(?P<program_name>.*)', views.download, name='download'),
+
+    # Ex: /download/23
+    url(r'^download/(?P<program_id>\d+)', views.download, name='download'),
+
     # Ex: /program/23
     url(r'^program/(?P<program_id>\d+)', views.program, name='program'),
 

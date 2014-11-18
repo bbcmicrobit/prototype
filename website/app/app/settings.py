@@ -141,6 +141,10 @@ LOGGING = {
         'microbug.views': {
             'handlers': ['console'],
             'level': 'DEBUG',
+        },
+        'microbug.pending_version_store': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
         }
     }
 }

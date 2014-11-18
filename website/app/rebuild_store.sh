@@ -1,3 +1,4 @@
+/usr/bin/python2.7 manage.py flush
 /usr/bin/python2.7 manage.py makemigrations
 /usr/bin/python2.7 manage.py migrate
 /usr/bin/python2.7 manage.py createsuperuser

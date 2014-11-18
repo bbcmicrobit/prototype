@@ -23,6 +23,15 @@
                 <i class="fa fa-cog">&nbsp;</i>
                 {{ buildBtnText }}
             </button>
+            {% if program.version.is_compiled %}
+                Program is COMPILED
+                <a class="btn btn-primary" href="{% url "microbug:download" program_id=program.id %}">
+                    <i class="fa fa-download">&nbsp;</i>
+                    Download
+                </a>
+            {% else %}
+                Program will be available in {{ program.version.python_compilation_eta }}
+            {% endif %}
             <br/>
 
             <div id="blockly" style="width: 100%; margin:0.5em 0 0 0; height: 480px; "></div>

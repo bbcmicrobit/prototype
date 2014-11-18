@@ -1,5 +1,12 @@
 import os
+import re
+import logging
 
+# Recompile a regex to extract the leading digits
+leading_spaces_regex = re.compile('^(\d+)')
+
+# Get the logger for these views
+logger = logging.getLogger(__name__)
 
 class PendingVersionStore:
     def __init__(self, root_directory):
@@ -19,3 +26,22 @@ class PendingVersionStore:
         f.write(str(data))
         f.flush()
         f.close()
+
+    # Returns a list of items which will be processed before the item provided.
+    # Note: This does not check the item itself is in the list!
+    def items_before(self, item):
+        item_index = self._leading_integer(item)
+        return [
+            filename
+            for filename in os.listdir(self._root_directory)
+            if self._leading_integer(filename) < item_index
+        ]
+
+    # If a string has leading digits return them as integer, if not throw an error
+    def _leading_integer(self, string):
+        logger.warn("STR: %s" % string)
+        match = leading_spaces_regex.match(string)
+        if match:
+            return int(match.group())
+        else:
+            raise Exception("Cannot find leading integer for '%s'" % string)

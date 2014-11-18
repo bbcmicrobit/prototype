@@ -20,7 +20,7 @@ class PrimaryVersionStore:
     def reserve_new_id(self):
         # Create new numeric IDs and UUIDs
         numeric_id = self._allocate_next_free_integer()
-        random_uuid = uuid.uuid1()
+        random_uuid = self.generate_uuid()
 
         return (numeric_id, random_uuid)
 
@@ -38,6 +38,10 @@ class PrimaryVersionStore:
         f.close()
 
         return numeric_id, random_uuid
+
+    # Generate a UUID
+    def generate_uuid(self):
+        return uuid.uuid1()
 
     # Return the next free ID for saving version files
     def _allocate_next_free_integer(self):
