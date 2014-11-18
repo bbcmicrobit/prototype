@@ -153,13 +153,13 @@ Blockly.JavaScript['microbug_setimagepoint'] = function(block) {
   return [prefix+code, Blockly.JavaScript.ORDER_NONE];
 };
 
-Blockly.JavaScript['microbug_scrollsprite'] = function(block) {
-  var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_delay = Blockly.JavaScript.valueToCode(block, 'delay', Blockly.JavaScript.ORDER_ATOMIC);
-  // TODO: Assemble JavaScript into code variable.
-  var code = 'scrollSprite(' + value_id + ',' + value_delay + ');';
-  return [prefix+code, Blockly.JavaScript.ORDER_NONE];
-};
+// Blockly.JavaScript['microbug_scrollsprite'] = function(block) {
+//   var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
+//   var value_delay = Blockly.JavaScript.valueToCode(block, 'delay', Blockly.JavaScript.ORDER_ATOMIC);
+//   // TODO: Assemble JavaScript into code variable.
+//   var code = 'scrollSprite(' + value_id + ',' + value_delay + ');';
+//   return [prefix+code, Blockly.JavaScript.ORDER_NONE];
+// };
 
 
 // FOREVER LOOP (while true?)

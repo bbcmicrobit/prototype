@@ -616,6 +616,7 @@ var DALJS = (function(){
 	};
 
 	return {
+//		scrollSprite: scrollSprite,
 		setEye : setEye,
 		eyeOn : eyeOn,
 		eyeOff : eyeOff,
@@ -632,7 +633,6 @@ var DALJS = (function(){
 		imagePoint : imagePoint,
 		setImagePoint : setImagePoint,
 		toggleEye : toggleEye,
-		scrollSprite: scrollSprite,
 		scrollString: scrollString,
 		buildSprite: buildSprite,
 
