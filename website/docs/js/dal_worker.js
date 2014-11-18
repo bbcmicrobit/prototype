@@ -404,14 +404,24 @@ var DALJS = (function(){
 	//MRB: New helper function
 	var buildSprite = function(imageData)
 	{
-		return new Image(imageData);
+		//HORRIBLE HACK MRBTODO
+		var args = imageData.split(",");
+		args = args.map(function(arg){return parseInt(arg);});
+		var rows = [];
+		rows[0] = args.slice(0,5);
+		rows[1] = args.slice(5,10);
+		rows[2] = args.slice(10,15);
+		rows[3] = args.slice(15,20);
+		rows[4] = args.slice(20,25);
+//		return new Image(imageData);
+		return new Image(rows);
 	};
 
 	//  var setDisplay = function(int sprite[5][5]) {
-	var setDisplay = function(sprite) {
+	var setDisplay = function(image) {
 		for(var i=0; i<5; i++) {
 			for(var j=0; j<5; j++) {
-				display[i][j] = sprite[i][j];
+				display[i][j] = image.data[i][j];
 			}
 		}
 		dirty();
@@ -430,14 +440,12 @@ var DALJS = (function(){
 		dirty();
 	};
 
-	var scrollImage = function(someImage, loop, trailing_spaces)
+	var scrollImage = function(someImage, pausetime)
 	{
-		//NOT YET USED
-		//loop = loop || false;
-		//trailing_spaces = trailing_spaces || false;
+		pausetime = pausetime || 80;
 
 		imageToScroll = someImage;
-		imageScrollInterval = 80;
+		imageScrollInterval = pausetime;
 		imageScrollOffsetH = 0;
 
 		handleScrollImage();
@@ -626,6 +634,7 @@ var DALJS = (function(){
 		toggleEye : toggleEye,
 		scrollSprite: scrollSprite,
 		scrollString: scrollString,
+		buildSprite: buildSprite,
 
 		debug:debug,
 		setDirtyCallback:setDirtyCallback,

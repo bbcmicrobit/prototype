@@ -7,10 +7,12 @@ goog.require('Blockly.Blocks');
 Blockly.Blocks['microbug_scrollstring'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
-    this.setColour(300);
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField("scrollstring");
     this.appendValueInput("Message")
         .setCheck("String")
-        .appendField("Message");
+        .appendField("String");
     this.appendValueInput("Speed")
         .setCheck("Number")
         .appendField("Speed");
@@ -64,6 +66,23 @@ Blockly.Blocks['microbug_eyeoff'] = {
     this.setColour(260);
     this.appendDummyInput()
         .appendField("eyeOff");
+    this.appendValueInput("id")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("id");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+  }
+};
+
+Blockly.Blocks['microbug_toggleeye'] = {
+  init: function() {
+    this.setHelpUrl('http://www.example.com/');
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField("toggleEye");
     this.appendValueInput("id")
         .setCheck("String")
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -221,11 +240,121 @@ Blockly.Blocks['microbug_setdisplay'] = {
         this.setColour(160);
         this.appendDummyInput().appendField("setdisplay");
         this.appendValueInput("SPRITE").appendField("sprite");
-        // this.appendDummyInput().appendField("at");
-        // this.appendValueInput("XPOS").setCheck("Number").appendField("x");
-        // this.appendValueInput("YPOS").setCheck("Number").appendField("y");
         this.setInputsInline(!0);
         this.setPreviousStatement(!0);
         this.setNextStatement(!0);
     }
 };
+
+Blockly.Blocks['microbug_showviewport'] = {
+  init: function() {
+    this.setHelpUrl('http://www.example.com/');
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField("showviewport");
+    this.appendValueInput("sprite")
+//        .setCheck("sprite")
+        .appendField("sprite");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .appendField("y");
+    this.setTooltip('');
+    this.setPreviousStatement(!0);
+    this.setNextStatement(!0);
+  }
+};
+
+Blockly.Blocks['microbug_scrollimage'] = {
+  init: function() {
+    this.setHelpUrl('http://www.example.com/');
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField("scrollSprite");
+    this.appendValueInput("sprite")
+//      .setCheck("sprite")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("sprite");
+    this.appendValueInput("delay")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("delay");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+  }
+};
+
+Blockly.Blocks['microbug_imagepoint'] = {
+  init: function() {
+    this.setHelpUrl('http://www.example.com/');
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField("imagepoint");
+    this.appendValueInput("id")
+        .setCheck("sprite")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("sprite");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.setOutput(true);
+    this.setTooltip('');
+  }
+};
+
+Blockly.Blocks['microbug_setimagepoint'] = {
+  init: function() {
+    this.setHelpUrl('http://www.example.com/');
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField("setimagepoint");
+    this.appendValueInput("id")
+        .setCheck("sprite")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("sprite");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("value")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("value");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+  }
+};
+
+Blockly.Blocks['microbug_scrollsprite'] = {
+  init: function() {
+    this.setHelpUrl('http://www.example.com/');
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField("scrollsprite");
+    this.appendValueInput("id")
+        .setCheck("sprite")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("sprite");
+    this.appendValueInput("delay")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("delay");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+  }
+};
+

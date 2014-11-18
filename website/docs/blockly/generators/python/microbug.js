@@ -78,7 +78,7 @@ Blockly.Python['microbug_unplot'] = function(block) {
   var value_y = Blockly.JavaScript.valueToCode(block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
   var code = 'unplot(' + value_x + ',' + value_y + ')\n';
-  return prefix+codecode;
+  return prefix+code;
 };
 
 Blockly.Python['microbug_point'] = function(block) {

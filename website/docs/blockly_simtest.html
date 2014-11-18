@@ -47,9 +47,10 @@
 					<block type="microbug_seteye"></block>
 					<block type="microbug_eyeon"></block>
 					<block type="microbug_eyeoff"></block>
+					<block type="microbug_toggleeye"></block>
 				</category>
 				<category name="Display">
-					<!-- block type="microbug_scrollstring"></block> -->
+					<block type="microbug_scrollstring"></block>
 					<block type="microbug_printmessage"></block>
 					<block type="microbug_showletter"></block>
 					<block type="microbug_cleardisplay"></block>
@@ -58,6 +59,12 @@
 					<block type="microbug_point"></block>
 					<block type="microbug_buildsprite"></block>
 					<block type="microbug_setdisplay"></block>
+					<block type="microbug_showviewport"></block>
+					<block type="microbug_scrollimage"></block>
+					<block type="microbug_imagepoint"></block>
+					<block type="microbug_setimagepoint"></block>
+					<block type="microbug_scrollsprite"></block>
+
 				</category>
 				<category name="Buttons">
 					<block type="microbug_getbutton"></block>
@@ -95,7 +102,18 @@
 		</xml>
 		
 		<xml id="startBlocks" style="display: none">
-<block type="microbug_eyeon" id="9" inline="true" x="111" y="-7"><value name="id"><block type="text" id="15"><field name="TEXT">R</field></block></value><next><block type="controls_repeat_ext" id="1" inline="true"><value name="TIMES"><block type="math_number" id="2"><field name="NUM">3</field></block></value><statement name="DO"><block type="microbug_printmessage" id="3" inline="false"><value name="message"><block type="text" id="4"><field name="TEXT">MONKEY</field></block></value><value name="pausetime"><block type="math_number" id="5"><field name="NUM">100</field></block></value></block></statement></block></next></block>
+<!--
+<block type="microbug_seteye" id="13" inline="false" x="126" y="-40"><value name="id"><block type="text" id="16"><field name="TEXT">L</field></block></value><value name="state"><block type="math_number" id="19"><field name="NUM">1</field></block></value><next><block type="microbug_eyeon" id="1" inline="true"><value name="id"><block type="text" id="2"><field name="TEXT">R</field></block></value><next><block type="controls_repeat_ext" id="3" inline="true"><value name="TIMES"><block type="math_number" id="4"><field name="NUM">3</field></block></value><statement name="DO"><block type="microbug_printmessage" id="5" inline="false"><value name="message"><block type="text" id="6"><field name="TEXT">MONKEY</field></block></value><value name="pausetime"><block type="math_number" id="7"><field name="NUM">100</field></block></value></block></statement></block></next></block></next></block></xml> -->
+
+<!--
+<block type="microbug_setdisplay" id="33" inline="true" x="130" y="234"><value name="SPRITE"><block type="microbug_buildsprite" id="22"><field name="LED04">TRUE</field><field name="LED14">FALSE</field><field name="LED24">FALSE</field><field name="LED34">TRUE</field><field name="LED44">FALSE</field><field name="LED03">FALSE</field><field name="LED13">FALSE</field><field name="LED23">FALSE</field><field name="LED33">FALSE</field><field name="LED43">FALSE</field><field name="LED02">FALSE</field><field name="LED12">FALSE</field><field name="LED22">FALSE</field><field name="LED32">FALSE</field><field name="LED42">FALSE</field><field name="LED01">TRUE</field><field name="LED11">FALSE</field><field name="LED21">FALSE</field><field name="LED31">FALSE</field><field name="LED41">TRUE</field><field name="LED00">FALSE</field><field name="LED10">TRUE</field><field name="LED20">TRUE</field><field name="LED30">TRUE</field><field name="LED40">FALSE</field></block></value></block></xml> 
+-->
+
+<!--
+<block type="variables_set" id="22" inline="true" x="147" y="47"><field name="VAR">item</field><value name="VALUE"><block type="microbug_imagepoint" id="14" inline="false"><value name="id"><block type="microbug_buildsprite" id="2"><field name="LED04">TRUE</field><field name="LED14">FALSE</field><field name="LED24">FALSE</field><field name="LED34">TRUE</field><field name="LED44">FALSE</field><field name="LED03">FALSE</field><field name="LED13">FALSE</field><field name="LED23">FALSE</field><field name="LED33">FALSE</field><field name="LED43">FALSE</field><field name="LED02">FALSE</field><field name="LED12">FALSE</field><field name="LED22">FALSE</field><field name="LED32">FALSE</field><field name="LED42">FALSE</field><field name="LED01">TRUE</field><field name="LED11">FALSE</field><field name="LED21">FALSE</field><field name="LED31">FALSE</field><field name="LED41">TRUE</field><field name="LED00">FALSE</field><field name="LED10">TRUE</field><field name="LED20">TRUE</field><field name="LED30">TRUE</field><field name="LED40">FALSE</field></block></value><value name="x"><block type="math_number" id="25"><field name="NUM">0</field></block></value><value name="y"><block type="math_number" id="28"><field name="NUM">1</field></block></value></block></value></block></xml> -->
+
+<block type="microbug_seteye" id="1" inline="false" x="170" y="25"><value name="id"><block type="text" id="2"><field name="TEXT">L</field></block></value><value name="state"><block type="math_number" id="3"><field name="NUM">1</field></block></value><next><block type="microbug_seteye" id="4" inline="false"><value name="id"><block type="text" id="5"><field name="TEXT">R</field></block></value><value name="state"><block type="math_number" id="6"><field name="NUM">1</field></block></value><next><block type="microbug_showletter" id="7" inline="true"><value name="letter"><block type="text" id="8"><field name="TEXT">O</field></block></value><next><block type="microbug_showletter" id="9" inline="true"><value name="letter"><block type="text" id="10"><field name="TEXT">K</field></block></value><next><block type="microbug_cleardisplay" id="11"><next><block type="microbug_plot" id="12" inline="true"><value name="x"><block type="math_number" id="13"><field name="NUM">2</field></block></value><value name="y"><block type="math_number" id="14"><field name="NUM">2</field></block></value><next><block type="microbug_unplot" id="15" inline="true"><value name="x"><block type="math_number" id="16"><field name="NUM">2</field></block></value><value name="y"><block type="math_number" id="17"><field name="NUM">2</field></block></value><next><block type="microbug_printmessage" id="18" inline="false"><value name="message"><block type="text" id="19"><field name="TEXT">HELLO WORLD</field></block></value><value name="pausetime"><block type="math_number" id="20"><field name="NUM">50</field></block></value><next><block type="controls_repeat_ext" id="50" inline="true"><value name="TIMES"><block type="math_number" id="53"><field name="NUM">3</field></block></value><statement name="DO"><block type="microbug_scrollstring" id="35" inline="false"><value name="Message"><block type="text" id="36"><field name="TEXT">BANANAS</field></block></value><value name="Speed"><block type="math_number" id="37"><field name="NUM">50</field></block></value></block></statement></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml> 
+
 	</div>
 	<hr>
 	Contact: michael.sparks@bbc.co.uk
@@ -111,8 +129,6 @@
 		$(document).ready(function() {
 			// Sim Renderer
 			SIMIO.init("SIMIO");
-			//printMessage('READY', 200);
-			DALJS.scrollString('READY', 50)
 			DALJS.setDirtyCallback(SIMIO.render);
 
 			//Add start blocks if defined - idea: dump them out to console?
@@ -123,67 +139,51 @@
 
 			function initInterpreterApi(interpreter, scope)
 			{
-			    // Add an API function for the alert() block.
-			    var wrapper = function(text)
+			    function makeWrapper(fn)
 			    {
-			        text = text ? text.toString() : '';
-			        return interpreter.createPrimitive(alert(text));
-			    };
-			    interpreter.setProperty(scope, 'alert',
-			    interpreter.createNativeFunction(wrapper));
-
-			    // Add an API function for the prompt() block.
-			    wrapper = function(text)
-			    {
-			        text = text ? text.toString() : '';
-			        return interpreter.createPrimitive(prompt(text));
-			    };
-			    interpreter.setProperty(scope, 'prompt',
-			    interpreter.createNativeFunction(wrapper));
-
-			    // Add an API function for highlighting blocks.
-			    wrapper = function(id)
-			    {
-			        id = id ? id.toString() : '';
-			        return interpreter.createPrimitive(highlightBlock(id));
-			    };
-			    interpreter.setProperty(scope, 'highlightBlock',
-			    interpreter.createNativeFunction(wrapper));
-
-
-
-
-
-			    // Add API for eyeOn
-			    wrapper = function(text)
-			    {
-			        text = text ? text.toString() : '';
-			        return interpreter.createPrimitive(DALJS.eyeOn(text));
+			    	return function()
+			    	{
+						for (var j = 0; j < arguments.length; j++) {
+							arguments[j] = arguments[j].toString();
+						}
+			    		return interpreter.createPrimitive(fn.apply(null, arguments));
+			    	}
 			    }
-			    interpreter.setProperty(scope, 'eyeOn',
-			    interpreter.createNativeFunction(wrapper));
-
-			    // Add an API function for the printMessage() block.
-			    wrapper = function(text)
+			    function makeInterp(text, fn)
 			    {
-			        text = text ? text.toString() : '';
-			        return interpreter.createPrimitive(DALJS.printMessage(text));
-			    };
-			    interpreter.setProperty(scope, 'printMessage',
-			    interpreter.createNativeFunction(wrapper));
+				    interpreter.setProperty(scope, text, 
+				    	interpreter.createNativeFunction(
+				    		makeWrapper(fn)));
+			    }
 
+			    makeInterp('prompt', prompt);
+			    makeInterp('alert', alert);
+			    makeInterp('highlightBlock', highlightBlock);
 
-			    // Add an API function for the scrollString() block.
-			    wrapper = function(text)
-			    {
-			        text = text ? text.toString() : '';
-			        return interpreter.createPrimitive(DALJS.scrollString(text));
-			    };
-			    interpreter.setProperty(scope, 'scrollString',
-			    interpreter.createNativeFunction(wrapper));
+			    makeInterp('scrollString', DALJS.scrollString);
+			    makeInterp('setEye', DALJS.setEye);
+			    makeInterp('eyeOn', DALJS.eyeOn);
+			    makeInterp('eyeOff', DALJS.eyeOff);
+			    makeInterp('printMessage', DALJS.printMessage);
+			    makeInterp('showLetter', DALJS.showLetter);
 
+			    makeInterp('getButton', DALJS.getButton); ///MRBTODO
+			    makeInterp('clearDisplay', DALJS.clearDisplay);
+				makeInterp('plot', DALJS.plot);
+				makeInterp('unplot', DALJS.unplot);
+				makeInterp('point', DALJS.point);
+				makeInterp('buildSprite', DALJS.buildSprite);//MRBTODO comes through as flat array to interpreter
+				makeInterp('toggleEye', DALJS.toggleEye);
+
+				// Not working - need different interpreter code for objects...
+				makeInterp('setDisplay', DALJS.setDisplay);
+				makeInterp('showViewport', DALJS.showViewport);
+				makeInterp('scrollImage', DALJS.scrollImage);
+				makeInterp('imagePoint', DALJS.imagePoint);
+				makeInterp('setImagePoint', DALJS.setImagePoint);
+				makeInterp('scrollSprite', DALJS.scrollSprite);
 			}	    
-//////
+
 			var highlightPause = false;
 
 			function highlightBlock(id)
@@ -201,13 +201,14 @@
 
 			function parseCode()
 			{
+				console.log("parseCode");
 			    // Generate JavaScript code and parse it.
 			    Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
 			    Blockly.JavaScript.addReservedWords('highlightBlock');
 			    
 			    var code = Blockly.JavaScript.workspaceToCode();
-			    myInterpreter = new Interpreter(code, initInterpreterApi);
 			    alert('Ready to execute this code:\n\n' + code);
+			    myInterpreter = new Interpreter(code, initInterpreterApi);
 			    highlightPause = false;
 			    Blockly.mainWorkspace.traceOn(true);
 			    Blockly.mainWorkspace.highlightBlock(null);
@@ -215,7 +216,6 @@
 
 			function stepCode()
 			{
-				console.log("step code!");
 			    if (!DALJS.deviceReady())
 			    {
 			        setTimeout(function()
@@ -227,10 +227,7 @@
 
 			    try
 			    {
-			    	console.log("stepping...");
 			        var ok = myInterpreter.step();
-			        console.log(myInterpreter.value);
-//					console.log("stepCode ok?" + ok);
 			    }
 			    finally
 			    {
@@ -259,30 +256,26 @@
 			        stepCode();
 			    }
 			}
-//////
-
 
 			// Code Build
 			var buildCode = function() {
-				//var code = Blockly.Python.workspaceToCode();
-				//var jscode = Blockly.JavaScript.workspaceToCode();
-				var pycode = "";//Blockly.Python.workspaceToCode();
+				var pycode = Blockly.Python.workspaceToCode();
 
 				var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 				var xml_text = Blockly.Xml.domToText(xml);
 				console.log(xml_text);
 
-				$("#codeblock").html("<P><PRE>" + jscode  + "</PRE>" + "<P><PRE>" + pycode + "</PRE>");
-    // 			$.ajax({
-				// 	type: "POST",
-				// 	url: "/cgi-bin/upload_mb.py",
-				// 	data: JSON.stringify({"repr" : { "code": pycode, "xml" : xml_text }}),
-				// 	success: function( data ) {
-				// 		var someid = data["id"];
-				// 		text = '<P>Link to this version - <a href="/blockly_reload.html?id=' +  someid + '"> ' + someid.toString() +' </a>';
-				// 		$( "#resultblock" ).html( text );
-				// 		},
-				// });
+				$("#codeblock").html("<P><PRE>" + pycode  + "</PRE>" + "<P><PRE>" + pycode + "</PRE>");
+    			$.ajax({
+					type: "POST",
+					url: "/cgi-bin/upload_mb.py",
+					data: JSON.stringify({"repr" : { "code": pycode, "xml" : xml_text }}),
+					success: function( data ) {
+						var someid = data["id"];
+						text = '<P>Link to this version - <a href="/blockly_reload.html?id=' +  someid + '"> ' + someid.toString() +' </a>';
+						$( "#resultblock" ).html( text );
+						},
+				});
 			};
 
 			document.getElementById("BuildCodeButton").addEventListener("click", buildCode);

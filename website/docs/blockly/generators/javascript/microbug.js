@@ -36,6 +36,13 @@ Blockly.JavaScript['microbug_eyeoff'] = function(block) {
   return prefix+code;
 };
 
+Blockly.JavaScript['microbug_toggleeye'] = function(block) {
+  var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'toggleEye(' + value_id + ');';
+  return code;
+};
+
 Blockly.JavaScript['microbug_printmessage'] = function(block) {
   var value_message = Blockly.JavaScript.valueToCode(block, 'message', Blockly.JavaScript.ORDER_ATOMIC);
   var value_pausetime = Blockly.JavaScript.valueToCode(block, 'pausetime', Blockly.JavaScript.ORDER_ATOMIC);
@@ -78,7 +85,7 @@ Blockly.JavaScript['microbug_unplot'] = function(block) {
   var value_y = Blockly.JavaScript.valueToCode(block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
   var code = 'unplot(' + value_x + ',' + value_y + ');';
-  return prefix+codecode;
+  return prefix+code;
 };
 
 Blockly.JavaScript['microbug_point'] = function(block) {
@@ -108,7 +115,54 @@ Blockly.JavaScript['microbug_setdisplay'] = function(block)
   return [prefix+code, Blockly.JavaScript.ORDER_NONE];
 }
 
+Blockly.JavaScript['microbug_showviewport'] = function(block) {
+  var value_sprite = Blockly.JavaScript.valueToCode(block, 'sprite', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_x = Blockly.JavaScript.valueToCode(block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_y = Blockly.JavaScript.valueToCode(block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'showViewport(' + value_sprite + ',' + value_x + ',' + value_y + ');';
+  return [prefix+code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['microbug_scrollimage'] = function(block) {
+  var value_sprite = Blockly.JavaScript.valueToCode(block, 'sprite', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_delay = Blockly.JavaScript.valueToCode(block, 'delay', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'scrollImage(' + value_sprite + ',' + value_delay + ');';
+  return [prefix+code, Blockly.JavaScript.ORDER_NONE];
+};
+
+
+Blockly.JavaScript['microbug_imagepoint'] = function(block) {
+  var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_x = Blockly.JavaScript.valueToCode(block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_y = Blockly.JavaScript.valueToCode(block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'imagePoint(' + value_id + ',' + value_x + ',' + value_y + ')';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [prefix+code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['microbug_setimagepoint'] = function(block) {
+  var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_x = Blockly.JavaScript.valueToCode(block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_y = Blockly.JavaScript.valueToCode(block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_value = Blockly.JavaScript.valueToCode(block, 'value', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'setImagePoint(' + value_id + ',' + value_x + ',' + value_y + ',' + value_value + ')';
+  return [prefix+code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['microbug_scrollsprite'] = function(block) {
+  var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_delay = Blockly.JavaScript.valueToCode(block, 'delay', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'scrollSprite(' + value_id + ',' + value_delay + ');';
+  return [prefix+code, Blockly.JavaScript.ORDER_NONE];
+};
 
 
 // FOREVER LOOP (while true?)
+
+
 
