@@ -10,3 +10,4 @@ echo "Compiling Font Awesome"
 sass ./sass_src/font-awesome.scss:microbug/static/microbug/css/font-awesome.css
 
 echo "All sass compiled"
+terminal-notifier -title "Microbug Sass" -message "Finished build of SASS"
