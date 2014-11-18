@@ -16,13 +16,17 @@ class PrimaryVersionStore:
         with open(filename, 'r') as file:
             return file.read()
 
-    # Writes a new version file out, returns a tuple containing the
-    # numeric ID and the UUID.
-    def write_new_version(self, data):
+    # Prepares a new version, reserving the ID and UUID
+    def reserve_new_id(self):
         # Create new numeric IDs and UUIDs
         numeric_id = self._allocate_next_free_integer()
         random_uuid = uuid.uuid1()
 
+        return (numeric_id, random_uuid)
+
+    # Writes a new version file out, returns a tuple containing the
+    # numeric ID and the UUID.
+    def write_new_version(self, data, numeric_id, random_uuid):
         # Build the output filename from all of the details we now have
         base_filename = "{0}_{1}.json".format(numeric_id, random_uuid)
         output_filename = os.path.join(self._root_directory, base_filename)

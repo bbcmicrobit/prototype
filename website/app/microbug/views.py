@@ -53,18 +53,16 @@ def build_code(request):
     # Grab the JSON from the request body and make it nicer
     try:
         json_obj = json.loads(request.body)
-        pretty_json = _prettify_json(json_obj)
     except ValueError:
         logger.error("Build_code could not process Json: %s" % str(request))
         return HttpResponseBadRequest("Could not process request, not a valid Json object?")
 
+    # Reserve the ID for the primary store
+    (numeric_id, random_uuid) = primary_version_store.reserve_new_id()
+
     # Count the number of lines of code
     python_code = json_obj['repr']['code']
     lines_of_code = _count_lines(python_code)
-
-    # Write it to both of the stores
-    (numeric_id, random_uuid) = primary_version_store.write_new_version(pretty_json)
-    pending_queue_store.write_new_version(python_code, numeric_id, random_uuid)
 
     # Write the Version to the database
     version = Version(id=numeric_id, store_uuid=random_uuid, lines_of_code_count=lines_of_code)
@@ -74,6 +72,14 @@ def build_code(request):
     program_name = json_obj['program_name']
     new_program = Program(version=version, name=program_name)
     new_program.save()
+
+    # Add the program details to the JSON
+    json_obj['program_id'] = new_program.id
+
+    # Write it to both of the stores
+    pretty_json = _prettify_json(json_obj)
+    (numeric_id, random_uuid) = primary_version_store.write_new_version(pretty_json, numeric_id, random_uuid)
+    pending_queue_store.write_new_version(python_code, numeric_id, random_uuid)
 
     # Return the program's ID
     return HttpResponse(str(new_program.id))

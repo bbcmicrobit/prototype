@@ -93,6 +93,9 @@ TEMPLATE_LOADERS = (
 
 )
 
+# Enable the Jinja template for .jinja files
+DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja'
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,

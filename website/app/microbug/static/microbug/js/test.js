@@ -1,6 +1,7 @@
 // These are all of the controls that we're going to be using.
 // Selecting them at the top here means we don't have to ever
 //   request them from JQuery again.
+var program_id_elem = $('#program_id');
 var tutorial_back_button = $('#tutorial_back');
 var tutorial_forward_button = $('#tutorial_forward');
 
@@ -12,6 +13,8 @@ function enablePageInteraction() {
     // Wire up the Build Code button if it's available.
     var build_code_btn = $('#buildCode')
     if (build_code_btn.length) {
+        var program_id = getProgramId();
+        console.log("ID: ",program_id);
         console.log("Activating buildCode on ",build_code_btn);
         build_code_btn.click(function () {
             console.log("Building code");
@@ -27,8 +30,9 @@ function enablePageInteraction() {
         console.log("Activating create program on ", create_program_btn);
         create_program_btn.click(function () {
             console.log("Building code");
-            compileBlockly(function(program_id) {
-                window.location.replace('/microbug/program/'+program_id);
+            compileNewProgram(
+                function(program_id) {
+                    window.location.replace('/microbug/program/'+program_id);
             });
         })
     } else {
@@ -246,30 +250,33 @@ function getProgramName() {
     } else {
         return program_name_elem[0].value;
     }
-
 }
-function compileBlockly(successCallback) {
-    var code = Blockly.Python.workspaceToCode();
 
+// Gets the ID of the program
+function getProgramId() {
+    return program_id_elem.text();
+}
+
+// Return the Blockly code
+function blocklyCode() {
+    return Blockly.Python.workspaceToCode();
+}
+
+// Return the Blockly code as Python
+function blocklyCodeAsPython() {
     var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-    var xml_text = Blockly.Xml.domToText(xml);
+    return Blockly.Xml.domToText(xml);
+}
 
-    var program_name = getProgramName();
-
-    console.log("Program name is: ",program_name);
-    console.log("Code is ", code);
-    console.log("XML is ", xml_text);
-
-    $("#code").html("<P><PRE>" + code + "</PRE>");
-
+function compileNewProgram(successCallback) {
     $.ajax({
         type: "POST",
         url: "/microbug/build_code/",
         data: JSON.stringify({
-            "program_name": program_name,
+            "program_name": getProgramName(),
             "repr": {
-                "code": code,
-                "xml": xml_text
+                "code": blocklyCode(),
+                "xml": blocklyCodeAsPython()
             }
         }),
         success: function (data) {
@@ -277,9 +284,26 @@ function compileBlockly(successCallback) {
             if (successCallback) {
                 successCallback(data);
             }
-            //var someid = data["id"];
-            //text = '<P>Link to this version - <a href="/blockly_reload.html?id=' + someid + '"> ' + someid.toString() + ' </a>';
-            //$("#resultblock").html(text);
+        }
+    });
+}
+
+function recompileProgram(successCallback) {
+    $.ajax({
+        type: "POST",
+        url: "/microbug/build_code/",
+        data: JSON.stringify({
+            "program_name": getProgramName(),
+            "repr": {
+                "code": blocklyCode(),
+                "xml": blocklyCodeAsPython()
+            }
+        }),
+        success: function (data) {
+            console.log("Success, data is "+data);
+            if (successCallback) {
+                successCallback(data);
+            }
         }
     });
 }
@@ -287,4 +311,3 @@ function compileBlockly(successCallback) {
 console.log("Loaded test page");
 enablePageInteraction();
 console.log("All done")
-

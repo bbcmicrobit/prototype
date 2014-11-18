@@ -38,3 +38,32 @@
 #tutorial_content > * {
     display: none;
 }
+
+.program_summary {
+    border: 1px solid #ddd;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    padding: 0 1em 0 1em;
+    margin: 0 0 1em 0;
+    height: 10em;
+}
+
+.program_summary > pre {
+    height: 8em;
+}
+
+.program_summary > h1 {
+    font-size: 120%;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.unnamed_program {
+    color: red;
+}
+
+.unnamed_program > * {
+    color: red;
+}
