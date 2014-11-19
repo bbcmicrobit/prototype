@@ -134,6 +134,10 @@ typedef struct Image {
 void set_eye(char id, int state);
 void eye_on(char id);
 void eye_off(char id);
+
+void eye_on(const char *id);
+void eye_off(const char *id);
+
 int getButton(char id);
 void clear_display();
 void plot(int x, int y);
@@ -448,8 +452,17 @@ void eye_on(char id) {
     set_eye(id, HIGH);
 }
 
+void eye_on(const char *id) {
+    set_eye(*id, HIGH);
+}
+
+
 void eye_off(char id) {
     set_eye(id, LOW);
+}
+
+void eye_off(const char *id) {
+    set_eye(*id, LOW);
 }
 
 void showViewport(Image& someImage, int x, int y) {

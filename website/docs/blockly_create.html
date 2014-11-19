@@ -35,6 +35,7 @@ function buildCode() {
             success: function( data ) {
                                       var someid = data["id"];
                                         text = '<P>Link to this version - <a href="/blockly_reload.html?id=' +  someid + '"> ' + someid.toString() +' </a>';
+                                        text = text + '<P>Link to hexfile- <a href="/compiled/' +  someid + '.hex"> ' + someid.toString() +' </a>';
                                         $( "#resultblock" ).html( text );
                                       },
            });
