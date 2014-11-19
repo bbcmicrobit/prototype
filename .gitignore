@@ -1,6 +1,8 @@
 .htpasswd
 website/upload/*json
 website/upload/highest
+website/tmp
+website/docs/compiled
 website/upload/highest.lock
 *.pyc
 genprogs/
