@@ -10,6 +10,8 @@ from filelock.filelock import FileLock
 raw_stdin = sys.stdin.read()
 myjson = json.loads(raw_stdin)
 
+python_code = myjson["repr"]["code"]
+
 results = {}
 
 myjson = json.dumps(myjson )
@@ -30,6 +32,12 @@ if myjson != "''":
         f.write(json.dumps(data))
         f.flush()
         f.close()
+
+        f = open("../python_pending/" + str(top_id) + ".py", "w")
+        f.write(str(python_code))
+        f.flush()
+        f.close()
+
 else:
     myjson = "No data uploaded"
     top_id = ""
@@ -40,3 +48,17 @@ print "Content-type: application/json"
 print "Length:", len(result)
 print
 print json.dumps(result)
+
+"""
+
+>>> import json
+>>> f = open("../upload/71.json").read()
+>>> j = json.loads(f)
+>>> mj = json.loads(j["myjson"])
+
+python_code = mj["repr"]["code"]
+
+
+"""
+
+
