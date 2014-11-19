@@ -2,17 +2,21 @@
 
 import pprint
 import os
+import os.path
 import shutil
 
 # local import
 from codegenerator import CodeGenerator, gen_code
 
-#from lexer_parser import configure_lexer, configure_parser, do_parse
+import lexer_parser
 from lexer_parser import configure_lexer, parse
 
 lexer = configure_lexer()
 
-def main(files):
+DAL_DIR = "../dal/"
+
+def main_test(files):
+    """Mainly used during testing"""
     global os
     #
     # Build the example test programs, compile them and run them
@@ -25,8 +29,6 @@ def main(files):
     ditch = os.listdir("tests/genprogs")
     for filename in ditch:
         os.system("rm -rf tests/genprogs/"+ filename)
-        # os.unlink("tests/genprogs/"+ filename)
-
 
     for filename in files:
         print
@@ -61,14 +63,46 @@ def main(files):
         os.system("make flash_device")
         os.chdir(here)
 
-        #trimmed = filename[:filename.find(".p")]
-        #os.system("g++ " + "tests/genprogs/"+filename+".cpp" + " -o " + "tests/genprogs/gen-"+trimmed )
-
-        #if "no_run" not in trimmed:
-            #print "Compiled program output:"
-            #os.system("tests/genprogs/gen-"+trimmed)
-
         print "#"*120
+
+def main_single(source_file, dest_file, tmp_directory, cleanup=False):
+    """
+    Compiles a single source file.
+    Creates a dest_file - which is a .hex file.
+    May work inside tmp_directoy
+    Must cleanup if cleanup is True
+    """
+    global os
+    lexer_parser.quiet_mode = True
+
+    basefile = os.path.basename(source_file)
+
+    source = open(source_file).read()
+    x = parse(source, lexer)
+    y  = gen_code(x)
+
+    basedir = os.path.join(tmp_directory, basefile)
+    os.mkdir(basedir)
+    f = open(basedir+"/user_code.ino", "w")
+    f.write(y)
+    f.close()
+
+    shutil.copyfile(DAL_DIR + "dal.h", basedir+"/dal.h")
+    shutil.copyfile(DAL_DIR + "Makefile", basedir+"/Makefile")
+    shutil.copyfile(DAL_DIR + "Makefile_arduino", basedir+"/Makefile_arduino")
+    shutil.copyfile(DAL_DIR + "spark_font.h", basedir+"/spark_font.h")
+    shutil.copyfile(DAL_DIR + "atmel_bootloader.h", basedir+"/atmel_bootloader.h")
+    here = os.getcwd()
+    os.chdir(basedir)
+    os.system("make quiet >build_outer_log 2>&1")
+
+    os.chdir(here)
+
+    hexfile = basedir + "/build-leonardo/" + basefile + ".hex"
+    if os.path.exists(hexfile):
+        shutil.copyfile(hexfile, dest_file)
+    else:
+       raise RuntimeError("Cannot compile %s" % source_file)
 
 if __name__ == "__main__":
     main()
