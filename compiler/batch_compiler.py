@@ -38,7 +38,13 @@ class Compiler(Actor):
         filenames = os.listdir(INCOMING_DIRECTORY)
         filenames = [ x for x in filenames if x != "README" ] # Ignore README
 
-        filenames.sort()
+        # filenames.sort()
+        try:
+            # Sort filenames as per Pauls new naming scheme
+            filenames = [y for z,y in sorted([(int(a.split("_")[0]),a ) for a in filenames])]
+        except ValueError:
+            # Sort filenames as per current new naming scheme
+            filenames = [y for z,y in sorted([(int(a.replace(".py","")),a ) for a in filenames])]
 
         for source_filename in filenames:
             dest_filename = source_filename.replace(".py", ".hex")
