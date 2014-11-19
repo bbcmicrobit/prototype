@@ -10,7 +10,7 @@ Blockly.Python['microbug_scrollstring'] = function(block) {
   var value_message = Blockly.JavaScript.valueToCode(block, 'Message', Blockly.JavaScript.ORDER_ATOMIC);
   var value_speed = Blockly.JavaScript.valueToCode(block, 'Speed', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = 'scrollString(' + value_message + ',' + value_speed + ')\n';
+  var code = 'scroll_string(' + value_message + ',' + value_speed + ')\n';
   return prefix+code;
 };
 
@@ -18,21 +18,21 @@ Blockly.Python['microbug_seteye'] = function(block) {
   var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
   var value_state = Blockly.JavaScript.valueToCode(block, 'state', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = 'setEye(' + value_id + ',' + value_state + ')\n';
+  var code = 'set_eye(' + value_id + ',' + value_state + ')\n';
   return prefix+code;
 };
 
 Blockly.Python['microbug_eyeon'] = function(block) {
   var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = 'eyeOn(' + value_id + ')\n';
+  var code = 'eye_on(' + value_id + ')\n';
   return prefix+code;
 };
 
 Blockly.Python['microbug_eyeoff'] = function(block) {
   var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = 'eyeOff(' + value_id + ')\n';
+  var code = 'eye_off(' + value_id + ')\n';
   return prefix+code;
 };
 
@@ -40,7 +40,7 @@ Blockly.Python['microbug_printmessage'] = function(block) {
   var value_message = Blockly.JavaScript.valueToCode(block, 'message', Blockly.JavaScript.ORDER_ATOMIC);
   var value_pausetime = Blockly.JavaScript.valueToCode(block, 'pausetime', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = 'printMessage(' + value_message + ',' + value_pausetime + ')\n';
+  var code = 'print_message(' + value_message + ',' + value_pausetime + ')\n';
   return prefix+code;
 };
 
@@ -61,7 +61,7 @@ Blockly.Python['microbug_getbutton'] = function(block) {
 
 Blockly.Python['microbug_cleardisplay'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
-  var code = 'clearDisplay()\n';
+  var code = 'clear_display()\n';
   return prefix+code;
 };
 
@@ -69,7 +69,7 @@ Blockly.Python['microbug_plot'] = function(block) {
   var value_x = Blockly.JavaScript.valueToCode(block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
   var value_y = Blockly.JavaScript.valueToCode(block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = 'DALJS.plot(' + value_x + ',' + value_y + ')\n';
+  var code = 'plot(' + value_x + ',' + value_y + ')\n';
   return prefix+code;
 };
 
