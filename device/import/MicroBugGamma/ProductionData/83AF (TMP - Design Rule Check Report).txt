@@ -1,0 +1,67 @@
+Design Rule Check Report
+------------------------
+
+Report File    : C:\Users\michaels\Documents\MicroBugGamma\83AF (TMP - Design Rule Check Report).txt
+Report Written : Sunday, October 26, 2014
+Project Path   : C:\Users\michaels\Documents\MicroBugGamma\MicroBugGamma.prj
+Design Path    : C:\Users\michaels\Documents\MicroBugGamma\83AF.tmp
+Design Title   : 
+Created        : 26/10/2014 01:28:37
+Last Saved     : 26/10/2014 23:12:03
+Editing Time   : 732 min
+Units          : thou (precision 0)
+
+
+Results
+=======
+
+Pad to Via error (P-V) at (8720 9800) on layer "[Bottom]".
+    Via in pad Component Pad BH1.2 (Net 'GND').
+
+Number of errors found : 1
+
+
+Settings
+========
+
+
+Spacings
+
+=========
+
+Tracks         No
+Pads and Vias  No
+Shapes         No
+Text           No
+Board          No
+Drills         Yes
+Components     No
+
+
+Manufacturing
+
+==============
+
+Drill Breakout                   Yes
+Drill Backoff                    Yes
+Silkscreen Overlap               No
+Copper Text In Board             Yes
+Min Track Width                  Yes
+Min Annular Ring                 Yes
+Min Paste Size                   Yes
+Vias In Pads                     Yes
+Unplated Vias                    Yes
+Unplated Pads With Inner Tracks  Yes
+
+
+Nets
+
+=====
+
+Net Completion                No
+Dangling Tracks               No
+Net Track Length Differences  No
+
+
+
+End Of Report.

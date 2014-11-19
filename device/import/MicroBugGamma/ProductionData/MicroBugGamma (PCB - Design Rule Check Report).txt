@@ -1,0 +1,80 @@
+Design Rule Check Report
+------------------------
+
+Report File    : C:\Users\michaels\Documents\MicroBugGamma\MicroBugGamma (PCB - Design Rule Check Report).txt
+Report Written : Tuesday, October 28, 2014
+Project Path   : C:\Users\michaels\Documents\MicroBugGamma\MicroBugGamma.prj
+Design Path    : C:\Users\michaels\Documents\MicroBugGamma\MicroBugGamma.pcb
+Design Title   : 
+Created        : 26/10/2014 01:28:37
+Last Saved     : 28/10/2014 21:08:41
+Editing Time   : 3460 min
+Units          : mm (precision 1)
+
+
+Results
+=======
+
+Track to Track Error (T-T) between (256.7 233.4) and (256.7 233.8) on Layer "Top Copper".
+    Error between Track (Net 'PIN18') and Track (Net 'LED_ANODES_3'), Gap is 0.2 needs to be 0.3.
+Track to Track Error (T-T) between (257.7 233.4) and (257.7 233.8) on Layer "Top Copper".
+    Error between Track (Net 'PIN18') and Track (Net 'LED_ANODES_3'), Gap is 0.2 needs to be 0.3.
+Track to Track Error (T-T) between (258.9 233.4) and (258.9 233.8) on Layer "Top Copper".
+    Error between Track (Net 'PIN18') and Track (Net 'LED_ANODES_3'), Gap is 0.2 needs to be 0.3.
+Single pin net PIN09 on U1.9 at 258.7,256.5
+Single pin net PIN13_RESET on U1.13 at 258.1,252.6
+Gap in Net "PIN18" between (254.8,232.3) and (254.8,230.6) 
+    PIN18.
+Single pin net PIN22_TXLED on U1.22 at 263.2,247.5
+Single pin net PIN28 on U1.28 at 268.3,250.3
+Single pin net PIN30 on U1.30 at 269.5,251.4
+Single pin net PIN31 on U1.31 at 270.0,252.0
+Single pin net PIN33_HWB on U1.33 at 271.2,253.1
+
+Number of errors found : 11
+
+
+Settings
+========
+
+
+Spacings
+
+=========
+
+Tracks         Yes
+Pads and Vias  No
+Shapes         No
+Text           No
+Board          No
+Drills         No
+Components     No
+
+
+Manufacturing
+
+==============
+
+Drill Breakout                   Yes
+Drill Backoff                    Yes
+Silkscreen Overlap               No
+Copper Text In Board             Yes
+Min Track Width                  Yes
+Min Annular Ring                 Yes
+Min Paste Size                   Yes
+Vias In Pads                     Yes
+Unplated Vias                    Yes
+Unplated Pads With Inner Tracks  Yes
+
+
+Nets
+
+=====
+
+Net Completion                Yes
+Dangling Tracks               Yes
+Net Track Length Differences  No
+
+
+
+End Of Report.

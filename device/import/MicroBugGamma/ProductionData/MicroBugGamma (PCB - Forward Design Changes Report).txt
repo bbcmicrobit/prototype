@@ -1,0 +1,54 @@
+Forward Design Changes Report
+-----------------------------
+
+Report File    : C:\Users\michaels\Documents\MicroBugGamma\MicroBugGamma (PCB - Forward Design Changes Report).txt
+Report Written : Tuesday, October 28, 2014
+Project Path   : C:\Users\michaels\Documents\MicroBugGamma\MicroBugGamma.prj
+Design Path    : C:\Users\michaels\Documents\MicroBugGamma\MicroBugGamma.pcb
+Design Title   : 
+Created        : 26/10/2014 01:28:37
+Last Saved     : 28/10/2014 20:53:41
+Editing Time   : 3446 min
+Units          : thou (precision 0)
+
+Disconnected pin "L2-2" from net "LED_ANODES_2".
+Disconnected pin "L7-2" from net "LED_ANODES_2".
+Disconnected pin "L12-2" from net "LED_ANODES_2".
+Disconnected pin "L17-2" from net "LED_ANODES_2".
+Disconnected pin "L22-2" from net "LED_ANODES_2".
+Disconnected pin "R2-1" from net "LED_ANODES_2".
+Disconnected pin "R2-2" from net "PIN18".
+Disconnected pin "R4-2" from net "PIN20_RX".
+Disconnected pin "U1-18" from net "PIN18".
+Disconnected pin "U1-20" from net "PIN20_RX".
+Disconnected pin "BH1-1" from net "N0068".
+Disconnected pin "SW1-1" from net "VCC".
+Disconnected pin "SW1-2" from net "N0068".
+
+Deleted component reference "SW1".
+
+Deleted net "N0068".
+
+Added net "PIN21".
+Added net "N0070".
+
+Added component reference "SW2" of component "SlideSwitch_SPDT_SMT2", package "USER".
+
+Connected pin "L2-2" to net "PIN18".
+Connected pin "L7-2" to net "PIN18".
+Connected pin "L12-2" to net "PIN18".
+Connected pin "L17-2" to net "PIN18".
+Connected pin "L22-2" to net "PIN18".
+Connected pin "R2-2" to net "LED_ANODES_2".
+Connected pin "R2-1" to net "PIN18".
+Connected pin "R4-2" to net "PIN21".
+Connected pin "U1-18" to net "LED_ANODES_2".
+Connected pin "U1-20" to net "PIN21".
+Connected pin "BH1-1" to net "N0070".
+Connected pin "SW2-2" to net "N0070".
+Connected pin "SW2-1" to net "VCC".
+
+Net LED_ANODES_4 renamed to PIN20_RX
+
+
+End Of Report.
