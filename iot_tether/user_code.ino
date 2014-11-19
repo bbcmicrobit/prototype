@@ -12,7 +12,7 @@ public:
   ~TetherHost() { }
 
   const char *hostid() { 
-    return "testhosttiny";
+    return "microbug";
   }
 
   const char * attrs() {
