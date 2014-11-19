@@ -7,6 +7,8 @@ import ply.yacc as yacc
 import pprint
 import sys
 
+quiet_mode = False
+
 states = (
   ('CODE', 'exclusive'),
   ('BLOCKS', 'exclusive'),
@@ -141,8 +143,9 @@ def t_CODE_INITIAL_NUMBER(t):
     try:
          t.value = int(t.value)
     except ValueError:
-         print "Line %d: Number %s is too large!" % (t.lineno,t.value)
-         t.value = 0
+        if not quiet_mode:
+             print "Line %d: Number %s is too large!" % (t.lineno,t.value)
+        t.value = 0
     return t
 
 t_ignore  = ' \t'
@@ -160,8 +163,9 @@ def t_CODE_INITIAL_SSTRING(t):
     return t
 
 def t_ANY_error(t):
-    print "PARSER STATE", t.lexer.lexstate
-    print "Illegal character '%s'" % t.value[0]
+    if not quiet_mode:
+        print "PARSER STATE", t.lexer.lexstate
+        print "Illegal character '%s'" % t.value[0]
     t.skip(1)
 
 class Grammar(object):
@@ -170,7 +174,8 @@ class Grammar(object):
     )
     tokens = tokens
     def p_error(self,p):
-        print "Syntax error at", p
+        if not quiet_mode:
+            print "Syntax error at", p
 
     # ---------------------------------------------------------------------
     #
@@ -491,10 +496,11 @@ def configure_lexer():
 
     def trace(lexer, *argv):
         token = lexer.token_()
-        sys.stderr.write("TOKEN ")
-        sys.stderr.write(repr( token ) )
-        sys.stderr.write("\n")
-        sys.stderr.flush()
+        if not quiet_mode:
+            sys.stderr.write("TOKEN ")
+            sys.stderr.write(repr( token ) )
+            sys.stderr.write("\n")
+            sys.stderr.flush()
 
         if token is not None:
             return token
