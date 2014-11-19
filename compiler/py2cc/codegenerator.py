@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys
+import lexer_parser
 
 print_int = """void print(int value) {
     char temp_str[11];
@@ -84,7 +85,8 @@ class CodeGenerator(object):
             try:
                 expression_type, expression_fragment = gen_result
             except ValueError:
-                print repr(gen_result),gen_result.__class__
+                if not lexer_parser.quiet_mode:
+                    print repr(gen_result),gen_result.__class__
                 raise
             return expression_fragment
 
@@ -137,16 +139,18 @@ class CodeGenerator(object):
             return expression_type, expression_fragment
 
         if the_expression[0] == "func_call":
-            sys.stderr.write("AHA\n")
-            sys.stderr.flush()
+            if not lexer_parser.quiet_mode:
+                sys.stderr.write("AHA\n")
+                sys.stderr.flush()
             gen_result = self.func_call(the_expression)
             func_type, expression_fragment = gen_result
             return func_type, expression_fragment
 
-        sys.stderr.write("TBD::\n")
-        sys.stderr.flush()
-        sys.stderr.write(repr(expression))
-        sys.stderr.flush()
+        if not lexer_parser.quiet_mode:
+            sys.stderr.write("TBD::\n")
+            sys.stderr.flush()
+            sys.stderr.write(repr(expression))
+            sys.stderr.flush()
         return ("tbd", repr(expression))
 
     def func_call(self, func_call):
@@ -154,9 +158,10 @@ class CodeGenerator(object):
         # ['func_call', 'scroll_string', ['expr_list', ['expression', ['literalvalue', ['string', 'HELLO WORLD']]]]]
 
         assert func_call[0] == "func_call"
-        sys.stderr.write( repr(func_call) )
-        sys.stderr.write("\n")
-        sys.stderr.flush()
+        if not lexer_parser.quiet_mode:
+            sys.stderr.write( repr(func_call) )
+            sys.stderr.write("\n")
+            sys.stderr.flush()
         function_name = func_call[1]
         function_arglist = func_call[2]
         gen_function_arglist = self.expr_list(function_arglist)
@@ -207,7 +212,8 @@ class CodeGenerator(object):
 
 def gen_code(AST):
     cg = CodeGenerator()
-    print repr(AST)
+    if not lexer_parser.quiet_mode:
+        print repr(AST)
     AST[0] = "program"
     program = cg.program(AST[1])
     return program
