@@ -71,6 +71,33 @@ int righteye = 14; // Arduino Pin for left eye // PIN 11  -- D14
 
 int ButtonA = 17; // Arduino Pin for left eye // PIN 8    -- D17
 int ButtonB = 16; // Arduino Pin for left eye // PIN 10   -- D16
+
+int croc0 = A0; // Arduino Pin crocodile clip 0 // PIN 36 -- A0
+int croc1 = A1; // Arduino Pin crocodile clip 1 // PIN 37 -- A1
+int croc2 = A2; // Arduino Pin crocodile clip 2 // PIN 38 -- A2
+int croc3 = A3; // Arduino Pin crocodile clip 3 // PIN 39 -- A3
+int croc4 = A4; // Arduino Pin crocodile clip 4 // PIN 40 -- A4
+int croc5 = A5; // Arduino Pin crocodile clip 5 // PIN 41 -- A5
+
+
+int h1 = A0; // Header data pin 0// PIN 36 -- A0
+int h2 = A1; // Header data pin 1// PIN 37 -- A1
+int h3 = A2; // Header data pin 2 // PIN 38 -- A2
+int h4 = A2; // Header data pin 3// PIN 38 -- A2
+int h5 = A2; // Header data pin 4// PIN 38 -- A2
+int h6 = A2; // Header data pin 5// PIN 38 -- A2
+int h7 = A2; // Header data pin 6// PIN 38 -- A2
+int h8 = A2; // Header data pin 7// PIN 38 -- A2
+int h9 = A0; // Header data pin 8// PIN 38 -- A2
+int h10 = A1; // Header data pin 9// PIN 38 -- A2
+int h11 = A2; // Header data pin 10// PIN 38 -- A2
+int h12 = A2; // Header data pin 11// PIN 38 -- A2
+int h13 = A2; // Header data pin 12// PIN 38 -- A2
+int h14 = A2; // Header data pin 13// PIN 38 -- A2
+
+int ee19 = 16; // Emergency/Expert data pin lower// PIN 10 -- D16
+int ee20 = 14; // Emergency/Expert data pin top// PIN 11 -- D14
+
 #endif
 
 
