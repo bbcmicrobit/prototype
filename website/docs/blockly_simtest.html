@@ -10,10 +10,13 @@
 	<script type="text/javascript" src="blockly/javascript_compressed.js"></script>
 	<script type="text/javascript" src="blockly/msg/js/en.js"></script>
 
-	<script type="text/javascript" src="js/dal_worker.js"></script>
-	<!-- <script type="text/javascript" src="js/acorn_interpreter.js"></script> -->
+	<script type="text/javascript" src="js/dal_browser.js"></script>
+
+	<script type="text/javascript" src="js/acorn_interpreter.js"></script>
+	<!--
 	<script type="text/javascript" src="js/acorn.js"></script>
 	<script type="text/javascript" src="js/interpreter.js"></script>
+	-->
 
 	<script type="text/javascript" src="blockly/blocks/microbug.js"></script>
 	<script type="text/javascript" src="blockly/generators/javascript/microbug.js"></script>
@@ -29,7 +32,7 @@
 	<P>
 	<button type="button" id="BuildCodeButton">Build Code</button>
 	<button type="button" id="RunCodeButton">Run Simulator</button>
-    <input type="text" id="pausetime" value="1000">
+    <input type="text" id="pausetime" value="100">
 
 	<div id="codeblock" style="width: 90%; border: dotted;margin:1em; padding: 1em;">
 		<PRE>
@@ -60,12 +63,12 @@
 					<block type="microbug_unplot"></block>
 					<block type="microbug_point"></block>
 					<block type="microbug_buildsprite"></block>
-				<!--
+					<block type="microbug_buildbigsprite"></block>
 					<block type="microbug_setdisplay"></block>
 					<block type="microbug_showviewport"></block>
 					<block type="microbug_scrollimage"></block>
 					<block type="microbug_imagepoint"></block>
-					<block type="microbug_setimagepoint"></block> -->
+					<block type="microbug_setimagepoint"></block>
 				</category>
 				<category name="Buttons">
 					<block type="microbug_getbutton"></block>
@@ -103,20 +106,11 @@
 		</xml>
 		
 		<xml id="startBlocks" style="display: none">
-<!--
-<block type="microbug_seteye" id="13" inline="false" x="126" y="-40"><value name="id"><block type="text" id="16"><field name="TEXT">L</field></block></value><value name="state"><block type="math_number" id="19"><field name="NUM">1</field></block></value><next><block type="microbug_eyeon" id="1" inline="true"><value name="id"><block type="text" id="2"><field name="TEXT">R</field></block></value><next><block type="controls_repeat_ext" id="3" inline="true"><value name="TIMES"><block type="math_number" id="4"><field name="NUM">3</field></block></value><statement name="DO"><block type="microbug_printmessage" id="5" inline="false"><value name="message"><block type="text" id="6"><field name="TEXT">MONKEY</field></block></value><value name="pausetime"><block type="math_number" id="7"><field name="NUM">100</field></block></value></block></statement></block></next></block></next></block></xml> -->
 
-<!--
-<block type="microbug_setdisplay" id="33" inline="true" x="130" y="234"><value name="SPRITE"><block type="microbug_buildsprite" id="22"><field name="LED04">TRUE</field><field name="LED14">FALSE</field><field name="LED24">FALSE</field><field name="LED34">TRUE</field><field name="LED44">FALSE</field><field name="LED03">FALSE</field><field name="LED13">FALSE</field><field name="LED23">FALSE</field><field name="LED33">FALSE</field><field name="LED43">FALSE</field><field name="LED02">FALSE</field><field name="LED12">FALSE</field><field name="LED22">FALSE</field><field name="LED32">FALSE</field><field name="LED42">FALSE</field><field name="LED01">TRUE</field><field name="LED11">FALSE</field><field name="LED21">FALSE</field><field name="LED31">FALSE</field><field name="LED41">TRUE</field><field name="LED00">FALSE</field><field name="LED10">TRUE</field><field name="LED20">TRUE</field><field name="LED30">TRUE</field><field name="LED40">FALSE</field></block></value></block></xml> 
--->
 
-<!--
-<block type="variables_set" id="22" inline="true" x="147" y="47"><field name="VAR">item</field><value name="VALUE"><block type="microbug_imagepoint" id="14" inline="false"><value name="id"><block type="microbug_buildsprite" id="2"><field name="LED04">TRUE</field><field name="LED14">FALSE</field><field name="LED24">FALSE</field><field name="LED34">TRUE</field><field name="LED44">FALSE</field><field name="LED03">FALSE</field><field name="LED13">FALSE</field><field name="LED23">FALSE</field><field name="LED33">FALSE</field><field name="LED43">FALSE</field><field name="LED02">FALSE</field><field name="LED12">FALSE</field><field name="LED22">FALSE</field><field name="LED32">FALSE</field><field name="LED42">FALSE</field><field name="LED01">TRUE</field><field name="LED11">FALSE</field><field name="LED21">FALSE</field><field name="LED31">FALSE</field><field name="LED41">TRUE</field><field name="LED00">FALSE</field><field name="LED10">TRUE</field><field name="LED20">TRUE</field><field name="LED30">TRUE</field><field name="LED40">FALSE</field></block></value><value name="x"><block type="math_number" id="25"><field name="NUM">0</field></block></value><value name="y"><block type="math_number" id="28"><field name="NUM">1</field></block></value></block></value></block></xml>
--->
 
-<!-- Testing some stuff THAT'S SUPPORTED, e.g. demoable  -->
+<block type="variables_set"><field name="VAR">bigsprite</field><value name="VALUE"><block type="microbug_buildbigsprite" id="166"><field name="LED04">FALSE</field><field name="LED14">FALSE</field><field name="LED24">FALSE</field><field name="LED34">FALSE</field><field name="LED44">TRUE</field><field name="LED54">FALSE</field><field name="LED64">FALSE</field><field name="LED74">FALSE</field><field name="LED84">FALSE</field><field name="LED94">TRUE</field><field name="LED03">FALSE</field><field name="LED13">FALSE</field><field name="LED23">FALSE</field><field name="LED33">TRUE</field><field name="LED43">TRUE</field><field name="LED53">TRUE</field><field name="LED63">FALSE</field><field name="LED73">FALSE</field><field name="LED83">FALSE</field><field name="LED93">TRUE</field><field name="LED02">FALSE</field><field name="LED12">FALSE</field><field name="LED22">TRUE</field><field name="LED32">TRUE</field><field name="LED42">TRUE</field><field name="LED52">FALSE</field><field name="LED62">TRUE</field><field name="LED72">FALSE</field><field name="LED82">FALSE</field><field name="LED92">TRUE</field><field name="LED01">FALSE</field><field name="LED11">TRUE</field><field name="LED21">TRUE</field><field name="LED31">TRUE</field><field name="LED41">TRUE</field><field name="LED51">FALSE</field><field name="LED61">FALSE</field><field name="LED71">TRUE</field><field name="LED81">FALSE</field><field name="LED91">TRUE</field><field name="LED00">TRUE</field><field name="LED10">TRUE</field><field name="LED20">TRUE</field><field name="LED30">TRUE</field><field name="LED40">TRUE</field><field name="LED50">FALSE</field><field name="LED60">FALSE</field><field name="LED70">FALSE</field><field name="LED80">TRUE</field><field name="LED90">TRUE</field></block></value><next><block type="microbug_scrollstring" id="1" inline="false"><value name="Message"><block type="text" id="2"><field name="TEXT">DONKEY</field></block></value><value name="Speed"><block type="math_number" id="3"><field name="NUM">50</field></block></value><next><block type="microbug_printmessage" id="4" inline="false"><value name="message"><block type="text" id="5"><field name="TEXT">MONKEY</field></block></value><value name="pausetime"><block type="math_number" id="6"><field name="NUM">50</field></block></value><next><block type="microbug_scrollimage" id="449" inline="false"><value name="sprite"><block type="variables_get" id="490"><field name="VAR">bigsprite</field></block></value><value name="delay"><block type="math_number" id="493"><field name="NUM">50</field></block></value><next><block type="microbug_showletter" id="7" inline="true"><value name="letter"><block type="text" id="8"><field name="TEXT">X</field></block></value><next><block type="microbug_showletter" id="9" inline="true"><value name="letter"><block type="text" id="10"><field name="TEXT">Y</field></block></value><next><block type="microbug_setdisplay" id="110" inline="true"><value name="SPRITE"><block type="microbug_buildsprite" id="125"><field name="LED04">TRUE</field><field name="LED14">TRUE</field><field name="LED24">FALSE</field><field name="LED34">TRUE</field><field name="LED44">TRUE</field><field name="LED03">FALSE</field><field name="LED13">TRUE</field><field name="LED23">FALSE</field><field name="LED33">FALSE</field><field name="LED43">TRUE</field><field name="LED02">FALSE</field><field name="LED12">FALSE</field><field name="LED22">FALSE</field><field name="LED32">FALSE</field><field name="LED42">FALSE</field><field name="LED01">TRUE</field><field name="LED11">FALSE</field><field name="LED21">FALSE</field><field name="LED31">FALSE</field><field name="LED41">TRUE</field><field name="LED00">FALSE</field><field name="LED10">TRUE</field><field name="LED20">TRUE</field><field name="LED30">TRUE</field><field name="LED40">FALSE</field></block></value><next><block type="microbug_cleardisplay" id="11"><next><block type="microbug_toggleeye" id="12" inline="true"><value name="id"><block type="text" id="13"><field name="TEXT">L</field></block></value><next><block type="microbug_toggleeye" id="14" inline="true"><value name="id"><block type="text" id="15"><field name="TEXT">R</field></block></value><next><block type="controls_for" id="146" inline="true"><field name="VAR">x</field><value name="FROM"><block type="math_number" id="149"><field name="NUM">0</field></block></value><value name="TO"><block type="math_number" id="150"><field name="NUM">5</field></block></value><value name="BY"><block type="math_number" id="151"><field name="NUM">1</field></block></value><statement name="DO"><block type="microbug_showviewport" id="140" inline="false"><value name="sprite"><block type="variables_get" id="498"><field name="VAR">bigsprite</field></block></value><value name="x"><block type="variables_get" id="177"><field name="VAR">x</field></block></value><value name="y"><block type="math_number" id="169"><field name="NUM">0</field></block></value></block></statement><next><block type="microbug_cleardisplay" id="178"><next><block type="controls_for" id="16" inline="true"><field name="VAR">x</field><value name="FROM"><block type="math_number" id="17"><field name="NUM">0</field></block></value><value name="TO"><block type="math_number" id="18"><field name="NUM">4</field></block></value><value name="BY"><block type="math_number" id="19"><field name="NUM">2</field></block></value><statement name="DO"><block type="controls_for" id="20" inline="true"><field name="VAR">y</field><value name="FROM"><block type="math_number" id="21"><field name="NUM">0</field></block></value><value name="TO"><block type="math_number" id="22"><field name="NUM">4</field></block></value><value name="BY"><block type="math_number" id="23"><field name="NUM">2</field></block></value><statement name="DO"><block type="microbug_plot" id="24" inline="true"><value name="x"><block type="variables_get" id="25"><field name="VAR">x</field></block></value><value name="y"><block type="variables_get" id="26"><field name="VAR">y</field></block></value><next><block type="microbug_toggleeye" id="27" inline="true"><value name="id"><block type="text" id="28"><field name="TEXT">L</field></block></value></block></next></block></statement></block></statement><next><block type="controls_for" id="29" inline="true"><field name="VAR">x</field><value name="FROM"><block type="math_number" id="30"><field name="NUM">0</field></block></value><value name="TO"><block type="math_number" id="31"><field name="NUM">4</field></block></value><value name="BY"><block type="math_number" id="32"><field name="NUM">2</field></block></value><statement name="DO"><block type="controls_for" id="33" inline="true"><field name="VAR">y</field><value name="FROM"><block type="math_number" id="34"><field name="NUM">0</field></block></value><value name="TO"><block type="math_number" id="35"><field name="NUM">4</field></block></value><value name="BY"><block type="math_number" id="36"><field name="NUM">2</field></block></value><statement name="DO"><block type="microbug_unplot" id="37" inline="true"><value name="x"><block type="variables_get" id="38"><field name="VAR">x</field></block></value><value name="y"><block type="variables_get" id="39"><field name="VAR">y</field></block></value><next><block type="microbug_toggleeye" id="40" inline="true"><value name="id"><block type="text" id="41"><field name="TEXT">R</field></block></value></block></next></block></statement></block></statement><next><block type="variables_set" id="205" inline="true"><field name="VAR">blanksprite</field><value name="VALUE"><block type="microbug_buildsprite" id="255"><field name="LED04">FALSE</field><field name="LED14">FALSE</field><field name="LED24">FALSE</field><field name="LED34">FALSE</field><field name="LED44">FALSE</field><field name="LED03">FALSE</field><field name="LED13">FALSE</field><field name="LED23">FALSE</field><field name="LED33">FALSE</field><field name="LED43">FALSE</field><field name="LED02">FALSE</field><field name="LED12">FALSE</field><field name="LED22">FALSE</field><field name="LED32">FALSE</field><field name="LED42">FALSE</field><field name="LED01">FALSE</field><field name="LED11">FALSE</field><field name="LED21">FALSE</field><field name="LED31">FALSE</field><field name="LED41">FALSE</field><field name="LED00">FALSE</field><field name="LED10">FALSE</field><field name="LED20">FALSE</field><field name="LED30">FALSE</field><field name="LED40">FALSE</field></block></value><next><block type="controls_for" id="276" inline="true"><field name="VAR">i</field><value name="FROM"><block type="math_number" id="284"><field name="NUM">0</field></block></value><value name="TO"><block type="math_number" id="285"><field name="NUM">4</field></block></value><value name="BY"><block type="math_number" id="286"><field name="NUM">1</field></block></value><statement name="DO"><block type="microbug_setimagepoint" id="270" inline="false"><value name="id"><block type="variables_get" id="291"><field name="VAR">blanksprite</field></block></value><value name="x"><block type="variables_get" id="294"><field name="VAR">i</field></block></value><value name="y"><block type="variables_get" id="295"><field name="VAR">i</field></block></value><value name="value"><block type="math_number" id="298"><field name="NUM">1</field></block></value></block></statement><next><block type="variables_set" id="321" inline="true"><field name="VAR">ispointset</field><value name="VALUE"><block type="microbug_imagepoint" id="340" inline="false"><value name="id"><block type="variables_get" id="345"><field name="VAR">blanksprite</field></block></value><value name="x"><block type="math_number" id="348"><field name="NUM">0</field></block></value><value name="y"><block type="math_number" id="349"><field name="NUM">0</field></block></value></block></value><next><block type="controls_if" id="359" inline="false"><value name="IF0"><block type="logic_compare" id="365" inline="true"><field name="OP">EQ</field><value name="A"><block type="variables_get" id="370"><field name="VAR">ispointset</field></block></value><value name="B"><block type="math_number" id="373"><field name="NUM">1</field></block></value></block></value><statement name="DO0"><block type="microbug_scrollstring" id="388" inline="false"><value name="Message"><block type="text" id="391"><field name="TEXT">SUCCESS</field></block></value><value name="Speed"><block type="math_number" id="394"><field name="NUM">50</field></block></value></block></statement><next><block type="microbug_setdisplay" id="315" inline="true"><value name="SPRITE"><block type="variables_get" id="318"><field name="VAR">blanksprite</field></block></value></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>
 
-<block type="microbug_seteye" id="1" inline="false" x="170" y="25"><value name="id"><block type="text" id="2"><field name="TEXT">L</field></block></value><value name="state"><block type="math_number" id="3"><field name="NUM">1</field></block></value><next><block type="microbug_seteye" id="4" inline="false"><value name="id"><block type="text" id="5"><field name="TEXT">R</field></block></value><value name="state"><block type="math_number" id="6"><field name="NUM">1</field></block></value><next><block type="microbug_showletter" id="7" inline="true"><value name="letter"><block type="text" id="8"><field name="TEXT">O</field></block></value><next><block type="microbug_showletter" id="9" inline="true"><value name="letter"><block type="text" id="10"><field name="TEXT">K</field></block></value><next><block type="microbug_cleardisplay" id="11"><next><block type="microbug_plot" id="12" inline="true"><value name="x"><block type="math_number" id="13"><field name="NUM">2</field></block></value><value name="y"><block type="math_number" id="14"><field name="NUM">2</field></block></value><next><block type="microbug_unplot" id="15" inline="true"><value name="x"><block type="math_number" id="16"><field name="NUM">2</field></block></value><value name="y"><block type="math_number" id="17"><field name="NUM">2</field></block></value><next><block type="microbug_printmessage" id="18" inline="false"><value name="message"><block type="text" id="19"><field name="TEXT">HELLO WORLD</field></block></value><value name="pausetime"><block type="math_number" id="20"><field name="NUM">50</field></block></value><next><block type="controls_repeat_ext" id="50" inline="true"><value name="TIMES"><block type="math_number" id="53"><field name="NUM">3</field></block></value><statement name="DO"><block type="microbug_scrollstring" id="35" inline="false"><value name="Message"><block type="text" id="36"><field name="TEXT">BANANAS</field></block></value><value name="Speed"><block type="math_number" id="37"><field name="NUM">50</field></block></value></block></statement></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml> 
 
 	</div>
 	<hr>
@@ -133,7 +127,11 @@
 		$(document).ready(function() {
 			// Sim Renderer
 			SIMIO.init("SIMIO");
-			DALJS.setDirtyCallback(SIMIO.render);
+			//DALJS.setDirtyCallback(SIMIO.render); DEPRECATED?
+
+			$.get('js/dalforinterpreter.js', function(data) {
+				dalcode = data;
+			});
 
 			//Add start blocks if defined - idea: dump them out to console?
 			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, document.getElementById('startBlocks'));
@@ -160,31 +158,68 @@
 				    		makeWrapper(fn)));
 			    }
 
-			    makeInterp('prompt', prompt);
-			    makeInterp('alert', alert);
+			    function makeWrapperScrollImg(fn)
+			    {
+			    	return function()
+			    	{
+						arguments[2] = arguments[0].length;
+						arguments[3] = arguments[0].properties[0].length;
+						arguments.length = 4;
+
+						for (var j = 0; j < arguments.length; j++) {
+							arguments[j] = arguments[j].toString();
+						}
+			    		return interpreter.createPrimitive(fn.apply(this, arguments));
+			    	}
+			    }
+			    function makeInterpScrollImg(text, fn)
+			    {
+				    interpreter.setProperty(scope, text, 
+				    	interpreter.createNativeFunction(
+				    		makeWrapperScrollImg(fn)));
+			    }
+
+				function renderSimulator(display, left_eye_state, right_eye_state)
+				{
+					var leds = display.split(",");
+					leds = leds.map(function(led){return parseInt(led);});
+					var rows = [];
+					rows[0] = leds.slice(0,5);
+					rows[1] = leds.slice(5,10);
+					rows[2] = leds.slice(10,15);
+					rows[3] = leds.slice(15,20);
+					rows[4] = leds.slice(20,25);
+					left_eye_state = parseInt(left_eye_state);
+					right_eye_state = parseInt(right_eye_state);
+					SIMIO.render(rows, [left_eye_state, right_eye_state]);
+				}
+
+				DALJS.setDirtyCallback(SIMIO.render);
+
+				function clog(msg)
+				{
+					console.log(msg);
+				}
+				//makeInterp('prompt', prompt);
+				//makeInterp('alert', alert);
+
+				// Utility functions
 			    makeInterp('highlightBlock', highlightBlock);
+			    makeInterp('renderSimulator', renderSimulator);
+			    makeInterp('clog', clog);//console.log
 
-			    makeInterp('scrollString', DALJS.scrollString);
-			    makeInterp('setEye', DALJS.setEye);
-			    makeInterp('eyeOn', DALJS.eyeOn);
-			    makeInterp('eyeOff', DALJS.eyeOff);
-			    makeInterp('printMessage', DALJS.printMessage);
-			    makeInterp('showLetter', DALJS.showLetter);
+			    // Acorn interpreter can't access DOM's setTimeout, setInterval etc
+				// Callout functions that are in the API				
+				makeInterp('printMessage', DALJS.printMessage);
+				makeInterp('scrollString', DALJS.scrollString);
+				makeInterpScrollImg('scrollImage', DALJS.scrollImage);
+				
+				// Callout functions that are internal to the DAL
+				makeInterp('scrollSprite', DALJS.scrollSprite);
 
-			    makeInterp('getButton', DALJS.getButton); ///MRBTODO
-			    makeInterp('clearDisplay', DALJS.clearDisplay);
-				makeInterp('plot', DALJS.plot);
-				makeInterp('unplot', DALJS.unplot);
-				makeInterp('point', DALJS.point);
-				makeInterp('buildSprite', DALJS.buildSprite);//MRBTODO comes through as flat array to interpreter
-				makeInterp('toggleEye', DALJS.toggleEye);
+				// Not written yet
+				// makeInterp('getButton', DALJS.getButton); ///MRBTODO
 
-				// Not working - need different interpreter code for objects...
-				// makeInterp('setDisplay', DALJS.setDisplay);
-				// makeInterp('showViewport', DALJS.showViewport);
-				// makeInterp('scrollImage', DALJS.scrollImage);
-				// makeInterp('imagePoint', DALJS.imagePoint);
-				// makeInterp('setImagePoint', DALJS.setImagePoint);
 			}	    
 
 			var highlightPause = false;
@@ -197,7 +232,7 @@
 
 			function runCode()
 			{
-				DALJS.reset();
+				//DALJS.reset();
 			    parseCode();
 			    stepCode();
 			}
@@ -210,7 +245,10 @@
 			    Blockly.JavaScript.addReservedWords('highlightBlock');
 			    
 			    var code = Blockly.JavaScript.workspaceToCode();
+
 			    alert('Ready to execute this code:\n\n' + code);
+			    code = dalcode + "reset();" + code;
+
 			    myInterpreter = new Interpreter(code, initInterpreterApi);
 			    highlightPause = false;
 			    Blockly.mainWorkspace.traceOn(true);
@@ -262,7 +300,7 @@
 
 			// Code Build
 			var buildCode = function() {
-				var pycode = Blockly.Python.workspaceToCode();
+				var pycode = "you've commented the pycode out";//Blockly.Python.workspaceToCode();
 
 				var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 				var xml_text = Blockly.Xml.domToText(xml);

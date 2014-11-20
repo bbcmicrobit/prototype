@@ -1,3 +1,4 @@
+/*
 var DALJS = (function(){  
 
 	// Cheat for now: font data here rather than using spark_font.json
@@ -632,3 +633,4 @@ var DALJS = (function(){
 		setDirtyCallback:setDirtyCallback
 	};
 })();
+*/

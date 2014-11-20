@@ -1,103 +1,4 @@
 var DALJS = (function(){  
-	// Cheat for now: font data here rather than using spark_font.json
-
-	var font = [
-				[32, 0, 0, 0, 0, 0],
-				[33, 4, 4, 4, 0, 4],
-				[34, 10, 10, 0, 0, 0],
-				[35, 10, 15, 10, 15, 10],
-				[36, 6, 13, 6, 11, 6],
-				[37, 9, 2, 4, 9, 0],
-				[38, 6, 4, 9, 6, 0],
-				[39, 8, 8, 0, 0, 0],
-				[40, 1, 2, 2, 2, 1],
-				[41, 8, 4, 4, 4, 8],
-				[42, 0, 10, 4, 10, 0],
-				[43, 0, 4, 14, 4, 0],
-				[44, 0, 0, 0, 4, 4],
-				[45, 0, 0, 14, 0, 0],
-				[46, 0, 0, 0, 4, 0],
-				[47, 2, 2, 4, 8, 8],
-				[48, 4, 10, 10, 10, 4],
-				[49, 4, 12, 4, 4, 4],
-				[50, 14, 1, 6, 8, 15],
-				[51, 15, 1, 2, 9, 6],
-				[52, 8, 10, 10, 15, 2],
-				[53, 15, 8, 6, 1, 14],
-				[54, 7, 8, 14, 9, 14],
-				[55, 15, 1, 2, 4, 4],
-				[56, 6, 9, 6, 9, 6],
-				[57, 7, 9, 7, 1, 1],
-				[58, 0, 4, 0, 4, 0],
-				[59, 0, 4, 0, 4, 4],
-				[60, 1, 2, 4, 2, 1],
-				[61, 0, 14, 0, 14, 0],
-				[62, 4, 2, 1, 2, 4],
-				[63, 6, 9, 2, 0, 6],
-				[64, 7, 11, 11, 8, 6],
-				[65, 6, 9, 9, 15, 9],
-				[66, 14, 9, 14, 9, 14],
-				[67, 7, 8, 8, 8, 7],
-				[68, 14, 9, 9, 9, 14],
-				[69, 15, 8, 14, 8, 15],
-				[70, 15, 8, 14, 8, 8],
-				[71, 7, 8, 11, 9, 7],
-				[72, 9, 9, 15, 9, 9],
-				[73, 14, 4, 4, 4, 14],
-				[74, 15, 1, 1, 9, 6],
-				[75, 9, 10, 12, 10, 9],
-				[76, 8, 8, 8, 8, 15],
-				[77, 9, 15, 15, 15, 9],
-				[78, 9, 13, 11, 11, 9],
-				[79, 6, 9, 9, 9, 6],
-				[80, 14, 9, 14, 8, 8],
-				[81, 6, 9, 9, 6, 3],
-				[82, 14, 9, 14, 9, 9],
-				[83, 7, 8, 6, 1, 14],
-				[84, 7, 2, 2, 2, 2],
-				[85, 9, 9, 9, 9, 6],
-				[86, 9, 9, 9, 10, 4],
-				[87, 9, 11, 15, 15, 9],
-				[88, 9, 9, 6, 9, 9],
-				[89, 9, 5, 2, 4, 8],
-				[90, 15, 2, 4, 8, 15],
-				[91, 3, 2, 2, 2, 3],
-				[92, 4, 4, 2, 1, 1],
-				[93, 12, 4, 4, 4, 12],
-				[94, 4, 10, 0, 0, 0],
-				[95, 0, 0, 0, 0, 15],
-				[96, 4, 2, 0, 0, 0],
-				[97, 0, 7, 9, 7, 0],
-				[98, 8, 14, 9, 14, 0],
-				[99, 0, 7, 8, 7, 0],
-				[100, 1, 7, 9, 7, 0],
-				[101, 6, 9, 14, 7, 0],
-				[102, 3, 4, 14, 4, 0],
-				[103, 0, 15, 9, 15, 15],
-				[104, 8, 14, 9, 9, 0],
-				[105, 6, 0, 6, 6, 0],
-				[106, 2, 0, 4, 4, 8],
-				[107, 8, 11, 14, 9, 0],
-				[108, 4, 4, 4, 6, 0],
-				[109, 0, 14, 11, 11, 0],
-				[110, 0, 12, 10, 10, 0],
-				[111, 0, 6, 9, 6, 0],
-				[112, 0, 14, 9, 14, 8],
-				[113, 0, 7, 9, 7, 1],
-				[114, 0, 3, 4, 4, 0],
-				[115, 0, 3, 6, 14, 0],
-				[116, 4, 6, 4, 2, 0],
-				[117, 0, 9, 9, 7, 0],
-				[118, 0, 9, 10, 4, 0],
-				[119, 0, 9, 11, 6, 0],
-				[120, 0, 9, 6, 9, 0],
-				[121, 0, 9, 13, 2, 12],
-				[122, 0, 15, 4, 15, 0],
-				[123, 3, 2, 6, 2, 3],
-				[124, 4, 4, 4, 4, 4],
-				[125, 12, 4, 6, 4, 12],
-				[126, 5, 10, 0, 0, 0]
-	];
 
 	// Constants
 	var DISPLAY_WIDTH = 5;
@@ -159,6 +60,7 @@ var DALJS = (function(){
 
 	function Image(imageData)
 	{
+		console.log("Image dal_browser constructor");
 		if (imageData)
 		{
 			this.data = imageData;
@@ -173,6 +75,11 @@ var DALJS = (function(){
 		}
 	}
 
+	function clog(str)
+	{
+		console.log(str);
+	}
+/*
 	function digitalWrite(pin, state)
 	{
 		pins[pin] = state;
@@ -194,74 +101,11 @@ var DALJS = (function(){
 			bootloaderStart();
 		}
 	}
+*/
 
-	function delay(ms)
-	{
-		var start = new Date().getTime();
-		for (var i = 0; i < 1e7; i++) {
-			if ((new Date().getTime() - start) > ms)
-			{
-				break;
-			}
-		}
-	}
 
-	function handlePrintMessage(message, pausetime)
-	{
-		showLetter(message[0]);
-		console.log(message[0]);
-		var rest = message.substr(1);
-		if (rest.length) {
-				setTimeout(
-					function() { handlePrintMessage(rest, pausetime);},
-					pausetime);
-		} else {
-			micro_device_ready = true;
-		}
-	}
 
-	function handleScrollImage()
-	{
-		clearDisplay();
-		showViewport(imageToScroll, imageScrollOffsetH, 0);
-
-		if (imageScrollOffsetH < imageToScroll.width-DISPLAY_WIDTH+1)
-		{
-			imageScrollOffsetH++;
-			setTimeout(handleScrollImage, imageScrollInterval);
-		}
-		else
-		{
-			micro_device_ready = true;
-		}
-	}
-
-	function handleScrollSprite(sprite, delay)
-	{
-		if (scrollSpriteOffset < sprite.pixel_width())
-		{
-			sprite.render_string();
-			sprite.pan_right();
-			scrollSpriteOffset++;
-			setTimeout(function(){
-				handleScrollSprite(sprite, delay);
-			}, delay);
-		} 
-		else 
-		{
-			micro_device_ready = true;
-		}
-	}
-
-	var scrollSprite = function(theSprite, delay)
-	{
-		delay = delay || 100;
-		micro_device_ready = false;
-		scrollSpriteOffset = 0;
-		handleScrollSprite(theSprite, delay);
-	};
-
-	function dirty()
+	function daldirty()
 	{
 		if (dirtyCallback)
 			dirtyCallback(display, [left_eye_state, right_eye_state]);
@@ -270,6 +114,7 @@ var DALJS = (function(){
 	////////////////////////////////////////////////////////////////
 	// Abstraction Layer Internals
 
+	/*
 	function imagePointIndex(someImage, x ,y) {
 		return x*someImage.width +y;
 	}
@@ -287,38 +132,32 @@ var DALJS = (function(){
 		left_eye_state = LOW;
 		right_eye_state = LOW;
 		//TODO: Reset pins, etc	
-		dirty();
+		daldirty();
 	}
+	*/
 
 	////////////////////////////////////////////////////////////////
 	// API implementation
+ 
+	var unplot = function(x, y) {
+		if (x <0) return;
+		if (x >DISPLAY_WIDTH-1) return;
 
-	var setEye = function(id, state)
+		if (y <0) return;
+		if (y >DISPLAY_HEIGHT -1) return;
+
+		display[x][y] = LOW;
+
+		daldirty();
+	};
+
+	var clearDisplay = function()
 	{
-		if ((id == 'A') || (id == 'L')) {
-			digitalWrite(lefteye, state );
-			left_eye_state = state;
+		for(var i=0; i< DISPLAY_WIDTH; i++) {
+			for(var j=0; j< DISPLAY_HEIGHT; j++) {
+				unplot(i,j);
+			}
 		}
-		if ((id == 'B') || (id == 'R')) {
-			digitalWrite(righteye, state );
-			right_eye_state = state;
-		}
-		dirty();
-	};
-
-	var eyeOn = function (cId) {
-		setEye(cId, HIGH);
-	};
-
-	var eyeOff = function(cId) {
-		setEye(cId, LOW);
-	};
-
-	var printMessage = function(message, pausetime) {
-		printMessageStr = message;
-		printMessageInterval = pausetime | 100;
-		micro_device_ready = false;
-		handlePrintMessage(message,printMessageInterval);
 	};
 
 	var showLetter = function(c) {
@@ -349,28 +188,10 @@ var DALJS = (function(){
 			display[4][row] = LOW;
 		}
 
-		dirty();
+		daldirty();
 	};
 
-	var getButton = function(id) {
-		if (id == 'A') {
-			return digitalRead(ButtonA);
-		}
-		if (id == 'B') {
-			return digitalRead(ButtonB);
-		}
-		return -1; // Signify error
-	};
-
-	var clearDisplay = function()
-	{
-		for(var i=0; i< DISPLAY_WIDTH; i++) {
-			for(var j=0; j< DISPLAY_HEIGHT; j++) {
-				unplot(i,j);
-			}
-		}
-	};
-
+	/*
 	var plot = function(x, y) {
 		if (x <0) return;
 		if (x >DISPLAY_WIDTH-1) return;
@@ -380,20 +201,9 @@ var DALJS = (function(){
 
 		display[x][y] = HIGH;
 
-		dirty();
+		daldirty();
 	};
 
-	var unplot = function(x, y) {
-		if (x <0) return;
-		if (x >DISPLAY_WIDTH-1) return;
-
-		if (y <0) return;
-		if (y >DISPLAY_HEIGHT -1) return;
-
-		display[x][y] = LOW;
-
-		dirty();
-	};
 
 	var point = function(x, y) {
 		// Bounds checking
@@ -429,65 +239,79 @@ var DALJS = (function(){
 				display[i][j] = image.data[i][j];
 			}
 		}
-		dirty();
+		daldirty();
 	};
+	*/
+	var showViewportStringSprite = function(someImage, x, y)
+	{
+		//someImage.data is a flat array for strings;
 
-	//    void showViewport(Image& someImage, int x, int y) {
-	var showViewport = function(someImage, x, y) {
-		if (someImage.width<4) return; // Not implemented yet
-		if (someImage.height<4) return; // Not implemented yet
 		for(var i=0; (i+x<someImage.width) && (i<5); i++) {
 			for(var j=y; (j+y<someImage.height) && (j<5); j++) {
-				var value = someImage.data[(4-j)+y][x+i];
+//				var value = someImage.data[x+i][j+y];
+				var value = someImage.data[(j+y)*someImage.width+ x+i ];
 				display[i][j]=value;
 			}
 		}
-		dirty();
+		daldirty();
+	}
+
+	var showViewport = function(someImage, x, y) {
+		var w = someImage.length;
+		if (w <= 0)
+			return;
+		var h = someImage[0].length;
+		clog(w + " " + h + "showviewport");
+
+		for(var i=0; (i+x<w) && (i<5); i++) {
+			for(var j=y; (j+y<h) && (j<5); j++) {
+				var value = someImage[x+i][j+y];
+				display[i][j]=value;
+			}
+		}
+		daldirty();
 	};
 
-	var scrollImage = function(someImage, pausetime)
+	function makeImage(imageAsString)
 	{
-		pausetime = pausetime || 80;
+		if (imageAsString.length)
+		{
+			var args = imageAsString.split(",");
+			for(var i = 0; i < args.length; i++)
+			{
+				args[i] = parseInt(args[i]);
+			}
+			console.log("makeImage " + args);
+			var w = args.shift();
+			var h = args.shift();
 
-		imageToScroll = someImage;
+			var imageData = [];
+			for(var col = 0; col < w; col++)
+			{
+				imageData[col] = [];
+				for(var y = h - 1; y >= 0; y--)
+				{
+					imageData[col].push(args[(y*w) + col]);
+				}
+			}
+			console.log("makeImage constructing Image h:" + imageData.length + " w:" + imageData[0].length);
+			return imageData;
+		}
+		else
+		{
+			return [];
+		}
+	}
+
+	var scrollImage = function(someImage, pausetime, w, h)
+	{
+		console.log("scrollImage " + someImage + "w " + w + "h " + h);
+		pausetime = pausetime || 80;
+		imageToScroll = makeImage(w + "," + h + "," + someImage);
 		imageScrollInterval = pausetime;
 		imageScrollOffsetH = 0;
 
 		handleScrollImage();
-	};
-
-	var imagePoint = function(someImage, x, y) {
-		if (x<0) return -1;
-		if (y<0) return -2;
-		if (x>someImage.width-1) return -1;
-		if (x>someImage.height-1) return -2;
-		return someImage.data[imagePointIndex(someImage, x, y)];
-	};
-
-	var setImagePoint = function(someImage, x, y, value) {
-		if (x<0);
-		if (y<0);
-		if (x>someImage.width-1);
-		if (x>someImage.height-1);
-
-		someImage.data[imagePointIndex(someImage, x, y)] = value;
-	};
-
-	var toggleEye = function(id) {
-		if ((id == 'A') || (id == 'L')) {
-			if (left_eye_state == HIGH) {
-				setEye(id, LOW);
-			} else {
-				setEye(id, HIGH);
-			}
-		}
-		if ((id == 'B') || (id == 'R')) {
-			if (right_eye_state == HIGH) {
-				setEye(id, LOW);
-			} else {
-				setEye(id, HIGH);
-			}
-		}
 	};
 
 	function StringSprite(str) {
@@ -517,7 +341,7 @@ var DALJS = (function(){
 		myImage.width = 10;
 		myImage.height = 5;
 		myImage.data = this.mPixelData;
-		showViewport(myImage, mPP, 0);
+		showViewportStringSprite(myImage, mPP, 0);
 	};
 
 	StringSprite.prototype.render_string = function() {
@@ -592,6 +416,16 @@ var DALJS = (function(){
 
 	StringSprite.prototype.pixel_width = function() {
 		return this.mStrlen * 5;
+	}; 
+
+	var getButton = function(id) {
+		if (id == 'A') {
+			return digitalRead(ButtonA);
+		}
+		if (id == 'B') {
+			return digitalRead(ButtonB);
+		}
+		return -1; // Signify error
 	};
 
 	var scrollString = function(str, delay)
@@ -605,45 +439,77 @@ var DALJS = (function(){
 		dirtyCallback = fn;
 	};
 
-	var debug = function()
+	function handlePrintMessage(message, pausetime)
 	{
-		var rowString = "";
-		for(var i = 0; i < DISPLAY_HEIGHT; i++) {
-			for (var j = 0; j < DISPLAY_WIDTH; j++) {
-				if (display[j][i] === HIGH)
-					rowString+= "*";
-				else
-					rowString+= " ";
-			}
-			rowString+="\n";
+		showLetter(message[0]);
+		console.log(message[0]);
+		var rest = message.substr(1);
+		if (rest.length) {
+				setTimeout(
+					function() { handlePrintMessage(rest, pausetime);},
+					pausetime);
+		} else {
+			micro_device_ready = true;
 		}
-		console.log(rowString);
+	}
+
+	function handleScrollImage()
+	{
+		console.log("handleScrollImage");
+		clearDisplay();
+		showViewport(imageToScroll, imageScrollOffsetH, 0);
+
+		if (imageScrollOffsetH < imageToScroll.width-DISPLAY_WIDTH+1)
+		{
+			console.log("imageScrollOffsetH " + imageScrollOffsetH);
+			imageScrollOffsetH++;
+			setTimeout(handleScrollImage, imageScrollInterval);
+		}
+		else
+		{
+			micro_device_ready = true;
+		}
+	}
+
+	function handleScrollSprite(sprite, delay)
+	{
+		if (scrollSpriteOffset < sprite.pixel_width())
+		{
+			sprite.render_string();
+			sprite.pan_right();
+			scrollSpriteOffset++;
+			setTimeout(function(){
+				handleScrollSprite(sprite, delay);
+			}, delay);
+		} 
+		else 
+		{
+			micro_device_ready = true;
+		}
+	}
+
+	var printMessage = function(message, pausetime) {
+		printMessageStr = message;
+		printMessageInterval = pausetime | 100;
+		micro_device_ready = false;
+		handlePrintMessage(message,printMessageInterval);
+	};
+
+	var scrollSprite = function(theSprite, delay)
+	{
+		delay = delay || 100;
+		micro_device_ready = false;
+		scrollSpriteOffset = 0;
+		handleScrollSprite(theSprite, delay);
 	};
 
 	return {
-//		scrollSprite: scrollSprite,
-		setEye : setEye,
-		eyeOn : eyeOn,
-		eyeOff : eyeOff,
 		printMessage : printMessage,
-		showLetter : showLetter,
 		getButton : getButton,
-		clearDisplay : clearDisplay,
-		plot : plot,
-		unplot : unplot,
-		point : point,
-		setDisplay : setDisplay,
-		showViewport : showViewport,
 		scrollImage : scrollImage,
-		imagePoint : imagePoint,
-		setImagePoint : setImagePoint,
-		toggleEye : toggleEye,
 		scrollString: scrollString,
-		buildSprite: buildSprite,
-
-		debug:debug,
 		setDirtyCallback:setDirtyCallback,
-		reset:reset,
-		deviceReady:deviceReady
+		deviceReady:deviceReady,
+		Image:Image
 	};
 })();
