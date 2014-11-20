@@ -27,6 +27,9 @@ var DALJS = (function(){
 	var imageToScroll;
 	var imageScrollInterval;
 	var imageScrollOffsetH;
+	var imageToScrollW = 0;
+	var imageToScrollH = 0;
+
 
 	var scrollSpriteOffset;
 
@@ -156,12 +159,11 @@ var DALJS = (function(){
 			for(var col = 0; col < w; col++)
 			{
 				imageData[col] = [];
-				for(var y = h - 1; y >= 0; y--)
+				for(var y = 0; y < h; y++)
 				{
-					imageData[col].push(args[(y*w) + col]);
+					imageData[col].push(args[y + (col*h)]);
 				}
 			}
-			console.log("makeImage constructing Image h:" + imageData.length + " w:" + imageData[0].length);
 			return imageData;
 		}
 		else
@@ -175,6 +177,9 @@ var DALJS = (function(){
 		console.log("scrollImage " + someImage + "w " + w + "h " + h);
 		pausetime = pausetime || 80;
 		imageToScroll = makeImage(w + "," + h + "," + someImage);
+		imageToScrollW = w;
+		imageToScrollH = h;
+
 		imageScrollInterval = pausetime;
 		imageScrollOffsetH = 0;
 
@@ -327,7 +332,7 @@ var DALJS = (function(){
 		clearDisplay();
 		showViewport(imageToScroll, imageScrollOffsetH, 0);
 
-		if (imageScrollOffsetH < imageToScroll.width-DISPLAY_WIDTH+1)
+		if (imageScrollOffsetH < imageToScrollW-DISPLAY_WIDTH+1)
 		{
 			console.log("imageScrollOffsetH " + imageScrollOffsetH);
 			imageScrollOffsetH++;
