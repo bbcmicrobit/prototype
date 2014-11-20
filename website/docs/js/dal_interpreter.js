@@ -162,7 +162,7 @@ function makeImage(imageAsString)
 		{
 			args[i] = parseInt(args[i]);
 		}
-		clog("makeImage " + args);
+		//clog("makeImage " + args);
 		var w = args.shift();
 		var h = args.shift();
 
@@ -175,7 +175,7 @@ function makeImage(imageAsString)
 				imageData[col].push(args[(y*w) + col]);
 			}
 		}
-		clog("makeImage constructing Image h:" + imageData.length + " w:" + imageData[0].length);
+//		clog("makeImage constructing Image h:" + imageData.length + " w:" + imageData[0].length);
 		return imageData;
 	}
 	else
@@ -193,10 +193,10 @@ function Image(imageAsString)
 		{
 			args[i] = parseInt(args[i]);
 		}
-		clog("Image interpreter constructorP " + args);
+		//clog("Image interpreter constructorP " + args);
 		this.width = args.shift();
 		this.height = args.shift();
-		clog("h " + this.height + "w " + this.width);
+		//clog("h " + this.height + "w " + this.width);
 		var w = this.width;
 		var h = this.height;
 
@@ -245,7 +245,6 @@ function checkBootKey() {
 function dirty()
 {
 	// DEFINED EXTERNALLY
-	clog(display + " lefteye " + left_eye_state + " righteye " + right_eye_state);
 	renderSimulator(display, left_eye_state, right_eye_state);
 }
 
@@ -285,7 +284,7 @@ var setEye = function(id, state)
 		digitalWrite(righteye, state );
 		right_eye_state = state;
 	}
-	clog("setEye " + left_eye_state + " " + right_eye_state);
+	//clog("setEye " + left_eye_state + " " + right_eye_state);
 	dirty();
 };
 
@@ -396,7 +395,7 @@ var showViewport = function(someImage, x, y) {
 	if (w <= 0)
 		return;
 	var h = someImage[0].length;
-	clog(w + " " + h + "showviewport");
+	//clog(w + " " + h + "showviewport");
 
 	for(var i=0; (i+x<w) && (i<5); i++) {
 		for(var j=y; (j+y<h) && (j<5); j++) {
@@ -413,7 +412,7 @@ var imagePoint = function(someImage, x, y) {
 	if (w <= 0)
 		return - 1;
 	var h = someImage[0].length;
-	clog(w + " " + h + "imagePoint");
+	//clog(w + " " + h + "imagePoint");
 
 	if (x<0) return -1;
 	if (y<0) return -2;
@@ -421,7 +420,7 @@ var imagePoint = function(someImage, x, y) {
 	if (x>h-1) return -2;
 
 	var retVal = someImage[x][y];
-	clog("imagePoint returns " + retVal);
+	//clog("imagePoint returns " + retVal);
 	return retVal;
 };
 
@@ -438,7 +437,7 @@ var setImagePoint = function(someImage, x, y, value) {
 		return;
 	if (x>h-1)
 		return;
-	clog("setImagePoint");
+	//clog("setImagePoint");
 	someImage[x][y] = value;
 };
 

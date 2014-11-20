@@ -103,7 +103,7 @@ Blockly.JavaScript['microbug_buildsprite'] = function(block)
         for (var d = 0; 5 > d; d++) b += "TRUE" == block.getFieldValue("LED" + d + c) ? 1 : 0, b += 4 > d ? ", " : "";
         b += 4 > c ? ", " : ""
     }
-    console.log("buildsprite " + b);
+//    console.log("buildsprite " + b);
     return ["makeImage(" + b + "')", Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
@@ -139,7 +139,7 @@ Blockly.JavaScript['microbug_setdisplay'] = function(block)
 {
   var value_var = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_ATOMIC);
   var code = 'setDisplay(' + value_var + ');';
-  console.log(code);
+//  console.log(code);
   return code;
 }
 

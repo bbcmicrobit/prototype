@@ -42,7 +42,7 @@ var DALJS = (function(){
 
 	function Image(imageData)
 	{
-		console.log("Image dal_browser constructor");
+//		console.log("Image dal_browser constructor");
 		if (imageData)
 		{
 			this.data = imageData;
@@ -151,7 +151,7 @@ var DALJS = (function(){
 			{
 				args[i] = parseInt(args[i]);
 			}
-			console.log("makeImage " + args);
+			//console.log("makeImage " + args);
 			var w = args.shift();
 			var h = args.shift();
 
@@ -174,7 +174,9 @@ var DALJS = (function(){
 
 	var scrollImage = function(someImage, pausetime, w, h)
 	{
-		console.log("scrollImage " + someImage + "w " + w + "h " + h);
+		//console.log("scrollImage " + someImage + "w " + w + "h " + h);
+		micro_device_ready = false;
+
 		pausetime = pausetime || 80;
 		imageToScroll = makeImage(w + "," + h + "," + someImage);
 		imageToScrollW = w;
@@ -182,6 +184,7 @@ var DALJS = (function(){
 
 		imageScrollInterval = pausetime;
 		imageScrollOffsetH = 0;
+
 
 		handleScrollImage();
 	};
@@ -315,7 +318,7 @@ var DALJS = (function(){
 	function handlePrintMessage(message, pausetime)
 	{
 		showLetter(message[0]);
-		console.log(message[0]);
+		//console.log(message[0]);
 		var rest = message.substr(1);
 		if (rest.length) {
 				setTimeout(
@@ -328,13 +331,13 @@ var DALJS = (function(){
 
 	function handleScrollImage()
 	{
-		console.log("handleScrollImage");
+		//console.log("handleScrollImage");
 		clearDisplay();
 		showViewport(imageToScroll, imageScrollOffsetH, 0);
 
 		if (imageScrollOffsetH < imageToScrollW-DISPLAY_WIDTH+1)
 		{
-			console.log("imageScrollOffsetH " + imageScrollOffsetH);
+			//console.log("imageScrollOffsetH " + imageScrollOffsetH);
 			imageScrollOffsetH++;
 			setTimeout(handleScrollImage, imageScrollInterval);
 		}
