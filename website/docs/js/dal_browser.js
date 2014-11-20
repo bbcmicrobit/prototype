@@ -7,25 +7,6 @@ var DALJS = (function(){
 	var LOW = 0;
 	var PRESSED = HIGH;
 
-	// Microkit Constants
-	var row0 = 1; // Arduino Pin for row 4 // PIN 21 -- D1
-	var row1 = 0; // Arduino Pin for row 3  // PIN 20 -- D0
-	var row2 = 2; // Arduino Pin for row 2  // PIN 19 -- D2
-	var row3 = 3; // Arduino Pin for row 1  // PIN 18 -- D3
-	var row4 = 11; // Arduino Pin for row 0 // PIN 12 -- D11
-
-	var col0 = 4; // Arduino Pin for row 0  // PIN 25 -- D4
-	var col1 = 12; // Arduino Pin for row 1  // PIN 26 -- D12
-	var col2 = 6; // Arduino Pin for row 2  // PIN 27 -- D6
-	var col3 = 9; // Arduino Pin for row 3 // PIN 29 -- D9
-	var col4 = 13; // Arduino Pin for row 4  // PIN 32 -- D13
-
-	var lefteye = 7; // Arduino Pin for left eye // PIN 1     -- D7
-	var righteye = 14; // Arduino Pin for left eye // PIN 11  -- D14
-
-	var ButtonA = 17; // Arduino Pin for left eye // PIN 8    -- D17
-	var ButtonB = 16; // Arduino Pin for left eye // PIN 10   -- D16    
-
 	// State 
 	var display = [
 		[LOW, LOW, LOW, LOW, LOW],
@@ -34,8 +15,6 @@ var DALJS = (function(){
 		[LOW, LOW, LOW, LOW, LOW],
 		[LOW, LOW, LOW, LOW, LOW]
 	];
-
-	var pins = [];
 	var left_eye_state;
 	var right_eye_state;
 
@@ -75,84 +54,26 @@ var DALJS = (function(){
 		}
 	}
 
-	function clog(str)
-	{
-		console.log(str);
-	}
-/*
-	function digitalWrite(pin, state)
-	{
-		pins[pin] = state;
-	}
-
-	function digitalRead(pin)
-	{
-		var pinVal = pins[pin];
-		if (pinVal === undefined)
-			console.log("digitalRead addressing undefined pin");
-
-		return pins[pin];   
-	}
-
-	function bootloaderStart(){}
-
-	function checkBootKey() {
-		if (digitalRead(ButtonA) == PRESSED) {
-			bootloaderStart();
-		}
-	}
-*/
-
-
-
 	function daldirty()
 	{
 		if (dirtyCallback)
 			dirtyCallback(display, [left_eye_state, right_eye_state]);
 	}
 
-	////////////////////////////////////////////////////////////////
-	// Abstraction Layer Internals
-
-	/*
-	function imagePointIndex(someImage, x ,y) {
-		return x*someImage.width +y;
-	}
-
-	function reset()
-	{
-		display = [
-			[LOW, LOW, LOW, LOW, LOW],
-			[LOW, LOW, LOW, LOW, LOW],
-			[LOW, LOW, LOW, LOW, LOW],
-			[LOW, LOW, LOW, LOW, LOW],
-			[LOW, LOW, LOW, LOW, LOW]
-		];
-
-		left_eye_state = LOW;
-		right_eye_state = LOW;
-		//TODO: Reset pins, etc	
-		daldirty();
-	}
-	*/
-
-	////////////////////////////////////////////////////////////////
-	// API implementation
- 
-	var unplot = function(x, y) {
-		if (x <0) return;
-		if (x >DISPLAY_WIDTH-1) return;
-
-		if (y <0) return;
-		if (y >DISPLAY_HEIGHT -1) return;
-
-		display[x][y] = LOW;
-
-		daldirty();
-	};
-
 	var clearDisplay = function()
 	{
+		var unplot = function(x, y) {
+			if (x <0) return;
+			if (x >DISPLAY_WIDTH-1) return;
+
+			if (y <0) return;
+			if (y >DISPLAY_HEIGHT -1) return;
+
+			display[x][y] = LOW;
+
+			daldirty();
+		};
+
 		for(var i=0; i< DISPLAY_WIDTH; i++) {
 			for(var j=0; j< DISPLAY_HEIGHT; j++) {
 				unplot(i,j);
@@ -191,64 +112,11 @@ var DALJS = (function(){
 		daldirty();
 	};
 
-	/*
-	var plot = function(x, y) {
-		if (x <0) return;
-		if (x >DISPLAY_WIDTH-1) return;
-
-		if (y <0) return;
-		if (y >DISPLAY_HEIGHT -1) return;
-
-		display[x][y] = HIGH;
-
-		daldirty();
-	};
-
-
-	var point = function(x, y) {
-		// Bounds checking
-		if (x <0) return -1;
-		if (x >DISPLAY_WIDTH-1) return -1;
-
-		if (y <0) return -2;
-		if (y >DISPLAY_HEIGHT -1) return -2;
-
-		return display[x][y];
-	};
-
-	//MRB: New helper function
-	var buildSprite = function(imageData)
-	{
-		//HORRIBLE HACK MRBTODO
-		var args = imageData.split(",");
-		args = args.map(function(arg){return parseInt(arg);});
-		var rows = [];
-		rows[0] = args.slice(0,5);
-		rows[1] = args.slice(5,10);
-		rows[2] = args.slice(10,15);
-		rows[3] = args.slice(15,20);
-		rows[4] = args.slice(20,25);
-//		return new Image(imageData);
-		return new Image(rows);
-	};
-
-	//  var setDisplay = function(int sprite[5][5]) {
-	var setDisplay = function(image) {
-		for(var i=0; i<5; i++) {
-			for(var j=0; j<5; j++) {
-				display[i][j] = image.data[i][j];
-			}
-		}
-		daldirty();
-	};
-	*/
 	var showViewportStringSprite = function(someImage, x, y)
 	{
 		//someImage.data is a flat array for strings;
-
 		for(var i=0; (i+x<someImage.width) && (i<5); i++) {
 			for(var j=y; (j+y<someImage.height) && (j<5); j++) {
-//				var value = someImage.data[x+i][j+y];
 				var value = someImage.data[(j+y)*someImage.width+ x+i ];
 				display[i][j]=value;
 			}
@@ -261,7 +129,6 @@ var DALJS = (function(){
 		if (w <= 0)
 			return;
 		var h = someImage[0].length;
-		clog(w + " " + h + "showviewport");
 
 		for(var i=0; (i+x<w) && (i<5); i++) {
 			for(var j=y; (j+y<h) && (j<5); j++) {
@@ -419,12 +286,13 @@ var DALJS = (function(){
 	}; 
 
 	var getButton = function(id) {
-		if (id == 'A') {
-			return digitalRead(ButtonA);
-		}
-		if (id == 'B') {
-			return digitalRead(ButtonB);
-		}
+		alert('getButton not implemented');
+		// if (id == 'A') {
+		// 	return digitalRead(ButtonA);
+		// }
+		// if (id == 'B') {
+		// 	return digitalRead(ButtonB);
+		// }
 		return -1; // Signify error
 	};
 
