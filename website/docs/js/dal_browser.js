@@ -294,13 +294,14 @@ var DALJS = (function(){
 	}; 
 
 	var getButton = function(id) {
-		alert('getButton not implemented');
-		// if (id == 'A') {
-		// 	return digitalRead(ButtonA);
-		// }
-		// if (id == 'B') {
-		// 	return digitalRead(ButtonB);
-		// }
+		var butts = SIMIO.getButtons();
+
+		if (id == 'A') {
+			return (butts.A === true);
+		}
+		if (id == 'B') {
+			return (butts.B === true);
+		}
 		return -1; // Signify error
 	};
 
@@ -386,6 +387,6 @@ var DALJS = (function(){
 		scrollString: scrollString,
 		setDirtyCallback:setDirtyCallback,
 		deviceReady:deviceReady,
-		Image:Image
+//		Image:Image
 	};
 })();

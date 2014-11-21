@@ -59,7 +59,7 @@ Blockly.JavaScript['microbug_showletter'] = function(block) {
 Blockly.JavaScript['microbug_getbutton'] = function(block) {
   var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = 'getButton(' + value_id + ');';
+  var code = 'getButton(' + value_id + ')';
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.JavaScript.ORDER_NONE];
 };

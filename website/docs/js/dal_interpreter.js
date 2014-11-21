@@ -276,6 +276,15 @@ function reset()
 
 var setEye = function(id, state)
 {
+	//have eyes settable by boolean stuff as well as 1 and 0
+	if (typeof state == 'boolean')
+	{
+		if (state)
+			state = 1;
+		else
+			state = 0;
+	}
+
 	if ((id == "A") || (id == "L")) {
 		digitalWrite(lefteye, state );
 		left_eye_state = state;
@@ -284,7 +293,7 @@ var setEye = function(id, state)
 		digitalWrite(righteye, state );
 		right_eye_state = state;
 	}
-	//clog("setEye " + left_eye_state + " " + right_eye_state);
+//	clog("setEye " + left_eye_state + " " + right_eye_state);
 	dirty();
 };
 
@@ -325,16 +334,6 @@ var showLetter = function(c) {
 	}
 
 	dirty();
-};
-
-var getButton = function(id) {
-	if (id == "A") {
-		return digitalRead(ButtonA);
-	}
-	if (id == "B") {
-		return digitalRead(ButtonB);
-	}
-	return -1; // Signify error
 };
 
 var clearDisplay = function()
