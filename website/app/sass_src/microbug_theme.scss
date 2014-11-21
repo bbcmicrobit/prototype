@@ -1,10 +1,11 @@
 // This is the theme for the Microbug application
 
 // Global color settings.
-$body-bg: #fff;
+$body-bg: #500;
 
 // Brand-specific colors
 $brand-primary: #f00;
+$content-bg-color: #fff;
 
 // The navigation bar at the top of the screen
 $navbar-height: 30px;
@@ -12,3 +13,20 @@ $navbar-default-bg: #333;
 $navbar-default-color: #ddd;
 $navbar-default-brand-color: #fff;
 $navbar-border-radius: 0px;
+
+$nav-tabs-border-color: #ddd;
+$nav-tabs-inactive-color: #aaa;
+
+.nav-tabs > li > a {
+  background-color: $nav-tabs-inactive-color;
+  border-top-color: $nav-tabs-border-color !important;
+  border-left-color: $nav-tabs-border-color !important;
+  border-right-color: $nav-tabs-border-color !important;
+  border-bottom-color: $nav-tabs-border-color !important;
+}
+
+
+.nav-tabs > li.active > a {
+  border-bottom-color: transparent !important;
+  background-color: $content-bg-color !important;
+}

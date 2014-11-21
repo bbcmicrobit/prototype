@@ -4,6 +4,7 @@
 var program_id_elem = $('#program_id');
 var tutorial_back_button = $('#tutorial_back');
 var tutorial_forward_button = $('#tutorial_forward');
+var program_status_update_elem = $('#program_status_update');
 
 function enablePageInteraction() {
     var editor_tabs = $('#editor_tabs');
@@ -46,6 +47,60 @@ function enablePageInteraction() {
     setupNameRename();
 
     setupTutorial();
+
+    setupProgramStatusUpdate();
+}
+
+function setupProgramStatusUpdate() {
+    if (program_status_update_elem.length) {
+        var program_id = program_status_update_elem.attr('data-program-id');
+        if (program_id) {
+            console.log("Configuring program status update for ",program_id);
+            updateProgramStatus(program_id);
+        } else {
+            program_status_update_elem.html('&nbsp;');
+            console.log("No program id so not configuring status update");
+        }
+    } else {
+        console.log("No program status update, no need to update it");
+    }
+}
+
+function updateProgramStatus(program_id) {
+    var callback = function() { updateProgramStatus(program_id)};
+
+    $.ajax({
+        type: 'GET',
+        url: '/microbug/queue_status/'+program_id,
+        timeout: 2000,
+        success: function(data) {
+            data = JSON.parse(data);
+            console.log("GOT DATA: ",data);
+            program_status_update_elem.html(statusElementContent(data));
+            if (data.status != 'compiled') {
+                window.setTimeout(callback, 5000);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Error fetching program status");
+            window.setTimeout(callback, 5000);
+        }
+    });
+}
+
+function statusElementContent(data) {
+    if (data.status == 'no_version') {
+        return '';
+    } else if (data.status == 'compiled') {
+        return(
+            '<a class="btn btn-primary" href="/microbug/download/'+data.id+'">' +
+            '<i class="fa fa-download">&nbsp;</i>Download </a>'
+        );
+    } else if (data.status == 'in_compile_queue') {
+        return(
+            'Program being compiled, expected in <span class="eta">'+data.eta+'</span>'
+        );
+    }
 }
 
 function setupTutorial() {
@@ -269,6 +324,9 @@ function blocklyCodeAsPython() {
 }
 
 function compileNewProgram(successCallback) {
+    // Start to update the setup as well since it's about to compile.
+    updateProgramStatus(getProgramId());
+
     $.ajax({
         type: "POST",
         url: "/microbug/build_code/",

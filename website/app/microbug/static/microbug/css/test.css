@@ -33,6 +33,7 @@
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
+    margin: 0 0 0.5em 0;
 }
 
 #tutorial_content > * {
@@ -65,5 +66,18 @@
 }
 
 .unnamed_program > * {
+    color: red;
+}
+
+.page_level_element {
+    margin: 0 0 1em 0;
+}
+
+.page-content {
+    background: #fff;
+    color: black;
+}
+
+.css {
     color: red;
 }

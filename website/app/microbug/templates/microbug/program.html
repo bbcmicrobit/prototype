@@ -8,33 +8,11 @@
 {% block body %}
     <div id="program_id" class="hidden">{{ program.id }}</div>
     <input type="text" id="original_program_name" class="hidden" value="{{ program.name }}">
-    <div class="input-group">
+    <div class="input-group page_level_element">
         <input type="text" class="form-control" id="program_name" value="{{ program.name }}" placeholder="Program name">
         <span class="input-group-addon" id="program_rename">Rename</span>
     </div>
 
-    <p><em>ID: </em>{{ program.id }}</p>
-
-    {% if program.version %}
-        <div class="rounded">
-            <h1>Version: {{ program.version.id }}</h1>
-
-            <p><em>UUID:</em> {{ program.version.store_uuid }}</p>
-            <p><em>Base filename:</em> {{ program.version.base_filename }}</p>
-
-            <h2>Stored JSON</h2>
-            <pre>{{ program.version.json }}</pre>
-
-            <h2>XML</h2>
-            <pre>{{ program.version.xml }}</pre>
-
-            <h2>Code</h2>
-            <pre>{{ program.version.code }}</pre>
-        </div>
-
-        <div id="blocklyXmlSrc" class="hidden">{{ program.version.xml }}</div>
-        {% include "microbug/partials/_emulator_editor.html" with buildBtnId='buildCode' buildBtnText='Build Code'%}
-    {% else %}
-        <div class="error">Error: Program has no Version</div>
-    {% endif %}
+    <div id="blocklyXmlSrc" class="hidden">{{ program.version.xml }}</div>
+    {% include "microbug/partials/_emulator_editor.html" with buildBtnId='buildCode' buildBtnText='Build Code'%}
 {% endblock %}

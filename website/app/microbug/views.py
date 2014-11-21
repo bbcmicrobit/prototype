@@ -102,7 +102,7 @@ def build_code(request):
     version = Version(id=numeric_id, store_uuid=random_uuid, lines_of_code_count=lines_of_code)
     if new_program:
         version.previous_version = new_program.version
-        json_obj['previous_version'] = new_program.version
+        json_obj['previous_version'] = new_program.version.id
     version.save()
 
     # If we didn't obtain a Program from the ID we'll create one now, if we did we'll update it
@@ -118,12 +118,37 @@ def build_code(request):
     json_obj['program_id'] = new_program.id
 
     # Write it to both of the stores
+    logger.debug("JSON: {0}".format(json_obj));
+
     pretty_json = _prettify_json(json_obj)
     primary_version_store.write_new_version(pretty_json, numeric_id, random_uuid)
     pending_queue_store.write_new_version(python_code, numeric_id, random_uuid)
 
     # Return the program's ID
     return HttpResponse(str(new_program.id))
+
+# Return the status of the program specified
+def queue_status(request, program_id):
+    queried_program = get_object_or_404(Program, pk=program_id)
+    if (queried_program.version is None):
+        json_obj = {
+            'status': 'no_version',
+            'id': program_id,
+        }
+    elif (queried_program.version.is_compiled()):
+        json_obj = {
+            'status': 'compiled',
+            'id': program_id,
+            'version': queried_program.version.id,
+        }
+    else:
+        json_obj = {
+            'status': 'in_compile_queue',
+            'id': program_id,
+            'version': queried_program.version.id,
+            'eta': str(queried_program.version.python_compilation_eta()),
+        }
+    return HttpResponse(json.dumps(json_obj))
 
 # Rename a program at the user's request
 @csrf_exempt

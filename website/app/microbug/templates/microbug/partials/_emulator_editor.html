@@ -17,21 +17,15 @@
             <a href="#code-tab" data-toggle="tab">Code</a>
         </li>
     </ul>
-    <div class="tab-content">
+    <div class="tab-content page-content">
         <div role="tabpanel" id="blockly-tab" class="tab-pane active">
             <button type="button" id="{{ buildBtnId }}" class="btn btn-primary">
                 <i class="fa fa-cog">&nbsp;</i>
                 {{ buildBtnText }}
             </button>
-            {% if program.version.is_compiled %}
-                Program is COMPILED
-                <a class="btn btn-primary" href="{% url "microbug:download" program_id=program.id %}">
-                    <i class="fa fa-download">&nbsp;</i>
-                    Download
-                </a>
-            {% else %}
-                Program will be available in {{ program.version.python_compilation_eta }}
-            {% endif %}
+            <span id="program_status_update" data-program-id="{{ program.id }}">
+                <i class="fa fa-refresh fa-spin"></i>&nbsp;Fetching program status
+            </span>
             <br/>
 
             <div id="blockly" style="width: 100%; margin:0.5em 0 0 0; height: 480px; "></div>
