@@ -1,6 +1,6 @@
 var SIMIO = (function(){
 
-	var canvas, context, imageObj;
+	var canvas, context, imageObj, flareObj, flareObj2;
 
 	var ledColumns = [0.298, 0.368, 0.44, 0.508, 0.58];
 	var ledRows = [0.564,0.636,0.708,0.776,0.846];
@@ -45,69 +45,61 @@ var SIMIO = (function(){
 
 	var buttons = [new Button(), new Button()];
 
-	var six = 6;
-	var five = 5;
+	var ledScale = 1;
+
+	function drawLed(img, x, y)
+	{
+		ledScale = (canvas.width / flareObj.width) * 0.15;
+
+		context.save();
+		context.translate(x - (img.width * ledScale)/2, y - (img.height * ledScale)/2);
+		context.scale(ledScale, ledScale);
+		context.drawImage(img, 0, 0);
+		context.restore();
+	}
 
 	var render = function(display, eyes) {
 
+		// Draw microbug	
+		context.globalCompositeOperation = "source-over";
 		context.fillStyle = 'grey';
 		context.fillRect(0,0,canvas.width, canvas.height);
-//		context.clearRect(0,0,canvas.width, canvas.height);
-		
+	
 		context.save();
 		var scaleFactor = Math.min(canvas.height, canvas.width) / Math.max(imageObj.height, imageObj.width);
 		context.scale(scaleFactor, scaleFactor);
         context.drawImage(imageObj, 0, 0);
 		context.restore();		
 
-		// Might get called without display data, in which case get out here.
+		// Draw leds
 		if (!(display && eyes))
 			return;
 		else
-		{
-			// possibly the wrong way around...
+		{			
+			context.globalCompositeOperation = "lighter";
+
 			var displayWidth = display.length;
 			var displayHeight = display[0].length;
-
-			// DISPLAY
-			//centre points nicely within canvas
-			var xInc = canvas.width / (displayWidth + 1);
-			var xOff = xInc / 2;
-			var yInc = ((canvas.height/six)*five) / (displayHeight + 1);
-			var yOff = canvas.height/six + yInc / 2;
-			var r = canvas.width / 40;//(xInc / 2.5);
-
-			context.fillStyle = 'red';
 
 			for(var x = 0; x < displayWidth; x++){
 				for(var y = 0; y < displayHeight; y++){
 					if (display[x][y])
 					{
-						context.beginPath();
-						context.arc(ledColumns[x] * canvas.width, ledRows[y] * canvas.height, r, 0, 2 * Math.PI, false);
-						context.closePath();
-						context.fill();
+						drawLed(flareObj, ledColumns[x] * canvas.width, ledRows[y] * canvas.height);
 					}
 				}
 			}
 
 			// EYES
-			context.fillStyle = 'orange';
-			context.strokeStyle = 'orange';
 			for(var i = 0; i < eyes.length; i++)
 			{
 				if (eyes[i])
 				{
-					context.beginPath();
-					context.arc(ledEyes[i][0] * canvas.width, ledEyes[i][1] * canvas.height, r, 0, 2 * Math.PI, false);
-					context.closePath();
-					context.fill();
+					drawLed(flareObj2, ledEyes[i][0] * canvas.width, ledEyes[i][1] * canvas.height);
 				}
 			}
 		}
 	};
-
-
 
 	var init = function(divId) {
 		canvas = document.createElement('canvas');
@@ -157,6 +149,12 @@ var SIMIO = (function(){
 			SIMIO.render();
 		});
 		imageObj.src = 'media/IMG_8829.png';
+
+		flareObj = new Image();
+		flareObj.src = 'media/redledwithalpha_sm.png';
+
+		flareObj2 = new Image();
+		flareObj2.src = 'media/orangeledwithalpha_sm.png';
 
 		document.getElementById(divId).appendChild(canvas);
 	};
