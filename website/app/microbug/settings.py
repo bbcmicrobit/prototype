@@ -8,7 +8,13 @@ try:
     import michaels_machine
     BASE = "/home/michael/Work/CodeBug/MiniMicro/website/website/microbug_store"
 except ImportError:
-    BASE = '/Users/molt/Documents/microbug_store/primary'
+    # Are we running on the shared dev server?
+    try:
+        import sparkslabs
+        BASE = "/srv/Websites/minimicro.iotoy.org/website/microbug_store"
+
+    except ImportError:
+        BASE = '/Users/molt/Documents/microbug_store'
 
 # Where we're keeping the immutable store of xml/py data in JSON
 PRIMARY_STORE_DIRECTORY = BASE + '/primary'
