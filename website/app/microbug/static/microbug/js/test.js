@@ -543,6 +543,11 @@ function blocklyCodeAsPython() {
     return Blockly.Xml.domToText(xml);
 }
 
+function populateCodeTab() {
+    var code = blocklyCode();
+    $('#code-tab').html("<P><PRE>" + code  + "</PRE>");
+}
+
 function compileNewProgram(successCallback) {
     // Start to update the setup as well since it's about to compile.
     updateProgramStatus(getProgramId());
