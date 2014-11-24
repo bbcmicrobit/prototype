@@ -8,9 +8,20 @@ import logging
 
 logging.basicConfig()
 
-INCOMING_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/compiler/../website/python_pending/"
-OUTGOING_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/compiler/../website/docs/compiled/"
-BUILD_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/compiler/../website/tmp/"
+try:
+    # Are we running on the shared dev server?
+    import sparkslabs
+
+    INCOMING_DIRECTORY = "/srv/Websites/minimicro.iotoy.org/website/microbug_store/pending/"
+    OUTGOING_DIRECTORY = "/srv/Websites/minimicro.iotoy.org/website/microbug_store/compiled/"
+    BUILD_DIRECTORY = "/srv/Websites/minimicro.iotoy.org/website/tmp/"
+
+except ImportError:
+    # If not, assume we're running on michael's dev machine
+
+    INCOMING_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/compiler/../website/python_pending/"
+    OUTGOING_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/compiler/../website/docs/compiled/"
+    BUILD_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/compiler/../website/tmp/"
 
 class DirectoryWatcher(Actor):
     def __init__(self, directory):
@@ -62,6 +73,10 @@ cc = Compiler()
 pipe(dw, "directory_change", cc, "reprocess_directory")
 
 start(dw, cc)
+
+time.sleep(1)
+
+cc.reprocess_directory() # Prod the compilation directory at startup
 
 while True:
     time.sleep(6)
