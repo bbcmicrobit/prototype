@@ -62,7 +62,7 @@ var SIMIO = (function(){
 
 		// Draw microbug	
 		context.globalCompositeOperation = "source-over";
-		context.fillStyle = 'grey';
+		context.fillStyle = 'white';
 		context.fillRect(0,0,canvas.width, canvas.height);
 	
 		context.save();
