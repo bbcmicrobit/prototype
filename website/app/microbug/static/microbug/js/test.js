@@ -290,6 +290,226 @@ function setupBlockly() {
         } else {
             console.log("No BlocklyXmlSrc, not loading");
         }
+
+
+		$(document).ready(function() {
+			// Sim Renderer
+			SIMIO.init("SIMIO");
+			//DALJS.setDirtyCallback(SIMIO.render); DEPRECATED?
+
+			$.get('/js/dal_interpreter.js', function(data) {
+				dalcode = data;
+			});
+
+			//Add start blocks if defined - idea: dump them out to console?
+			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, document.getElementById('startBlocks'));
+
+		    var myInterpreter = null;
+		    var myInterval = null;
+
+			function initInterpreterApi(interpreter, scope)
+			{
+			    function makeWrapper(fn)
+			    {
+			    	return function()
+			    	{
+						for (var j = 0; j < arguments.length; j++) {
+							arguments[j] = arguments[j].toString();
+						}
+			    		return interpreter.createPrimitive(fn.apply(this, arguments));
+			    	}
+			    }
+			    function makeInterp(text, fn)
+			    {
+				    interpreter.setProperty(scope, text, 
+				    	interpreter.createNativeFunction(
+				    		makeWrapper(fn)));
+			    }
+
+			    function makeWrapperScrollImg(fn)
+			    {
+			    	return function()
+			    	{
+						arguments[2] = arguments[0].length;
+						arguments[3] = arguments[0].properties[0].length;
+						arguments.length = 4;
+
+						for (var j = 0; j < arguments.length; j++) {
+							arguments[j] = arguments[j].toString();
+						}
+			    		return interpreter.createPrimitive(fn.apply(this, arguments));
+			    	}
+			    }
+			    function makeInterpScrollImg(text, fn)
+			    {
+				    interpreter.setProperty(scope, text, 
+				    	interpreter.createNativeFunction(
+				    		makeWrapperScrollImg(fn)));
+			    }
+
+				function renderSimulator(display, left_eye_state, right_eye_state)
+				{
+					var leds = display.split(",");
+					leds = leds.map(function(led){return parseInt(led);});
+					var rows = [];
+					rows[0] = leds.slice(0,5);
+					rows[1] = leds.slice(5,10);
+					rows[2] = leds.slice(10,15);
+					rows[3] = leds.slice(15,20);
+					rows[4] = leds.slice(20,25);
+
+					left_eye_state = parseInt(left_eye_state);
+					right_eye_state = parseInt(right_eye_state);
+					SIMIO.render(rows, [left_eye_state, right_eye_state]);
+				}
+
+				DALJS.setDirtyCallback(SIMIO.render);
+
+				function clog(msg)
+				{
+					console.log(msg);
+				}
+				//makeInterp('prompt', prompt);
+				//makeInterp('alert', alert);
+
+				// Utility functions
+			    makeInterp('highlightBlock', highlightBlock);
+			    makeInterp('renderSimulator', renderSimulator);
+			    makeInterp('clog', clog);//console.log
+
+			    // Acorn interpreter can't access DOM's setTimeout, setInterval etc
+				// Callout functions that are in the API				
+				makeInterp('printMessage', DALJS.printMessage);
+				makeInterp('scrollString', DALJS.scrollString);
+				makeInterpScrollImg('scrollImage', DALJS.scrollImage);
+				
+				// Callout functions that are internal to the DAL
+				makeInterp('scrollSprite', DALJS.scrollSprite);
+
+			    function makeWrapperButt(fn)
+			    {
+			    	return function()
+			    	{
+						for (var j = 0; j < arguments.length; j++) {
+							arguments[j] = arguments[j].toString();
+						}
+			    		return interpreter.createPrimitive(fn.apply(this, arguments));
+			    	}
+			    }
+			    function makeInterpButt(text, fn)
+			    {
+				    interpreter.setProperty(scope, text, 
+				    	interpreter.createNativeFunction(
+				    		makeWrapper(fn)));
+			    }
+
+				makeInterpButt('getButton', DALJS.getButton);
+			}	    
+
+			var highlightPause = false;
+
+			function highlightBlock(id)
+			{
+			    Blockly.mainWorkspace.highlightBlock(id);
+			    highlightPause = true;
+			}
+
+			function runCode()
+			{
+				//DALJS.reset();
+			    parseCode();
+			    stepCode();
+			}
+
+			function parseCode()
+			{
+				console.log("parseCode");
+			    // Generate JavaScript code and parse it.
+			    Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
+			    Blockly.JavaScript.addReservedWords('highlightBlock');
+			    
+			    var code = Blockly.JavaScript.workspaceToCode();
+
+			    alert('Ready to execute this code:\n\n' + code);
+			    code = dalcode + "reset();" + code;
+
+			    myInterpreter = new Interpreter(code, initInterpreterApi);
+			    highlightPause = false;
+			    Blockly.mainWorkspace.traceOn(true);
+			    Blockly.mainWorkspace.highlightBlock(null);
+			}
+
+			function stepCode()
+			{
+			    if (!DALJS.deviceReady())
+			    {
+			        setTimeout(function()
+			        {
+			            stepCode();
+			        }, 50);
+			        return;
+			    }
+
+			    try
+			    {
+			        var ok = myInterpreter.step();
+			    }
+			    finally
+			    {
+			        if (!ok)
+			        {
+			            // Program complete, no more code to execute.
+			            return;
+			        }
+			    }
+
+			    if (highlightPause)
+			    {
+			        // A block has been highlighted.  Pause execution here.
+			        var pausebutton = document.getElementById('pausetime');
+			        var delay = parseInt(document.getElementById('pausetime').value);
+
+			        highlightPause = false;
+			        setTimeout(function()
+			        {
+			            stepCode();
+			        }, delay);
+			    }
+			    else
+			    {
+			        // Keep executing until a highlight statement is reached.
+			        stepCode();
+			    }
+			}
+
+			// Code Build
+			var buildCode = function() {
+				var pycode = "you've commented the pycode out";//Blockly.Python.workspaceToCode();
+
+				var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+				var xml_text = Blockly.Xml.domToText(xml);
+				console.log(xml_text);
+
+				$("#codeblock").html("<P><PRE>" + pycode  + "</PRE>" + "<P><PRE>" + pycode + "</PRE>");
+    			$.ajax({
+					type: "POST",
+					url: "/cgi-bin/upload_mb.py",
+					data: JSON.stringify({"repr" : { "code": pycode, "xml" : xml_text }}),
+					success: function( data ) {
+						var someid = data["id"];
+						text = '<P>Link to this version - <a href="/blockly_reload.html?id=' +  someid + '"> ' + someid.toString() +' </a>';
+						$( "#resultblock" ).html( text );
+						},
+				});
+			};
+
+			document.getElementById("BuildCodeButton").addEventListener("click", buildCode);
+			document.getElementById("RunCodeButton").addEventListener("click", runCode);
+			SIMIO.render();
+		});
+
+
+
     }
 }
 

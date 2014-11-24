@@ -1,25 +1,61 @@
 <!-- Start of _blockly_toolbar.html, owned my MRB -->
 <xml id="toolbox" style="display: none">
-    <category name="Control Structures">
-        <block type="controls_if"></block>
-        <block type="controls_if_elseif"></block>
-        <block type="controls_repeat_ext"></block>
-    </category>
-    <category name="operations">
-        <block type="logic_compare"></block>
-        <block type="math_arithmetic"></block>
-    </category>
+        <category name="Microbug">
+                <category name="Eyes">
+                        <block type="microbug_seteye"></block>
+                        <block type="microbug_eyeon"></block>
+                        <block type="microbug_eyeoff"></block>
+                        <block type="microbug_toggleeye"></block>
+                </category>
+                <category name="Display">
+                        <block type="microbug_scrollstring"></block>
+                        <block type="microbug_printmessage"></block>
+                        <block type="microbug_showletter"></block>
+                        <block type="microbug_cleardisplay"></block>
+                        <block type="microbug_plot"></block>
+                        <block type="microbug_unplot"></block>
+                        <block type="microbug_point"></block>
+                        <block type="microbug_buildsprite"></block>
+                        <block type="microbug_buildbigsprite"></block>
+                        <block type="microbug_setdisplay"></block>
+                        <block type="microbug_showviewport"></block>
+                        <block type="microbug_scrollimage"></block>
+                        <block type="microbug_imagepoint"></block>
+                        <block type="microbug_setimagepoint"></block>
+                </category>
+                <category name="Buttons">
+                        <block type="microbug_getbutton"></block>
+                </category>
+        </category>
 
-    <category name="Values">
-        <block type="math_number"></block>
-        <block type="text"></block>
-    </category>
+        <category name="Variables">
+                <block type="variables_get"></block>
+                <block type="variables_set"></block>
+        </category>
+        <category name="Control Structures">
+                        <block type="controls_if"></block>
+                        <block type="controls_if_if"></block>
+                        <block type="controls_if_elseif"></block>
+                        <block type="controls_if_else"></block>
+        </category>
+        <category name="operations">
+                        <block type="logic_compare"></block>
+                        <block type="logic_operation"></block>
+                        <block type="logic_negate"></block>
+                        <block type="logic_boolean"></block>
+                        <block
+                        type="math_arithmetic"></block>
+        </category>
 
-    <category name="Functions">
-        <block type="text_print"></block>
-    </category>
-    <category name="User functions">
-        <block type="text_print"></block>
-    </category>
+        <category name="Loops">
+                <block type="controls_whileUntil"></block>
+                <block type="controls_for"></block>
+                <block type="controls_repeat_ext"></block>
+        </category>
+
+        <category name="Values">
+                        <block type="math_number"></block>
+                        <block type="text"></block>
+        </category>
 </xml>
 <!-- End of _blockly_toolbar.html -->
