@@ -30,3 +30,13 @@ $nav-tabs-inactive-color: #aaa;
   border-bottom-color: transparent !important;
   background-color: $content-bg-color !important;
 }
+
+#emulator {
+    text-align: center;
+}
+ 
+#emulator canvas {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 50px;  
+}
