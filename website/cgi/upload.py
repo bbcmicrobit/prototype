@@ -5,7 +5,7 @@
 
 import json
 import sys
-from filelock.filelock import FileLock
+from filelock import FileLock
 
 raw_stdin = sys.stdin.read()
 myjson = json.loads(raw_stdin)
