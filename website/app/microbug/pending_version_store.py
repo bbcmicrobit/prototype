@@ -32,9 +32,9 @@ class PendingVersionStore:
     def items_before(self, item):
         item_index = self._leading_integer(item)
         return [
-            filename
-            for filename in os.listdir(self._root_directory)
-            if self._leading_integer(filename) < item_index
+                   filename
+                   for filename in os.listdir(self._root_directory)
+                   if (filename != "README")   and (self._leading_integer(filename) < item_index)
         ]
 
     # If a string has leading digits return them as integer, if not throw an error
