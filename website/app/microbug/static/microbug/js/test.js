@@ -503,7 +503,7 @@ function setupBlockly() {
 				});
 			};
 
-			document.getElementById("BuildCodeButton").addEventListener("click", buildCode);
+			// document.getElementById("BuildCodeButton").addEventListener("click", buildCode);
 			document.getElementById("RunCodeButton").addEventListener("click", runCode);
 			SIMIO.render();
 		});
