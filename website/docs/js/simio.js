@@ -148,13 +148,13 @@ var SIMIO = (function(){
 		imageObj.addEventListener('load',function(){
 			SIMIO.render();
 		});
-		imageObj.src = '/media/IMG_8829.png';
+		imageObj.src = '/static/microbug/media/IMG_8829.png';
 
 		flareObj = new Image();
-		flareObj.src = '/media/redledwithalpha_sm.png';
+		flareObj.src = '/static/microbug/media/redledwithalpha_sm.png';
 
 		flareObj2 = new Image();
-		flareObj2.src = '/media/orangeledwithalpha_sm.png';
+		flareObj2.src = '/static/microbug/media/orangeledwithalpha_sm.png';
 
 		document.getElementById(divId).appendChild(canvas);
 	};

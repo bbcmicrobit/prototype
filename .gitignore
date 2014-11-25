@@ -16,5 +16,5 @@ website/docs/4weeks.txt
 website/docs/stage
 **/.DS_Store
 **/.idea
-**/.sqlite3
+**/*.sqlite3
 **/.sass-cache

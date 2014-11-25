@@ -297,7 +297,7 @@ function setupBlockly() {
 			SIMIO.init("SIMIO");
 			//DALJS.setDirtyCallback(SIMIO.render); DEPRECATED?
 
-			$.get('/js/dal_interpreter.js', function(data) {
+			$.get('/static/microbug/js/dal_interpreter.js', function(data) {
 				dalcode = data;
 			});
 

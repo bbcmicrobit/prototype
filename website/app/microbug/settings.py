@@ -1,20 +1,27 @@
+import os
+
 # This file contains all of the Microbug specific settings
 
 # How long to wait for a file lock before giving up
 FILELOCK_TIMEOUT = 30
 
 try:
-    # Succeeds only on michael's machine :-)
-    import michaels_machine
-    BASE = "/home/michael/Work/CodeBug/MiniMicro/website/website/microbug_store"
+	# Succeeds only on michael's machine :-)
+	import michaels_machine
+	BASE = "/home/michael/Work/CodeBug/MiniMicro/website/website/microbug_store"
 except ImportError:
-    # Are we running on the shared dev server?
-    try:
-        import sparkslabs
-        BASE = "/srv/Websites/minimicro.iotoy.org/website/microbug_store"
+	# Are we running on the shared dev server?
+	try:
+		import sparkslabs
+		BASE = "/srv/Websites/minimicro.iotoy.org/website/microbug_store"
 
-    except ImportError:
-        BASE = '/Users/molt/Documents/microbug_store'
+	except ImportError:
+		if os.path.exists('/Users/molt/Documents/microbug_store'):
+			BASE = '/Users/molt/Documents/microbug_store'
+		elif os.path.exists('/Users/mattbr/Store/microbug'):
+			BASE = '/Users/mattbr/Store/microbug'
+		else:
+			raise Exception("Cannot find possible store")
 
 # Where we're keeping the immutable store of xml/py data in JSON
 PRIMARY_STORE_DIRECTORY = BASE + '/primary'
