@@ -45,5 +45,8 @@ COMPILED_PYTHON_PROGRAMS_DIRECTORY = STORE_BASE + '/compiled'
 # The directory that the Tutorial Assets live in for the static server
 TUTORIAL_ASSETS_STATIC_DIRECTORY = DJANGO_BASE + '/microbug/static/microbug/tutorial_assets'
 
+# The word list to use for usernames/passwords
+WORD_LIST_FILE = '/usr/share/dict/words'
+
 # The time, in seconds, to process each Python item
 PYTHON_ITEM_COMPILATION_TIME = 12

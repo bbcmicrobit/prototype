@@ -24,8 +24,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{% url 'microbug:create_program' %}">Create Program</a></li>
                     <li><a href="{% url 'microbug:programs' %}">Browse Programs</a></li>
-                    <li><a href="#">Things</a></li>
-                    <li><a href="#">Stuff</a></li>
+                    {% include "microbug/partials/_login_pane.html" %}
                 </ul>
             </div>
         </nav>
@@ -38,6 +37,7 @@
 
         <div class="footer">
             Copyright stuff lives here
+            <p>REQ: {{ user }}</p>
         </div>
 
 

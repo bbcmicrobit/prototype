@@ -14,6 +14,7 @@ from microbug.models import Program, Tutorial, Version
 import re
 from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
+from django.contrib import auth
 
 # Get a version store we can keep uploaded files in.
 compiled_version_store = CompiledVersionStore(settings.COMPILED_PYTHON_PROGRAMS_DIRECTORY)
@@ -46,8 +47,15 @@ def tutorial(request, tutorial_name, page_number=1):
     tutorial_obj = get_object_or_404(Tutorial, name=tutorial_name)
     return render(
         request, 'microbug/tutorial.html',
-        {'tutorial_content': mark_safe(tutorial_obj.content)}
+        {
+            'tutorial_content': mark_safe(tutorial_obj.content),
+            'user': request.user
+        }
     )
+
+# Show the page to register a user
+def register_user(request):
+    return render(request, 'microbug/register_user.html', {})
 
 # Downloads a compiled .hex program
 def download(request, program_id, program_name=None):
@@ -70,7 +78,30 @@ def download(request, program_id, program_name=None):
     response['Content-Disposition'] = 'attachment; filename="{0}"'.format(saved_filename)
 
     return response
+
 ##########################################
+
+# Called when a user tries to log in
+@csrf_exempt
+def authenticate_user(request):
+    # Grab the JSON from the request body and make it nicer
+    try:
+        json_obj = json.loads(request.body)
+    except ValueError:
+        logger.error("Build_code could not process Json: %s" % str(request))
+        return HttpResponseBadRequest("Could not process request, not a valid Json object?")
+    username = json_obj['username']
+    password = json_obj['password']
+
+    user = auth.authenticate(username=username, password=password)
+    if user is None:
+        response_obj = {"status": "invalid"}
+    else:
+        response_obj = {"status": "authenticated", "username": user.username}
+        auth.login(request, user)
+
+    logger.info(response_obj)
+    return HttpResponse(json.dumps(response_obj))
 
 # Called when the user clicks the 'build_code' button in the editor.
 @csrf_exempt

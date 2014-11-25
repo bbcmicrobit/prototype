@@ -25,6 +25,9 @@ urlpatterns = patterns('',
     # Ex: /program/23/big_new_programme
     url(r'^program/(?P<program_id>\d+)/(?P<program_name>.*)', views.program, name='program'),
 
+    # Ex: /register_user
+    url(r'^register_user', views.register_user, name='register_user'),
+
     # Ex: /tutorials/juggling%20badgers
     url(r'^tutorial/(?P<tutorial_name>[^#]*)', views.tutorial, name='tutorial'),
 
@@ -32,6 +35,10 @@ urlpatterns = patterns('',
     ###########################################################################
 
     # Ajax urls
+
+    # Ex: /authenticate_user
+    # { "username": username, "password": password }
+    url(r'^authenticate_user/$', views.authenticate_user, name='authenticate_user'),
 
     # Ex: /build_code :
     # { "program_name": program_name, "repr": { "code": python_code, "xml": xml_test } }
