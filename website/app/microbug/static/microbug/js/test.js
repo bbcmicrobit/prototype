@@ -5,6 +5,8 @@ var program_id_elem = $('#program_id');
 var tutorial_back_button = $('#tutorial_back');
 var tutorial_forward_button = $('#tutorial_forward');
 var program_status_update_elem = $('#program_status_update');
+var build_code_btn = $('.buildCode')
+var create_program_btn = $('.createProgram')
 
 function enablePageInteraction() {
     var editor_tabs = $('#editor_tabs');
@@ -12,7 +14,6 @@ function enablePageInteraction() {
     console.log("Tabs enabled on ", editor_tabs)
 
     // Wire up the Build Code button if it's available.
-    var build_code_btn = $('#buildCode')
     if (build_code_btn.length) {
         var program_id = getProgramId();
         console.log("ID: ",program_id);
@@ -26,7 +27,6 @@ function enablePageInteraction() {
     }
 
     // Wire up the Create Program button if it's available.
-    var create_program_btn = $('#createProgram')
     if (create_program_btn.length) {
         console.log("Activating create program on ", create_program_btn);
         create_program_btn.click(function () {
