@@ -9,6 +9,8 @@ var SIMIO = (function(){
 	var buttons = [[0.108, 0.274][0.762, 0.27]];
 	var buttonState = [false, false];
 
+	var eyeState = [false, false];
+
 	function BBOX(tl,br)
 	{
 		this.tl = tl;
@@ -72,31 +74,36 @@ var SIMIO = (function(){
 		context.restore();		
 
 		// Draw leds
-		if (!(display && eyes))
+		if (!display)
 			return;
-		else
-		{			
-			context.globalCompositeOperation = "lighter";
 
-			var displayWidth = display.length;
-			var displayHeight = display[0].length;
+		//resolve numbers to booleans, JIC
+		if (eyes)
+		{
+			eyeState[0] = (eyes[0] ? true : false);
+			eyeState[1] = (eyes[1] ? true : false); 
+		}
+		
+		context.globalCompositeOperation = "lighter";
 
-			for(var x = 0; x < displayWidth; x++){
-				for(var y = 0; y < displayHeight; y++){
-					if (display[x][y])
-					{
-						drawLed(flareObj, ledColumns[x] * canvas.width, ledRows[y] * canvas.height);
-					}
+		var displayWidth = display.length;
+		var displayHeight = display[0].length;
+
+		for(var x = 0; x < displayWidth; x++){
+			for(var y = 0; y < displayHeight; y++){
+				if (display[x][y])
+				{
+					drawLed(flareObj, ledColumns[x] * canvas.width, ledRows[y] * canvas.height);
 				}
 			}
+		}
 
-			// EYES
-			for(var i = 0; i < eyes.length; i++)
+		// EYES
+		for(var i = 0; i < eyeState.length; i++)
+		{
+			if (eyeState[i])
 			{
-				if (eyes[i])
-				{
-					drawLed(flareObj2, ledEyes[i][0] * canvas.width, ledEyes[i][1] * canvas.height);
-				}
+				drawLed(flareObj2, ledEyes[i][0] * canvas.width, ledEyes[i][1] * canvas.height);
 			}
 		}
 	};

@@ -4,12 +4,12 @@ goog.provide('Blockly.Blocks.microbug');
 
 goog.require('Blockly.Blocks');
 
-Blockly.Blocks['microbug_scrollstring'] = {
+Blockly.Blocks['microbug_scroll_string'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField("scrollstring");
+        .appendField("scroll_string");
     this.appendValueInput("Message")
         .setCheck("String")
         .appendField("String");
@@ -23,12 +23,12 @@ Blockly.Blocks['microbug_scrollstring'] = {
 };
 
 // https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#83qc3o
-Blockly.Blocks['microbug_seteye'] = {
+Blockly.Blocks['microbug_set_eye'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField("setEye");
+        .appendField("set_eye");
     this.appendValueInput("id")
         .setCheck("String")
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -44,12 +44,12 @@ Blockly.Blocks['microbug_seteye'] = {
 };
 
 //https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#jgkr8y
-Blockly.Blocks['microbug_eyeon'] = {
+Blockly.Blocks['microbug_eye_on'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField("eyeOn");
+        .appendField("eye_on");
     this.appendValueInput("id")
         .setCheck("String")
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -60,12 +60,12 @@ Blockly.Blocks['microbug_eyeon'] = {
     this.setTooltip('');
   }
 };
-Blockly.Blocks['microbug_eyeoff'] = {
+Blockly.Blocks['microbug_eye_off'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField("eyeOff");
+        .appendField("eye_off");
     this.appendValueInput("id")
         .setCheck("String")
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -77,12 +77,12 @@ Blockly.Blocks['microbug_eyeoff'] = {
   }
 };
 
-Blockly.Blocks['microbug_toggleeye'] = {
+Blockly.Blocks['microbug_toggle_eye'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField("toggleEye");
+        .appendField("toggle_eye");
     this.appendValueInput("id")
         .setCheck("String")
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -95,12 +95,12 @@ Blockly.Blocks['microbug_toggleeye'] = {
 };
 
 //https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#tmkc86
-Blockly.Blocks['microbug_printmessage'] = {
+Blockly.Blocks['microbug_print_message'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField("print message");
+        .appendField("print_message");
     this.appendValueInput("message")
         .setCheck("String")
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -116,12 +116,12 @@ Blockly.Blocks['microbug_printmessage'] = {
 };
 
 //https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#xiu9u7
-Blockly.Blocks['microbug_showletter'] = {
+Blockly.Blocks['microbug_show_letter'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField("showLetter");
+        .appendField("show_letter");
     this.appendValueInput("letter")
         .setCheck("String")
         .setAlign(Blockly.ALIGN_RIGHT);
@@ -133,12 +133,12 @@ Blockly.Blocks['microbug_showletter'] = {
 };
 
 //https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#oxk4nt
-Blockly.Blocks['microbug_getbutton'] = {
+Blockly.Blocks['microbug_get_button'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField("getButton");
+        .appendField("get_button");
     this.appendValueInput("id")
         .setCheck("String")
         .appendField("id");
@@ -149,12 +149,12 @@ Blockly.Blocks['microbug_getbutton'] = {
 };
 
 //https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#nwf7c5
-Blockly.Blocks['microbug_cleardisplay'] = {
+Blockly.Blocks['microbug_clear_display'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField("clearDisplay");
+        .appendField("clear_display");
     this.setInputsInline(true);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -219,11 +219,11 @@ Blockly.Blocks['microbug_point'] = {
   }
 };
 
-Blockly.Blocks['microbug_buildsprite'] = {
+Blockly.Blocks['microbug_build_sprite'] = {
     init: function()
     {
         this.setColour(160);
-        this.appendDummyInput().appendField("build sprite");
+        this.appendDummyInput().appendField("build_sprite");
         this.appendDummyInput().appendField("4").appendField(new Blockly.FieldCheckbox("FALSE"), "LED04").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED14").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED24").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED34").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED44");
         this.appendDummyInput().appendField("3").appendField(new Blockly.FieldCheckbox("FALSE"), "LED03").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED13").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED23").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED33").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED43");
         this.appendDummyInput().appendField("2").appendField(new Blockly.FieldCheckbox("FALSE"), "LED02").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED12").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED22").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED32").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED42");
@@ -234,11 +234,11 @@ Blockly.Blocks['microbug_buildsprite'] = {
     }
 };
 
-Blockly.Blocks['microbug_buildbigsprite'] = {
+Blockly.Blocks['microbug_build_big_sprite'] = {
     init: function()
     {
         this.setColour(160);
-        this.appendDummyInput().appendField("build big sprite");
+        this.appendDummyInput().appendField("build_big_sprite");
 
         this.appendDummyInput().appendField("4").appendField(new Blockly.FieldCheckbox("FALSE"), "LED04").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED14").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED24").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED34").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED44")
             .appendField(new Blockly.FieldCheckbox("FALSE"), "LED54").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED64").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED74").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED84").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED94");
@@ -261,11 +261,11 @@ Blockly.Blocks['microbug_buildbigsprite'] = {
     }
 };
 
-Blockly.Blocks['microbug_setdisplay'] = {
+Blockly.Blocks['microbug_set_display'] = {
     init: function()
     {
         this.setColour(160);
-        this.appendDummyInput().appendField("setdisplay");
+        this.appendDummyInput().appendField("set_display");
         this.appendValueInput("SPRITE").appendField("sprite");
         this.setInputsInline(!0);
         this.setPreviousStatement(!0);
@@ -273,12 +273,12 @@ Blockly.Blocks['microbug_setdisplay'] = {
     }
 };
 
-Blockly.Blocks['microbug_showviewport'] = {
+Blockly.Blocks['microbug_show_viewport'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField("showviewport");
+        .appendField("show_viewport");
     this.appendValueInput("sprite")
 //        .setCheck("sprite")
         .appendField("sprite");
@@ -294,12 +294,12 @@ Blockly.Blocks['microbug_showviewport'] = {
   }
 };
 
-Blockly.Blocks['microbug_scrollimage'] = {
+Blockly.Blocks['microbug_scroll_image'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField("scrollimage");
+        .appendField("scroll_image");
     this.appendValueInput("sprite")
 //      .setCheck("sprite")
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -314,12 +314,12 @@ Blockly.Blocks['microbug_scrollimage'] = {
   }
 };
 
-Blockly.Blocks['microbug_imagepoint'] = {
+Blockly.Blocks['microbug_get_image_point'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField("imagepoint");
+        .appendField("get_image_point");
     this.appendValueInput("id")
         .setCheck("sprite")
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -337,12 +337,12 @@ Blockly.Blocks['microbug_imagepoint'] = {
   }
 };
 
-Blockly.Blocks['microbug_setimagepoint'] = {
+Blockly.Blocks['microbug_set_image_point'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField("setimagepoint");
+        .appendField("set_image_point");
     this.appendValueInput("id")
         .setCheck("sprite")
         .setAlign(Blockly.ALIGN_RIGHT)

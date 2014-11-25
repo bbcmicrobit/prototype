@@ -6,7 +6,7 @@ goog.require('Blockly.Python');
 
 var prefix = ''; //any prefix can be added to the function names, just in case they end up being namespaced or in an object
 
-Blockly.Python['microbug_scrollstring'] = function(block) {
+Blockly.Python['microbug_scroll_string'] = function(block) {
   var value_message = Blockly.JavaScript.valueToCode(block, 'Message', Blockly.JavaScript.ORDER_ATOMIC);
   var value_speed = Blockly.JavaScript.valueToCode(block, 'Speed', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
@@ -14,7 +14,7 @@ Blockly.Python['microbug_scrollstring'] = function(block) {
   return prefix+code;
 };
 
-Blockly.Python['microbug_seteye'] = function(block) {
+Blockly.Python['microbug_set_eye'] = function(block) {
   var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
   var value_state = Blockly.JavaScript.valueToCode(block, 'state', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
@@ -22,21 +22,28 @@ Blockly.Python['microbug_seteye'] = function(block) {
   return prefix+code;
 };
 
-Blockly.Python['microbug_eyeon'] = function(block) {
+Blockly.Python['microbug_eye_on'] = function(block) {
   var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
   var code = 'eye_on(' + value_id + ')\n';
   return prefix+code;
 };
 
-Blockly.Python['microbug_eyeoff'] = function(block) {
+Blockly.Python['microbug_eye_off'] = function(block) {
   var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
   var code = 'eye_off(' + value_id + ')\n';
   return prefix+code;
 };
 
-Blockly.Python['microbug_printmessage'] = function(block) {
+Blockly.Python['microbug_toggle_eye'] = function(block) {
+  var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'toggle_eye(' + value_id + ')\n';
+  return prefix+code;
+};
+
+Blockly.Python['microbug_print_message'] = function(block) {
   var value_message = Blockly.JavaScript.valueToCode(block, 'message', Blockly.JavaScript.ORDER_ATOMIC);
   var value_pausetime = Blockly.JavaScript.valueToCode(block, 'pausetime', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
@@ -44,22 +51,22 @@ Blockly.Python['microbug_printmessage'] = function(block) {
   return prefix+code;
 };
 
-Blockly.Python['microbug_showletter'] = function(block) {
+Blockly.Python['microbug_show_letter'] = function(block) {
   var value_letter = Blockly.JavaScript.valueToCode(block, 'letter', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = 'showLetter(' + value_letter + ')\n';
+  var code = 'show_letter(' + value_letter + ')\n';
   return prefix+code;
 }
 
-Blockly.Python['microbug_getbutton'] = function(block) {
+Blockly.Python['microbug_get_button'] = function(block) {
   var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = 'getButton(' + value_id + ')';
+  var code = 'get_button(' + value_id + ')';
   // TODO: Change ORDER_NONE to the correct strength.
   return [prefix+code, Blockly.JavaScript.ORDER_NONE];
 };
 
-Blockly.Python['microbug_cleardisplay'] = function(block) {
+Blockly.Python['microbug_clear_display'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
   var code = 'clear_display()\n';
   return prefix+code;

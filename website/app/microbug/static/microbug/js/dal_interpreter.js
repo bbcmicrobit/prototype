@@ -184,41 +184,41 @@ function makeImage(imageAsString)
 	}
 }
 
-function Image(imageAsString)
-{
-	if (imageAsString.length)
-	{
-		var args = imageAsString.split(",");
-		for(var i = 0; i < args.length; i++)
-		{
-			args[i] = parseInt(args[i]);
-		}
-		//clog("Image interpreter constructorP " + args);
-		this.width = args.shift();
-		this.height = args.shift();
-		//clog("h " + this.height + "w " + this.width);
-		var w = this.width;
-		var h = this.height;
+// function Image(imageAsString)
+// {
+// 	if (imageAsString.length)
+// 	{
+// 		var args = imageAsString.split(",");
+// 		for(var i = 0; i < args.length; i++)
+// 		{
+// 			args[i] = parseInt(args[i]);
+// 		}
+// 		//clog("Image interpreter constructorP " + args);
+// 		this.width = args.shift();
+// 		this.height = args.shift();
+// 		//clog("h " + this.height + "w " + this.width);
+// 		var w = this.width;
+// 		var h = this.height;
 
-		var imageData = [];
-		for(var col = 0; col < w; col++)
-		{
-			imageData[col] = [];
-			for(var y = h - 1; y >= 0; y--)
-			{
-				imageData[col].push(args[(y*w) + col]);
-			}
-		}
-		this.data = imageData;
-	}
-	else
-	{
-		this.data = null;
-		this.height = 0;
-		this.width = 0;
-	}
-	clog("Interp constructing Image h:" + this.height + " w:" + this.width);
-}
+// 		var imageData = [];
+// 		for(var col = 0; col < w; col++)
+// 		{
+// 			imageData[col] = [];
+// 			for(var y = h - 1; y >= 0; y--)
+// 			{
+// 				imageData[col].push(args[(y*w) + col]);
+// 			}
+// 		}
+// 		this.data = imageData;
+// 	}
+// 	else
+// 	{
+// 		this.data = null;
+// 		this.height = 0;
+// 		this.width = 0;
+// 	}
+// 	clog("Interp constructing Image h:" + this.height + " w:" + this.width);
+// }
 
 function digitalWrite(pin, state)
 {
@@ -274,7 +274,7 @@ function reset()
 ////////////////////////////////////////////////////////////////
 // API implementation
 
-var setEye = function(id, state)
+var set_eye = function(id, state)
 {
 	//have eyes settable by boolean stuff as well as 1 and 0
 	if (typeof state == 'boolean')
@@ -293,19 +293,19 @@ var setEye = function(id, state)
 		digitalWrite(righteye, state );
 		right_eye_state = state;
 	}
-//	clog("setEye " + left_eye_state + " " + right_eye_state);
+//	clog("set_eye " + left_eye_state + " " + right_eye_state);
 	dirty();
 };
 
-var eyeOn = function (cId) {
-	setEye(cId, HIGH);
+var eye_on = function (cId) {
+	set_eye(cId, HIGH);
 };
 
-var eyeOff = function(cId) {
-	setEye(cId, LOW);
+var eye_off = function(cId) {
+	set_eye(cId, LOW);
 };
 
-var showLetter = function(c) {
+var show_letter = function(c) {
 
 	if (typeof(c) === "string")
 	{
@@ -318,7 +318,7 @@ var showLetter = function(c) {
 
 	if (font[letter_index][0] != c) return;
 
-	clearDisplay();
+	clear_display();
 
 	for(var row=0; row<5; row++) {
 		var this_row = font[letter_index][row+1];
@@ -336,7 +336,7 @@ var showLetter = function(c) {
 	dirty();
 };
 
-var clearDisplay = function()
+var clear_display = function()
 {
 	for(var i=0; i< DISPLAY_WIDTH; i++) {
 		for(var j=0; j< DISPLAY_HEIGHT; j++) {
@@ -380,7 +380,7 @@ var point = function(x, y) {
 	return display[x][y];
 };
 
-var setDisplay = function(image) {
+var set_display = function(image) {
 	for(var i=0; i<5; i++) {
 		for(var j=0; j<5; j++) {
 			display[i][j] = image[i][j];
@@ -389,7 +389,7 @@ var setDisplay = function(image) {
 	dirty();
 };
 
-var showViewport = function(someImage, x, y) {
+var show_viewport = function(someImage, x, y) {
 	var w = someImage.length;
 	if (w <= 0)
 		return;
@@ -406,12 +406,12 @@ var showViewport = function(someImage, x, y) {
 };
 
 
-var imagePoint = function(someImage, x, y) {
+var get_image_point = function(someImage, x, y) {
 	var w = someImage.length;
 	if (w <= 0)
 		return - 1;
 	var h = someImage[0].length;
-	//clog(w + " " + h + "imagePoint");
+	//clog(w + " " + h + "image_point");
 
 	if (x<0) return -1;
 	if (y<0) return -2;
@@ -419,11 +419,11 @@ var imagePoint = function(someImage, x, y) {
 	if (x>h-1) return -2;
 
 	var retVal = someImage[x][y];
-	//clog("imagePoint returns " + retVal);
+	//clog("image_point returns " + retVal);
 	return retVal;
 };
 
-var setImagePoint = function(someImage, x, y, value) {
+var set_image_point = function(someImage, x, y, value) {
 	if (x<0)
 		return;
 	if (y<0)
@@ -436,23 +436,23 @@ var setImagePoint = function(someImage, x, y, value) {
 		return;
 	if (x>h-1)
 		return;
-	//clog("setImagePoint");
+	//clog("set_image_point");
 	someImage[x][y] = value;
 };
 
-var toggleEye = function(id) {
+var toggle_eye = function(id) {
 	if ((id == "A") || (id == "L")) {
 		if (left_eye_state == HIGH) {
-			setEye(id, LOW);
+			set_eye(id, LOW);
 		} else {
-			setEye(id, HIGH);
+			set_eye(id, HIGH);
 		}
 	}
 	if ((id == "B") || (id == "R")) {
 		if (right_eye_state == HIGH) {
-			setEye(id, LOW);
+			set_eye(id, LOW);
 		} else {
-			setEye(id, HIGH);
+			set_eye(id, HIGH);
 		}
 	}
 };
@@ -485,7 +485,7 @@ StringSprite.prototype.update_display = function()
 //	myImage.height = 5;
 //	myImage.data = this.mPixelData;
 	var myImage = this.mPixelData;
-	showViewport(myImage, mPP, 0);
+	show_viewport(myImage, mPP, 0);
 };
 
 StringSprite.prototype.render_string = function() {

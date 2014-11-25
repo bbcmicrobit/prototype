@@ -141,9 +141,9 @@ function buildCode() {
 
     // Sim Renderer
     SIMIO.init("SIMIO");
-                       eyeOn("L");
-                       eyeOn("R");
-                       scrollString('READY', 100);
+                       eye_on("L");
+                       eye_on("R");
+                       scroll_string('READY', 100);
                        setDirtyCallback(SIMIO.render);
 
     Blockly.Xml.domToWorkspace(Blockly.mainWorkspace,
@@ -172,29 +172,29 @@ function buildCode() {
           interpreter.createNativeFunction(wrapper));
 
 
-      // Add an API function for the printMessage() block.
+      // Add an API function for the print_message() block.
       var wrapper = function(text) {
         text = text ? text.toString() : '';
-        return interpreter.createPrimitive(printMessage(text));
+        return interpreter.createPrimitive(print_message(text));
       };
-      interpreter.setProperty(scope, 'printMessage',
+      interpreter.setProperty(scope, 'print_message',
           interpreter.createNativeFunction(wrapper));
 
 
-      // Add an API function for the scrollString() block.
+      // Add an API function for the scroll_string() block.
       var wrapper = function(text) {
         text = text ? text.toString() : '';
-        return interpreter.createPrimitive(scrollString(text));
+        return interpreter.createPrimitive(scroll_string(text));
       };
-      interpreter.setProperty(scope, 'scrollString',
+      interpreter.setProperty(scope, 'scroll_string',
           interpreter.createNativeFunction(wrapper));
 
-      // Add an API function for the eyeOn() block.
+      // Add an API function for the eye_on() block.
       var wrapper = function(text) {
         text = text ? text.toString() : '';
-        return interpreter.createPrimitive(eyeOn(text));
+        return interpreter.createPrimitive(eye_on(text));
       };
-      interpreter.setProperty(scope, 'eyeOn',
+      interpreter.setProperty(scope, 'eye_on',
           interpreter.createNativeFunction(wrapper));
 
 
@@ -275,7 +275,7 @@ function flibbleCode() {
 Blockly.mainWorkspace.highlightBlock('1');
 for(var count = 0; count < 5;count++) {
    Blockly.mainWorkspace.highlightBlock('3');
-   printMessage('HELLO',200);Blockly.mainWorkspace.highlightBlock('6');
+   print_message('HELLO',200);Blockly.mainWorkspace.highlightBlock('6');
    alert('WORLD');
    Blockly.mainWorkspace.highlightBlock('1');
 };

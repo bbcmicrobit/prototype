@@ -456,12 +456,12 @@ function setupBlockly() {
 
 			    // Acorn interpreter can't access DOM's setTimeout, setInterval etc
 				// Callout functions that are in the API				
-				makeInterp('printMessage', DALJS.printMessage);
-				makeInterp('scrollString', DALJS.scrollString);
-				makeInterpScrollImg('scrollImage', DALJS.scrollImage);
+				makeInterp('print_message', DALJS.print_message);
+				makeInterp('scroll_string', DALJS.scroll_string);
+				makeInterpScrollImg('scroll_image', DALJS.scroll_image);
 				
 				// Callout functions that are internal to the DAL
-				makeInterp('scrollSprite', DALJS.scrollSprite);
+				makeInterp('scroll_sprite', DALJS.scroll_sprite);
 
 			    function makeWrapperButt(fn)
 			    {
@@ -480,7 +480,7 @@ function setupBlockly() {
 				    		makeWrapper(fn)));
 			    }
 
-				makeInterpButt('getButton', DALJS.getButton);
+				makeInterpButt('get_button', DALJS.get_button);
 			}	    
 
 			var highlightPause = false;

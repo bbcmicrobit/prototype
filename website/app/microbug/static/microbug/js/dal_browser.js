@@ -15,8 +15,6 @@ var DALJS = (function(){
 		[LOW, LOW, LOW, LOW, LOW],
 		[LOW, LOW, LOW, LOW, LOW]
 	];
-	var left_eye_state;
-	var right_eye_state;
 
 	////////////////////////////////////////////////////////////////
 	// Simulator implementation
@@ -40,9 +38,8 @@ var DALJS = (function(){
 		return micro_device_ready;
 	}
 
-	function Image(imageData)
+	function SpriteImage(imageData)
 	{
-//		console.log("Image dal_browser constructor");
 		if (imageData)
 		{
 			this.data = imageData;
@@ -60,10 +57,10 @@ var DALJS = (function(){
 	function daldirty()
 	{
 		if (dirtyCallback)
-			dirtyCallback(display, [left_eye_state, right_eye_state]);
+			dirtyCallback(display);
 	}
 
-	var clearDisplay = function()
+	var clear_display = function()
 	{
 		var unplot = function(x, y) {
 			if (x <0) return;
@@ -84,7 +81,7 @@ var DALJS = (function(){
 		}
 	};
 
-	var showLetter = function(c) {
+	var show_letter = function(c) {
 
 		if (typeof(c) === "string")
 		{
@@ -97,7 +94,7 @@ var DALJS = (function(){
 
 		if (font[letter_index][0] != c) return;
 
-		clearDisplay();
+		clear_display();
 
 		for(var row=0; row<5; row++) {
 			var this_row = font[letter_index][row+1];
@@ -127,7 +124,7 @@ var DALJS = (function(){
 		daldirty();
 	}
 
-	var showViewport = function(someImage, x, y) {
+	var show_viewport = function(someImage, x, y) {
 		var w = someImage.length;
 		if (w <= 0)
 			return;
@@ -172,9 +169,9 @@ var DALJS = (function(){
 		}
 	}
 
-	var scrollImage = function(someImage, pausetime, w, h)
+	var scroll_image = function(someImage, pausetime, w, h)
 	{
-		//console.log("scrollImage " + someImage + "w " + w + "h " + h);
+		//console.log("scroll_image " + someImage + "w " + w + "h " + h);
 		micro_device_ready = false;
 
 		pausetime = pausetime || 80;
@@ -211,7 +208,7 @@ var DALJS = (function(){
 
 	StringSprite.prototype.update_display = function()
 	{
-		var myImage = new Image();
+		var myImage = new SpriteImage();
 		var mPP = this.mPixelPos%5;
 		myImage.width = 10;
 		myImage.height = 5;
@@ -293,7 +290,7 @@ var DALJS = (function(){
 		return this.mStrlen * 5;
 	}; 
 
-	var getButton = function(id) {
+	var get_button = function(id) {
 		var butts = SIMIO.getButtons();
 
 		if (id == 'A') {
@@ -305,11 +302,11 @@ var DALJS = (function(){
 		return -1; // Signify error
 	};
 
-	var scrollString = function(str, delay)
+	var scroll_string = function(str, delay)
 	{
 		delay = delay || 50;
 		micro_device_ready = false;
-		scrollSprite(new StringSprite(str), delay);
+		scroll_sprite(new StringSprite(str), delay);
 	};
 
 	var setDirtyCallback= function(fn) {
@@ -318,7 +315,7 @@ var DALJS = (function(){
 
 	function handlePrintMessage(message, pausetime)
 	{
-		showLetter(message[0]);
+		show_letter(message[0]);
 		//console.log(message[0]);
 		var rest = message.substr(1);
 		if (rest.length) {
@@ -333,8 +330,8 @@ var DALJS = (function(){
 	function handleScrollImage()
 	{
 		//console.log("handleScrollImage");
-		clearDisplay();
-		showViewport(imageToScroll, imageScrollOffsetH, 0);
+		clear_display();
+		show_viewport(imageToScroll, imageScrollOffsetH, 0);
 
 		if (imageScrollOffsetH < imageToScrollW-DISPLAY_WIDTH+1)
 		{
@@ -365,14 +362,14 @@ var DALJS = (function(){
 		}
 	}
 
-	var printMessage = function(message, pausetime) {
+	var print_message = function(message, pausetime) {
 		printMessageStr = message;
 		printMessageInterval = pausetime | 100;
 		micro_device_ready = false;
 		handlePrintMessage(message,printMessageInterval);
 	};
 
-	var scrollSprite = function(theSprite, delay)
+	var scroll_sprite = function(theSprite, delay)
 	{
 		delay = delay || 100;
 		micro_device_ready = false;
@@ -381,12 +378,11 @@ var DALJS = (function(){
 	};
 
 	return {
-		printMessage : printMessage,
-		getButton : getButton,
-		scrollImage : scrollImage,
-		scrollString: scrollString,
+		print_message : print_message,
+		get_button : get_button,
+		scroll_image : scroll_image,
+		scroll_string: scroll_string,
 		setDirtyCallback:setDirtyCallback,
 		deviceReady:deviceReady,
-//		Image:Image
 	};
 })();
