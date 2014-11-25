@@ -1,9 +1,19 @@
 !Page:_tutorial_toolbox_1
-# Page 1
+Normal content
+
+# Header 1
+
+## Header 2
+
+> Quoted text.
 
 This is **content** for **page 1**.
 
 ![Melon Cat](static/microbug/tutorial_assets/melon-cat.jpg)
+
+* One
+* Two
+* Three (**nifty**)
 
 !Page:_tutorial_toolbox_2
 # Page 2

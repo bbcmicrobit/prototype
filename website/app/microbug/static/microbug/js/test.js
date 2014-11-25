@@ -77,9 +77,7 @@ function updateProgramStatus(program_id) {
             data = JSON.parse(data);
             console.log("GOT DATA: ",data);
             program_status_update_elem.html(statusElementContent(data));
-            if (data.status != 'compiled') {
-                window.setTimeout(callback, 5000);
-            }
+            window.setTimeout(callback, 5000);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             console.log("Error fetching program status");
