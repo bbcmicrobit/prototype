@@ -10,9 +10,10 @@ import sys
 from compiled_version_store import CompiledVersionStore
 from primary_version_store import PrimaryVersionStore
 from pending_version_store import PendingVersionStore
-from microbug.models import Program, Version
+from microbug.models import Program, Tutorial, Version
 import re
 from django.template.defaultfilters import slugify
+from django.utils.safestring import mark_safe
 
 # Get a version store we can keep uploaded files in.
 compiled_version_store = CompiledVersionStore(settings.COMPILED_PYTHON_PROGRAMS_DIRECTORY)
@@ -42,7 +43,11 @@ def programs(request):
 
 # Show the tutorials
 def tutorial(request, tutorial_name, page_number=1):
-    return render(request, 'microbug/tutorial_multiple_toolboxes.html', {})
+    tutorial_obj = get_object_or_404(Tutorial, name=tutorial_name)
+    return render(
+        request, 'microbug/tutorial.html',
+        {'tutorial_content': mark_safe(tutorial_obj.content)}
+    )
 
 # Downloads a compiled .hex program
 def download(request, program_id, program_name=None):

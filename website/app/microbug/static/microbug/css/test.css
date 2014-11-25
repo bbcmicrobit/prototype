@@ -1,5 +1,9 @@
 /* This file contains the CSS required specifically for the test page */
 
+body {
+    //background-image: url('/static/microbug/img/background/mooning.png');
+}
+
 .tab-content {
     border-top: 0px;
     border-left: 1px solid #ddd;

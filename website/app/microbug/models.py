@@ -5,10 +5,12 @@ from primary_version_store import PrimaryVersionStore
 from pending_version_store import PendingVersionStore
 import json
 import datetime
+import markdown
 
 primary_version_store = PrimaryVersionStore(settings.PRIMARY_STORE_DIRECTORY)
 pending_store = PendingVersionStore(settings.PENDING_PYTHON_QUEUE_DIRECTORY)
 compiled_store = CompiledVersionStore(settings.COMPILED_PYTHON_PROGRAMS_DIRECTORY)
+
 
 # This reflects a single version which the user has uploaded
 class Version(models.Model):
@@ -87,3 +89,20 @@ class Program(models.Model):
             return "{0}: {1}".format(self.id, self.name)
         else:
             return "{0}: Unnamed Program".format(self.id)
+
+
+# This is an entire tutorial
+class Tutorial(models.Model):
+    # The name of the tutorial
+    name = models.CharField(max_length=200)
+
+    # The plaintext content of the program
+    content = models.TextField(default="")
+
+    # The content in HTML form
+    def content_as_html(self):
+        return markdown.markdown(self.content)
+
+    # Stringifies as 'My Test Tutorial'
+    def __str__(self):
+        return self.name

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from microbug.models import Program, Version
+from microbug.models import Program, Tutorial, Version
 
 
 class VersionAdmin(admin.ModelAdmin):
@@ -11,4 +11,5 @@ class VersionAdmin(admin.ModelAdmin):
 
 admin.site.register(Program)
 admin.site.register(Version, VersionAdmin)
+admin.site.register(Tutorial)
 

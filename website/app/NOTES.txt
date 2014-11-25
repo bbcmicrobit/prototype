@@ -2,14 +2,21 @@ Things needing doing for setup:
 
 * Create the Primary Store directory unless it exists
 * Create the Pending Queue directory unless it exists
-* Create the Compilied Programs directory unless it exists
+* Creat  rre the Compilied Programs directory unless it exists
 * Create the 'highest.txt' file in the Primary Store unless it exists, load it with '0'.
 * Set the superuser for the Django admin page.  For production this would either be secured, or disabled.
 
 Required Python modules:
 * django
 * django-jinja
+* markdown
 * filelock
+
+Run the following Python commands:
+* If there was a previous version- /usr/bin/python2.7 manage.py flush
+* /usr/bin/python2.7 manage.py makemigrations
+* /usr/bin/python2.7 manage.py migrate
+* /usr/bin/python2.7 manage.py createsuperuser
 
 TODO:
 * Check error handling
