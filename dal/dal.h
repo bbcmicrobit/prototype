@@ -25,8 +25,8 @@ int col4 = 5; // Arduino Pin for row 4
 int lefteye = 7; // Arduino Pin for left eye
 int righteye = 17; // Arduino Pin for left eye
 
-int ButtonA = 15; // Arduino Pin for left eye
-int ButtonB = 16; // Arduino Pin for left eye
+int ButtonA = 15; // Arduino Pin for left button
+int ButtonB = 16; // Arduino Pin for right button
 
 #endif
 
@@ -47,8 +47,8 @@ int col4 = 5; // Arduino Pin for row 4
 int lefteye = 7; // Arduino Pin for left eye
 int righteye = 17; // Arduino Pin for left eye
 
-int ButtonA = 16; // Arduino Pin for left eye
-int ButtonB = 15; // Arduino Pin for left eye
+int ButtonA = 16; // Arduino Pin for left button
+int ButtonB = 15; // Arduino Pin for right button
 
 #endif
 
@@ -69,8 +69,8 @@ int col4 = 13; // Arduino Pin for row 4  // PIN 32 -- D13
 int lefteye = 7; // Arduino Pin for left eye // PIN 1     -- D7
 int righteye = 14; // Arduino Pin for left eye // PIN 11  -- D14
 
-int ButtonA = 17; // Arduino Pin for left eye // PIN 8    -- D17
-int ButtonB = 16; // Arduino Pin for left eye // PIN 10   -- D16
+int ButtonA = 17; // Arduino Pin for left button // PIN 8    -- D17
+int ButtonB = 16; // Arduino Pin for right button // PIN 10   -- D16
 
 int croc0 = A0; // Arduino Pin crocodile clip 0 // PIN 36 -- A0
 int croc1 = A1; // Arduino Pin crocodile clip 1 // PIN 37 -- A1
