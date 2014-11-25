@@ -23,7 +23,7 @@ except ImportError:
             DJANGO_BASE = '/Users/molt/Documents/microbug/website/app'
         elif os.path.exists('/Users/mattbr/Store/microbug'):
             STORE_BASE = '/Users/mattbr/Store/microbug'
-            DJANGO_BASE = '/tmp/nosuch_directory_this_needs_setting'
+            DJANGO_BASE = '/Users/mattbr/Sites/microbug/website/app'
         else:
             raise Exception("Cannot find possible store")
 
