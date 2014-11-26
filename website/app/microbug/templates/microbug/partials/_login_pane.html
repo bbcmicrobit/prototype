@@ -1,16 +1,25 @@
-<!--<li><a href="/signup">Sign Up</a></li> -->
-<li class="divider-vertical"></li>
-
-<li class="dropdown" id="loginSurround">
+<!-- Start of _login_pane.html -->
+{% if user.is_authenticated %}
+    <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button">{{ user.username }} <strong
+            class="caret"></strong></a>
+    <ul class="dropdown-menu" role="menu">
+        <li role="presentation"><a href="#" role="menuitem">My Programs</a></li>
+        <li role="presentation"><a href="#" role="menuitem" id="loginSignOut">Sign Out</a></li>
+    </ul>
+{% else %}
     <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
-    <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+    <div class="dropdown-menu" role="menu" style="padding: 15px; padding-bottom: 0px;">
         <form method="post" id="login" accept-charset="UTF-8">
-            <input style="margin-bottom: 15px;" type="text" placeholder="Username" id="loginUsername" name="username">
-            <input style="margin-bottom: 15px;" type="password" placeholder="Password" id="loginPassword" name="password">
-            <input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1">
+            <input style="margin-bottom: 15px;" type="text" placeholder="Username" id="loginUsername"
+                   name="username">
+            <input style="margin-bottom: 15px;" type="password" placeholder="Password" id="loginPassword"
+                   name="password">
+            <input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me"
+                   value="1">
             <label class="string optional" for="user_remember_me"> Remember me</label>
             <input class="btn btn-primary btn-block" type="submit" id="loginSubmit" value="Sign In">
             <br/>
         </form>
     </div>
-</li>
+{% endif %}
+<!-- End of _login_pane.html -->

@@ -7,11 +7,7 @@ var tutorial_forward_button = $('#tutorial_forward');
 var program_status_update_elem = $('#program_status_update');
 var build_code_btn = $('.buildCode')
 var create_program_btn = $('.createProgram');
-var login_form = $('#login');
-var login_form_username = $('#loginUsername');
-var login_form_password = $('#loginPassword');
-var login_form_submit = $('#loginSubmit');
-var login_surround = $('#loginSurround');
+var login_div = $('#login');
 
 function enablePageInteraction() {
     var editor_tabs = $('#editor_tabs');
@@ -56,34 +52,79 @@ function enablePageInteraction() {
     setupProgramStatusUpdate();
 
     setupLoginForm();
+
+
+}
+
+function signOut() {
+    $.ajax({
+        type: "GET",
+        url: "/microbug/sign_out",
+        success: function(data) {
+            updateLoginForm();
+        }
+    })
+}
+
+function updateLoginForm() {
+    // Close the login dropdown
+    $('#login').removeClass('open');
+    
+    $.ajax({
+        type: "GET",
+        url: "/microbug/login_pane",
+        success: function(data) {
+            console.log("SUCCESS ON LOGIN FORM, DATA IS ",data);
+            login_div.html(data);
+            // Close the menu
+
+            $('.dropdown-toggle').dropdown();
+            $('.dropdown-menu').find('form').click(function (e) {
+                console.log("Stopping propogation on form");
+                e.stopPropagation();
+            });
+
+            $('#loginSubmit').click(function(ev) {
+                ev.preventDefault();
+                var username = $('#loginUsername').val();
+                var password = $('#loginPassword').val();
+                console.log("Logging in as Username: ",username,", Password: ",password);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/microbug/authenticate_user/",
+                    data: JSON.stringify({
+                        "username": username,
+                        "password": password
+                    }),
+                    success: function (data) {
+                        data = JSON.parse(data);
+                        if (data['status']=='authenticated') {
+                            console.log("LOGGED IN, DATA IS ", data);
+                            updateLoginForm();
+                        } else {
+                            alert("Could not log in with username and password provided");
+                        }
+                    },
+                    error: function (jqXhr, textStatus, errorThrown) {
+                        alert("Cannot Login: "+textStatus+"\n"+errorThrown)
+                    }
+                });
+            })
+
+            $('#loginSignOut').click(function(ev) {
+                ev.preventDefault();
+                console.log("Logging out");
+                signOut();
+            })
+        }
+    });
 }
 
 function setupLoginForm() {
-    if (login_form.length >0) {
+    if (login_div.length >0) {
         console.log("Configuring login form");
-        login_form_submit.click(function(ev) {
-            ev.preventDefault();
-            var username = login_form_username.val();
-            var password = login_form_password.val();
-
-            console.log("Logging in as Username: ",username,", Password: ",password);
-            $.ajax({
-                type: "POST",
-                url: "/microbug/authenticate_user/",
-                data: JSON.stringify({
-                    "username": username,
-                    "password": password
-                }),
-                success: function (data) {
-                    data = JSON.parse(data);
-                    console.log("Success, data is ",data);
-                    login_surround.html("<p>"+data['username']+'</p>')
-                },
-                error: function (jqXhr, textStatus, errorThrown) {
-                    alert(textStatus+"\n"+errorThrown)
-                }
-            });
-        })
+        updateLoginForm();
     } else {
         console.log("No login page, skipping");
     }

@@ -6,6 +6,7 @@ from pending_version_store import PendingVersionStore
 import json
 import datetime
 import markdown
+from django.contrib.auth.models import User
 
 primary_version_store = PrimaryVersionStore(settings.PRIMARY_STORE_DIRECTORY)
 pending_store = PendingVersionStore(settings.PENDING_PYTHON_QUEUE_DIRECTORY)
@@ -25,6 +26,9 @@ class Version(models.Model):
 
     # The previous version for this.  Optional
     previous_version = models.ForeignKey('self', blank=True, null=True)
+
+    # This is the owner of the Version, may be blank for 'unowned' versions
+    owner = models.ForeignKey(User, null=True, blank=True, default=None)
 
     # Returns the JSON from the primary store
     def json(self):
@@ -82,6 +86,9 @@ class Program(models.Model):
 
     # The current version, all history between versions is stored within them
     version = models.ForeignKey(Version)
+
+    # This is the owner of the Program, may be blank for 'unowned' programs
+    owner = models.ForeignKey(User, null=True, blank=True, default=None)
 
     # Stringifies to '1: My Test Program' or '1: Unnamed Program'.
     def __str__(self):

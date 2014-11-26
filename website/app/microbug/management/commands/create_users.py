@@ -4,7 +4,6 @@ import random
 import microbug.settings as settings
 from django.contrib.auth.models import User
 
-
 class Command(TemplateCommand):
 
     help = "Creates a number of users with randomised names and passwrods"
@@ -41,14 +40,20 @@ class Command(TemplateCommand):
 
     def random_username(self):
         while True:
-            username = self.random_word()+"_"+self.random_word()+"_"+self.random_word()
+            username = self.random_joined_string(settings.WORDS_IN_USERNAMES)
             user_count = User.objects.filter(username=username).count()
             if user_count==0:
                 return username
             print("    Duplicate username '{0}".format(username))
 
     def random_password(self):
-        return self.random_word()+"_"+self.random_word()
+        return self.random_joined_string(settings.WORDS_IN_PASSWORDS)
+
+    def random_joined_string(self, word_count):
+        words = []
+        for x in range(0, word_count):
+            words.append(self.random_word())
+        return '_'.join(words)
 
     def random_word(self):
         return random.choice(self.word_list)

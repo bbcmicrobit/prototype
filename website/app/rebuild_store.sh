@@ -21,4 +21,7 @@ else
     cp -rvf ~/Documents/microbug_store_empty ~/Documents/microbug_store
 fi
 
+/usr/bin/python2.7 manage.py create_users 10 > /tmp/usernames_and_passwords.txt
+cat /tmp/usernames_and_passwords.txt
+
 

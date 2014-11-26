@@ -24,7 +24,10 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{% url 'microbug:create_program' %}">Create Program</a></li>
                     <li><a href="{% url 'microbug:programs' %}">Browse Programs</a></li>
-                    {% include "microbug/partials/_login_pane.html" %}
+                    <li class="divider-vertical"></li>
+                    <li id="login">
+                        <p class="navbar-text"><i class="fa fa-refresh fa-spin"></i>&nbsp;Getting login</p>
+                    </li>
                 </ul>
             </div>
         </nav>

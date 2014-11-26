@@ -26,21 +26,44 @@ logger = logging.getLogger(__name__)
 
 # The main page
 def index(request):
-    return render(request, 'microbug/index.html', {})
+    return render(
+        request, 'microbug/index.html',
+        {
+            'user': request.user
+        }
+    )
 
 # Create a new program
 def create_program(request):
-    return render(request, 'microbug/create_program.html', {'programs': programs})
+    return render(
+        request, 'microbug/create_program.html',
+        {
+            'programs': programs,
+            'user': request.user
+        }
+    )
 
 # View a single program
 def program(request, program_id):
     viewed_program = get_object_or_404(Program, pk=program_id)
-    return render(request, 'microbug/program.html', {'program': viewed_program})
+    return render(
+        request, 'microbug/program.html',
+        {
+            'program': viewed_program,
+            'user': request.user
+        }
+    )
 
 # List all of the Programs available on the system
 def programs(request):
     programs = Program.objects.all()
-    return render(request, 'microbug/programs.html', {'programs': programs})
+    return render(
+        request, 'microbug/programs.html',
+        {
+            'programs': programs,
+            'user': request.user
+        }
+    )
 
 # Show the tutorials
 def tutorial(request, tutorial_name, page_number=1):
@@ -55,7 +78,12 @@ def tutorial(request, tutorial_name, page_number=1):
 
 # Show the page to register a user
 def register_user(request):
-    return render(request, 'microbug/register_user.html', {})
+    return render(
+        request, 'microbug/register_user.html',
+        {
+            'user': request.user
+        }
+    )
 
 # Downloads a compiled .hex program
 def download(request, program_id, program_name=None):
@@ -96,9 +124,11 @@ def authenticate_user(request):
     user = auth.authenticate(username=username, password=password)
     if user is None:
         response_obj = {"status": "invalid"}
+        logger.info("Invalid login attempt for '{0}'".format(username))
     else:
         response_obj = {"status": "authenticated", "username": user.username}
         auth.login(request, user)
+        logger.info("Login successful for '{0}'".format(username))
 
     logger.info(response_obj)
     return HttpResponse(json.dumps(response_obj))
@@ -163,6 +193,16 @@ def build_code(request):
     # Return the program's ID
     return HttpResponse(str(new_program.id))
 
+# Returns the HTML for the login pane based on whether the user is logged in or not
+@csrf_exempt
+def login_pane(request):
+    return render(
+        request, 'microbug/partials/_login_pane.html',
+        {
+            'user': request.user
+        }
+    )
+
 # Return the status of the program specified
 def queue_status(request, program_id):
     queried_program = get_object_or_404(Program, pk=program_id)
@@ -206,6 +246,12 @@ def rename_program(request):
     target_program.save()
 
     return HttpResponse('Renamed successfully')
+
+# Signs the user out of the system
+@csrf_exempt
+def sign_out(request):
+    auth.logout(request)
+    return HttpResponse("Logged out")
 
 # Convert JSON to a prettified version
 def _prettify_json(json_obj):

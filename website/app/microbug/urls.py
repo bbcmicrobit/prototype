@@ -47,9 +47,17 @@ urlpatterns = patterns('',
     # Program ID on success, BadRequest on failure.
     url(r'^build_code/$', views.build_code, name='build_code'),
 
+    # Ex: /login_pane
+    # Returns either the login pane, or the 'signed in' pane.  Allows Django templates to be
+    # used for this partial.
+    url(r'^login_pane/$', views.login_pane, name='login_pane'),
+
     # Ex: /queue_status/23
     url(r'^queue_status/(?P<program_id>\d+)', views.queue_status, name='queue_status'),
 
     # Ex: /rename_program
     url(r'^rename_program/$', views.rename_program, name='rename_program'),
+
+    # Ex: /sign_out
+    url(r'^sign_out/$', views.sign_out, name='sign_out'),
 )
