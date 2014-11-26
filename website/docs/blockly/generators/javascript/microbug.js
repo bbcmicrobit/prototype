@@ -135,20 +135,20 @@ Blockly.JavaScript['microbug_build_big_sprite'] = function(block)
 };
 
 
-Blockly.JavaScript['microbug_set_display'] = function(block)
+Blockly.JavaScript['microbug_show_image'] = function(block)
 {
   var value_var = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_ATOMIC);
-  var code = 'set_display(' + value_var + ');';
+  var code = 'show_image(' + value_var + ');';
 //  console.log(code);
   return code;
 }
 
-Blockly.JavaScript['microbug_show_viewport'] = function(block) {
+Blockly.JavaScript['microbug_show_image_offset'] = function(block) {
   var value_sprite = Blockly.JavaScript.valueToCode(block, 'sprite', Blockly.JavaScript.ORDER_ATOMIC);
   var value_x = Blockly.JavaScript.valueToCode(block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
   var value_y = Blockly.JavaScript.valueToCode(block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = 'show_viewport(' + value_sprite + ',' + value_x + ',' + value_y + ');';
+  var code = 'show_image_offset(' + value_sprite + ',' + value_x + ',' + value_y + ');';
   return code;
 };
 
@@ -179,5 +179,22 @@ Blockly.JavaScript['microbug_set_image_point'] = function(block) {
   var code = 'set_image_point(' + value_id + ',' + value_x + ',' + value_y + ',' + value_value + ');';
   return code;
 };
+
+Blockly.JavaScript['microbug_make_StringImage'] = function(block) {
+  var value_name = Blockly.JavaScript.valueToCode(block, 'NAME', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'new StringImage(' + value_name + ')';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['microbug_scroll_string_image'] = function(block) {
+  var value_string = Blockly.JavaScript.valueToCode(block, 'string', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_speed = Blockly.JavaScript.valueToCode(block, 'speed', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'scroll_string_image(' + value_string + ',' + value_speed + ')';
+  return code;
+};
+
 
 // FOREVER LOOP (while true?)

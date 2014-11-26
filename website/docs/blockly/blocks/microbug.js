@@ -261,11 +261,11 @@ Blockly.Blocks['microbug_build_big_sprite'] = {
     }
 };
 
-Blockly.Blocks['microbug_set_display'] = {
+Blockly.Blocks['microbug_show_image'] = {
     init: function()
     {
         this.setColour(160);
-        this.appendDummyInput().appendField("set_display");
+        this.appendDummyInput().appendField("show_image");
         this.appendValueInput("SPRITE").appendField("sprite");
         this.setInputsInline(!0);
         this.setPreviousStatement(!0);
@@ -273,12 +273,12 @@ Blockly.Blocks['microbug_set_display'] = {
     }
 };
 
-Blockly.Blocks['microbug_show_viewport'] = {
+Blockly.Blocks['microbug_show_image_offset'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField("show_viewport");
+        .appendField("show_image_offset");
     this.appendValueInput("sprite")
 //        .setCheck("sprite")
         .appendField("sprite");
@@ -365,23 +365,37 @@ Blockly.Blocks['microbug_set_image_point'] = {
   }
 };
 
-// Blockly.Blocks['microbug_scrollsprite'] = {
-//   init: function() {
-//     this.setHelpUrl('http://www.example.com/');
-//     this.setColour(260);
-//     this.appendDummyInput()
-//         .appendField("scrollsprite");
-//     this.appendValueInput("id")
-//         .setCheck("sprite")
-//         .setAlign(Blockly.ALIGN_RIGHT)
-//         .appendField("sprite");
-//     this.appendValueInput("delay")
-//         .setCheck("Number")
-//         .setAlign(Blockly.ALIGN_RIGHT)
-//         .appendField("delay");
-//     this.setPreviousStatement(true);
-//     this.setNextStatement(true);
-//     this.setTooltip('');
-//   }
-// };
 
+Blockly.Blocks['microbug_make_StringImage'] = {
+  init: function() {
+    this.setHelpUrl('http://www.example.com/');
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField("make_StringImage");
+    this.appendValueInput("NAME")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("string");
+    this.setOutput(true, "StringImage");
+    this.setTooltip('');
+  }
+};
+
+Blockly.Blocks['microbug_scroll_string_image'] = {
+  init: function() {
+    this.setHelpUrl('http://www.example.com/');
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField("scroll_string_image");
+    this.appendValueInput("string")
+//        .setCheck("StringImage")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("String");
+    this.appendValueInput("speed")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("speed");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+  }
+};
