@@ -380,7 +380,7 @@ var point = function(x, y) {
 	return display[x][y];
 };
 
-var set_display = function(image) {
+var show_image = function(image) {
 	for(var i=0; i<5; i++) {
 		for(var j=0; j<5; j++) {
 			display[i][j] = image[i][j];
@@ -389,7 +389,7 @@ var set_display = function(image) {
 	dirty();
 };
 
-var show_viewport = function(someImage, x, y) {
+var show_image_offset = function(someImage, x, y) {
 	var w = someImage.length;
 	if (w <= 0)
 		return;
@@ -457,7 +457,7 @@ var toggle_eye = function(id) {
 	}
 };
 
-function StringSprite(str) {
+function StringImage(str) {
 	this.mPixelPos = 0;
 	this.mPixelData = []; // was [50] Sufficient to hold two characters.
 	this.mString = "";
@@ -465,9 +465,11 @@ function StringSprite(str) {
 
 	if(str !== undefined)
 		this.setString(str);
+
+	clog("StringImage constructor");
 }
 
-StringSprite.prototype.setString = function(str)
+StringImage.prototype.setString = function(str)
 {
 	this.mString = str;
 	this.mPixelPos = 0;
@@ -477,7 +479,7 @@ StringSprite.prototype.setString = function(str)
 	this.mStrlen = this.mString.length;
 };
 
-StringSprite.prototype.update_display = function()
+StringImage.prototype.update_display = function()
 {
 //	var myImage = new Image();
 	var mPP = this.mPixelPos%5;
@@ -485,10 +487,10 @@ StringSprite.prototype.update_display = function()
 //	myImage.height = 5;
 //	myImage.data = this.mPixelData;
 	var myImage = this.mPixelData;
-	show_viewport(myImage, mPP, 0);
+	show_image_offset(myImage, mPP, 0);
 };
 
-StringSprite.prototype.render_string = function() {
+StringImage.prototype.render_string = function() {
 	var i;
 
 	var first_char;
@@ -551,13 +553,13 @@ StringSprite.prototype.render_string = function() {
 	this.update_display();
 };
 
-StringSprite.prototype.pan_right = function() {
+StringImage.prototype.pan_right = function() {
 	this.mPixelPos += 1;
 	if (this.mPixelPos>=this.pixel_width()) {
 		this.mPixelPos = 0;
 	}
 };
 
-StringSprite.prototype.pixel_width = function() {
+StringImage.prototype.pixel_width = function() {
 	return this.mStrlen * 5;
 };

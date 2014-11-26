@@ -112,7 +112,7 @@ var DALJS = (function(){
 		daldirty();
 	};
 
-	var showViewportStringSprite = function(someImage, x, y)
+	var showViewportStringImage = function(someImage, x, y)
 	{
 		//someImage.data is a flat array for strings;
 		for(var i=0; (i+x<someImage.width) && (i<5); i++) {
@@ -124,7 +124,7 @@ var DALJS = (function(){
 		daldirty();
 	}
 
-	var show_viewport = function(someImage, x, y) {
+	var show_image_offset = function(someImage, x, y) {
 		var w = someImage.length;
 		if (w <= 0)
 			return;
@@ -186,17 +186,28 @@ var DALJS = (function(){
 		handleScrollImage();
 	};
 
-	function StringSprite(str) {
-		this.mPixelPos = 0;
-		this.mPixelData = []; // was [50] Sufficient to hold two characters.
-		this.mString = "";
-		this.mStrlen = 0;
+	// function StringImage(str) {
+	// 	this.mPixelPos = 0;
+	// 	this.mPixelData = []; // was [50] Sufficient to hold two characters.
+	// 	this.mString = "";
+	// 	this.mStrlen = 0;
 
-		if(str !== undefined)
-			this.setString(str);
+	// 	if(str !== undefined)
+	// 		this.setString(str);
+	// }
+
+	function StringImage(pp, pd, string, strlen)
+	{
+		this.mPixelPos = pp;
+		this.mPixelData = pd;
+		this.mString = string;
+		this.mStrlen = strlen;
+
+		if(this.mString !== undefined)
+			this.setString(this.mString);
 	}
 
-	StringSprite.prototype.setString = function(str)
+	StringImage.prototype.setString = function(str)
 	{
 		this.mString = str;
 		this.mPixelPos = 0;
@@ -206,17 +217,17 @@ var DALJS = (function(){
 		this.mStrlen = this.mString.length;
 	};
 
-	StringSprite.prototype.update_display = function()
+	StringImage.prototype.update_display = function()
 	{
 		var myImage = new SpriteImage();
 		var mPP = this.mPixelPos%5;
 		myImage.width = 10;
 		myImage.height = 5;
 		myImage.data = this.mPixelData;
-		showViewportStringSprite(myImage, mPP, 0);
+		showViewportStringImage(myImage, mPP, 0);
 	};
 
-	StringSprite.prototype.render_string = function() {
+	StringImage.prototype.render_string = function() {
 		var i;
 
 		var first_char;
@@ -279,14 +290,14 @@ var DALJS = (function(){
 		this.update_display();
 	};
 
-	StringSprite.prototype.pan_right = function() {
+	StringImage.prototype.pan_right = function() {
 		this.mPixelPos += 1;
 		if (this.mPixelPos>=this.pixel_width()) {
 			this.mPixelPos = 0;
 		}
 	};
 
-	StringSprite.prototype.pixel_width = function() {
+	StringImage.prototype.pixel_width = function() {
 		return this.mStrlen * 5;
 	}; 
 
@@ -302,11 +313,20 @@ var DALJS = (function(){
 		return -1; // Signify error
 	};
 
+//	function StringImage(pp, pd, string, strlen)
+
+	// 	this.mPixelPos = 0;
+	// 	this.mPixelData = []; // was [50] Sufficient to hold two characters.
+	// 	this.mString = "";
+	// 	this.mStrlen = 0;
+
+
+
 	var scroll_string = function(str, delay)
 	{
 		delay = delay || 50;
 		micro_device_ready = false;
-		scroll_sprite(new StringSprite(str), delay);
+		scroll_string_image(new StringImage(0, [], str, 0), delay);
 	};
 
 	var setDirtyCallback= function(fn) {
@@ -331,7 +351,7 @@ var DALJS = (function(){
 	{
 		//console.log("handleScrollImage");
 		clear_display();
-		show_viewport(imageToScroll, imageScrollOffsetH, 0);
+		show_image_offset(imageToScroll, imageScrollOffsetH, 0);
 
 		if (imageScrollOffsetH < imageToScrollW-DISPLAY_WIDTH+1)
 		{
@@ -369,12 +389,15 @@ var DALJS = (function(){
 		handlePrintMessage(message,printMessageInterval);
 	};
 
-	var scroll_sprite = function(theSprite, delay)
+	var scroll_string_image = function(theSprite, delay)
 	{
+//	function StringImage(pp, pd, string, strlen)
+
+		var newSprite = new StringImage(theSprite.mPixelPos, theSprite.mPixelData, theSprite.mString, theSprite.mStrlen);
 		delay = delay || 100;
 		micro_device_ready = false;
 		scrollSpriteOffset = 0;
-		handleScrollSprite(theSprite, delay);
+		handleScrollSprite(newSprite, delay);
 	};
 
 	return {
@@ -382,6 +405,7 @@ var DALJS = (function(){
 		get_button : get_button,
 		scroll_image : scroll_image,
 		scroll_string: scroll_string,
+		scroll_string_image: scroll_string_image,
 		setDirtyCallback:setDirtyCallback,
 		deviceReady:deviceReady,
 	};

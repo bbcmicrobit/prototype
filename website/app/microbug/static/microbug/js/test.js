@@ -424,6 +424,38 @@ function setupBlockly() {
 				    		makeWrapperScrollImg(fn)));
 			    }
 
+                function makeWrapperScrollStringImg(fn)
+                {
+                    return function()
+                    {
+                        var newArgs = [undefined, undefined];
+                        newArgs[0] = {
+                            mPixelData: [],//??
+                            mPixelPos: arguments[0].properties.mPixelPos.toNumber(),
+                            mString: arguments[0].properties.mString.toString(),
+                            mStrlen: arguments[0].properties.mStrlen.toNumber()
+                        }
+                        newArgs[1] = arguments[1].toNumber();//delay
+
+                        // arguments[2] = arguments[0].length;
+                        // arguments[3] = arguments[0].properties[0].length;
+                        // arguments.length = 4;
+
+                        // for (var j = 0; j < arguments.length; j++) {
+                        //     arguments[j] = arguments[j].toString();
+                        // }
+                        console.log(newArgs);
+                        return interpreter.createPrimitive(fn.apply(this, newArgs));
+                    }
+                }
+                function makeInterpScrollStringImg(text, fn)
+                {
+                    interpreter.setProperty(scope, text, 
+                        interpreter.createNativeFunction(
+                            makeWrapperScrollStringImg(fn)));
+                }
+
+
 				function renderSimulator(display, left_eye_state, right_eye_state)
 				{
 					var leds = display.split(",");
@@ -457,11 +489,12 @@ function setupBlockly() {
 			    // Acorn interpreter can't access DOM's setTimeout, setInterval etc
 				// Callout functions that are in the API				
 				makeInterp('print_message', DALJS.print_message);
-				makeInterp('scroll_string', DALJS.scroll_string);
 				makeInterpScrollImg('scroll_image', DALJS.scroll_image);
-				
-				// Callout functions that are internal to the DAL
-				makeInterp('scroll_sprite', DALJS.scroll_sprite);
+
+				makeInterpScrollStringImg('scroll_string_image', DALJS.scroll_string_image);
+
+                // test function, this one
+                makeInterp('scroll_string', DALJS.scroll_string);
 
 			    function makeWrapperButt(fn)
 			    {
