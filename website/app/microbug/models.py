@@ -7,10 +7,40 @@ import json
 import datetime
 import markdown
 from django.contrib.auth.models import User
+import collections
 
 primary_version_store = PrimaryVersionStore(settings.PRIMARY_STORE_DIRECTORY)
 pending_store = PendingVersionStore(settings.PENDING_PYTHON_QUEUE_DIRECTORY)
 compiled_store = CompiledVersionStore(settings.COMPILED_PYTHON_PROGRAMS_DIRECTORY)
+
+
+# This stores additional details for a user beyond that which Django provides
+class UserProfile(models.Model):
+    # The User this profile is part of
+    user = models.OneToOneField(User)
+
+    # The programs that this user owns
+    def programs_owned(self):
+        return Program.objects.filter(owner=self)
+
+    # The versions that this user owns
+    def versions_owned(self):
+        return Version.objects.filter(owner=self)
+
+    # The programs contributed to but does not own
+    def programs_contributed_to(self):
+        return []
+        contributed_programs = [
+            version.program
+            for version in self.versions_owned()
+            if version.program.owner != self
+        ]
+        unique_programs = list(collections.OrderedDict.fromkeys(contributed_programs))
+        return unique_programs
+    
+    # Simple bit of stringification
+    def __str__(self):
+        return "{0}: {1}({2})".format(self.id, self.user.username, self.user.id)
 
 
 # This reflects a single version which the user has uploaded
@@ -28,7 +58,7 @@ class Version(models.Model):
     previous_version = models.ForeignKey('self', blank=True, null=True)
 
     # This is the owner of the Version, may be blank for 'unowned' versions
-    owner = models.ForeignKey(User, null=True, blank=True, default=None)
+    owner = models.ForeignKey(UserProfile, null=True, blank=True, default=None)
 
     # Returns the JSON from the primary store
     def json(self):
@@ -88,7 +118,7 @@ class Program(models.Model):
     version = models.ForeignKey(Version)
 
     # This is the owner of the Program, may be blank for 'unowned' programs
-    owner = models.ForeignKey(User, null=True, blank=True, default=None)
+    owner = models.ForeignKey(UserProfile, null=True, blank=True, default=None)
 
     # Stringifies to '1: My Test Program' or '1: Unnamed Program'.
     def __str__(self):

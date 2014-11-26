@@ -1,0 +1,23 @@
+{% extends 'microbug/_master.html' %}
+
+{% block head %}
+    <!-- Head: user.html -->
+    <title>Microbug: Viewing user {{ viewed_user.username }}</title>
+    <!-- Head: user.html -->
+{% endblock %}
+
+{% block body %}
+    <!-- Body: user.html -->
+    <h1>{{ viewed_user.username }}</h1>
+
+    <h2>Programs Written</h2>
+    {% for program in user_profile.programs_owned %}
+        <p>Program: {{ program.name }}&nbsp;({{ program.id }})</p>
+    {% endfor %}
+
+    <h2>Programs Contributed To</h2>
+    {% for program in user_profile.programs_contributed_to %}
+        <p>Program: {{ program.name }}&nbsp;({{ program.id }})</p>
+    {% endfor %}
+    <!-- Body: user.html -->
+{% endblock %}

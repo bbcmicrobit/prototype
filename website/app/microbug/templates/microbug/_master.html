@@ -38,11 +38,10 @@
             <!-- End of body block -->
         </div>
 
+        {% include "microbug/partials/_debug.html" %}
         <div class="footer">
             Copyright stuff lives here
-            <p>REQ: {{ user }}</p>
         </div>
-
 
         <script src="{% static 'microbug/js/jquery-1.11.1.js' %}"></script>
         <script src="{% static 'microbug/js/bootstrap/bootstrap.js' %}"></script>

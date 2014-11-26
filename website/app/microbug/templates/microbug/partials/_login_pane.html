@@ -3,7 +3,7 @@
     <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button">{{ user.username }} <strong
             class="caret"></strong></a>
     <ul class="dropdown-menu" role="menu">
-        <li role="presentation"><a href="#" role="menuitem">My Programs</a></li>
+        <li role="presentation"><a href="{% url 'microbug:user' user_id=user.id %}" role="menuitem">My Programs</a></li>
         <li role="presentation"><a href="#" role="menuitem" id="loginSignOut">Sign Out</a></li>
     </ul>
 {% else %}

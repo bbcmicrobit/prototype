@@ -39,7 +39,6 @@ class PendingVersionStore:
 
     # If a string has leading digits return them as integer, if not throw an error
     def _leading_integer(self, string):
-        logger.warn("STR: %s" % string)
         match = leading_spaces_regex.match(string)
         if match:
             return int(match.group())

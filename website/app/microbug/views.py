@@ -10,11 +10,12 @@ import sys
 from compiled_version_store import CompiledVersionStore
 from primary_version_store import PrimaryVersionStore
 from pending_version_store import PendingVersionStore
-from microbug.models import Program, Tutorial, Version
+from microbug.models import Program, Tutorial, UserProfile, Version
 import re
 from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
 from django.contrib import auth
+from django.contrib.auth.models import User
 
 # Get a version store we can keep uploaded files in.
 compiled_version_store = CompiledVersionStore(settings.COMPILED_PYTHON_PROGRAMS_DIRECTORY)
@@ -23,24 +24,22 @@ pending_queue_store = PendingVersionStore(settings.PENDING_PYTHON_QUEUE_DIRECTOR
 
 # Get the logger for these views
 logger = logging.getLogger(__name__)
+#raise Exception(str(logger))
 
 # The main page
 def index(request):
+    logger.warn("INDEX HASH: {0}".format(_add_defaults(request)))
+
     return render(
         request, 'microbug/index.html',
-        {
-            'user': request.user
-        }
+        _add_defaults(request)
     )
 
 # Create a new program
 def create_program(request):
     return render(
         request, 'microbug/create_program.html',
-        {
-            'programs': programs,
-            'user': request.user
-        }
+        _add_defaults(request, {'programs': programs})
     )
 
 # View a single program
@@ -48,10 +47,7 @@ def program(request, program_id):
     viewed_program = get_object_or_404(Program, pk=program_id)
     return render(
         request, 'microbug/program.html',
-        {
-            'program': viewed_program,
-            'user': request.user
-        }
+        _add_defaults(request, {'program': viewed_program})
     )
 
 # List all of the Programs available on the system
@@ -59,10 +55,7 @@ def programs(request):
     programs = Program.objects.all()
     return render(
         request, 'microbug/programs.html',
-        {
-            'programs': programs,
-            'user': request.user
-        }
+        _add_defaults(request,{'programs':programs})
     )
 
 # Show the tutorials
@@ -70,19 +63,22 @@ def tutorial(request, tutorial_name, page_number=1):
     tutorial_obj = get_object_or_404(Tutorial, name=tutorial_name)
     return render(
         request, 'microbug/tutorial.html',
-        {
-            'tutorial_content': mark_safe(tutorial_obj.content),
-            'user': request.user
-        }
+        _add_defaults(request, {'tutorial_content': mark_safe(tutorial_obj.content)})
+    )
+
+# Display the details for a user
+def user(request, user_id):
+    viewed_user = get_object_or_404(User, pk=user_id)
+    return render(
+        request, 'microbug/user.html',
+        _add_defaults(request)
     )
 
 # Show the page to register a user
 def register_user(request):
     return render(
         request, 'microbug/register_user.html',
-        {
-            'user': request.user
-        }
+        _add_defaults(request)
     )
 
 # Downloads a compiled .hex program
@@ -158,6 +154,9 @@ def build_code(request):
     program_name = json_obj['program_name']
     program_id = json_obj['program_id']
 
+    # We're going to need a user and a user profile
+    (user, user_profile) = _user_and_profile_for_request(request)
+
     # Check if we've been provided with a Program ID, if so find the program now so we can
     # maintain the version links
     new_program = None
@@ -169,6 +168,8 @@ def build_code(request):
     if new_program:
         version.previous_version = new_program.version
         json_obj['previous_version'] = new_program.version.id
+
+    version.owner = user_profile
     version.save()
 
     # If we didn't obtain a Program from the ID we'll create one now, if we did we'll update it
@@ -178,6 +179,7 @@ def build_code(request):
         new_program.name = program_name
     else:
         new_program = Program(version=version, name=program_name)
+        new_program.owner = user_profile
     new_program.save()
 
     # Add the program details to the JSON
@@ -198,9 +200,7 @@ def build_code(request):
 def login_pane(request):
     return render(
         request, 'microbug/partials/_login_pane.html',
-        {
-            'user': request.user
-        }
+        _add_defaults(request)
     )
 
 # Return the status of the program specified
@@ -260,3 +260,32 @@ def _prettify_json(json_obj):
 # Counts the number of lines in a piece of text
 def _count_lines(text):
     return len(re.split('[\n\r]+', text))-1
+
+
+# Combines the hash provided with the default hash for the request to return a combined total.
+def _add_defaults(request, content=None):
+    if content is None:
+        content = {}
+
+    (db_user, user_profile) = _user_and_profile_for_request(request)
+    logger.warn("User details: {0} / {1}".format(db_user, user_profile))
+
+    content.update({
+        'user': db_user,
+        'user_profile': user_profile
+    })
+    return content
+
+# Returns a tuple containing the user and profile from the request, or (None, None) if
+# they don't exist
+def _user_and_profile_for_request(request):
+    if request.user.is_authenticated():
+        db_user = request.user
+        (user_profile, user_profile_created) = UserProfile.objects.get_or_create(user=db_user)
+        if user_profile_created:
+            user_profile.save()
+    else:
+        db_user = None
+        user_profile = None
+    logger.warn("User details: {0} / {1}".format(db_user, user_profile))
+    return db_user, user_profile

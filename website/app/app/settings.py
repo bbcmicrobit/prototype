@@ -125,18 +125,13 @@ LOGGING = {
     },
     'loggers': {
         'test': {
-            'handlers': ['console'],
+            'handlers': ['null'],
             'level': 'DEBUG',
         },
         'django': {
             'handlers': ['null'],
             'propagate': True,
-            'level': 'INFO',
-        },
-        'django': {
-            'handlers': ['console'],
-            'propagate': True,
-            'level': 'INFO',
+            'level': 'ERROR',
         },
         'microbug.views': {
             'handlers': ['console'],

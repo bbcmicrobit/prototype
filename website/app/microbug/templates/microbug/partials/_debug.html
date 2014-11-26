@@ -1,0 +1,13 @@
+<div class="bg-info" style="margin: 1em 2em 1em 2em; padding: 0.5em 1em 0.25em 1em">
+    {% if user.is_authenticated %}
+        <p>
+            Logged in as <em>
+                <a href="{% url 'microbug:user' user_id=user.id %}">{{ user.username }}&nbsp;({{ user.id }})</a></em>.<br/>
+            User Profile is {{ user_profile }}
+        </p>
+    {% else %}
+        <p>
+            Not logged in.
+        </p>
+    {% endif %}
+</div>
