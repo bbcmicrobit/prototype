@@ -516,8 +516,12 @@ function setupBlockly() {
 			function runCode()
 			{
 				//DALJS.reset();
-			    parseCode();
-			    stepCode();
+			    if (parseCode())
+                {
+                    stepCode();
+                }
+                else
+                    alert("Problem parsing code");
 			}
 
 			function parseCode()
@@ -540,16 +544,19 @@ function setupBlockly() {
 
                     if (e instanceof SyntaxError) {
                         console.log(e);
-                        console.log("Syntax Error");
+                        alert(e);
+                        return false;
                     } else {
                         console.log(e);
                         alert(e);
+                        return false;
                     }
                 }
 
 			    highlightPause = false;
 			    Blockly.mainWorkspace.traceOn(true);
 			    Blockly.mainWorkspace.highlightBlock(null);
+                return true;
 			}
 
 			function stepCode()
