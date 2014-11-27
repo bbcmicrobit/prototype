@@ -192,9 +192,43 @@ Blockly.JavaScript['microbug_scroll_string_image'] = function(block) {
   var value_string = Blockly.JavaScript.valueToCode(block, 'string', Blockly.JavaScript.ORDER_ATOMIC);
   var value_speed = Blockly.JavaScript.valueToCode(block, 'speed', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = 'scroll_string_image(' + value_string + ',' + value_speed + ')';
+  var code = 'scroll_string_image(' + value_string + ',' + value_speed + ');';
   return code;
 };
 
+Blockly.JavaScript['microbug_pause'] = function(block) {
+  var value_pause = Blockly.JavaScript.valueToCode(block, 'pause', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'pause(' + value_pause + ');'
+  return code;
+};
 
-// FOREVER LOOP (while true?)
+Blockly.JavaScript['microbug_forever'] = function(block) {
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'while (true) {' + statements_name + '}';
+  return code;
+};
+
+Blockly.JavaScript['microbug_get_eye'] = function(block) {
+  var value_name = Blockly.JavaScript.valueToCode(block, 'NAME', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'get_eye(' + value_name + ')';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['microbug_logic_onoff_states'] = function(block) {
+
+  var code = (block.getFieldValue('STATE') == 'on') ? 'true' : 'false';
+  return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.JavaScript['microbug_logic_button_states'] = function(block) {
+
+  var code = (block.getFieldValue('STATE') == 'pressed') ? 'true' : 'false';
+  return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+
+

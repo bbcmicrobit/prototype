@@ -347,6 +347,12 @@ var DALJS = (function(){
 		}
 	}
 
+	function pause(pausetime)
+	{
+		micro_device_ready = false;
+		setTimeout(function() {micro_device_ready = true;}, pausetime);
+	}
+
 	function handleScrollImage()
 	{
 		//console.log("handleScrollImage");
@@ -392,7 +398,6 @@ var DALJS = (function(){
 	var scroll_string_image = function(theSprite, delay)
 	{
 //	function StringImage(pp, pd, string, strlen)
-
 		var newSprite = new StringImage(theSprite.mPixelPos, theSprite.mPixelData, theSprite.mString, theSprite.mStrlen);
 		delay = delay || 100;
 		micro_device_ready = false;
@@ -406,6 +411,7 @@ var DALJS = (function(){
 		scroll_image : scroll_image,
 		scroll_string: scroll_string,
 		scroll_string_image: scroll_string_image,
+		pause : pause,
 		setDirtyCallback:setDirtyCallback,
 		deviceReady:deviceReady,
 	};

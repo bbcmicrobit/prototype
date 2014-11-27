@@ -7,7 +7,7 @@ goog.require('Blockly.Blocks');
 Blockly.Blocks['microbug_scroll_string'] = {
   init: function() {
     this.setHelpUrl('http://www.example.com/');
-    this.setColour(260);
+    this.setColour(0);
     this.appendDummyInput()
         .appendField("scroll_string");
     this.appendValueInput("Message")
@@ -34,7 +34,7 @@ Blockly.Blocks['microbug_set_eye'] = {
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("id");
     this.appendValueInput("state")
-        .setCheck("Number")
+        .setCheck(["OnOffState","Boolean"])
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("state");
     this.setPreviousStatement(true);
@@ -214,7 +214,7 @@ Blockly.Blocks['microbug_point'] = {
         .setCheck("Number")
         .appendField("y");
     this.setInputsInline(true);
-    this.setOutput(true);
+    this.setOutput(true, "OnOffState");
     this.setTooltip('');
   }
 };
@@ -264,7 +264,7 @@ Blockly.Blocks['microbug_build_big_sprite'] = {
 Blockly.Blocks['microbug_show_image'] = {
     init: function()
     {
-        this.setColour(160);
+        this.setColour(260);
         this.appendDummyInput().appendField("show_image");
         this.appendValueInput("SPRITE").appendField("sprite");
         this.setInputsInline(!0);
@@ -332,7 +332,7 @@ Blockly.Blocks['microbug_get_image_point'] = {
         .setCheck("Number")
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("y");
-    this.setOutput(true);
+    this.setOutput(true, "OnOffState");
     this.setTooltip('');
   }
 };
@@ -356,9 +356,9 @@ Blockly.Blocks['microbug_set_image_point'] = {
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("y");
     this.appendValueInput("value")
-        .setCheck("Number")
+        .setCheck("OnOffState")
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("value");
+        .appendField("On/Off");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
@@ -397,5 +397,77 @@ Blockly.Blocks['microbug_scroll_string_image'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
+  }
+};
+
+Blockly.Blocks['microbug_pause'] = {
+  init: function() {
+    this.setHelpUrl('http://www.example.com/');
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField("Pause");
+    this.appendValueInput("pause")
+        .appendField("milliseconds");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+  }
+};
+
+Blockly.Blocks['microbug_forever'] = {
+  init: function() {
+    this.setHelpUrl('http://www.example.com/');
+    this.setColour(120);
+    this.appendDummyInput()
+        .appendField("forever");
+    this.appendStatementInput("NAME")
+        .setCheck("null");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, "null");
+    this.setTooltip('');
+  }
+};
+
+Blockly.Blocks['microbug_get_eye'] = {
+  init: function() {
+    this.setHelpUrl('http://www.example.com/');
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField("get_eye");
+    this.appendValueInput("NAME")
+        .setCheck("String")
+        .appendField("id");
+    this.setInputsInline(true);
+    this.setOutput(true, "OnOffState");
+    this.setTooltip('');
+  }
+};
+
+Blockly.Blocks['microbug_logic_onoff_states'] = {
+  init: function() {
+    var BOOLEANS =
+        [['on', 'on'],
+         ['off', 'off']];
+    this.setColour(210);
+    this.setOutput(true, 'OnOffState');
+    this.appendDummyInput()
+        .appendField("OnOffState");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown(BOOLEANS), 'STATE');
+  }
+};
+
+Blockly.Blocks['microbug_logic_button_states'] = {
+  init: function() {
+    var BOOLEANS =
+        [['pressed', 'pressed'],
+         ['not_pressed','not_pressed']];
+    this.setColour(210);
+    this.setOutput(true, 'ButtonState');
+    this.appendDummyInput()
+        .appendField("ButtonState");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown(BOOLEANS), 'STATE');
   }
 };

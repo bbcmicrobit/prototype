@@ -370,13 +370,10 @@ function setupBlockly() {
 
 
 		$(document).ready(function() {
+            var dalcode;
 			// Sim Renderer
 			SIMIO.init("SIMIO");
 			//DALJS.setDirtyCallback(SIMIO.render); DEPRECATED?
-
-			$.get('/static/microbug/js/dal_interpreter.js', function(data) {
-				dalcode = data;
-			});
 
 			//Add start blocks if defined - idea: dump them out to console?
 			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, document.getElementById('startBlocks'));
@@ -423,7 +420,6 @@ function setupBlockly() {
 				    	interpreter.createNativeFunction(
 				    		makeWrapperScrollImg(fn)));
 			    }
-
                 function makeWrapperScrollStringImg(fn)
                 {
                     return function()
@@ -436,15 +432,6 @@ function setupBlockly() {
                             mStrlen: arguments[0].properties.mStrlen.toNumber()
                         }
                         newArgs[1] = arguments[1].toNumber();//delay
-
-                        // arguments[2] = arguments[0].length;
-                        // arguments[3] = arguments[0].properties[0].length;
-                        // arguments.length = 4;
-
-                        // for (var j = 0; j < arguments.length; j++) {
-                        //     arguments[j] = arguments[j].toString();
-                        // }
-                        console.log(newArgs);
                         return interpreter.createPrimitive(fn.apply(this, newArgs));
                     }
                 }
@@ -490,8 +477,8 @@ function setupBlockly() {
 				// Callout functions that are in the API				
 				makeInterp('print_message', DALJS.print_message);
 				makeInterpScrollImg('scroll_image', DALJS.scroll_image);
-
 				makeInterpScrollStringImg('scroll_string_image', DALJS.scroll_string_image);
+                makeInterp('pause', DALJS.pause);
 
                 // test function, this one
                 makeInterp('scroll_string', DALJS.scroll_string);
@@ -514,6 +501,8 @@ function setupBlockly() {
 			    }
 
 				makeInterpButt('get_button', DALJS.get_button);
+
+
 			}	    
 
 			var highlightPause = false;
@@ -533,17 +522,31 @@ function setupBlockly() {
 
 			function parseCode()
 			{
-				console.log("parseCode");
 			    // Generate JavaScript code and parse it.
 			    Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
 			    Blockly.JavaScript.addReservedWords('highlightBlock');
 			    
 			    var code = Blockly.JavaScript.workspaceToCode();
 
+                if (dalcode === undefined)
+                    alert('dalcode undefined');
+
 			    alert('Ready to execute this code:\n\n' + code);
 			    code = dalcode + "reset();" + code;
 
-			    myInterpreter = new Interpreter(code, initInterpreterApi);
+                try {
+                    myInterpreter = new Interpreter(code, initInterpreterApi);
+                } catch (e) {
+
+                    if (e instanceof SyntaxError) {
+                        console.log(e);
+                        console.log("Syntax Error");
+                    } else {
+                        console.log(e);
+                        alert(e);
+                    }
+                }
+
 			    highlightPause = false;
 			    Blockly.mainWorkspace.traceOn(true);
 			    Blockly.mainWorkspace.highlightBlock(null);
@@ -551,6 +554,8 @@ function setupBlockly() {
 
 			function stepCode()
 			{
+                var statusMsg = "Everything OK";
+
 			    if (!DALJS.deviceReady())
 			    {
 			        setTimeout(function()
@@ -564,11 +569,17 @@ function setupBlockly() {
 			    {
 			        var ok = myInterpreter.step();
 			    }
+                catch (e) {
+                    statusMsg = "Error: " + e;
+                    console.log(statusMsg);
+                    alert(statusMsg + "\n" + "Program Halted");
+                }
 			    finally
 			    {
 			        if (!ok)
 			        {
 			            // Program complete, no more code to execute.
+                        console.log("Execution complete. " + statusMsg);
 			            return;
 			        }
 			    }
@@ -616,6 +627,15 @@ function setupBlockly() {
 			// document.getElementById("BuildCodeButton").addEventListener("click", buildCode);
 			document.getElementById("RunCodeButton").addEventListener("click", runCode);
 			SIMIO.render();
+
+            var jqxhr = $.get('/static/microbug/js/dal_interpreter.txt', function(data, txt, err) {
+                dalcode = data;
+                console.log("Dalcode success");
+            })
+            .fail(function() {
+                console.log("Dalcode error, using responseText");
+                dalcode = jqxhr.responseText;
+            });
 		});
 
 

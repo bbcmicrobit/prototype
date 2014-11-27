@@ -305,6 +305,15 @@ var eye_off = function(cId) {
 	set_eye(cId, LOW);
 };
 
+var get_eye = function(id) {
+	if ((id == "A") || (id == "L")) {
+		return left_eye_state;
+	}
+	if ((id == "B") || (id == "R")) {
+		return right_eye_state;
+	}
+};
+
 var show_letter = function(c) {
 
 	if (typeof(c) === "string")
