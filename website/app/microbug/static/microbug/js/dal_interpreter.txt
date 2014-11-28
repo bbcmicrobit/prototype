@@ -101,7 +101,11 @@ var DISPLAY_WIDTH = 5;
 var DISPLAY_HEIGHT = 5;
 var HIGH = 1;
 var LOW = 0;
+
 var PRESSED = HIGH;
+var NOT_PRESSED = LOW;
+var ON = HIGH;
+var OFF = LOW;
 
 // Microkit Constants
 var row0 = 1; // Arduino Pin for row 4 // PIN 21 -- D1

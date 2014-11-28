@@ -11,6 +11,28 @@ var SIMIO = (function(){
 
 	var eyeState = [false, false];
 
+	//a, b, l, r and cursor left right can be used for button inputs
+	window.addEventListener("keydown", function(e){
+		if (e.keyCode == 65 || e.keyCode == 76 || e.keyCode == 37) //A,L,<-
+		{
+			buttonState[0] = true;
+		}
+		if (e.keyCode == 66 || e.keyCode == 82 || e.keyCode == 39) //B,R,->
+		{
+			buttonState[1] = true;
+		}
+	});
+	window.addEventListener("keyup", function(e){
+		if (e.keyCode == 65 || e.keyCode == 76 || e.keyCode == 37)
+		{
+			buttonState[0] = false;
+		}
+		if (e.keyCode == 66 || e.keyCode == 82 || e.keyCode == 39)
+		{
+			buttonState[1] = false;
+		}
+	});
+
 	function BBOX(tl,br)
 	{
 		this.tl = tl;

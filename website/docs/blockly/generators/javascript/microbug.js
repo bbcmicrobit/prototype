@@ -95,7 +95,7 @@ Blockly.JavaScript['microbug_point'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
-Blockly.JavaScript['microbug_build_sprite'] = function(block)
+Blockly.JavaScript['microbug_build_image'] = function(block)
 {
     var b = "'5,5,";
     for (var c = 0; 5 > c; c++)
@@ -107,24 +107,10 @@ Blockly.JavaScript['microbug_build_sprite'] = function(block)
     return ["makeImage(" + b + "')", Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.JavaScript['microbug_build_big_sprite'] = function(block)
+Blockly.JavaScript['microbug_build_big_image'] = function(block)
 {
     var w = 10;
     var h = 5;
-
-    // for (var b = "[", c = 0; h > c; c++)
-    // {
-      //2D array version
-         // for (var b = b + "[", d = 0; w > d; d++) b += "TRUE" == block.getFieldValue("LED" + d + c) ? 1 : 0, b += (w-1) > d ? ", " : "";
-       // b += "]";
-       // b += (h-1) > c ? ", " : "";
-
-       //1D array version
-        // for (var b = b + "", d = 0; w > d; d++) b += "TRUE" == block.getFieldValue("LED" + d + c) ? 1 : 0, b += (w-1) > d ? ", " : "";
-        // b += "";
-        // b += (h-1) > c ? ", " : "";
-    // }
-
     var b = "'10,5,"; //sprite dimension comes first
     for (var c = 0; h > c; c++)
     {
@@ -147,7 +133,6 @@ Blockly.JavaScript['microbug_show_image_offset'] = function(block) {
   var value_sprite = Blockly.JavaScript.valueToCode(block, 'sprite', Blockly.JavaScript.ORDER_ATOMIC);
   var value_x = Blockly.JavaScript.valueToCode(block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
   var value_y = Blockly.JavaScript.valueToCode(block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
-  // TODO: Assemble JavaScript into code variable.
   var code = 'show_image_offset(' + value_sprite + ',' + value_x + ',' + value_y + ');';
   return code;
 };
@@ -155,7 +140,6 @@ Blockly.JavaScript['microbug_show_image_offset'] = function(block) {
 Blockly.JavaScript['microbug_scroll_image'] = function(block) {
   var value_sprite = Blockly.JavaScript.valueToCode(block, 'sprite', Blockly.JavaScript.ORDER_ATOMIC);
   var value_delay = Blockly.JavaScript.valueToCode(block, 'delay', Blockly.JavaScript.ORDER_ATOMIC);
-  // TODO: Assemble JavaScript into code variable.
   var code = 'scroll_image(' + value_sprite + ',' + value_delay + ');';
   return code;
 };
@@ -164,7 +148,6 @@ Blockly.JavaScript['microbug_get_image_point'] = function(block) {
   var value_id = Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC);
   var value_x = Blockly.JavaScript.valueToCode(block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
   var value_y = Blockly.JavaScript.valueToCode(block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
-  // TODO: Assemble JavaScript into code variable.
   var code = 'get_image_point(' + value_id + ',' + value_x + ',' + value_y + ')';
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.JavaScript.ORDER_NONE];
@@ -175,14 +158,12 @@ Blockly.JavaScript['microbug_set_image_point'] = function(block) {
   var value_x = Blockly.JavaScript.valueToCode(block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
   var value_y = Blockly.JavaScript.valueToCode(block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
   var value_value = Blockly.JavaScript.valueToCode(block, 'value', Blockly.JavaScript.ORDER_ATOMIC);
-  // TODO: Assemble JavaScript into code variable.
   var code = 'set_image_point(' + value_id + ',' + value_x + ',' + value_y + ',' + value_value + ');';
   return code;
 };
 
 Blockly.JavaScript['microbug_make_StringImage'] = function(block) {
   var value_name = Blockly.JavaScript.valueToCode(block, 'NAME', Blockly.JavaScript.ORDER_ATOMIC);
-  // TODO: Assemble JavaScript into code variable.
   var code = 'new StringImage(' + value_name + ')';
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.JavaScript.ORDER_NONE];
@@ -191,44 +172,42 @@ Blockly.JavaScript['microbug_make_StringImage'] = function(block) {
 Blockly.JavaScript['microbug_scroll_string_image'] = function(block) {
   var value_string = Blockly.JavaScript.valueToCode(block, 'string', Blockly.JavaScript.ORDER_ATOMIC);
   var value_speed = Blockly.JavaScript.valueToCode(block, 'speed', Blockly.JavaScript.ORDER_ATOMIC);
-  // TODO: Assemble JavaScript into code variable.
   var code = 'scroll_string_image(' + value_string + ',' + value_speed + ');';
   return code;
 };
 
 Blockly.JavaScript['microbug_pause'] = function(block) {
   var value_pause = Blockly.JavaScript.valueToCode(block, 'pause', Blockly.JavaScript.ORDER_ATOMIC);
-  // TODO: Assemble JavaScript into code variable.
   var code = 'pause(' + value_pause + ');'
   return code;
 };
 
 Blockly.JavaScript['microbug_forever'] = function(block) {
   var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
-  // TODO: Assemble JavaScript into code variable.
   var code = 'while (true) {' + statements_name + '}';
   return code;
 };
 
 Blockly.JavaScript['microbug_get_eye'] = function(block) {
   var value_name = Blockly.JavaScript.valueToCode(block, 'NAME', Blockly.JavaScript.ORDER_ATOMIC);
-  // TODO: Assemble JavaScript into code variable.
   var code = 'get_eye(' + value_name + ')';
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['microbug_logic_onoff_states'] = function(block) {
-
-  var code = (block.getFieldValue('STATE') == 'on') ? 'true' : 'false';
+  var code = (block.getFieldValue('STATE') == 'ON') ? 'ON' : 'OFF';
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript['microbug_logic_button_states'] = function(block) {
-
-  var code = (block.getFieldValue('STATE') == 'pressed') ? 'true' : 'false';
+  var code = (block.getFieldValue('STATE') == 'PRESSED') ? 'PRESSED' : 'NOT_PRESSED';
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
-
-
+Blockly.JavaScript['microbug_comment'] = function(block) {
+  var value_comment = Blockly.JavaScript.valueToCode(block, 'comment', Blockly.JavaScript.ORDER_ATOMIC);
+  // Don't generate comments for javascript since nobody's gonna see it
+  var code = '';
+  return code;
+};
