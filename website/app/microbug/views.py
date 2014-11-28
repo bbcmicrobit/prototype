@@ -164,8 +164,13 @@ def build_code(request):
         new_program = get_object_or_404(Program, pk=program_id)
 
     # Write the new Version to the database
-    version = Version(id=numeric_id, store_uuid=random_uuid, lines_of_code_count=lines_of_code)
+    version = Version(
+        id=numeric_id, store_uuid=random_uuid,
+        program=new_program, lines_of_code_count=lines_of_code,
+        owner = user_profile
+    )
     if new_program:
+        version.program = new_program
         version.previous_version = new_program.version
         json_obj['previous_version'] = new_program.version.id
 
@@ -175,12 +180,14 @@ def build_code(request):
     # If we didn't obtain a Program from the ID we'll create one now, if we did we'll update it
     # to point to new version
     if new_program:
-        new_program.version = version
         new_program.name = program_name
+        new_program.save()
     else:
-        new_program = Program(version=version, name=program_name)
-        new_program.owner = user_profile
-    new_program.save()
+        new_program = Program(version=version, name=program_name, owner=user_profile)
+        new_program.save()
+        # We also need to update version
+        version.program = new_program
+        version.save()
 
     # Add the program details to the JSON
     json_obj['program_id'] = new_program.id
@@ -281,7 +288,7 @@ def _add_defaults(request, content=None):
 def _user_and_profile_for_request(request):
     if request.user.is_authenticated():
         db_user = request.user
-        (user_profile, user_profile_created) = UserProfile.objects.get_or_create(user=db_user)
+        (user_profile, user_profile_created) = UserProfile.objects.get_or_create(pk=db_user.id, user=db_user)
         if user_profile_created:
             user_profile.save()
     else:

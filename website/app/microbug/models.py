@@ -29,14 +29,17 @@ class UserProfile(models.Model):
 
     # The programs contributed to but does not own
     def programs_contributed_to(self):
-        return []
-        contributed_programs = [
-            version.program
-            for version in self.versions_owned()
-            if version.program.owner != self
-        ]
-        unique_programs = list(collections.OrderedDict.fromkeys(contributed_programs))
-        return unique_programs
+        sql_query = """
+            SELECT * FROM microbug_program
+            WHERE id IN (
+              SELECT DISTINCT program_id
+              FROM microbug_version
+              WHERE owner_id=%s AND program_id NOT IN (
+                SELECT id FROM microbug_program WHERE owner_id=%s
+              )
+            )
+        """
+        return Program.objects.raw(sql_query, [self.id, self.id])
     
     # Simple bit of stringification
     def __str__(self):
@@ -59,6 +62,12 @@ class Version(models.Model):
 
     # This is the owner of the Version, may be blank for 'unowned' versions
     owner = models.ForeignKey(UserProfile, null=True, blank=True, default=None)
+
+    # The program this is a version of, this makes things easy when new versions
+    # of existing programs appear.
+    # The 'related_name' stops Django creating a reverse Program.Version field, as
+    # one exists.
+    program = models.ForeignKey('Program', null=True, related_name='+')
 
     # Returns the JSON from the primary store
     def json(self):
@@ -114,8 +123,10 @@ class Program(models.Model):
     # The time which the version was created by the user.
     created_at = models.DateTimeField('Created At', auto_now_add=True)
 
-    # The current version, all history between versions is stored within them
-    version = models.ForeignKey(Version)
+    # The current version, all history between versions is stored within them.
+    # The 'related_name' stops Django creating a version.program reverse as there's
+    # already one there.
+    version = models.ForeignKey(Version, related_name='+')
 
     # This is the owner of the Program, may be blank for 'unowned' programs
     owner = models.ForeignKey(UserProfile, null=True, blank=True, default=None)
