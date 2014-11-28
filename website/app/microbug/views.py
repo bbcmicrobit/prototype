@@ -16,6 +16,7 @@ from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
 from django.contrib import auth
 from django.contrib.auth.models import User
+import pprint
 
 # Get a version store we can keep uploaded files in.
 compiled_version_store = CompiledVersionStore(settings.COMPILED_PYTHON_PROGRAMS_DIRECTORY)
@@ -124,6 +125,7 @@ def authenticate_user(request):
     else:
         response_obj = {"status": "authenticated", "username": user.username}
         auth.login(request, user)
+        _claim_unattributed_items(request)
         logger.info("Login successful for '{0}'".format(username))
 
     logger.info(response_obj)
@@ -180,9 +182,11 @@ def build_code(request):
     # If we didn't obtain a Program from the ID we'll create one now, if we did we'll update it
     # to point to new version
     if new_program:
+        created_program = False
         new_program.name = program_name
         new_program.save()
     else:
+        created_program = True
         new_program = Program(version=version, name=program_name, owner=user_profile)
         new_program.save()
         # We also need to update version
@@ -198,6 +202,24 @@ def build_code(request):
     pretty_json = _prettify_json(json_obj)
     primary_version_store.write_new_version(pretty_json, numeric_id, random_uuid)
     pending_queue_store.write_new_version(python_code, numeric_id, random_uuid)
+
+    # If we're not logged in we'll store the IDs of the new stuff in the session.
+    if user_profile is None:
+        # Check we have the two stores in the session.
+        session = request.session
+        if 'unattributed_programs' not in session:
+             session['unattributed_programs'] = []
+        if 'unattributed_versions' not in session:
+            session['unattributed_versions'] = []
+
+        # Add the newly created items
+        unattributed_versions = session['unattributed_versions']
+        unattributed_versions.append(version.id)
+        session['unattributed_versions'] = unattributed_versions
+        if created_program:
+            unattributed_programs = session['unattributed_programs']
+            unattributed_programs.append(new_program.id)
+            session['unattributed_programs'] = unattributed_programs
 
     # Return the program's ID
     return HttpResponse(str(new_program.id))
@@ -260,6 +282,30 @@ def sign_out(request):
     auth.logout(request)
     return HttpResponse("Logged out")
 
+# Assigns ownership of unattributed items in the session
+def _claim_unattributed_items(request):
+    session = request.session
+    (user, user_profile) = _user_and_profile_for_request(request)
+
+    if 'unattributed_programs' in session:
+        for program_id in session['unattributed_programs']:
+            try:
+                program = Program.objects.get(pk=program_id)
+                program.owner = user_profile
+                program.save()
+            except Program.DoesNotExist:
+                logger.error("Could not find program with ID {} from unattributed session")
+        for version_id in session['unattributed_versions']:
+            try:
+                version = Version.objects.get(pk=version_id)
+                version.owner = user_profile
+                version.save()
+            except Version.DoesNotExist:
+                logger.error("Could not find version with ID {} from unattributed session")
+
+    session['unattributed_programs'] = []
+    session['unattributed_versions'] = []
+
 # Convert JSON to a prettified version
 def _prettify_json(json_obj):
     return json.dumps(json_obj, sort_keys=True, indent=4, separators=(',', ': '))
@@ -275,11 +321,18 @@ def _add_defaults(request, content=None):
         content = {}
 
     (db_user, user_profile) = _user_and_profile_for_request(request)
-    logger.warn("User details: {0} / {1}".format(db_user, user_profile))
+    if 'unattributed_programs' not in request.session:
+        request.session['unattributed_programs'] = []
+    if 'unattributed_versions' not in request.session:
+        request.session['unattributed_versions'] = []
 
     content.update({
         'user': db_user,
-        'user_profile': user_profile
+        'user_profile': user_profile,
+
+        'session_content': pprint.pformat(request.session),
+        'unattributed_programs': request.session['unattributed_programs'],
+        'unattributed_versions': request.session['unattributed_versions']
     })
     return content
 

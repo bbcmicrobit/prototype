@@ -4,10 +4,31 @@
             Logged in as <em>
                 <a href="{% url 'microbug:user' user_id=user.id %}">{{ user.username }}&nbsp;({{ user.id }})</a></em>.<br/>
             User Profile is {{ user_profile }}
+            <br/>
         </p>
     {% else %}
         <p>
-            Not logged in.
+            <em>Not logged in.</em><br/>
+            {% if unattributed_programs %}
+                Unattributed programs:
+                {% for program in unattributed_programs %}
+                    {{ program }}&nbsp;
+                {% endfor %}
+                <br/>
+            {% endif %}
+
+            {% if unattributed_versions %}
+                Unattributed versions for:
+                {% for version in unattributed_versions %}
+                    {{ version }}&nbsp;
+                {% endfor %}
+            {% endif %}
         </p>
+    {% endif %}
+
+    <hr>
+    {% if session_content %}
+        Session:
+        <pre>{{ session_content }}</pre>
     {% endif %}
 </div>
