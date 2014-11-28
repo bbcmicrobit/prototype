@@ -10,14 +10,18 @@
     <!-- Body: user.html -->
     <h1>{{ viewed_user.username }}</h1>
 
-    <h2>Programs Written</h2>
-    {% for program in user_profile.programs_owned %}
-        <p>Program: {{ program.name }}&nbsp;({{ program.id }})</p>
-    {% endfor %}
+    <div>
+        <h2>Programs Written</h2>
+        {% for program in user_profile.programs_owned %}
+            {% include "microbug/partials/_program_card.html" %}
+        {% endfor %}
+    </div>
 
-    <h2>Programs Contributed To</h2>
-    {% for program in user_profile.programs_contributed_to %}
-        <p>Program: {{ program.name }}&nbsp;({{ program.id }})</p>
-    {% endfor %}
+    <div style="clear: left">
+        <h2>Programs Contributed To</h2>
+        {% for program in user_profile.programs_contributed_to %}
+            {% include "microbug/partials/_program_card.html" %}
+        {% endfor %}
+    </div>
     <!-- Body: user.html -->
 {% endblock %}

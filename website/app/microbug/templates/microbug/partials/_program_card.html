@@ -1,0 +1,20 @@
+<!-- Start of program_card.html -->
+<div class="col-md-3">
+    <div class="program_summary">
+        {% if program.name %}
+            <h1>
+                <a href="{% url 'microbug:program' program_id=program.id program_name=program.name %}">
+                    {{ program.name }}&nbsp;({{ program.id }})
+                </a>
+            </h1>
+        {% else %}
+            <h1 class="unnamed_program">
+                <a href="{% url 'microbug:program' program_id=program.id program_name=program.name %}">
+                   Unnamed Program&nbsp;({{ program.id }})
+                </a>
+            </h1>
+        {% endif %}
+        <pre class="python">{{ program.version.code }}</pre>
+    </div>
+</div>
+<!-- End of program_card.html -->
