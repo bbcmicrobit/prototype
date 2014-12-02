@@ -32,15 +32,7 @@ body {
     padding: 0;
 }
 
-.rounded {
-    border: 1px solid #ddd;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
-    margin: 0 0 0.5em 0;
-}
-
-#tutorial_content > * {
+_content > * {
     display: none;
 }
 
@@ -94,4 +86,14 @@ body {
     padding-top: 20px;
     padding-bottom: 20px;
     padding-left: 50px;
+}
+
+.edit-phrase {
+    color: darkred;
+}
+
+.large-input {
+    font-size: 24px;
+    vertical-align: middle;
+    margin: 5px 0 5px 0;
 }

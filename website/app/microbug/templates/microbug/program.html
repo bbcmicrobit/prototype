@@ -13,6 +13,29 @@
         <span class="input-group-addon" id="program_rename">Rename</span>
     </div>
 
+    <div class="col-md-12 panel panel-default" style="padding-top:5px;padding-bottom:5px">
+        {% if owns_program %}
+            <div class="col-md-2">
+                <h3>Edit Phrase:&nbsp;</h3>
+            </div>
+            <div class="col-md-10">
+                <h3>
+                    <span class="edit-phrase">{{ program.edit_phrase }}</span>
+                </h3>
+            </div>
+        {% else %}
+            <div class="col-md-2">
+                <h3>
+                    Edit Phrase:&nbsp;
+                </h3>
+            </div>
+            <div class="col-md-10" style="">
+                <input type="text" class="form-control" id="edit_phrase" placeholder="Edit phrase">
+            </div>
+        {% endif %}
+    </div>
+        <br/>
+
     <div id="blocklyXmlSrc" class="hidden">{{ program.version.xml }}</div>
     {% include "microbug/partials/_emulator_editor.html" with buildBtnId='buildCode' buildBtnText='Build Code'%}
 {% endblock %}

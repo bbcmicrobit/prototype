@@ -51,6 +51,7 @@ WORD_LIST_FILE = '/usr/share/dict/words'
 # The time, in seconds, to process each Python item
 PYTHON_ITEM_COMPILATION_TIME = 12
 
-# Controls the complexity of usernames and passwords
+# Controls the complexity of usernames, passwords, and edit phrases.
 WORDS_IN_USERNAMES = 1
 WORDS_IN_PASSWORDS = 1
+WORDS_IN_EDIT_PHRASES = 1

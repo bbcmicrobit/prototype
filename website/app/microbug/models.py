@@ -8,6 +8,7 @@ import datetime
 import markdown
 from django.contrib.auth.models import User
 import collections
+from random_phrase_generator import random_phrase
 
 primary_version_store = PrimaryVersionStore(settings.PRIMARY_STORE_DIRECTORY)
 pending_store = PendingVersionStore(settings.PENDING_PYTHON_QUEUE_DIRECTORY)
@@ -111,12 +112,24 @@ class Version(models.Model):
         else:
             return "{0} ({1} Loc, Prev: {2})".format(self.base_filename(), self.lines_of_code_count, self.previous_version.base_filename())
 
+# The phrase used to edit the program
+def default_edit_phrase():
+    return random_phrase(settings.WORDS_IN_EDIT_PHRASES)
 
 # This reflects a program
 class Program(models.Model):
     # The name of the program, not guaranteed to be unique
     name = models.CharField(max_length=200)
 
+    edit_phrase = models.CharField(
+        max_length=200,
+        default=default_edit_phrase
+    )
+
+    # edit_phrase = models.CharField(
+    #     max_length=200,
+    #     default=lambda: random_phrase(settings.WORDS_IN_EDIT_PHRASES)
+    # )
     # A description of the program
     description = models.TextField(default="")
 

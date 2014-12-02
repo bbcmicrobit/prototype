@@ -3,6 +3,7 @@ import re
 import random
 import microbug.settings as settings
 from django.contrib.auth.models import User
+from microbug.random_phrase_generator import random_phrase
 
 class Command(TemplateCommand):
 
@@ -40,20 +41,11 @@ class Command(TemplateCommand):
 
     def random_username(self):
         while True:
-            username = self.random_joined_string(settings.WORDS_IN_USERNAMES)
+            username = random_phrase(settings.WORDS_IN_USERNAMES)
             user_count = User.objects.filter(username=username).count()
             if user_count==0:
                 return username
             print("    Duplicate username '{0}".format(username))
 
     def random_password(self):
-        return self.random_joined_string(settings.WORDS_IN_PASSWORDS)
-
-    def random_joined_string(self, word_count):
-        words = []
-        for x in range(0, word_count):
-            words.append(self.random_word())
-        return '_'.join(words)
-
-    def random_word(self):
-        return random.choice(self.word_list)
+        return random_phrase(settings.WORDS_IN_PASSWORDS)

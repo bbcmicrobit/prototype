@@ -8,6 +8,7 @@ var program_status_update_elem = $('#program_status_update');
 var build_code_btn = $('.buildCode')
 var create_program_btn = $('.createProgram');
 var login_div = $('#login');
+var edit_phrase_elem = $('#edit_phrase');
 
 function enablePageInteraction() {
     var editor_tabs = $('#editor_tabs');
@@ -664,7 +665,12 @@ function getProgramName() {
     }
 }
 
-// Gets the ID of the program
+// Gets the edit phrase the user has entered.
+function getEditPhrase() {
+    return edit_phrase_elem.val();
+}
+
+// Gets the edit phrase currently entered
 function getProgramId() {
     return program_id_elem.text();
 }
@@ -695,6 +701,7 @@ function compileNewProgram(successCallback) {
         data: JSON.stringify({
             "program_name": getProgramName(),
             "program_id": getProgramId(),
+            "edit_phrase": getEditPhrase(),
             "repr": {
                 "code": blocklyCode(),
                 "xml": blocklyCodeAsPython()
@@ -704,6 +711,13 @@ function compileNewProgram(successCallback) {
             console.log("Success, data is "+data);
             if (successCallback) {
                 successCallback(data);
+            }
+        },
+        error: function (jqHxr, textStatus, errorText) {
+            if (errorText == 'METHOD NOT ALLOWED') {
+                bootbox.alert("Sorry, you need to either log in as the author of this program or have the edit password to edit it.")
+            } else {
+                bootbox.alert("Error: " + textStatus + "<br/>" + errorText)
             }
         }
     });
@@ -716,6 +730,7 @@ function recompileProgram(successCallback) {
         data: JSON.stringify({
             "program_name": getProgramName(),
             "program_id": getProgramId(),
+            "edit_phrase": getEditPhrase(),
             "repr": {
                 "code": blocklyCode(),
                 "xml": blocklyCodeAsPython()

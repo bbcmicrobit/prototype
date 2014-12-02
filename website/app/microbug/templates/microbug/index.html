@@ -1,50 +1,13 @@
-{% extends 'microbug/_master.html' %}
+§{% extends 'microbug/_master.html' %}
 
 {% block head %}
     <title>Test Page</title>
 {% endblock %}
 
 {% block body %}
-    <h1>Test Page</h1>
+    <h1>Microbug</h1>
 
-    <p>This is a simple test page with Static CSS.</p>
-
-    <p>It links to <a href="{% url "microbug:index" %}">Microbug</a>.</p>
-
-    <div id="emulator" class="emulator col-md-3">
-        {% include "microbug/partials/_emulator.html" %}
-    </div>
-
-    <div class="editor col-md-6">
-        <ul class="nav nav-tabs" role="tablist" id="editor-tabs">
-            <li role="presentation" class="active">
-                <a href="#blockly-tab" data-toggle="tab">Blockly</a>
-            </li>
-            <li role="presentation">
-                <a href="#code-tab" data-toggle="tab" onclick='populateCodeTab()'>Code</a>
-            </li>
-        </ul>
-        <div class="tab-content">
-            <div role="tabpanel" id="blockly-tab" class="tab-pane active">
-                <label for="program_name">Name:</label>
-                <input type="text" id="program_name" name="program_name" placeholder="Program Name"></input>
-                <br/>
-
-                <button type="button" id="buildCode" class="btn btn-primary"><i class="fa fa-cog">&nbsp;</i>Build Code</button>
-                <br/>
-
-                <div id="blockly" style="width: 92%; margin:1em; height: 480px; "></div>
-
-                {% include "microbug/partials/blockly_toolboxes/_main_toolbox.html" %}
-
-            </div>
-            <div role="tabpanel" id="code-tab" class="tab-pane">
-                Code
-                <div id="code"></div>
-            </div>
-        </div>
-    </div>
-    <div class="emulator col-md-3">
-        Tutorial
-    </div>
+    <p>
+        All features for this are available in the links at the top of the screen.
+    </p>
 {% endblock %}

@@ -1,7 +1,7 @@
 # This is all of the views that the Microbug application supports
 
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseServerError, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
 import logging
 import json
@@ -46,9 +46,15 @@ def create_program(request):
 # View a single program
 def program(request, program_id):
     viewed_program = get_object_or_404(Program, pk=program_id)
+    (user, user_profile) = _user_and_profile_for_request(request)
+    owns_program = user_profile == viewed_program.owner
+    logger.warn("OWNS PROGRAM: {}".format(owns_program))
     return render(
         request, 'microbug/program.html',
-        _add_defaults(request, {'program': viewed_program})
+        _add_defaults(request, {
+            'program': viewed_program,
+            'owns_program': owns_program
+        })
     )
 
 # List all of the Programs available on the system
@@ -165,6 +171,12 @@ def build_code(request):
     if program_id:
         new_program = get_object_or_404(Program, pk=program_id)
 
+        # Check we can create the program
+        logger.warn("GOT: "+json_obj['edit_phrase']+", NEED: "+new_program.edit_phrase);
+        if user_profile != new_program.owner and json_obj['edit_phrase'] != new_program.edit_phrase:
+            return HttpResponseNotAllowed('You do not have permission to edit that program')
+        logger.warn("Authenticated");
+
     # Write the new Version to the database
     version = Version(
         id=numeric_id, store_uuid=random_uuid,
@@ -173,8 +185,10 @@ def build_code(request):
     )
     if new_program:
         version.program = new_program
+        new_program.version = version
         version.previous_version = new_program.version
         json_obj['previous_version'] = new_program.version.id
+        new_program.save()
 
     version.owner = user_profile
     version.save()
