@@ -4,6 +4,7 @@ website/upload/highest
 website/tmp
 website/docs/compiled
 website/upload/highest.lock
+website/app/microbug/migrations/0*
 *.pyc
 genprogs/
 staging/SWP

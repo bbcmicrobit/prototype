@@ -2,25 +2,77 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+from django.conf import settings
+import microbug.models
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Version',
+            name='Program',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
+                ('edit_phrase', models.CharField(default=microbug.models.default_edit_phrase, max_length=200)),
+                ('description', models.TextField(default=b'')),
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name=b'Created At')),
-                ('store_id', models.IntegerField()),
-                ('store_uuid', models.CharField(max_length=64)),
             ],
             options={
             },
             bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Tutorial',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=200)),
+                ('content', models.TextField(default=b'')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='UserProfile',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('facilitators', models.ManyToManyField(to='microbug.UserProfile')),
+                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Version',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('store_uuid', models.CharField(max_length=64)),
+                ('lines_of_code_count', models.IntegerField()),
+                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name=b'Created At')),
+                ('owner', models.ForeignKey(default=None, blank=True, to='microbug.UserProfile', null=True)),
+                ('previous_version', models.ForeignKey(blank=True, to='microbug.Version', null=True)),
+                ('program', models.ForeignKey(related_name=b'+', to='microbug.Program', null=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='program',
+            name='owner',
+            field=models.ForeignKey(default=None, blank=True, to='microbug.UserProfile', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='program',
+            name='version',
+            field=models.ForeignKey(related_name=b'+', to='microbug.Version'),
+            preserve_default=True,
         ),
     ]

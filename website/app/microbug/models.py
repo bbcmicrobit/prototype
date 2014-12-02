@@ -15,10 +15,29 @@ pending_store = PendingVersionStore(settings.PENDING_PYTHON_QUEUE_DIRECTORY)
 compiled_store = CompiledVersionStore(settings.COMPILED_PYTHON_PROGRAMS_DIRECTORY)
 
 
+# This is an entire tutorial
+class Tutorial(models.Model):
+    # The name of the tutorial
+    name = models.CharField(max_length=200)
+
+    # The plaintext content of the program
+    content = models.TextField(default="")
+
+    # The content in HTML form
+    def content_as_html(self):
+        return markdown.markdown(self.content)
+
+    # Stringifies as 'My Test Tutorial'
+    def __str__(self):
+        return self.name
+
 # This stores additional details for a user beyond that which Django provides
 class UserProfile(models.Model):
     # The User this profile is part of
     user = models.OneToOneField(User)
+
+    # The facilitators of this user (Parents, teachers etc
+    facilitators = models.ManyToManyField('UserProfile')
 
     # The programs that this user owns
     def programs_owned(self):
@@ -151,19 +170,3 @@ class Program(models.Model):
         else:
             return "{0}: Unnamed Program".format(self.id)
 
-
-# This is an entire tutorial
-class Tutorial(models.Model):
-    # The name of the tutorial
-    name = models.CharField(max_length=200)
-
-    # The plaintext content of the program
-    content = models.TextField(default="")
-
-    # The content in HTML form
-    def content_as_html(self):
-        return markdown.markdown(self.content)
-
-    # Stringifies as 'My Test Tutorial'
-    def __str__(self):
-        return self.name
