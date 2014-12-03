@@ -6,7 +6,7 @@ from pending_version_store import PendingVersionStore
 import json
 import datetime
 import markdown
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 import collections
 from random_phrase_generator import random_phrase
 
@@ -38,6 +38,11 @@ class UserProfile(models.Model):
 
     # The facilitators of this user (Parents, teachers etc
     facilitators = models.ManyToManyField('UserProfile')
+
+    # Am I a facilitator?
+    def is_facilitator(self):
+        return self.user.groups.filter(name='facilitators').exists()
+    is_facilitator.boolean = True
 
     # The programs that this user owns
     def programs_owned(self):
