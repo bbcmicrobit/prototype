@@ -4,6 +4,9 @@ from microbug.models import Program, Tutorial, UserProfile, Version
 
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'is_facilitator')
+    fieldsets = [
+        (None, {'fields': ['user', 'facilitators']})
+    ]
 
 class VersionAdmin(admin.ModelAdmin):
     fieldsets = [

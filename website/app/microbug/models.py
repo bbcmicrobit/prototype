@@ -37,12 +37,28 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
     # The facilitators of this user (Parents, teachers etc
-    facilitators = models.ManyToManyField('UserProfile')
+    facilitators = models.ManyToManyField('UserProfile', related_name='children')
 
     # Am I a facilitator?
     def is_facilitator(self):
         return self.user.groups.filter(name='facilitators').exists()
     is_facilitator.boolean = True
+
+    # Do I have any facilitators?
+    def has_facilitators(self):
+        return len(list(self.facilitators.all()))
+
+    # Do I have any children?
+    def has_children(self):
+        return len(list(self.children.all()))
+
+    # Do I own any programs?
+    def has_owned_programs(self):
+        return len(list(self.programs_owned())) > 0
+
+    # Have I contributed to any programs?
+    def has_contributed_to_programs(self):
+        return len(list(self.programs_contributed_to())) > 0
 
     # The programs that this user owns
     def programs_owned(self):

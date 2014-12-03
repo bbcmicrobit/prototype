@@ -78,7 +78,10 @@ def user(request, user_id):
     viewed_user = get_object_or_404(User, pk=user_id)
     return render(
         request, 'microbug/user.html',
-        _add_defaults(request)
+        _add_defaults(request, {
+            'viewed_user': viewed_user,
+            'viewed_user_profile': viewed_user.userprofile
+        })
     )
 
 # Show the page to register a user
@@ -238,6 +241,46 @@ def build_code(request):
     # Return the program's ID
     return HttpResponse(str(new_program.id))
 
+# Records that a user has made a request for someone else to be their facilitator
+@csrf_exempt
+def facilitator_request(request):
+    # Check we're a POST request
+    if request.method != 'POST':
+        return HttpResponseBadRequest('Must be a POST request')
+
+    # We're going to need a user and a user profile
+    (user, user_profile) = _user_and_profile_for_request(request)
+
+    # Check we're logged in
+    if user is None:
+        res = HttpResponse("You must be logged in")
+        res.status_code = 401
+        return res
+
+    # Grab the JSON from the request body and make it nicer
+    try:
+        json_obj = json.loads(request.body)
+    except ValueError:
+        logger.error("Build_code could not process Json: %s" % str(request))
+        return HttpResponseBadRequest("Could not process request, not a valid Json object?")
+
+    # # Extract the facilitator, checking we find them.
+    facilitator_name = json_obj['facilitator_name']
+    logger.warn("NAME: "+facilitator_name)
+    facilitator = get_object_or_404(User, username=facilitator_name)
+    logger.warn("FOUND: {}, {}".format(facilitator.id, facilitator.username))
+
+    # Make sure the facilitator is valid
+    if facilitator == user or not facilitator.userprofile.is_facilitator():
+        return HttpResponseNotAllowed("That person cannot be your facilitator")
+
+    # TODO: Check for pending request
+
+    # Make the actual request
+    _make_authenticated_facilitator_request(user, facilitator)
+
+    return HttpResponse("Request sent")
+
 # Returns the HTML for the login pane based on whether the user is logged in or not
 @csrf_exempt
 def login_pane(request):
@@ -363,3 +406,7 @@ def _user_and_profile_for_request(request):
         user_profile = None
     logger.warn("User details: {0} / {1}".format(db_user, user_profile))
     return db_user, user_profile
+
+# After everything is confirmed this makes a facilitator request
+def _make_authenticated_facilitator_request(user, facilitator):
+    logger.warn("*** Facilitator request from '{}' to '{}'".format(user.username, facilitator.username))

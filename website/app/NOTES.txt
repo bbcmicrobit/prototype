@@ -21,3 +21,4 @@ Run the following Python commands:
 TODO:
 * Check error handling
 * Check CSRF for Ajax requests
+* Check that users cannot rename other programs without perms

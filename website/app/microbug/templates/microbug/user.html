@@ -10,18 +10,75 @@
     <!-- Body: user.html -->
     <h1>{{ viewed_user.username }}</h1>
 
-    <div>
+    <div class="panel panel-default">
         <h2>Programs Written</h2>
-        {% for program in user_profile.programs_owned %}
-            {% include "microbug/partials/_program_card.html" %}
-        {% endfor %}
+        {% if viewed_user_profile.has_owned_programs %}
+            <p>
+                You have written the following programs. Loren ipsum.
+            </p>
+            {% for program in viewed_user_profile.programs_owned %}
+                {% include "microbug/partials/_program_card.html" %}
+            {% endfor %}
+        {% else %}
+            <p>
+                It seems you've not yet written any programs, why
+                not <a href="{% url 'microbug:create_program'%}">create some</a>?
+                Lorem ipsum
+            </p>
+        {% endif %}
     </div>
 
-    <div style="clear: left">
+    <div class="panel panel-default">
         <h2>Programs Contributed To</h2>
-        {% for program in user_profile.programs_contributed_to %}
-            {% include "microbug/partials/_program_card.html" %}
-        {% endfor %}
+        <p>
+            You have contributed to the following programs. Loren ipsum.
+        </p>
+        {% if viewed_user_profile.has_contributed_to_programs %}
+            {% for program in viewed_user_profile.programs_contributed_to %}
+                {% include "microbug/partials/_program_card.html" %}
+            {% endfor %}
+        {% else %}
+            <p>
+                It seems you've not yet helped someone else with their programs.
+                Lorem ipsum.
+            </p>
+        {% endif %}
     </div>
+
+    <div class="panel panel-default">
+        <h2>Facilitators</h2>
+        {% if viewed_user_profile.has_facilitators %}
+            <p>
+                You have the following facilitators. Loren ipsum.
+            </p>
+            <ul>
+                {% for facilitor in viewed_user_profile.facilitators.all %}
+                    <li>{{ facilitor.user.username }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>You currently have no facilitators. Loren ipsum.</p>
+        {% endif %}
+        {% if viewed_user == user %}
+            <button role="button" class="btn btn-primary add-facilitator">
+                <i class="fa fa-plus-square"></i>&nbsp;Add Facilitator
+            </button>
+        {% endif %}
+    </div>
+
+    {% if viewed_user_profile.is_facilitator %}
+        <div class="panel panel-default">
+            <h2>Children</h2>
+            {% if viewed_user_profile.has_children %}
+                You are currently assisting the following children.
+                {% for child in viewed_user_profile.children.all %}
+                    <li><a href="{% url 'microbug:user' user_id=child.id %}">
+                        {{ child.user.username }}
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endif %}
+
     <!-- Body: user.html -->
 {% endblock %}

@@ -9,6 +9,7 @@ var build_code_btn = $('.buildCode')
 var create_program_btn = $('.createProgram');
 var login_div = $('#login');
 var edit_phrase_elem = $('#edit_phrase');
+var add_facilitator_btn = $('.add-facilitator');
 
 function enablePageInteraction() {
     var editor_tabs = $('#editor_tabs');
@@ -54,7 +55,72 @@ function enablePageInteraction() {
 
     setupLoginForm();
 
+    setupAddFacilitator();
+}
 
+function setupAddFacilitator() {
+    add_facilitator_btn.click(function() {
+        console.log("Clickey");
+        bootbox.dialog({
+            message:
+                "In order to add a facilitator you will need to contact them "+
+                "to know their username, then enter it in the box below and "+
+                "wait for them to confirm.  Lorem ipsum." +
+                "<input type='text' id='facilitator-username' style='width:100%'>",
+            title: "Add Facilitator Lorem Ipsum",
+            buttons: {
+                send_request: {
+                    label: "<i class='fa fa-check'></i>&nbsp; Send Request",
+                    className: "btn-success",
+                    callback: function () {
+                        console.log("Sending..");
+                        makeFacilitorRequest($('#facilitator-username').val());
+                    }
+                },
+                cancel: {
+                    label: "<i class='fa fa-close'></i>&nbsp;Cancel",
+                    className: "btn-danger",
+                    //callback: function () {
+                    //    Example.show("uh oh, look out!");
+                    //}
+                }
+            }
+        })
+    });
+}
+
+function makeFacilitorRequest(faciliator_name) {
+    console.log("making facilitator request to "+faciliator_name);
+    $.ajax({
+        type: "POST",
+        url: "/microbug/facilitator_request",
+        data: JSON.stringify({
+            "facilitator_name": faciliator_name
+        }),
+        success: function(data) {
+            bootbox.alert("Your facilitator has been told of your request.  Lorem ipsum.")
+        },
+        error: function (jqXhr, textStatus, errorThrown) {
+            var statusCode = jqXhr.statusCode().status;
+            switch(statusCode) {
+                case 401: // Unauthorized
+                    bootbox.alert("You must be logged in to make a facilitator request. Lorem ipsum");
+                    break;
+                case 404: // Not found
+                    bootbox.alert("Can't find a user with that username. Lorem ipsum");
+                    break;
+                case 405: // Not allowed
+                    bootbox.alert("Sorry, that person is not a facilitator. Lorem ipsum");
+                    break;
+                default:
+                    bootbox.alert("An error occured making the facilitator request. Lorem ipsum");
+            }
+            console.log("JQXHR: ",jqXhr);
+            console.log("TEXTSTATUS: ",textStatus);
+            console.log("ERRORTHROWN: ",errorThrown);
+            console.log("CODE: ",jqXhr.statusCode().status);
+        }
+    });
 }
 
 function signOut() {
