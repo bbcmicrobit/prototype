@@ -3,7 +3,7 @@ import re
 import random
 import microbug.settings as settings
 from django.contrib.auth.models import Group, User
-from microbug.models import UserProfile
+from microbug.models import UserProfile, FacilitatorRequest
 from microbug.random_phrase_generator import random_phrase
 
 class Command(TemplateCommand):
@@ -28,7 +28,6 @@ class Command(TemplateCommand):
 
         facilitator = self.create_facilitator()
         facilitator_profile = self.saved_profile_for_user(facilitator)
-        print("FACIL: ",facilitator)
 
         for user_index in range(1, user_count+1):
             username = self.random_username()
@@ -40,6 +39,10 @@ class Command(TemplateCommand):
             new_user_profile.facilitators.add(facilitator_profile)
 
             print "  {0}: {1} (PW: {2})".format(user_index, username, password)
+
+            # TODO: REMOVE THIS, IT"S DEV ONLY!
+            request = FacilitatorRequest(child=new_user, facilitator=facilitator)
+            request.save()
 
     # Returns a saved profile for the user
     def saved_profile_for_user(self, user):

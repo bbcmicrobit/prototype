@@ -87,6 +87,8 @@ class UserProfile(models.Model):
         return "{0}: {1}({2})".format(self.id, self.user.username, self.user.id)
 
 
+# This stores the details on a single facilitator request, who it's from, who
+# it's for, and
 # This reflects a single version which the user has uploaded
 class Version(models.Model):
     # The UUID in the file store
@@ -191,3 +193,23 @@ class Program(models.Model):
         else:
             return "{0}: Unnamed Program".format(self.id)
 
+
+# This stores the details on a single facilitator request
+class FacilitatorRequest(models.Model):
+    # The User who placed the request
+    child = models.ForeignKey(User, related_name='requests_by')
+
+    # The User(Facilitator) who the request is for
+    facilitator =models.ForeignKey(User, related_name='requests_to')
+
+    # Whether this has been resolved or not
+    is_pending = models.BooleanField(default=True)
+
+    # Whether this was accepted or not
+    was_accepted = models.NullBooleanField(default=None)
+
+    # The time the request was made
+    requested_at = models.DateTimeField(auto_now_add=True)
+
+    # The time the request was resolved
+    resolved_at = models.DateTimeField(blank=True, null=True, default=None)

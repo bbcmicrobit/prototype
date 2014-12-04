@@ -409,4 +409,4 @@ def _user_and_profile_for_request(request):
 
 # After everything is confirmed this makes a facilitator request
 def _make_authenticated_facilitator_request(user, facilitator):
-    logger.warn("*** Facilitator request from '{}' to '{}'".format(user.username, facilitator.username))
+    logger.warn("*** Confirmed facilitator request from '{}' to '{}'".format(user.username, facilitator.username))
