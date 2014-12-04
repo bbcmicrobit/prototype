@@ -13,4 +13,4 @@ flash_device:
 
 clean:
 	rm -rf build-leonardo
-	rm *~
+	rm -f *~
