@@ -91,10 +91,10 @@
                 <ul>
                     {% for request in viewed_user_profile.pending_requests_as_facilitator %}
                         <li style="padding-bottom:0.5em">{{ request.child.username }}
-                            <button class="btn btn-success btn-xs facilitator-response" data-request-id="{{ request.id }}" data-response="accept">
+                            <button class="btn btn-success btn-xs facilitator-response" data-request-id="{{ request.id }}" data-child-name="{{ request.child.username }}" data-response="accept">
                                 <i class="fa fa-check"></i>&nbsp;Accept
                             </button>&nbsp;
-                            <button class="btn btn-danger btn-xs facilitator-response" data-request-id="{{ request.id }}" data-response="decline">
+                            <button class="btn btn-danger btn-xs facilitator-response" data-request-id="{{ request.id }}" data-child-name="{{ request.child.username }}" data-response="decline">
                                 <i class="fa fa-close"></i>&nbsp;Decline
                             </button>
                         </li>
@@ -116,6 +116,8 @@
                         {{ child.user.username }}
                     </li>
                 {% endfor %}
+            {% else %}
+                <p>You currently are not assisting any children.  Lorem ipsum</p>
             {% endif %}
         </div>
     {% endif %}

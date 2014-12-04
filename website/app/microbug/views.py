@@ -10,13 +10,14 @@ import sys
 from compiled_version_store import CompiledVersionStore
 from primary_version_store import PrimaryVersionStore
 from pending_version_store import PendingVersionStore
-from microbug.models import Program, Tutorial, UserProfile, Version
+from microbug.models import Program, Tutorial, UserProfile, Version, FacilitatorRequest
 import re
 from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
 from django.contrib import auth
 from django.contrib.auth.models import User
 import pprint
+import datetime
 
 # Get a version store we can keep uploaded files in.
 compiled_version_store = CompiledVersionStore(settings.COMPILED_PYTHON_PROGRAMS_DIRECTORY)
@@ -336,6 +337,46 @@ def rename_program(request):
 # Reply the a facilitator request as a facilitator
 @csrf_exempt
 def respond_to_facilitator_request(request):
+    # Check we're a POST request
+    if request.method != 'POST':
+        return HttpResponseBadRequest('Must be a POST request')
+
+    # Grab the JSON from the request body and make it nicer
+    try:
+        json_obj = json.loads(request.body)
+    except ValueError:
+        logger.error("respond_to_facilitator_request could not process Json: {}".format(str(request)))
+        return HttpResponseBadRequest("Could not process request, not a valid Json object?")
+    request_id = json_obj['request_id']
+    is_accepted = json_obj['is_accepted']
+
+
+    # Find the request
+    facilitator_request = get_object_or_404(FacilitatorRequest, pk=request_id)
+    logger.warn("REQUEST: {}".format(facilitator_request))
+
+    # Check we're the facilitator
+    (user, user_profile) = _user_and_profile_for_request(request)
+    if facilitator_request.facilitator != user:
+        res = HttpResponse("This is not your request")
+        res.status_code = 403
+        return res
+
+    # Get the child for the request
+    child = facilitator_request.child
+    child_profile = saved_profile_for_user(child)
+    logger.warn("CHILD: {} ({})".format(child_profile, type(child_profile)))
+
+    # Everything seems accepted, add the Facilitator.
+    if is_accepted:
+        child_profile.facilitators.add(user_profile)
+
+    # We've finished with the request, update it and save it.
+    facilitator_request.is_pending = False
+    facilitator_request.was_accepted = is_accepted
+    facilitator_request.resolved_at = datetime.datetime.now()
+    facilitator_request.save()
+
     return HttpResponse("Okay")
 
 # Signs the user out of the system
@@ -398,14 +439,22 @@ def _add_defaults(request, content=None):
     })
     return content
 
+
+# Returns a saved profile for the user
+def saved_profile_for_user(user):
+    if not user.pk:
+        user.save()
+    (user_profile, user_profile_created) = UserProfile.objects.get_or_create(pk=user.id, user=user)
+    if user_profile_created:
+        user_profile.save()
+    return user_profile
+
 # Returns a tuple containing the user and profile from the request, or (None, None) if
 # they don't exist
 def _user_and_profile_for_request(request):
     if request.user.is_authenticated():
         db_user = request.user
-        (user_profile, user_profile_created) = UserProfile.objects.get_or_create(pk=db_user.id, user=db_user)
-        if user_profile_created:
-            user_profile.save()
+        user_profile = saved_profile_for_user(db_user)
     else:
         db_user = None
         user_profile = None

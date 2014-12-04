@@ -36,7 +36,7 @@ class Command(TemplateCommand):
             new_user = User(username=username)
             new_user.set_password(password)
             new_user_profile = self.saved_profile_for_user(new_user)
-            new_user_profile.facilitators.add(facilitator_profile)
+            #new_user_profile.facilitators.add(facilitator_profile)
 
             print "  {0}: {1} (PW: {2})".format(user_index, username, password)
 

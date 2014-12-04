@@ -63,6 +63,9 @@ function enablePageInteraction() {
 
 function setupFacilitatorResponses() {
     facilitator_responses.click(function(ev) {
+        // Delete all existing modals.
+        $('.modal').remove();
+
         // Get the button which was clicked on
         var target = $(ev.currentTarget);
         console.log("EV: ",target);
@@ -73,12 +76,84 @@ function setupFacilitatorResponses() {
         // The request we're accessing
         var request_id = target.attr('data-request-id');
 
+        // The child's name
+        var child_name = target.attr('data-child-name');
+
         if (accepted) {
-            bootbox.alert("Accepting " + request_id);
+            bootbox.dialog({
+                message: "This will confirm you as a facilitator for '<strong>" + child_name + "</strong>'. Lorem ipsum",
+                title: "Accepting request from '<strong>" + child_name + "</strong>'.  Lorem ipsum",
+                buttons: {
+                    accept: {
+                        label: "<i class='fa fa-check'></i>&nbsp;Confirm",
+                        className: "btn-success",
+                        callback: function () {
+                            respondToFacilitatorRequest(request_id, true)
+                        }
+                    },
+                    decline: {
+                        label: "<i class='fa fa-close'></i>&nbsp;Not now",
+                        className: "btn-danger"
+                    }
+                }
+            });
         } else {
-            bootbox.alert("Declining " + request_id);
+            bootbox.dialog({
+                message: "This will decline the facilitator request from '<strong>" + child_name + "</strong>', and delete it from the system. Lorem ipsum",
+                title: "Decling request from '<strong>" + child_name + "</strong>'.  Lorem ipsum",
+                buttons: {
+                    accept: {
+                        label: "<i class='fa fa-close'></i>&nbsp;Decline",
+                        className: "btn-danger",
+                        callback: function () {
+                            respondToFacilitatorRequest(request_id, false)
+                        }
+                    },
+                    decline: {
+                        label: "<i class='fa fa-close'></i>&nbsp;Not now",
+                        className: "btn-success"
+                    }
+                }
+            });
+
         }
     })
+}
+
+function respondToFacilitatorRequest(request_id, accepted) {
+    if (accepted) {
+        console.log("Accepting response " + request_id);
+    } else {
+        console.log("Declining response "+request_id);
+    }
+    $.ajax({
+        type: "POST",
+        url: "/microbug/respond_to_facilitator_request",
+        data: JSON.stringify({
+            "request_id": request_id,
+            "is_accepted": accepted
+        }),
+        success: function(data) {
+            location.reload();
+        },
+        error: function (jqXhr, textStatus, errorThrown) {
+            var statusCode = jqXhr.statusCode().status;
+            switch(statusCode) {
+                case 404: // Not found
+                    bootbox.alert("Can't find that facilitator request, have you already replied to it?. Lorem ipsum");
+                    break;
+                case 403: // Not allowed
+                    bootbox.alert("Sorry, this does not seem to be a request directed to you. Lorem ipsum");
+                    break;
+                default:
+                    bootbox.alert("An error occured processing the facilitator request. Lorem ipsum");
+            }
+            console.log("JQXHR: ",jqXhr);
+            console.log("TEXTSTATUS: ",textStatus);
+            console.log("ERRORTHROWN: ",errorThrown);
+            console.log("CODE: ",jqXhr.statusCode().status);
+        }
+    });
 }
 
 function setupAddFacilitator() {
@@ -102,10 +177,7 @@ function setupAddFacilitator() {
                 },
                 cancel: {
                     label: "<i class='fa fa-close'></i>&nbsp;Cancel",
-                    className: "btn-danger",
-                    //callback: function () {
-                    //    Example.show("uh oh, look out!");
-                    //}
+                    className: "btn-danger"
                 }
             }
         })
