@@ -44,6 +44,13 @@ class UserProfile(models.Model):
         return self.user.groups.filter(name='facilitators').exists()
     is_facilitator.boolean = True
 
+    # Am I the facilitator of this student?
+    def is_facilitator_of(self, child):
+        if self.is_facilitator() and self.children.filter(pk=child.pk):
+            return True
+        else:
+            return False
+
     # Do I have any facilitators?
     def has_facilitators(self):
         return len(list(self.facilitators.all()))

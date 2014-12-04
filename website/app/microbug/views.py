@@ -77,11 +77,14 @@ def tutorial(request, tutorial_name, page_number=1):
 # Display the details for a user
 def user(request, user_id):
     viewed_user = get_object_or_404(User, pk=user_id)
+    (user, user_profile) = _user_and_profile_for_request(request)
     return render(
         request, 'microbug/user.html',
         _add_defaults(request, {
             'viewed_user': viewed_user,
-            'viewed_user_profile': viewed_user.userprofile
+            'viewed_user_profile': viewed_user.userprofile,
+            'viewing_own_details': user == viewed_user,
+            'viewing_facilitated_child_details': user_profile is not None and user_profile.is_facilitator_of(viewed_user)
         })
     )
 
@@ -350,10 +353,8 @@ def respond_to_facilitator_request(request):
     request_id = json_obj['request_id']
     is_accepted = json_obj['is_accepted']
 
-
     # Find the request
     facilitator_request = get_object_or_404(FacilitatorRequest, pk=request_id)
-    logger.warn("REQUEST: {}".format(facilitator_request))
 
     # Check we're the facilitator
     (user, user_profile) = _user_and_profile_for_request(request)
@@ -365,7 +366,6 @@ def respond_to_facilitator_request(request):
     # Get the child for the request
     child = facilitator_request.child
     child_profile = saved_profile_for_user(child)
-    logger.warn("CHILD: {} ({})".format(child_profile, type(child_profile)))
 
     # Everything seems accepted, add the Facilitator.
     if is_accepted:

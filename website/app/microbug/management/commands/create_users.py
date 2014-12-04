@@ -36,13 +36,9 @@ class Command(TemplateCommand):
             new_user = User(username=username)
             new_user.set_password(password)
             new_user_profile = self.saved_profile_for_user(new_user)
-            #new_user_profile.facilitators.add(facilitator_profile)
+            new_user_profile.facilitators.add(facilitator_profile)
 
-            print "  {0}: {1} (PW: {2})".format(user_index, username, password)
-
-            # TODO: REMOVE THIS, IT"S DEV ONLY!
-            request = FacilitatorRequest(child=new_user, facilitator=facilitator)
-            request.save()
+            print "  {0}: {1} (PW: {2}, ID: {3})".format(user_index, username, password, new_user.id)
 
     # Returns a saved profile for the user
     def saved_profile_for_user(self, user):
@@ -63,7 +59,7 @@ class Command(TemplateCommand):
 
         facilitators = Group.objects.get(name='facilitators')
         facilitators.user_set.add(new_user)
-        print "FACILITATOR: {0}: (PW: {1})".format(username, password)
+        print "FACILITATOR: {0}: (PW: {1}, ID: {3}))".format(username, password)
 
         return new_user
 

@@ -24,4 +24,5 @@ TODO:
 * Check that users cannot rename other programs without perms
 * Check perms on viewing user
 * Check for 'user viewing their own details'.
+* User creation via. the site
 

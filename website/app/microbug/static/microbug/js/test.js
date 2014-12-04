@@ -223,7 +223,8 @@ function signOut() {
         type: "GET",
         url: "/microbug/sign_out",
         success: function(data) {
-            updateLoginForm();
+            //updateLoginForm();
+            location.reload();
         }
     })
 }
@@ -263,7 +264,8 @@ function updateLoginForm() {
                         data = JSON.parse(data);
                         if (data['status']=='authenticated') {
                             console.log("LOGGED IN, DATA IS ", data);
-                            updateLoginForm();
+                            //updateLoginForm();
+                            location.reload();
                         } else {
                             alert("Could not log in with username and password provided");
                         }
