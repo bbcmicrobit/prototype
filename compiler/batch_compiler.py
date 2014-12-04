@@ -8,6 +8,12 @@ import logging
 
 logging.basicConfig()
 
+# Default to assuming running on michael's machine
+
+INCOMING_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/compiler/../website/python_pending/"
+OUTGOING_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/compiler/../website/docs/compiled/"
+BUILD_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/compiler/../website/tmp/"
+
 try:
     # Are we running on the shared dev server?
     import sparkslabs
@@ -17,11 +23,20 @@ try:
     BUILD_DIRECTORY = "/srv/Websites/minimicro.iotoy.org/website/tmp/"
 
 except ImportError:
-    # If not, assume we're running on michael's dev machine
+    pass
 
-    INCOMING_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/compiler/../website/python_pending/"
-    OUTGOING_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/compiler/../website/docs/compiled/"
-    BUILD_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/compiler/../website/tmp/"
+try:
+    # Are we running on the shared dev server?
+    import taster_machine
+
+    INCOMING_DIRECTORY = "/srv/projects/microbug/website/microbug_store/pending/"
+    OUTGOING_DIRECTORY = "/srv/projects/microbug/website/microbug_store/compiled/"
+    BUILD_DIRECTORY = "/srv/projects/microbug/website/tmp/"
+
+except ImportError:
+    pass
+
+
 
 class DirectoryWatcher(Actor):
     def __init__(self, directory):
