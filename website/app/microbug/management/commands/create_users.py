@@ -59,7 +59,7 @@ class Command(TemplateCommand):
 
         facilitators = Group.objects.get(name='facilitators')
         facilitators.user_set.add(new_user)
-        print "FACILITATOR: {0}: (PW: {1}, ID: {3}))".format(username, password)
+        print "FACILITATOR: {0}: (PW: {1}, ID: {2}))".format(username, password, new_user.id)
 
         return new_user
 

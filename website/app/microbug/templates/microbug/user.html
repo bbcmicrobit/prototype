@@ -117,7 +117,7 @@
                 {% endif %}
             {% endif %}
 
-            {% if viewed_user_profile.is_facilitator and viewing_own_profile %}
+            {% if viewed_user_profile.is_facilitator and viewing_own_details %}
                 {% if viewed_user_profile.has_pending_requests_as_facilitator %}
                     <p>
                         The following children have requested you as a facilitator.
@@ -136,7 +136,7 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <p>We're not waiting for any faciliator replies. Lorem ipsu,</p>
+                    <p>No children have requested you as their facilitator. Lorem ipsu,</p>
                 {% endif %}
             {% endif %}
         </div>

@@ -188,12 +188,14 @@ function makeFacilitorRequest(faciliator_name) {
     console.log("making facilitator request to "+faciliator_name);
     $.ajax({
         type: "POST",
+        dataType: 'text',
         url: "/microbug/facilitator_request",
         data: JSON.stringify({
             "facilitator_name": faciliator_name
         }),
         success: function(data) {
-            bootbox.alert("Your facilitator has been told of your request.  Lorem ipsum.")
+            bootbox.alert("Your facilitator has been told of your request.  Lorem ipsum.");
+            location.reload();
         },
         error: function (jqXhr, textStatus, errorThrown) {
             var statusCode = jqXhr.statusCode().status;
@@ -205,7 +207,9 @@ function makeFacilitorRequest(faciliator_name) {
                     bootbox.alert("Can't find a user with that username. Lorem ipsum");
                     break;
                 case 405: // Not allowed
-                    bootbox.alert("Sorry, that person is not a facilitator. Lorem ipsum");
+                    // More details in body text
+                    console.log("ERROR: ",jqXhr);
+                    bootbox.alert("Cannot send request. "+jqXhr.responseText);
                     break;
                 default:
                     bootbox.alert("An error occured making the facilitator request. Lorem ipsum");

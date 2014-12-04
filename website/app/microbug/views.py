@@ -272,15 +272,19 @@ def facilitator_request(request):
     facilitator_name = json_obj['facilitator_name']
     logger.warn("NAME: "+facilitator_name)
     facilitator = get_object_or_404(User, username=facilitator_name)
-    logger.warn("FOUND: {}, {}".format(facilitator.id, facilitator.username))
+    facilitator_profile = saved_profile_for_user(facilitator)
 
-    # Make sure the facilitator is valid
-    if facilitator == user or not facilitator.userprofile.is_facilitator():
-        return HttpResponseNotAllowed("That person cannot be your facilitator")
+    # # Make sure the facilitator is valid
+    if facilitator == user:
+        return HttpResponse('You cannot be your own facilitator.  Loren ipsum', None, 405)
+    if not facilitator_profile.is_facilitator():
+        return HttpResponse('That person is not a facilitator. Loren ipsum', None, 405)
+    if FacilitatorRequest.objects.filter(child=user, facilitator=facilitator, is_pending=True).exists():
+        return HttpResponse('You already have a request for them. Lorem ipsom', None, 405)
+    if facilitator_profile.is_facilitator_of(user):
+        return HttpResponse('That person is already your facilitator. Loren ipsum', None, 405)
 
-    # TODO: Check for pending request
-
-    # Make the actual request
+    # Make the actual requestaj
     _make_authenticated_facilitator_request(user, facilitator)
 
     return HttpResponse("Request sent")
@@ -464,3 +468,5 @@ def _user_and_profile_for_request(request):
 # After everything is confirmed this makes a facilitator request
 def _make_authenticated_facilitator_request(user, facilitator):
     logger.warn("*** Confirmed facilitator request from '{}' to '{}'".format(user.username, facilitator.username))
+    request = FacilitatorRequest(child=user, facilitator=facilitator)
+    request.save()
