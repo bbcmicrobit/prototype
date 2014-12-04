@@ -14,6 +14,21 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='FacilitatorRequest',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('is_pending', models.BooleanField(default=True)),
+                ('was_accepted', models.NullBooleanField(default=None)),
+                ('requested_at', models.DateTimeField(auto_now_add=True)),
+                ('resolved_at', models.DateTimeField(default=None, null=True, blank=True)),
+                ('child', models.ForeignKey(related_name=b'requests_by', to=settings.AUTH_USER_MODEL)),
+                ('facilitator', models.ForeignKey(related_name=b'requests_to', to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='Program',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -41,7 +56,7 @@ class Migration(migrations.Migration):
             name='UserProfile',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('facilitators', models.ManyToManyField(to='microbug.UserProfile')),
+                ('facilitators', models.ManyToManyField(related_name=b'children', to='microbug.UserProfile')),
                 ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
             ],
             options={

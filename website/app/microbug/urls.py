@@ -64,6 +64,10 @@ urlpatterns = patterns('',
     # Ex: /rename_program
     url(r'^rename_program/$', views.rename_program, name='rename_program'),
 
+    # Ex: /respond_to_facilitator_request
+    # {'request_id': request_id, 'is_accepted': true/false}
+    url(r'^respond_to_facilitator_request', views.respond_to_facilitator_request, name='respond_to_facilitator_request'),
+
     # Ex: /sign_out
     url(r'^sign_out/$', views.sign_out, name='sign_out'),
 )

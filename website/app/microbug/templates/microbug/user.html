@@ -90,7 +90,14 @@
                 </p>
                 <ul>
                     {% for request in viewed_user_profile.pending_requests_as_facilitator %}
-                        <li>{{ request.child.username }}</li>
+                        <li style="padding-bottom:0.5em">{{ request.child.username }}
+                            <button class="btn btn-success btn-xs facilitator-response" data-request-id="{{ request.id }}" data-response="accept">
+                                <i class="fa fa-check"></i>&nbsp;Accept
+                            </button>&nbsp;
+                            <button class="btn btn-danger btn-xs facilitator-response" data-request-id="{{ request.id }}" data-response="decline">
+                                <i class="fa fa-close"></i>&nbsp;Decline
+                            </button>
+                        </li>
                     {% endfor %}
                 </ul>
             {% else %}

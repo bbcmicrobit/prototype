@@ -333,6 +333,11 @@ def rename_program(request):
 
     return HttpResponse('Renamed successfully')
 
+# Reply the a facilitator request as a facilitator
+@csrf_exempt
+def respond_to_facilitator_request(request):
+    return HttpResponse("Okay")
+
 # Signs the user out of the system
 @csrf_exempt
 def sign_out(request):

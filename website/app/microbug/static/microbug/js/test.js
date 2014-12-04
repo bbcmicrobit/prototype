@@ -10,6 +10,7 @@ var create_program_btn = $('.createProgram');
 var login_div = $('#login');
 var edit_phrase_elem = $('#edit_phrase');
 var add_facilitator_btn = $('.add-facilitator');
+var facilitator_responses = $('.facilitator-response');
 
 function enablePageInteraction() {
     var editor_tabs = $('#editor_tabs');
@@ -56,6 +57,28 @@ function enablePageInteraction() {
     setupLoginForm();
 
     setupAddFacilitator();
+
+    setupFacilitatorResponses();
+}
+
+function setupFacilitatorResponses() {
+    facilitator_responses.click(function(ev) {
+        // Get the button which was clicked on
+        var target = $(ev.currentTarget);
+        console.log("EV: ",target);
+
+        // Accepted- true/false?
+        var accepted = target.attr('data-response') == 'accept';
+
+        // The request we're accessing
+        var request_id = target.attr('data-request-id');
+
+        if (accepted) {
+            bootbox.alert("Accepting " + request_id);
+        } else {
+            bootbox.alert("Declining " + request_id);
+        }
+    })
 }
 
 function setupAddFacilitator() {
