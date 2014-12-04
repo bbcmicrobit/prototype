@@ -81,7 +81,23 @@ class UserProfile(models.Model):
             )
         """
         return Program.objects.raw(sql_query, [self.id, self.id])
-    
+
+    # Pending requests I have made
+    def pending_requests_as_child(self):
+        return FacilitatorRequest.objects.filter(is_pending=True, child=self)
+
+    # Check whether I have any pending requests as a child
+    def has_pending_requests_as_child(self):
+        return len(list(self.pending_requests_as_child())) > 0
+
+    # Pending requests to me
+    def pending_requests_as_facilitator(self):
+        return FacilitatorRequest.objects.filter(is_pending=True, facilitator=self)
+
+    # Check whether I have any pending requests as a facilitator
+    def has_pending_requests_as_facilitator(self):
+        return len(list(self.pending_requests_as_facilitator())) > 0
+
     # Simple bit of stringification
     def __str__(self):
         return "{0}: {1}({2})".format(self.id, self.user.username, self.user.id)
@@ -200,7 +216,7 @@ class FacilitatorRequest(models.Model):
     child = models.ForeignKey(User, related_name='requests_by')
 
     # The User(Facilitator) who the request is for
-    facilitator =models.ForeignKey(User, related_name='requests_to')
+    facilitator = models.ForeignKey(User, related_name='requests_to')
 
     # Whether this has been resolved or not
     is_pending = models.BooleanField(default=True)

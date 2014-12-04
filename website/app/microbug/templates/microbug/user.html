@@ -66,6 +66,39 @@
         {% endif %}
     </div>
 
+    <div class="panel panel-default">
+        <h2>Pending Requests</h2>
+        {% if viewed_user_profile.has_pending_requests_as_child %}
+            <p>
+                We're waiting for the following facilitators to confirm
+                your request.  Lorem ipsum.
+            </p>
+            <ul>
+                {% for request in viewed_user_profile.pending_requests_as_child %}
+                    <li>{{ request.facilitator.username }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>We're not waiting for any faciliator replies. Lorem ipsu,</p>
+        {% endif %}
+
+        {% if viewed_user_profile.is_facilitator %}
+            {% if viewed_user_profile.has_pending_requests_as_facilitator %}
+                <p>
+                    The following children have requested you as a facilitator.
+                    Lorem ipsum.
+                </p>
+                <ul>
+                    {% for request in viewed_user_profile.pending_requests_as_facilitator %}
+                        <li>{{ request.child.username }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>We're not waiting for any faciliator replies. Lorem ipsu,</p>
+            {% endif %}
+        {% endif %}
+    </div>
+
     {% if viewed_user_profile.is_facilitator %}
         <div class="panel panel-default">
             <h2>Children</h2>
