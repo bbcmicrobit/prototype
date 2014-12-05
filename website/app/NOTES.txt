@@ -26,3 +26,7 @@ TODO:
 * Check for 'user viewing their own details'.
 * User creation via. the site
 
+---
+TUTORIAL NOTES
+The example on Pg2. is not JavaScript, it's HTML with one line of JavaScript (the document.getElementById one).
+The header for Task 2 and Task 3 is the same ("Turning the LED off again").

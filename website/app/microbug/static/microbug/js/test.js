@@ -378,10 +378,11 @@ function setupTutorial() {
 function showTutorialPage(page_id) {
     var tutorial_content_elem = $('#tutorial_content');
 
-    // Show only the page we're after.
+    // Show only the page we're after, and everything with 'always-show' class
     tutorial_content_elem.children().hide();
     selected_page = tutorial_content_elem.find(':nth-child('+page_id+')')
     selected_page.show();
+    tutorial_content_elem.find('.always-show').show();
 
     // Disable the back button only on the first page
     if (page_id==1) {

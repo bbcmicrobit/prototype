@@ -1,0 +1,50 @@
+// This is the colour we're using for all of the special text.
+$tutorial_bright: #68BCA1;
+
+// We're just styling within the tutorial block.
+#tutorial {
+  font-family: 'Montserrat', sans-serif;
+  color: black;
+
+  h2 {
+    color: #999 !important;
+  }
+
+  h3 {
+    color: $tutorial_bright !important;
+    font-size: 120%;
+
+    em {
+      color: black !important;
+      font-style: normal !important;
+      font-weight: bold !important;
+    }
+  }
+
+  ul {
+    padding-left: 0 !important;
+
+    li {
+      list-style: none;
+
+      // Nested lists
+      > ul {
+        > li {
+          list-style: disc !important;
+          margin-left: 2em;
+        }
+      }
+    }
+  }
+
+  em {
+    color: $tutorial_bright !important;
+    font-variant: normal;
+  }
+
+  strong {
+    color: $tutorial_bright !important;
+    font-variant: normal;
+    font-width: bold;
+  }
+}

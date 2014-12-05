@@ -1,0 +1,28 @@
+#tutorial {
+  font-family: 'Montserrat', sans-serif;
+  color: black; }
+  #tutorial h2 {
+    color: #999 !important; }
+  #tutorial h3 {
+    color: #68BCA1 !important;
+    font-size: 120%; }
+    #tutorial h3 em {
+      color: black !important;
+      font-style: normal !important;
+      font-weight: bold !important; }
+  #tutorial ul {
+    padding-left: 0 !important; }
+    #tutorial ul li {
+      list-style: none; }
+      #tutorial ul li > ul > li {
+        list-style: disc !important;
+        margin-left: 2em; }
+  #tutorial em {
+    color: #68BCA1 !important;
+    font-variant: normal; }
+  #tutorial strong {
+    color: #68BCA1 !important;
+    font-variant: normal;
+    font-width: bold; }
+
+/*# sourceMappingURL=microbug-tutorial.css.map */

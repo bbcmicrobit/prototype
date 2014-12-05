@@ -1,0 +1,20 @@
+.nav-tabs > li > a {
+  background-color: #aaa;
+  border-top-color: #ddd !important;
+  border-left-color: #ddd !important;
+  border-right-color: #ddd !important;
+  border-bottom-color: #ddd !important; }
+
+.nav-tabs > li.active > a {
+  border-bottom-color: transparent !important;
+  background-color: #fff !important; }
+
+#emulator {
+  text-align: center; }
+
+#emulator canvas {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 50px; }
+
+/*# sourceMappingURL=microbug_theme.css.map */

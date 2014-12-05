@@ -5,18 +5,18 @@
 {% endblock %}
 
 {% block body %}
-    <h1>TUTORIALFUN</h1>
+    <h1>{{ tutorial_name }}</h1>
     {% include "microbug/partials/_emulator_editor_tutorial.html" %}
     <hr/>
     <div id="tutorial_content">
         {% block tutorial_pages %}
         {% endblock %}
-    </div>
 
-    <button id="tutorial_back" class="btn btn-primary">
-        <i class="fa fa-arrow-left"></i>&nbsp;Back
-    </button>
-    <button id="tutorial_forward" class="btn btn-primary">
-        Forward&nbsp;<i class="fa fa-arrow-right"></i>
-    </button>
+        <button id="tutorial_back" class="btn btn-primary always-show">
+            <i class="fa fa-chevron-circle-left"></i>
+        </button>
+        <button id="tutorial_forward" class="btn btn-primary always-show">
+            <i class="fa fa-chevron-circle-right"></i>
+        </button>
+    </div>
 {% endblock %}
