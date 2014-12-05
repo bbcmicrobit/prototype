@@ -5,6 +5,8 @@ website/tmp
 website/docs/compiled
 website/upload/highest.lock
 website/app/microbug/migrations/0*
+installer/win/PY2EXE/build
+installer/win/PY2EXE/dist
 *.pyc
 genprogs/
 staging/SWP
