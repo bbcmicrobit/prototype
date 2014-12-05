@@ -1,3 +1,5 @@
+rd /s /q dist
+rd /s /q build
 python setup.py py2exe
 copy ..\DFUPROG\dfu-programmer.exe dist\dfu-programmer.exe
 copy ..\DFUPROG\libusb0.dll dist\libusb0.dll
