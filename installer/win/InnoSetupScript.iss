@@ -35,13 +35,8 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 Source: "C:\Users\Matthew\microbug\installer\win\PY2EXE\dist\MicrobugLoader.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Matthew\microbug\installer\win\PY2EXE\dist\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
-Source: "C:\Users\Matthew\microbug\installer\win\ATm32DPINST_x86_x64\ATm32DPINST_x86\dpinst.exe"; DestDir: "{app}\dpinst"; DestName: "dpinst.exe"; Flags: ignoreversion; Check: not IsWin64
-Source: "C:\Users\Matthew\microbug\installer\win\ATm32DPINST_x86_x64\ATm32DPINST_x86\ATm32U4DFU\*"; DestDir: "{app}\dpinst"; Flags: ignoreversion createallsubdirs recursesubdirs; Check: not IsWin64
-
-Source: "C:\Users\Matthew\microbug\installer\win\ATm32DPINST_x86_x64\ATm32DPINST_x64\dpinst.exe"; DestDir: "{app}\dpinst"; DestName: "dpinst.exe"; Flags: ignoreversion; Check: IsWin64
-Source: "C:\Users\Matthew\microbug\installer\win\ATm32DPINST_x86_x64\ATm32DPINST_x64\ATm32U4DFU\*"; DestDir: "{app}\dpinst"; Flags: ignoreversion createallsubdirs recursesubdirs; Check: IsWin64
-
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+Source: "C:\Users\Matthew\microbug\installer\win\usb_driver\*"; DestDir: "{app}\usb_driver"; Flags: ignoreversion createallsubdirs recursesubdirs
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -51,4 +46,5 @@ Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Fil
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Flags: nowait postinstall skipifsilent; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"
-Filename: "{app}\dpinst\dpinst.exe"; WorkingDir: "{app}\dpinst"; Description: "Install Drivers"; StatusMsg: "Installing Drivers"
+Filename: "{app}\usb_driver\dpinst_x86.exe"; WorkingDir: "{app}\usb_driver"; Flags: waituntilterminated; Description: "Installing Drivers"; StatusMsg: "Installing Drivers"; Check: not IsWin64
+Filename: "{app}\usb_driver\dpinst_x64.exe"; WorkingDir: "{app}\usb_driver"; Flags: waituntilterminated; Description: "Installing Drivers"; StatusMsg: "Installing Drivers"; Check: IsWin64
