@@ -70,4 +70,8 @@ urlpatterns = patterns('',
 
     # Ex: /sign_out
     url(r'^sign_out/$', views.sign_out, name='sign_out'),
+
+    # Ex: /update_user_details
+    # {'name': real_name, 'question_answers': [ans1, ans2, ans 3 ... ans10]}
+    url(r'^update_user_details/$', views.update_user_details, name='update_user_details')
 )

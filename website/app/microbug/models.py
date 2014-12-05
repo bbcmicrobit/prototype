@@ -36,6 +36,21 @@ class UserProfile(models.Model):
     # The User this profile is part of
     user = models.OneToOneField(User)
 
+    # The User's real name
+    realname = models.CharField(max_length=200, null=True, blank=True)
+
+    # Some gaps to fill in some questions
+    question_1  = models.CharField(max_length=200, null=True, blank=True)
+    question_2  = models.CharField(max_length=200, null=True, blank=True)
+    question_3  = models.CharField(max_length=200, null=True, blank=True)
+    question_4  = models.CharField(max_length=200, null=True, blank=True)
+    question_5  = models.CharField(max_length=200, null=True, blank=True)
+    question_6  = models.CharField(max_length=200, null=True, blank=True)
+    question_7  = models.CharField(max_length=200, null=True, blank=True)
+    question_8  = models.CharField(max_length=200, null=True, blank=True)
+    question_9  = models.CharField(max_length=200, null=True, blank=True)
+    question_10 = models.CharField(max_length=200, null=True, blank=True)
+
     # The facilitators of this user (Parents, teachers etc
     facilitators = models.ManyToManyField('UserProfile', related_name='children')
 

@@ -10,6 +10,49 @@
     <!-- Body: user.html -->
     <h1>{{ viewed_user.username }}</h1>
 
+    {% if viewing_own_details %}
+        <div class="panel panel-default">
+            <h2>Your Details</h2>
+
+            <label for="name" class="col-md-2">Your Name:</label>
+            <input type="text" id="name" name="name" value="{{ viewed_user_profile.realname|default:"" }}" class="col-md-9">
+
+            <label for="question_1"class="col-md-2">Who?:</label>
+            <input type="text" id="question_1" name="question_1" value="{{ viewed_user_profile.question_1|default:""  }}" class="col-md-9">
+
+            <label for="question_2"class="col-md-2">What?:</label>
+            <input type="text" id="question_2" name="question_2" value="{{ viewed_user_profile.question_2|default:""  }}" class="col-md-9">
+
+            <label for="question_3"class="col-md-2">Why?:</label>
+            <input type="text" id="question_3" name="question_3" value="{{ viewed_user_profile.question_3|default:""  }}" class="col-md-9">
+
+            <label for="question_4"class="col-md-2">Where?:</label>
+            <input type="text" id="question_4" name="question_4" value="{{ viewed_user_profile.question_4|default:""  }}" class="col-md-9">
+
+            <label for="question_5"class="col-md-2">When?:</label>
+            <input type="text" id="question_5" name="question_5" value="{{ viewed_user_profile.question_5|default:""  }}" class="col-md-9">
+
+            <label for="question_6"class="col-md-2">Spleen?:</label>
+            <input type="text" id="question_6" name="question_6" value="{{ viewed_user_profile.question_6|default:""  }}" class="col-md-9">
+
+            <label for="question_7"class="col-md-2">Dodo?:</label>
+            <input type="text" id="question_7" name="question_7" value="{{ viewed_user_profile.question_7|default:""  }}" class="col-md-9">
+
+            <label for="question_8"class="col-md-2">Hamster?:</label>
+            <input type="text" id="question_8" name="question_8" value="{{ viewed_user_profile.question_8|default:""  }}" class="col-md-9">
+
+            <label for="question_9"class="col-md-2">Westerly?:</label>
+            <input type="text" id="question_9" name="question_9" value="{{ viewed_user_profile.question_9|default:""  }}" class="col-md-9">
+
+            <label for="question_10"class="col-md-2">Belgium?:</label>
+            <input type="text" id="question_10" name="question_10" value="{{ viewed_user_profile.question_10|default:""  }}" class="col-md-9">
+
+            <button role="button" id="update-user-details" class="btn btn-primary">
+                <i class="fa fa-thumbs-up">Update My Details</i>
+            </button>
+        </div>
+    {% endif %}
+
     <div class="panel panel-default">
         <h2>Programs Written</h2>
         {% if viewed_user_profile.has_owned_programs %}
@@ -74,8 +117,11 @@
                     {% endif %}
                 </p>
                 <ul>
-                    {% for facilitor in viewed_user_profile.facilitators.all %}
-                        <li>{{ facilitor.user.username }}</li>
+                    {% for facilitator in viewed_user_profile.facilitators.all %}
+                        <li>
+                            {{ facilitator.user.username }}
+                            ({{ facilitator.realname|default:"No name set, Lorem ipsum" }})
+                        </li>
                     {% endfor %}
                 </ul>
             {% else %}
@@ -125,7 +171,9 @@
                     </p>
                     <ul>
                         {% for request in viewed_user_profile.pending_requests_as_facilitator %}
-                            <li style="padding-bottom:0.5em">{{ request.child.username }}
+                            <li style="padding-bottom:0.5em">
+                                {{ request.child.username }}
+                                (TODO: Need to fix name extraction from users)
                                 <button class="btn btn-success btn-xs facilitator-response" data-request-id="{{ request.id }}" data-child-name="{{ request.child.username }}" data-response="accept">
                                     <i class="fa fa-check"></i>&nbsp;Accept
                                 </button>&nbsp;
@@ -150,6 +198,7 @@
                 {% for child in viewed_user_profile.children.all %}
                     <li><a href="{% url 'microbug:user' user_id=child.id %}">
                         {{ child.user.username }}
+                        ({{ child.realname|default:'No name set.  Lorem ipsum'}})
                     </li>
                 {% endfor %}
             {% else %}

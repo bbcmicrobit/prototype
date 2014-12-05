@@ -383,6 +383,46 @@ def respond_to_facilitator_request(request):
 
     return HttpResponse("Okay")
 
+# Update the user's details
+@csrf_exempt
+def update_user_details(request):
+    # Check we're a POST request
+    if request.method != 'POST':
+        return HttpResponseBadRequest('Must be a POST request')
+
+    # We're going to need a user and a user profile
+    (user, user_profile) = _user_and_profile_for_request(request)
+
+    # User needs to be logged in
+    if user is None:
+        return HttpResponseNotAllowed("You need to be logged in")
+    logger.warn("2")
+
+    # Grab the JSON from the request body and make it nicer
+    try:
+        json_obj = json.loads(request.body)
+    except ValueError:
+        logger.error("respond_to_facilitator_request could not process Json: {}".format(str(request)))
+        return HttpResponseBadRequest("Could not process request, not a valid Json object?")
+
+    logger.warn("3")
+    # Update the facility
+    user_profile.realname = json_obj['name']
+    answers = json_obj['question_answers']
+    user_profile.question_1  = answers[0]
+    user_profile.question_2  = answers[1]
+    user_profile.question_3  = answers[2]
+    user_profile.question_4  = answers[3]
+    user_profile.question_5  = answers[4]
+    user_profile.question_6  = answers[5]
+    user_profile.question_7  = answers[6]
+    user_profile.question_8  = answers[7]
+    user_profile.question_9  = answers[8]
+    user_profile.question_10 = answers[9]
+    user_profile.save()
+
+    return HttpResponse("Updated")
+
 # Signs the user out of the system
 @csrf_exempt
 def sign_out(request):

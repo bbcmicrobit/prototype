@@ -25,6 +25,7 @@ else
 fi
 
 /usr/bin/python2.7 manage.py setup_system
+/usr/bin/python2.7 manage.py import_tutorials tutorial_source/
 /usr/bin/python2.7 manage.py create_users 5 > /tmp/usernames_and_passwords.txt
 /usr/bin/python2.7 manage.py create_users 5 >> /tmp/usernames_and_passwords.txt
 cat /tmp/usernames_and_passwords.txt

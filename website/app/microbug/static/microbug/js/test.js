@@ -11,6 +11,7 @@ var login_div = $('#login');
 var edit_phrase_elem = $('#edit_phrase');
 var add_facilitator_btn = $('.add-facilitator');
 var facilitator_responses = $('.facilitator-response');
+var update_user_details_btn = $('#update-user-details');
 
 function enablePageInteraction() {
     var editor_tabs = $('#editor_tabs');
@@ -59,6 +60,51 @@ function enablePageInteraction() {
     setupAddFacilitator();
 
     setupFacilitatorResponses();
+
+    setupUserDetailsUpdate();
+}
+
+function setupUserDetailsUpdate() {
+    if (update_user_details_btn.length > 0 ) {
+        console.log("Setting up user details update");
+        update_user_details_btn.click(function() {
+            console.log("Updating user details");
+            $.ajax({
+                type: "POST",
+                url: "/microbug/update_user_details/",
+                data: JSON.stringify({
+                    "name": $('#name').val(),
+                    "question_answers": [
+                        $('#question_1').val(),
+                        $('#question_2').val(),
+                        $('#question_3').val(),
+                        $('#question_4').val(),
+                        $('#question_5').val(),
+                        $('#question_6').val(),
+                        $('#question_7').val(),
+                        $('#question_8').val(),
+                        $('#question_9').val(),
+                        $('#question_10').val()
+                    ]
+                }),
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    var statusCode = jqXhr.statusCode().status;
+                    switch (statusCode) {
+                        case 403: // Not allowed
+                            bootbox.alert("Sorry, you can only change your own details. Lorem ipsum");
+                            break;
+                        default:
+                            bootbox.alert("An error occured while updating your info. Lorem ipsum");
+                    }
+                }
+            })
+        });
+    } else {
+        console.log("No update button, skipping");
+    }
 }
 
 function setupFacilitatorResponses() {

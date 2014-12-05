@@ -5,7 +5,11 @@ from microbug.models import Program, Tutorial, UserProfile, Version, Facilitator
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'is_facilitator')
     fieldsets = [
-        (None, {'fields': ['user', 'facilitators']})
+        (None, {'fields': ['user', 'facilitators', 'realname']}),
+        ('Questions', {'fields': [
+            'question_1', 'question_2', 'question_3', 'question_4', 'question_5',
+            'question_6', 'question_7', 'question_8', 'question_9', 'question_10'
+        ]})
     ]
 
 class VersionAdmin(admin.ModelAdmin):
