@@ -1,6 +1,16 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
+#default
+urlpatterns = patterns('',
+    # Route to the Django admin interface.
+    url(r'^admin/', include(admin.site.urls)),
+
+    # Route to the Microbug application.
+    url(r'^microbug/', include("microbug.urls", namespace='microbug')),
+)
+
+
 try:
     # Are we running on michael's dev machine?
     import michaels_machine
@@ -14,27 +24,39 @@ try:
     )
 
 except ImportError:
-    try:
-        # Are we running on the dev server?
-        import sparkslabs
+    pass
 
-        urlpatterns = patterns('',
-            # Route to the Django admin interface.
-            url(r'^admin/', include(admin.site.urls)),
+try:
+    # Are we running on the dev server?
+    import sparkslabs
 
-            # Route to the Microbug application.
-            url(r'^', include("microbug.urls", namespace='microbug')),
-        )
+    urlpatterns = patterns('',
+        # Route to the Django admin interface.
+        url(r'^admin/', include(admin.site.urls)),
 
-    except ImportError:
-        # No. Assume we're running on Paul's dev machine in standalone mode.
+        # Route to the Microbug application.
+        url(r'^', include("microbug.urls", namespace='microbug')),
+    )
+
+except ImportError:
+    pass
+
+
+try:
+    # Are we running on the taster server?
+    import taster_machine
+
+    urlpatterns = patterns('',
+        # Route to the Django admin interface.
+        url(r'^admin/', include(admin.site.urls)),
+
+        # Route to the Microbug application.
+        url(r'^', include("microbug.urls", namespace='microbug')),
+    )
+
+except ImportError:
+    pass
 
 
 
-        urlpatterns = patterns('',
-            # Route to the Django admin interface.
-            url(r'^admin/', include(admin.site.urls)),
 
-            # Route to the Microbug application.
-            url(r'^microbug/', include("microbug.urls", namespace='microbug')),
-        )

@@ -18,14 +18,21 @@ except ImportError:
         DJANGO_BASE = '/tmp/nosuch_directory_this_needs_setting'
 
     except ImportError:
-        if os.path.exists('/Users/molt/Documents/microbug_store'):
-            STORE_BASE = '/Users/molt/Documents/microbug_store'
-            DJANGO_BASE = '/Users/molt/Documents/microbug/website/app'
-        elif os.path.exists('/Users/mattbr/Store/microbug'):
-            STORE_BASE = '/Users/mattbr/Store/microbug'
-            DJANGO_BASE = '/Users/mattbr/Sites/microbug/website/app'
-        else:
-            raise Exception("Cannot find possible store")
+        # Are we running on the taster machine?
+        try:
+            import taster_machine
+            STORE_BASE = "/srv/projects/microbug/website/microbug_store"
+            DJANGO_BASE = "/srv/projects/microbug/website/app"
+
+        except ImportError:
+            if os.path.exists('/Users/molt/Documents/microbug_store'):
+                STORE_BASE = '/Users/molt/Documents/microbug_store'
+                DJANGO_BASE = '/Users/molt/Documents/microbug/website/app'
+            elif os.path.exists('/Users/mattbr/Store/microbug'):
+                STORE_BASE = '/Users/mattbr/Store/microbug'
+                DJANGO_BASE = '/Users/mattbr/Sites/microbug/website/app'
+            else:
+                raise Exception("Cannot find possible store")
 
 # Check the directories exist
 if not os.path.exists(STORE_BASE):
