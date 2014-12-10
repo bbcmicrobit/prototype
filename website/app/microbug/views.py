@@ -158,6 +158,12 @@ def authenticate_user(request):
         _claim_unattributed_items(request)
         logger.info("Login successful for '{0}'".format(username))
 
+        # Clear the 'has_pending_password_request' flag
+        user_profile = saved_profile_for_user(user)
+        if user_profile.has_pending_password_request:
+            user_profile.has_pending_password_request = False
+            user_profile.save()
+            
     logger.info(response_obj)
     return HttpResponse(json.dumps(response_obj))
 
