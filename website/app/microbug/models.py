@@ -39,6 +39,9 @@ class UserProfile(models.Model):
     # The User's real name
     realname = models.CharField(max_length=200, null=True, blank=True)
 
+    # This is set when the user makes a request for their password to be reset
+    has_pending_password_request = models.BooleanField(default=False)
+
     # Some gaps to fill in some questions
     question_1  = models.CharField(max_length=200, null=True, blank=True)
     question_2  = models.CharField(max_length=200, null=True, blank=True)

@@ -68,6 +68,44 @@ function enablePageInteraction() {
     setupUserDetailsUpdate();
 
     setupCreateUser();
+
+    setupForgotPasswordButton();
+}
+
+function setupForgotPasswordButton() {
+    var forgot_password_button = $('#forgotPasswordButton');
+    if (forgot_password_button.length > 0) {
+        console.log("Setting up Forgot Password Button");
+        forgot_password_button.click(function(ev) {
+            bootbox.dialog({
+                // Lorem ipsum.
+                title: "Forgotten Password",
+                // Lorem ipsum.
+                message:
+                    "This will send a message to your facilitators asking them to reset your account.<br/>" +
+                    "<label for='requestUsername'>Username:</label>" +
+                    "<input type='text' id='requestUsername' placeholder='Your username'></input>",
+                buttons: {
+                    make_request: {
+                        // Lorem ipsum.
+                        label: '<i class="fa fa-unlock-alt"></i>&nbsp;Request password reset',
+                        className: 'btn-primary',
+                        callback: function() {
+                            alert("Request made")
+                        }
+                    },
+                    cancel_request: {
+                        // Lorem ipsum
+                        label: '<i class="fa fa-close"></i>&nbsp;No, don\'t request change',
+                        className: 'btn-primary'
+                    }
+                }
+            });
+            ev.preventDefault();
+        })
+    } else {
+        console.log("No Forgot Password Button, skipping");
+    }
 }
 
 function setupCreateUser() {
@@ -352,13 +390,17 @@ function updateLoginForm() {
                         alert("Cannot Login: "+textStatus+"\n"+errorThrown)
                     }
                 });
+
             })
 
             $('#loginSignOut').click(function(ev) {
                 ev.preventDefault();
                 console.log("Logging out");
                 signOut();
+                setupForgotPasswordButton();
             })
+
+            setupForgotPasswordButton();
         }
     });
 }
