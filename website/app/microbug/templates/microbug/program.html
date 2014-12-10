@@ -8,10 +8,14 @@
 {% block body %}
     <div id="program_id" class="hidden">{{ program.id }}</div>
     <input type="text" id="original_program_name" class="hidden" value="{{ program.name }}">
-    <div class="input-group page_level_element">
-        <input type="text" class="form-control" id="program_name" value="{{ program.name }}" placeholder="Program name">
-        <span class="input-group-addon" id="program_rename">Rename</span>
-    </div>
+    {% if owns_program %}
+        <div class="input-group page_level_element">
+            <input type="text" class="form-control" id="program_name" value="{{ program.name }}" placeholder="Program name">
+            <span class="input-group-addon" id="program_rename">Rename</span>
+        </div>
+    {% else %}
+        <div class="panel panel-default"><h2>{{ program.name }}</h2></div>
+    {% endif %}
 
     <div class="col-md-12 panel panel-default" style="padding-top:5px;padding-bottom:5px">
         {% if owns_program %}

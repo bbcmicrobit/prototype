@@ -415,8 +415,17 @@ def rename_program(request):
         logger.error("Rename_Program could not process Json: %s" % str(request))
         return HttpResponseBadRequest("Could not process request, not a valid Json object?")
 
-    # Perform the actual rename
+    # Find the request
     target_program = get_object_or_404(Program, pk=json_obj['program_id'])
+
+    # Check we're the owner of the program
+    (user, user_profile) = _user_and_profile_for_request(request)
+    if target_program.owner != user_profile:
+        res = HttpResponse("This is not your program")
+        res.status_code = 403
+        return res
+
+     # Perform the actual rename
     target_program.name = json_obj['program_name']
     target_program.save()
 
