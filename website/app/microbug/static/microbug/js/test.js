@@ -12,6 +12,10 @@ var edit_phrase_elem = $('#edit_phrase');
 var add_facilitator_btn = $('.add-facilitator');
 var facilitator_responses = $('.facilitator-response');
 var update_user_details_btn = $('#update-user-details');
+var create_user_button = $('#createUser');
+var created_user_details = $('#createdUserDetails');
+var created_user_name = $('#createdUserName');
+var created_user_password = $('#createdUserPassword');
 
 function enablePageInteraction() {
     var editor_tabs = $('#editor_tabs');
@@ -62,8 +66,32 @@ function enablePageInteraction() {
     setupFacilitatorResponses();
 
     setupUserDetailsUpdate();
+
+    setupCreateUser();
 }
 
+function setupCreateUser() {
+    if (create_user_button.length > 0) {
+        console.log("Setting up Create User Button");
+        create_user_button.click(function(ev) {
+            console.log("Creating new user");
+            $.ajax({
+                type: "POST",
+                url: "/microbug/create_user/",
+                data: '',
+                dataType: 'json',
+                success: function (data) {
+                    created_user_name.text(data.username);
+                    created_user_password.text(data.password);
+                    created_user_details.show();
+                }
+            });
+            ev.preventDefault();
+        })
+    } else {
+        console.log("No Create User button, skipping");
+    }
+}
 function setupUserDetailsUpdate() {
     if (update_user_details_btn.length > 0 ) {
         console.log("Setting up user details update");

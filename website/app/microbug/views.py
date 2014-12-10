@@ -18,6 +18,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 import pprint
 import datetime
+import random_phrase_generator
 
 # Get a version store we can keep uploaded files in.
 compiled_version_store = CompiledVersionStore(settings.COMPILED_PYTHON_PROGRAMS_DIRECTORY)
@@ -42,6 +43,13 @@ def create_program(request):
     return render(
         request, 'microbug/create_program.html',
         _add_defaults(request, {'programs': programs})
+    )
+
+# Shows the 'create user' form
+def create_user_form(request):
+    return render(
+        request, 'microbug/create_user.html',
+        _add_defaults(request, {})
     )
 
 # View a single program
@@ -244,6 +252,27 @@ def build_code(request):
 
     # Return the program's ID
     return HttpResponse(str(new_program.id))
+
+# Creates a new user and returns the details
+@csrf_exempt
+def create_user(request):
+    # Check we're a POST request
+    if request.method != 'POST':
+        return HttpResponseBadRequest('Must be a POST request')
+
+    # Create the new user
+    username = random_phrase_generator.random_username()
+    password = random_phrase_generator.random_password()
+    new_user = User(username=username)
+    new_user.set_password(password)
+    new_user.save()
+    
+    # Return the user details in a JSON obj.
+    json_obj = {
+        "username": username, "password": password, "id": new_user.id
+    }
+    return HttpResponse(json.dumps(json_obj))
+
 
 # Records that a user has made a request for someone else to be their facilitator
 @csrf_exempt
@@ -510,3 +539,4 @@ def _make_authenticated_facilitator_request(user, facilitator):
     logger.warn("*** Confirmed facilitator request from '{}' to '{}'".format(user.username, facilitator.username))
     request = FacilitatorRequest(child=user, facilitator=facilitator)
     request.save()
+

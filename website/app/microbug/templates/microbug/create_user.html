@@ -1,0 +1,24 @@
+{% extends 'microbug/_master.html' %}
+
+{% block head %}
+    <title>Create User</title>
+{% endblock %}
+
+{% block body %}
+    <!-- Start of create_user.html:body -->
+    <h1>Microbug</h1>
+
+    <p>
+        Press the 'Create User' button and the system will create a new user for you
+        and provide you with the username and password.  Lorem ipsum.
+    </p>
+    <button id="createUser" class="btn btn-primary">
+        <i class="fa fa-user"></i>&nbsp;Create User
+    </button>
+
+    <div id="createdUserDetails" style="display: none;">
+        <p>Username: <span id="createdUserName"></span></p>
+        <p>Password: <span id="createdUserPassword"></span></p>
+    </div>
+    <!-- End of create_user.html:body -->
+{% endblock %}

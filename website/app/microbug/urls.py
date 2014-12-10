@@ -13,6 +13,9 @@ urlpatterns = patterns('',
     # Ex: /create_program
     url(r'^create_program/$', views.create_program, name='create_program'),
 
+    # Ex: /create_user_form
+    url(r'^create_user_form/$', views.create_user_form, name='create_user_form'),
+
     # Ex: /download/23/big_new_programme
     url(r'^download/(?P<program_id>\d+)/(?P<program_name>.*)', views.download, name='download'),
 
@@ -48,6 +51,13 @@ urlpatterns = patterns('',
     # Returns:
     # Program ID on success, BadRequest on failure.
     url(r'^build_code/$', views.build_code, name='build_code'),
+
+    # Ex: /create_user :
+    # {}
+    #
+    # Returns:
+    # {"username": username, "password":password, "id":id}
+    url(r'^create_user/$', views.create_user, name='create_user'),
 
     # Ex: /facilitor_request
     # { 'facilitator-name: name }
