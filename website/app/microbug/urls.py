@@ -70,6 +70,12 @@ urlpatterns = patterns('',
     # { 'facilitator-name: name }
     url(r'^facilitator_request', views.facilitator_request, name='facilitator_request'),
 
+    # Ex: /fork_code
+    # {'src_id': 1}
+    #
+    # Returns: {"src_id": 1, "fork_id":23}
+    url(r'^fork_code', views.fork_code, name='fork_code'),
+
     # Ex: /login_pane
     # Returns either the login pane, or the 'signed in' pane.  Allows Django templates to be
     # used for this partial.

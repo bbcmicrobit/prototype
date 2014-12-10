@@ -370,6 +370,52 @@ def facilitator_request(request):
 
     return HttpResponse("Request sent")
 
+# Copies a program to produce a new version
+@csrf_exempt
+def fork_code(request):
+    # Check we're a POST request
+    if request.method != 'POST':
+        return HttpResponseBadRequest('Must be a POST request')
+
+    # Grab the JSON from the request body and make it nicer
+    try:
+        json_obj = json.loads(request.body)
+    except ValueError:
+        logger.error("Build_code could not process Json: %s" % str(request))
+        return HttpResponseBadRequest("Could not process request, not a valid Json object?")
+
+    # We're going to need to know if we have a user.
+    (user, user_profile) = _user_and_profile_for_request(request)
+
+    # Find the program, change the ownership details, clear the PK (Forces the DB
+    #  to save as a new program), and save it
+    src_id = json_obj['src_id']
+
+    program = get_object_or_404(Program, pk=src_id)
+    program.pk = None
+    program.owner = user_profile
+    program.edit_phrase = random_phrase_generator.random_edit_phrase()
+    program.save()
+
+    # If we're not logged in we'll store the IDs of the new program.
+    if user_profile is None:
+        # Check we have the two stores in the session.
+        session = request.session
+        if 'unattributed_programs' not in session:
+             session['unattributed_programs'] = []
+
+        # Add the newly created item
+        unattributed_programs = session['unattributed_programs']
+        unattributed_programs.append(program.id)
+        session['unattributed_programs'] = unattributed_programs
+
+
+    json_obj = {
+        'src_id': src_id,
+        'fork_id': program.id
+    }
+    return HttpResponse(json.dumps(json_obj))
+
 # Returns the HTML for the login pane based on whether the user is logged in or not
 @csrf_exempt
 def login_pane(request):

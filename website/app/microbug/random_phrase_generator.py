@@ -31,3 +31,7 @@ def random_username():
 # Returns a random unused password
 def random_password():
     return random_phrase(settings.WORDS_IN_PASSWORDS)
+
+# Returns a random edit phrase
+def random_edit_phrase():
+    return random_phrase(settings.WORDS_IN_EDIT_PHRASES)

@@ -17,6 +17,7 @@ var created_user_details = $('#createdUserDetails');
 var created_user_name = $('#createdUserName');
 var created_user_password = $('#createdUserPassword');
 var facilitator_password_reset_request_btns = $('.facilitatorPasswordResetRequest');
+var forkCodeBtn = $('.forkCode');
 
 function enablePageInteraction() {
     var editor_tabs = $('#editor_tabs');
@@ -73,6 +74,40 @@ function enablePageInteraction() {
     setupForgotPasswordButton();
 
     setupFacilitatorPasswordReset();
+
+    setupForkCode();
+}
+
+function setupForkCode() {
+    if (forkCodeBtn.length > 0) {
+        console.log("Setting up fork code");
+        forkCodeBtn.click(function(ev) {
+            // Lorem ipsum.
+            bootbox.confirm(
+                "This will create your own version of this program, are you sure?",
+                function(result) {
+                    if (!result) { return }
+                    $.ajax({
+                        type: "POST",
+                        url: "/microbug/fork_code",
+                        data: JSON.stringify({
+                            "src_id": $(ev.currentTarget).attr('data-src-id')
+                        }),
+                        success: function(data) {
+                            data = JSON.parse(data);
+                            window.location.replace('/microbug/program/'+data['fork_id'])
+                        },
+                        error: function (jqXhr, textStatus, errorThrown) {
+                            bootbox.alert("Error, cannot create own version");
+                            console.log("Cannot create own version: "+textStatus+", "+errorThrown);
+                        }
+                    })
+                }
+            )
+        })
+    } else {
+        console.log("No fork code button, skipping");
+    }
 }
 
 function setupFacilitatorPasswordReset() {
