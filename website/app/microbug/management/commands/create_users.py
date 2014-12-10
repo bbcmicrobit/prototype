@@ -4,11 +4,9 @@ import random
 import microbug.settings as settings
 from django.contrib.auth.models import Group, User
 from microbug.models import UserProfile, FacilitatorRequest
-from microbug.random_phrase_generator import random_phrase
+from microbug.random_phrase_generator import random_username, random_password
 
 class Command(TemplateCommand):
-
-
     help = "Creates a number of users with randomised names and passwords"
 
     def handle(self, user_count_str="1", **options):
@@ -30,8 +28,8 @@ class Command(TemplateCommand):
         facilitator_profile = self.saved_profile_for_user(facilitator)
 
         for user_index in range(1, user_count+1):
-            username = self.random_username()
-            password = self.random_password()
+            username = random_username()
+            password = random_password()
 
             new_user = User(username=username)
             new_user.set_password(password)
@@ -50,8 +48,8 @@ class Command(TemplateCommand):
         return user_profile
 
     def create_facilitator(self):
-        username = self.random_username()
-        password = self.random_password()
+        username = random_username()
+        password = random_password()
 
         new_user = User(username=username)
         new_user.set_password(password)
@@ -62,15 +60,3 @@ class Command(TemplateCommand):
         print "FACILITATOR: {0}: (PW: {1}, ID: {2}))".format(username, password, new_user.id)
 
         return new_user
-
-
-    def random_username(self):
-        while True:
-            username = random_phrase(settings.WORDS_IN_USERNAMES)
-            user_count = User.objects.filter(username=username).count()
-            if user_count==0:
-                return username
-            print("    Duplicate username '{0}".format(username))
-
-    def random_password(self):
-        return random_phrase(settings.WORDS_IN_PASSWORDS)
