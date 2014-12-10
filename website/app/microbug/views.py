@@ -74,12 +74,20 @@ def programs(request):
         _add_defaults(request,{'programs':programs})
     )
 
-# Show the tutorials
+# Show a specific tutorial
 def tutorial(request, tutorial_name, page_number=1):
     tutorial_obj = get_object_or_404(Tutorial, name=tutorial_name)
     return render(
         request, 'microbug/tutorial.html',
         _add_defaults(request, {'tutorial_content': mark_safe(tutorial_obj.content)})
+    )
+
+# Show a list of all of the tutorials available in the system
+def tutorials(request):
+    tutorials = Tutorial.objects.all()
+    return render(
+        request, 'microbug/tutorials.html',
+        _add_defaults(request, {'tutorials':tutorials})
     )
 
 # Display the details for a user
@@ -266,7 +274,7 @@ def create_user(request):
     new_user = User(username=username)
     new_user.set_password(password)
     new_user.save()
-    
+
     # Return the user details in a JSON obj.
     json_obj = {
         "username": username, "password": password, "id": new_user.id

@@ -31,9 +31,11 @@ urlpatterns = patterns('',
     # Ex: /register_user
     url(r'^register_user', views.register_user, name='register_user'),
 
-    # Ex: /tutorials/juggling%20badgers
+    # Ex: /tutorial/juggling%20badgers
     url(r'^tutorial/(?P<tutorial_name>[^#]*)', views.tutorial, name='tutorial'),
 
+    # Ez: /tutorials
+    url(r'^tutorials', views.tutorials, name='tutorials'),
     # Ex: /user/23
     url(r'^user/(?P<user_id>\d+)/$', views.user, name='user'),
 

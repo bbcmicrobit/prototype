@@ -1,0 +1,18 @@
+{% extends 'microbug/_master.html' %}
+
+{% block head %}
+    <title>Microbug: Tutorials</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Tutorials</h1>
+    <ul>
+        {% for tutorial in tutorials %}
+            <li>
+                <a href="{% url 'microbug:tutorial' tutorial_name=tutorial.name %}">
+                    {{ tutorial.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{%  endblock %}
