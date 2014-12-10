@@ -16,6 +16,7 @@ var create_user_button = $('#createUser');
 var created_user_details = $('#createdUserDetails');
 var created_user_name = $('#createdUserName');
 var created_user_password = $('#createdUserPassword');
+var facilitator_password_reset_request_btns = $('.facilitatorPasswordResetRequest');
 
 function enablePageInteraction() {
     var editor_tabs = $('#editor_tabs');
@@ -70,6 +71,53 @@ function enablePageInteraction() {
     setupCreateUser();
 
     setupForgotPasswordButton();
+
+    setupFacilitatorPasswordReset();
+}
+
+function setupFacilitatorPasswordReset() {
+    if (facilitator_password_reset_request_btns.length > 0) {
+        facilitator_password_reset_request_btns.click(function(ev) {
+            child_id = $(ev.currentTarget).attr('data-child-id');
+            // Lorem ipsum
+            bootbox.confirm("<p>This will reset the password for this user, and it's your responsibility to pass the new password along to them.</p><p><em>Are you sure?</em></p>", function(result) {
+                if (result) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/microbug/confirm_password_reset",
+                        data: JSON.stringify({
+                            "id": child_id
+                        }),
+                        success: function(data) {
+                            data = JSON.parse(data);
+                            // Lorem ipsum
+                            bootbox.alert("Password has been reset to '<em>"+data.password+"</em>'",
+                                function() {
+                                    location.reload();
+                                });
+                        },
+                        error: function (jqXhr, textStatus, errorThrown) {
+                            var statusCode = jqXhr.statusCode().status;
+                            switch (statusCode) {
+                                case 405: // Not allowed
+                                    // Lorem ipsum
+                                    bootbox.alert("Cannot reset password.  You must be the child's facilitator, and there must be a request pending.", function () {
+                                        location.reload();
+                                    });
+                                    break;
+                                default:
+                                    bootbox.alert("An error occured, cannot reset password");
+                                    console.log(textStatus,": ",errorThrown);
+                            }
+                        }
+                    });
+                }
+            });
+            ev.preventDefault();
+        })
+    } else {
+        console.log("No facilitator password request buttons, skipping");
+    }
 }
 
 function setupForgotPasswordButton() {
@@ -91,7 +139,21 @@ function setupForgotPasswordButton() {
                         label: '<i class="fa fa-unlock-alt"></i>&nbsp;Request password reset',
                         className: 'btn-primary',
                         callback: function() {
-                            alert("Request made")
+                            $.ajax({
+                                type: "POST",
+                                url: "/microbug/request_password_reset",
+                                data: JSON.stringify({
+                                    "username": $('#requestUsername').val()
+                                }),
+                                success: function() {
+                                    // Lorem ipsum
+                                    bootbox.alert("Your facilitator has been asked to reset your password");
+                                },
+                                error: function() {
+                                    // Lorem ipsum
+                                    bootbox.alert("An error has happened, cannot request password reset.  Please try later");
+                                }
+                            });
                         }
                     },
                     cancel_request: {

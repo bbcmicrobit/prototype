@@ -196,9 +196,17 @@
             {% if viewed_user_profile.has_children %}
                 You are currently assisting the following children.
                 {% for child in viewed_user_profile.children.all %}
-                    <li><a href="{% url 'microbug:user' user_id=child.id %}">
-                        {{ child.user.username }}
-                        ({{ child.realname|default:'No name set.  Lorem ipsum'}})
+                    <li>
+                        <a href="{% url 'microbug:user' user_id=child.id %}">
+                            {{ child.user.username }}
+                            ({{ child.realname|default:'No name set.  Lorem ipsum'}})
+                        </a>
+
+                        {% if child.has_pending_password_request %}
+                            <button class="facilitatorPasswordResetRequest btn btn-primary btn-sm" data-child-id="{{ child.id }}">
+                                <i class="fa fa-exclamation-triangle"></i>&nbsp;Reset password for child
+                            </button>
+                        {% endif %}
                     </li>
                 {% endfor %}
             {% else %}

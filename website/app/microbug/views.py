@@ -94,11 +94,12 @@ def tutorials(request):
 def user(request, user_id):
     viewed_user = get_object_or_404(User, pk=user_id)
     (user, user_profile) = _user_and_profile_for_request(request)
+    viewed_user_profile = saved_profile_for_user(viewed_user)
     return render(
         request, 'microbug/user.html',
         _add_defaults(request, {
             'viewed_user': viewed_user,
-            'viewed_user_profile': viewed_user.userprofile,
+            'viewed_user_profile': viewed_user_profile,
             'viewing_own_details': user == viewed_user,
             'viewing_facilitated_child_details': user_profile is not None and user_profile.is_facilitator_of(viewed_user)
         })
@@ -261,6 +262,49 @@ def build_code(request):
     # Return the program's ID
     return HttpResponse(str(new_program.id))
 
+# Used by a facilitator to request a password reset.
+@csrf_exempt
+def confirm_password_reset(request):
+    # Check we're a POST request
+    if request.method != 'POST':
+        return HttpResponseBadRequest('Must be a POST request')
+
+    # Grab the JSON from the request body and make it nicer
+    try:
+        json_obj = json.loads(request.body)
+    except ValueError:
+        logger.error("Build_code could not process Json: %s" % str(request))
+        return HttpResponseBadRequest("Could not process request, not a valid Json object?")
+
+
+    # Find the user
+    child = get_object_or_404(User, pk=json_obj['id'])
+    child_profile = saved_profile_for_user(child)
+
+    # Check there's a request pending
+    if not child_profile.has_pending_password_request:
+        return HttpResponseNotAllowed("There's no pending request")
+
+    # Request must be by the facilitator
+    (user, user_profile) = _user_and_profile_for_request(request)
+    if not user_profile.is_facilitator_of(child):
+        return HttpResponseNotAllowed("This can only be done by the child's facilitator")
+
+    # Change the user's password
+    password = random_phrase_generator.random_password()
+    child.set_password(password)
+    child.save()
+
+    # Clear the request
+    child_profile.has_pending_password_request = False
+    child_profile.save()
+
+    # Return the user details in a JSON obj.
+    json_obj = {
+        "username": child.username, "password": password, "id": child.id
+    }
+    return HttpResponse(json.dumps(json_obj))
+
 # Creates a new user and returns the details
 @csrf_exempt
 def create_user(request):
@@ -377,6 +421,32 @@ def rename_program(request):
     target_program.save()
 
     return HttpResponse('Renamed successfully')
+
+
+# Records that the user has requested a password reset
+@csrf_exempt
+def request_password_reset(request):
+    # Check we're a POST request
+    if request.method != 'POST':
+        return HttpResponseBadRequest('Must be a POST request')
+
+    # Grab the JSON from the request body and make it nicer
+    try:
+        json_obj = json.loads(request.body)
+    except ValueError:
+        logger.error("respond_to_facilitator_request could not process Json: {}".format(str(request)))
+        return HttpResponseBadRequest("Could not process request, not a valid Json object?")
+
+    # Find the user and mark them for password resets.
+    user = get_object_or_404(User, username=json_obj['username'])
+    user_profile = saved_profile_for_user(user)
+    user_profile.has_pending_password_request = True
+    user_profile.save()
+
+    # TODO: SEND FACILITATOR EMAILS HERE.
+
+    return HttpResponse('Request made')
+
 
 # Reply the a facilitator request as a facilitator
 @csrf_exempt

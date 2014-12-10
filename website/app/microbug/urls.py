@@ -54,6 +54,11 @@ urlpatterns = patterns('',
     # Program ID on success, BadRequest on failure.
     url(r'^build_code/$', views.build_code, name='build_code'),
 
+    #Ex: /confirm_password_reset
+    # { "id": user_id }
+    #
+    url(r'^confirm_password_reset', views.confirm_password_reset, name='confirm_password_reset'),
+
     # Ex: /create_user :
     # {}
     #
@@ -79,6 +84,10 @@ urlpatterns = patterns('',
     # Ex: /respond_to_facilitator_request
     # {'request_id': request_id, 'is_accepted': true/false}
     url(r'^respond_to_facilitator_request', views.respond_to_facilitator_request, name='respond_to_facilitator_request'),
+
+    # Ex: /request_password_reset
+    # {'username': username}
+    url(r'^request_password_reset', views.request_password_reset, name='request_password_reset'),
 
     # Ex: /sign_out
     url(r'^sign_out/$', views.sign_out, name='sign_out'),
