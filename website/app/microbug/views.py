@@ -95,15 +95,23 @@ def user(request, user_id):
     viewed_user = get_object_or_404(User, pk=user_id)
     (user, user_profile) = _user_and_profile_for_request(request)
     viewed_user_profile = saved_profile_for_user(viewed_user)
-    return render(
-        request, 'microbug/user.html',
-        _add_defaults(request, {
-            'viewed_user': viewed_user,
-            'viewed_user_profile': viewed_user_profile,
-            'viewing_own_details': user == viewed_user,
-            'viewing_facilitated_child_details': user_profile is not None and user_profile.is_facilitator_of(viewed_user)
-        })
-    )
+
+    # Must be logged in
+    if not user:
+        return HttpResponseNotAllowed("Must be logged in to view user details")
+
+    if viewed_user==user or user_profile.is_facilitator_of(viewed_user_profile):
+        return render(
+            request, 'microbug/user.html',
+            _add_defaults(request, {
+                'viewed_user': viewed_user,
+                'viewed_user_profile': viewed_user_profile,
+                'viewing_own_details': user == viewed_user,
+                'viewing_facilitated_child_details': user_profile is not None and user_profile.is_facilitator_of(viewed_user)
+            })
+        )
+    else:
+        return HttpResponseNotAllowed("Only the user and their facilitators can view this page")
 
 # Show the page to register a user
 def register_user(request):
@@ -163,7 +171,7 @@ def authenticate_user(request):
         if user_profile.has_pending_password_request:
             user_profile.has_pending_password_request = False
             user_profile.save()
-            
+
     logger.info(response_obj)
     return HttpResponse(json.dumps(response_obj))
 
