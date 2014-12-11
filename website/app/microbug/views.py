@@ -371,13 +371,17 @@ def facilitator_request(request):
 
     # # Make sure the facilitator is valid
     if facilitator == user:
-        return HttpResponse('You cannot be your own facilitator.  Loren ipsum', None, 405)
+        # // Lorem ipsum
+        return HttpResponse('You cannot be your own facilitator.', None, 405)
     if not facilitator_profile.is_facilitator():
-        return HttpResponse('That person is not a facilitator. Loren ipsum', None, 405)
+        # // Lorem ipsum
+        return HttpResponse('That person is not a facilitator.', None, 405)
     if FacilitatorRequest.objects.filter(child=user, facilitator=facilitator, is_pending=True).exists():
-        return HttpResponse('You already have a request for them. Lorem ipsom', None, 405)
+        # // Lorem ipsum
+        return HttpResponse('You already have a request for them.', None, 405)
     if facilitator_profile.is_facilitator_of(user):
-        return HttpResponse('That person is already your facilitator. Loren ipsum', None, 405)
+        # // Lorem ipsum
+        return HttpResponse('That person is already your facilitator.', None, 405)
 
     # Make the actual requestaj
     _make_authenticated_facilitator_request(user, facilitator)

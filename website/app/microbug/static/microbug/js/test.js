@@ -257,10 +257,12 @@ function setupUserDetailsUpdate() {
                     var statusCode = jqXhr.statusCode().status;
                     switch (statusCode) {
                         case 403: // Not allowed
-                            bootbox.alert("Sorry, you can only change your own details. Lorem ipsum");
+                            // Lorem ipsum
+                            bootbox.alert("Sorry, you can only change your own details.");
                             break;
                         default:
-                            bootbox.alert("An error occured while updating your info. Lorem ipsum");
+                            // Lorem ipsum
+                            bootbox.alert("An error occured while updating your info.");
                     }
                 }
             })
@@ -290,8 +292,9 @@ function setupFacilitatorResponses() {
 
         if (accepted) {
             bootbox.dialog({
-                message: "This will confirm you as a facilitator for '<strong>" + child_name + "</strong>'. Lorem ipsum",
-                title: "Accepting request from '<strong>" + child_name + "</strong>'.  Lorem ipsum",
+                // Lorem ipsum
+                message: "This will confirm you as a facilitator for '<strong>" + child_name + "</strong>'.",
+                title: "Accepting request from '<strong>" + child_name + "</strong>'.",
                 buttons: {
                     accept: {
                         label: "<i class='fa fa-check'></i>&nbsp;Confirm",
@@ -308,8 +311,9 @@ function setupFacilitatorResponses() {
             });
         } else {
             bootbox.dialog({
-                message: "This will decline the facilitator request from '<strong>" + child_name + "</strong>', and delete it from the system. Lorem ipsum",
-                title: "Decling request from '<strong>" + child_name + "</strong>'.  Lorem ipsum",
+                // Lorem ipsum
+                message: "This will decline the facilitator request from '<strong>" + child_name + "</strong>', and delete it from the system.",
+                title: "Decling request from '<strong>" + child_name + "</strong>'.",
                 buttons: {
                     accept: {
                         label: "<i class='fa fa-close'></i>&nbsp;Decline",
@@ -349,13 +353,16 @@ function respondToFacilitatorRequest(request_id, accepted) {
             var statusCode = jqXhr.statusCode().status;
             switch(statusCode) {
                 case 404: // Not found
-                    bootbox.alert("Can't find that facilitator request, have you already replied to it?. Lorem ipsum");
+                    // Lorem ipsum
+                    bootbox.alert("Can't find that facilitator request, have you already replied to it?.");
                     break;
                 case 403: // Not allowed
-                    bootbox.alert("Sorry, this does not seem to be a request directed to you. Lorem ipsum");
+                    // Lorem ipsum
+                    bootbox.alert("Sorry, this does not seem to be a request directed to you.");
                     break;
                 default:
-                    bootbox.alert("An error occured processing the facilitator request. Lorem ipsum");
+                    // Lorem ipsum
+                    bootbox.alert("An error occured processing the facilitator request.");
             }
             console.log("JQXHR: ",jqXhr);
             console.log("TEXTSTATUS: ",textStatus);
@@ -369,12 +376,13 @@ function setupAddFacilitator() {
     add_facilitator_btn.click(function() {
         console.log("Clickey");
         bootbox.dialog({
+            // Lorem ipsum
             message:
                 "In order to add a facilitator you will need to contact them "+
                 "to know their username, then enter it in the box below and "+
-                "wait for them to confirm.  Lorem ipsum." +
+                "wait for them to confirm." +
                 "<input type='text' id='facilitator-username' style='width:100%'>",
-            title: "Add Facilitator Lorem Ipsum",
+            title: "Add Facilitator",
             buttons: {
                 send_request: {
                     label: "<i class='fa fa-check'></i>&nbsp; Send Request",
@@ -403,17 +411,20 @@ function makeFacilitorRequest(faciliator_name) {
             "facilitator_name": faciliator_name
         }),
         success: function(data) {
-            bootbox.alert("Your facilitator has been told of your request.  Lorem ipsum.");
+            // Lorem ipsum
+            bootbox.alert("Your facilitator has been told of your request..");
             location.reload();
         },
         error: function (jqXhr, textStatus, errorThrown) {
             var statusCode = jqXhr.statusCode().status;
             switch(statusCode) {
                 case 401: // Unauthorized
-                    bootbox.alert("You must be logged in to make a facilitator request. Lorem ipsum");
+                    // Lorem ipsum
+                    bootbox.alert("You must be logged in to make a facilitator request.");
                     break;
                 case 404: // Not found
-                    bootbox.alert("Can't find a user with that username. Lorem ipsum");
+                    // Lorem ipsum
+                    bootbox.alert("Can't find a user with that username.");
                     break;
                 case 405: // Not allowed
                     // More details in body text
@@ -421,7 +432,8 @@ function makeFacilitorRequest(faciliator_name) {
                     bootbox.alert("Cannot send request. "+jqXhr.responseText);
                     break;
                 default:
-                    bootbox.alert("An error occured making the facilitator request. Lorem ipsum");
+                    // Lorem ipsum
+                    bootbox.alert("An error occured making the facilitator request.");
             }
             console.log("JQXHR: ",jqXhr);
             console.log("TEXTSTATUS: ",textStatus);

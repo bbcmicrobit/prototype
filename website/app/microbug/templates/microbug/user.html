@@ -58,9 +58,9 @@
         {% if viewed_user_profile.has_owned_programs %}
             <p>
                 {% if viewing_own_details %}
-                    You have written the following programs. Loren ipsum.
+                    You have written the following programs.
                 {% else %}
-                    They have written the following programs. Lorem ipsum.
+                    They have written the following programs.
                 {% endif %}
             </p>
             {% for program in viewed_user_profile.programs_owned %}
@@ -71,9 +71,8 @@
                 {% if viewing_own_details %}
                     It seems you've not yet written any programs, why
                     not <a href="{% url 'microbug:create_program'%}">create some</a>?
-                    Lorem ipsum.
                 {% else %}
-                    It seems they have not written any programs yet.  Lorem ipsum.
+                    It seems they have not written any programs yet.
                 {% endif %}
             </p>
         {% endif %}
@@ -83,9 +82,9 @@
         <h2>Programs Contributed To</h2>
         <p>
             {% if viewing_own_profile %}
-                You have contributed to the following programs. Loren ipsum.
+                You have contributed to the following programs.
             {% else %}
-                They have contributed to the following programs.  Lorem ipsum.
+                They have contributed to the following programs.
             {% endif %}
         </p>
         {% if viewed_user_profile.has_contributed_to_programs %}
@@ -96,10 +95,8 @@
             <p>
                 {% if viewing_own_profile %}
                     It seems you've not yet helped someone else with their programs.
-                    Lorem ipsum.
                 {% else %}
                     It seems they've not yet helped anyone else with their programs.
-                    Lorem ipsum.
                 {% endif %}
             </p>
         {% endif %}
@@ -111,24 +108,24 @@
             {% if viewed_user_profile.has_facilitators %}
                 <p>
                     {% if viewing_own_details %}
-                        You have the following facilitators. Loren ipsum.
+                        You have the following facilitators.
                     {% else %}
-                        They have the following facilitators.  Lorem ipsum.
+                        They have the following facilitators.
                     {% endif %}
                 </p>
                 <ul>
                     {% for facilitator in viewed_user_profile.facilitators.all %}
                         <li>
                             {{ facilitator.user.username }}
-                            ({{ facilitator.realname|default:"No name set, Lorem ipsum" }})
+                            ({{ facilitator.realname|default:"No name set" }})
                         </li>
                     {% endfor %}
                 </ul>
             {% else %}
                 {% if viewing_own_details %}
-                    <p>You currently have no facilitators. Loren ipsum.</p>
+                    <p>You currently have no facilitators.</p>
                 {% else %}
-                    <p>They currently have no facilitators. Loren ipsum.</p>
+                    <p>They currently have no facilitators.</p>
                 {% endif %}
             {% endif %}
             {% if viewed_user == user %}
@@ -144,10 +141,10 @@
                 <p>
                     {% if viewing_own_details %}
                         We're waiting for the following facilitators to confirm
-                        your request.  Lorem ipsum.
+                        your request.
                     {% else %}
                         They're waiting for the following facilitators to confirm
-                        their request.  Lorem ipsum.
+                        their request.
                     {% endif %}
                 </p>
                 <ul>
@@ -157,9 +154,9 @@
                 </ul>
             {% else %}
                 {% if viewing_own_details %}
-                    <p>You're not waiting for any faciliator replies. Lorem ipsum.</p>
+                    <p>You're not waiting for any faciliator replies.</p>
                 {% else %}
-                    <p>They're not waiting for any facilitator replies.  Lorem ipsum</p>
+                    <p>They're not waiting for any facilitator replies.</p>
                 {% endif %}
             {% endif %}
 
@@ -167,7 +164,6 @@
                 {% if viewed_user_profile.has_pending_requests_as_facilitator %}
                     <p>
                         The following children have requested you as a facilitator.
-                        Lorem ipsum.
                     </p>
                     <ul>
                         {% for request in viewed_user_profile.pending_requests_as_facilitator %}
@@ -184,7 +180,7 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <p>No children have requested you as their facilitator. Lorem ipsu,</p>
+                    <p>No children have requested you as their facilitator.</p>
                 {% endif %}
             {% endif %}
         </div>
@@ -199,7 +195,7 @@
                     <li>
                         <a href="{% url 'microbug:user' user_id=child.id %}">
                             {{ child.user.username }}
-                            ({{ child.realname|default:'No name set.  Lorem ipsum'}})
+                            ({{ child.realname|default:'No name set.'}})
                         </a>
 
                         {% if child.has_pending_password_request %}
@@ -210,7 +206,7 @@
                     </li>
                 {% endfor %}
             {% else %}
-                <p>You currently are not assisting any children.  Lorem ipsum</p>
+                <p>You currently are not assisting any children.</p>
             {% endif %}
         </div>
     {% endif %}
