@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This won't work on live server for practical reasons
+
+
 while true; do
    if [ -e /tmp/sync_server ]; then
        echo "checking github"
