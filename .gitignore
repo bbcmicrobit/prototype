@@ -7,6 +7,10 @@ website/upload/highest.lock
 website/app/microbug/migrations/0*
 installer/win/PY2EXE/build
 installer/win/PY2EXE/dist
+installer/mac_os_x/build
+installer/mac_os_x/dist
+installer/mac_os_x/libs
+installer/mac_os_x/*.dmg
 *.pyc
 genprogs/
 staging/SWP
