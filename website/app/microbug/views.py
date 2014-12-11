@@ -58,8 +58,8 @@ def create_user_form(request):
 def program(request, program_id):
     viewed_program = get_object_or_404(Program, pk=program_id)
     (user, user_profile) = _user_and_profile_for_request(request)
-    owns_program = user_profile == viewed_program.owner
-    logger.warn("OWNS PROGRAM: {}".format(owns_program))
+    # TODO: This needs tweaking.
+    owns_program = _owns_program(request, user_profile, viewed_program)
     return render(
         request, 'microbug/program.html',
         _add_defaults(request, {
@@ -212,10 +212,10 @@ def build_code(request):
         new_program = get_object_or_404(Program, pk=program_id)
 
         # Check we can create the program
-        logger.warn("GOT: "+json_obj['edit_phrase']+", NEED: "+new_program.edit_phrase);
-        if user_profile != new_program.owner and json_obj['edit_phrase'] != new_program.edit_phrase:
+        not_owns_program = not _owns_program(request, user_profile, new_program)
+        if not_owns_program and json_obj['edit_phrase'] != new_program.edit_phrase:
             return HttpResponseNotAllowed('You do not have permission to edit that program')
-        logger.warn("Authenticated");
+        logger.warn("Authenticated")
 
     # Write the new Version to the database
     version = Version(
@@ -709,11 +709,16 @@ def _add_defaults(request, content=None):
     else:
         is_facilitator = False
 
-    current_email = user_profile.email
-    if is_facilitator and (current_email is None or current_email==''):
-        needs_facilitator_email = True
+    # Check if we're logged in as a faciliator without an email address set.
+    if is_facilitator:
+        current_email = user_profile.email
+        if current_email is None or current_email == '':
+            needs_facilitator_email = True
+        else:
+            needs_facilitator_email = False
     else:
         needs_facilitator_email = False
+
     if db_user is not None:
         logger.warn(db_user.username+
                     ": Fac "+str(is_facilitator)+
@@ -758,4 +763,17 @@ def _make_authenticated_facilitator_request(user, facilitator):
     logger.warn("*** Confirmed facilitator request from '{}' to '{}'".format(user.username, facilitator.username))
     request = FacilitatorRequest(child=user, facilitator=facilitator)
     request.save()
+
+# Returns a boolean indicating whether the user provided owns the program provided
+def _owns_program(request, user_profile, program):
+    if user_profile is None:
+        # They own it if they have it in their pending programs
+        session = request.session
+        if 'unattributed_programs' in session:
+            return program.id in session['unattributed_programs']
+        else:
+            return False
+    else:
+        # They own it if they are the owner
+        return program.owner == user_profile
 
