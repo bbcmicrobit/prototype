@@ -578,7 +578,6 @@ def update_user_details(request):
     # User needs to be logged in
     if user is None:
         return HttpResponseNotAllowed("You need to be logged in")
-    logger.warn("2")
 
     # Grab the JSON from the request body and make it nicer
     try:
@@ -587,7 +586,18 @@ def update_user_details(request):
         logger.error("respond_to_facilitator_request could not process Json: {}".format(str(request)))
         return HttpResponseBadRequest("Could not process request, not a valid Json object?")
 
-    logger.warn("3")
+    # Handle email address
+    if 'email' in json_obj:
+        email_address = json_obj['email'].strip()
+        if user_profile.is_facilitator and email_address is not None and email_address != '':
+            try:
+                validate_email(email_address)
+            except ValidationError as e:
+                res = HttpResponse("Invalid email address")
+                res.status_code = 400
+                return res
+            user_profile.email = email_address
+
     # Update the facility
     user_profile.realname = json_obj['name']
     answers = json_obj['question_answers']

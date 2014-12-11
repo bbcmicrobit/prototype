@@ -290,11 +290,18 @@ function setupUserDetailsUpdate() {
         console.log("Setting up user details update");
         update_user_details_btn.click(function() {
             console.log("Updating user details");
+            var email_input = $('#email');
+            if (email_input.length > 0) {
+                var email = email_input.val();
+            } else {
+                var email = null;
+            }
             $.ajax({
                 type: "POST",
                 url: "/microbug/update_user_details/",
                 data: JSON.stringify({
                     "name": $('#name').val(),
+                    "email": email,
                     "question_answers": [
                         $('#question_1').val(),
                         $('#question_2').val(),
@@ -314,6 +321,10 @@ function setupUserDetailsUpdate() {
                 error: function (jqXhr, textStatus, errorThrown) {
                     var statusCode = jqXhr.statusCode().status;
                     switch (statusCode) {
+                        case 400: // Client error, invalid email address
+                            // Lorem ipsum
+                            bootbox.alert("Invalid email address, please check and try again");
+                            break;
                         case 403: // Not allowed
                             // Lorem ipsum
                             bootbox.alert("Sorry, you can only change your own details.");
