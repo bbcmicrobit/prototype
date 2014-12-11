@@ -36,7 +36,8 @@ Source: "C:\Users\Matthew\microbug\installer\win\PY2EXE\dist\MicrobugLoader.exe"
 Source: "C:\Users\Matthew\microbug\installer\win\PY2EXE\dist\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-Source: "C:\Users\Matthew\microbug\installer\win\usb_driver\*"; DestDir: "{app}\usb_driver"; Flags: ignoreversion createallsubdirs recursesubdirs
+Source: "C:\Users\Matthew\microbug\installer\win\usb_driver\*"; DestDir: "{app}\usb_driver"; Flags: ignoreversion createallsubdirs recursesubdirs; MinVersion: 0,6.0
+Source: "C:\Users\Matthew\microbug\installer\win\usb_driver_xp\*"; DestDir: "{app}\usb_driver"; Flags: ignoreversion createallsubdirs recursesubdirs; OnlyBelowVersion: 0,6.0
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
