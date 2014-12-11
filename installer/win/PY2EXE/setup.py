@@ -1,8 +1,8 @@
 from py2exe.build_exe import py2exe
 from distutils.core import setup
 setup(
-	data_files=["../DFUPROG/microbug-small.png"],
-	windows=[{"script":"../DFUPROG/MicrobugLoader.py"}],
+	data_files=["../DFUPROG/Instructions1.png"],
+	windows=[{"script":"../DFUPROG/BBCBugLoader.py"}],
 	options={
 		"py2exe":
 			{
