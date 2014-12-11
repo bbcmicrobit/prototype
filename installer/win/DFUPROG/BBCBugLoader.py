@@ -34,7 +34,7 @@ class MicrobugLoader(QtGui.QWidget):
 
 
     def flashDevice(self, filename):
-        os.system('dfu-programmer atmega32u4 flash ' + filename)
+        os.system('dfu-programmer atmega32u4 flash "' + filename + '"')
 
     def eraseDevice(self):
         os.system("dfu-programmer atmega32u4 erase --force")
