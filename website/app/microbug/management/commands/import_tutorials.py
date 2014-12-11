@@ -8,9 +8,11 @@ from django.template.defaultfilters import slugify
 from django.template import Context, Template
 import microbug.settings as settings
 import shutil
+import uuid
 
 class Command(TemplateCommand):
     help = "Imports all of the tutorial .md files from a directory"
+    post_replacements = {}
 
     def handle(self, tutorial_directory=None, **options):
         if tutorial_directory is None:
@@ -52,11 +54,20 @@ class Command(TemplateCommand):
         content = self._slurp(filename)
         content = self._fix_static_links(content)
         content = self._process_pling_page(content)
+        #print("CONTENT: {}".format(content))
         content = self._render_as_django_template(content)
+        content = self._process_pling_loadcode(content)
         content = markdown(content, ['markdown.extensions.extra'])
-
+        content = self._apply_post_replacements(content)
+        # print("CONTENT: {}".format(content))
         new_tut = Tutorial(name=tutorial_name, content=content)
         new_tut.save()
+
+    def _apply_post_replacements(self, content):
+        for key in self.post_replacements:
+            replacement = self.post_replacements[key]
+            content = content.replace(key, replacement)
+        return content
 
     def _fix_static_links(self, content):
         return content.replace(
@@ -78,6 +89,29 @@ class Command(TemplateCommand):
             content += "</section>"
 
         return content
+
+    def _process_pling_loadcode(self, content):
+        while True:
+            # Find the next match
+            match = re.search('!LoadCode:\"(.*?)\"$', content, re.MULTILINE | re.IGNORECASE)
+            if not match:
+                break
+            content = content[:match.start()] + self._loadcode_button(match.group(1)) + content[match.end():]
+        return content
+
+    # Builds a button to load code.
+    def _loadcode_button(self, xml_content):
+        # return "!!LC!!"
+        unique_id = "<<{}>>".format(uuid.uuid1())
+        base_str = """
+            <br/>
+            <button class='btn btn-primary load-code-btn' data-blockly-xml='{}'>
+                <i class='fa fa-cogs'></i>&nbsp;Load Code
+            </button>
+            <br/>
+        """
+        self.post_replacements[unique_id] = base_str.format(xml_content)
+        return unique_id
 
     # Builds the section marker for pages.
     def _section_marker(self, template_name=None, seenPrevious=False):

@@ -21,9 +21,7 @@ Run the following Python commands:
 TODO:
 * Check error handling
 * Check CSRF for Ajax requests
-* Facilitator's email address
 * Load code button for tutorials
-* Passphrase for non-logged in users
 
 ---
 TUTORIAL NOTES

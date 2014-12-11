@@ -19,6 +19,7 @@ var created_user_password = $('#createdUserPassword');
 var facilitator_password_reset_request_btns = $('.facilitatorPasswordResetRequest');
 var forkCodeBtn = $('.forkCode');
 var needs_facilitator_email = $('#needs_facilitator_email');
+var load_code_btns = $('.load-code-btn');
 
 var runCodeButton = document.getElementById("RunCodeButton");
 var pauseCodeButton = document.getElementById("PauseCodeButton");
@@ -86,8 +87,36 @@ function enablePageInteraction() {
     setupForkCode();
 
     setupRequireFacilitatorEmail();
+
+    setupLoadCodeBtn();
 }
 
+function setupLoadCodeBtn() {
+    if (load_code_btns.length >0 ) {
+        console.log("Setting up load code buttons");
+        load_code_btns.click(function(ev) {
+            bootbox.confirm(
+                // Lorem ipsum
+                "You will lose any unsaved work, continue?",
+                function(result) {
+                    if (result) {
+
+                        var clickedOn = $(ev.currentTarget);
+                        var blockly_xml_text = clickedOn.attr('data-blockly-xml');
+                        var blockly_xml = Blockly.Xml.textToDom(blockly_xml_text);
+
+                        Blockly.mainWorkspace.clear();
+                        Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, blockly_xml);
+                    }
+                }
+            );
+
+            ev.preventDefault();
+        });
+    } else {
+        console.log("No load code buttons, skipping");
+    }
+}
 function requestFacilitatorEmail() {
     bootbox.dialog({
         title: "Facilitator Email",
