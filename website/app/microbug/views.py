@@ -587,9 +587,9 @@ def update_user_details(request):
         return HttpResponseBadRequest("Could not process request, not a valid Json object?")
 
     # Handle email address
-    if 'email' in json_obj:
+    if 'email' in json_obj and user_profile.is_facilitator:
         email_address = json_obj['email'].strip()
-        if user_profile.is_facilitator and email_address is not None and email_address != '':
+        if email_address is not None and email_address != '':
             try:
                 validate_email(email_address)
             except ValidationError as e:
@@ -597,6 +597,8 @@ def update_user_details(request):
                 res.status_code = 400
                 return res
             user_profile.email = email_address
+        else:
+            user_profile.email = None
 
     # Update the facility
     user_profile.realname = json_obj['name']
@@ -707,7 +709,8 @@ def _add_defaults(request, content=None):
     else:
         is_facilitator = False
 
-    if is_facilitator and user_profile.email is None:
+    current_email = user_profile.email
+    if is_facilitator and (current_email is None or current_email==''):
         needs_facilitator_email = True
     else:
         needs_facilitator_email = False
