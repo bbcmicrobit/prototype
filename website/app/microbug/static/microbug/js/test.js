@@ -18,6 +18,7 @@ var created_user_name = $('#createdUserName');
 var created_user_password = $('#createdUserPassword');
 var facilitator_password_reset_request_btns = $('.facilitatorPasswordResetRequest');
 var forkCodeBtn = $('.forkCode');
+var needs_facilitator_email = $('#needs_facilitator_email');
 
 function enablePageInteraction() {
     var editor_tabs = $('#editor_tabs');
@@ -76,6 +77,63 @@ function enablePageInteraction() {
     setupFacilitatorPasswordReset();
 
     setupForkCode();
+
+    setupRequireFacilitatorEmail();
+}
+
+function requestFacilitatorEmail() {
+    bootbox.dialog({
+        title: "Facilitator Email",
+        message: "Please provide your email address so that we are able to "+
+            "contact you with important facilitor updates, such as when one "+
+            "of your children requires a password reset.<br/>" +
+            "<label for='facilitatorEmail'>Email:&nbsp;</label>" +
+            "<input id='facilitatorEmail' placeholder='Your email'></input>",
+        buttons: {
+            success: {
+                label: "<i class='fa fa-envelope'></i>&nbsp;Update Email",
+                className: "btn-success",
+                callback: function () {
+                    var email_address = $('#facilitatorEmail').val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/microbug/set_email/",
+                        data: JSON.stringify({
+                            "email": email_address
+                        }),
+                        success: function(data) {
+                            // Lorem ipsum
+                            bootbox.alert("Your email has been stored, thank you.")
+                        },
+                        error: function (jqXhr, textStatus, errorThrown) {
+                        var statusCode = jqXhr.statusCode().status;
+                            switch (statusCode) {
+                                case 400: // Client error
+                                    // Lorem ipsum
+                                    bootbox.alert("Invalid email address, please check and retry", function() {
+                                        requestFacilitatorEmail();
+                                    });
+                                    break;
+                                default:
+                                    bootbox.alert("Error, cannot set email");
+                                    console.log("Cannot set email: "+textStatus+", "+errorThrown);
+                            }
+                        }
+                    });
+                }
+            },
+            danger: {
+                label: "<i class='fa fa-exclamation-triangle'></i>&nbsp;Not now",
+                className: "btn-danger"
+            }
+        }
+    });
+}
+
+function setupRequireFacilitatorEmail() {
+    if (needs_facilitator_email.length > 0){
+        requestFacilitatorEmail();
+    }
 }
 
 function setupForkCode() {

@@ -19,6 +19,8 @@ from django.contrib.auth.models import User
 import pprint
 import datetime
 import random_phrase_generator
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 # Get a version store we can keep uploaded files in.
 compiled_version_store = CompiledVersionStore(settings.COMPILED_PYTHON_PROGRAMS_DIRECTORY)
@@ -603,6 +605,43 @@ def update_user_details(request):
 
     return HttpResponse("Updated")
 
+# Sets the user's email
+@csrf_exempt
+def set_email(request):
+    # Check we're a POST request
+    if request.method != 'POST':
+        return HttpResponseBadRequest('Must be a POST request')
+
+    # We're going to need a user and a user profile
+    (user, user_profile) = _user_and_profile_for_request(request)
+
+    # User needs to be logged in
+    if user is None:
+        return HttpResponseNotAllowed("You need to be logged in")
+
+    # Grab the JSON from the request body and make it nicer
+    try:
+        json_obj = json.loads(request.body)
+    except ValueError:
+        logger.error("respond_to_facilitator_request could not process Json: {}".format(str(request)))
+        return HttpResponseBadRequest("Could not process request, not a valid Json object?")
+
+    # This needs to be a valid email address
+    email_address = json_obj['email']
+    try:
+        validate_email(email_address)
+    except ValidationError as e:
+        res = HttpResponse("Invalid email address")
+        res.status_code = 400
+        return res
+
+    # Set the user's email address and save it
+    user_profile.email = email_address
+    user_profile.save()
+    logger.warn("Set email for user "+str(user_profile.id)+" to "+user_profile.email)
+
+    return HttpResponse("Email updated")
+
 # Signs the user out of the system
 @csrf_exempt
 def sign_out(request):
@@ -653,9 +692,25 @@ def _add_defaults(request, content=None):
     if 'unattributed_versions' not in request.session:
         request.session['unattributed_versions'] = []
 
+    if user_profile and user_profile.is_facilitator():
+        is_facilitator = True
+    else:
+        is_facilitator = False
+
+    if is_facilitator and user_profile.email is None:
+        needs_facilitator_email = True
+    else:
+        needs_facilitator_email = False
+    if db_user is not None:
+        logger.warn(db_user.username+
+                    ": Fac "+str(is_facilitator)+
+                    ", Email "+str(needs_facilitator_email)
+        )
+
     content.update({
         'user': db_user,
         'user_profile': user_profile,
+        'needs_facilitator_email': needs_facilitator_email,
 
         'session_content': pprint.pformat(request.session),
         'unattributed_programs': request.session['unattributed_programs'],

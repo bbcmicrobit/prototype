@@ -13,6 +13,11 @@
         <link rel="stylesheet" type="text/css" href="{% static "microbug/css/microbug-tutorial.css" %}"/>
         <link rel="stylesheet" type="text/css" href="{% static "microbug/css/font-awesome.css" %}"/>
 
+        {% if needs_facilitator_email %}
+            <!-- It's important we have facilitator email -->
+            <script id="needs_facilitator_email"></script>
+        {% endif %}
+
         <!-- Start of head block -->
         {% block head %}{% endblock %}
         <!-- End of head block -->

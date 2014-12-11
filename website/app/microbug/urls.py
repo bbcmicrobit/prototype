@@ -95,6 +95,10 @@ urlpatterns = patterns('',
     # {'username': username}
     url(r'^request_password_reset', views.request_password_reset, name='request_password_reset'),
 
+    # Ex: /set_email
+    # {'email': email}
+    url(r'^set_email/$', views.set_email, name='set_email'),
+
     # Ex: /sign_out
     url(r'^sign_out/$', views.sign_out, name='sign_out'),
 
