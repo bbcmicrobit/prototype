@@ -28,3 +28,35 @@ TODO:
 TUTORIAL NOTES
 The example on Pg2. is not JavaScript, it's HTML with one line of JavaScript (the document.getElementById one).
 The header for Task 2 and Task 3 is the same ("Turning the LED off again").
+
+
+--
+
+IMPORTANT FILES
+
+./app/settings.py - Contains all of the Django config, including logging and debug.
+./app/urls.py - Top-level routing, if you need to change /microbug or /admin go here.
+./compile_sass.sh - Utility script, one-shot compilation of .scss template files from sass_src into .css
+./db.sqlite3 - The database
+./manage.py - Django utility script, the microbug/management commands hook into this.
+./microbug/admin.py - Configure the /admin interface, including which models and fields are there
+./microbug/management/commands/create_users.py - The implementation of the 'create_users' command
+./microbug/management/commands/import_tutorials.py - The implementation of the 'import_tutorials' command
+./microbug/management/commands/setup_system.py - The implementation of the 'setup_system' command, which currently just creates the 'facilitators' group for permissions
+./microbug/migrations/0001_initial.py - The autogenned migrations file.  Since the rebuild_store.sh script nukes this there should only ever be a 0001* one here.
+./microbug/models.py - Implementation of all of the Microbug database models- this is what drives the migrations and sets up the actual classes
+./microbug/settings.py - Microbug-specific settings
+./microbug/static - Statically-served content.  In debug this is dynamically served, in production this should be served via Apache/Nginx/whatnot.
+./microbug/static/microbug/css - Site CSS lives here, this is mostly generated using the Sass .sh scripts
+./microbug/static/microbug/css/test.css - This is the one exception, hardcoded CSS rules live here.
+./microbug/static/microbug/tutorial_assets - The contents of this directory are controlled by the 'import_tutorials' script, and all tutorial assets should live here.
+./microbug/templates/microbug/_master.html - Top-level template, controls the overall page layout
+./microbug/templates/microbug/_tutorial.html - Specialised template for tutorials
+./microbug/templates/microbug/partials/blockly_toolboxes - Blockly toolboxes for tutorials live here
+./microbug/urls.py - Microbug routing, all of the /user, /program and so forth is configured here.
+./microbug/views.py - The view/controller layer for Microbug, all of the actual request handling is here.
+./NOTES.txt - This file.  Very important.
+./rebuild_store.sh - Django 1.7-based script which completely nukes the database, tutorials, and everything else and rebuilds it.
+./sass_src - All of the .scss Sass source files live here, these are converted to CSS via the Sass .sh scripts
+./tutorial_source - This contains the raw .MD files, and assets for tutorials.  The 'import_tutorials' command puts these into the database and /static.
+./watch_sass.sh - Continually watches the sass_src directory, converting them to .css when a change is detected.
