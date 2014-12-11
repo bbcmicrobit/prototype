@@ -1,4 +1,5 @@
-<div class="bg-info" style="margin: 1em 2em 1em 2em; padding: 0.5em 1em 0.25em 1em; display: none">
+{% if debug %}
+<div class="bg-info" style="margin: 1em 2em 1em 2em; padding: 0.5em 1em 0.25em 1em">
     {% if user.is_authenticated %}
         <p>
             Logged in as <em>
@@ -32,3 +33,4 @@
         <pre>{{ session_content }}</pre>
     {% endif %}
 </div>
+{% endif %}

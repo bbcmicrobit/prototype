@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 import logging
 import json
 import settings
+import app.settings as appSettings
 import sys
 from compiled_version_store import CompiledVersionStore
 from primary_version_store import PrimaryVersionStore
@@ -729,6 +730,7 @@ def _add_defaults(request, content=None):
         'user': db_user,
         'user_profile': user_profile,
         'needs_facilitator_email': needs_facilitator_email,
+        'debug': appSettings.DEBUG,
 
         'session_content': pprint.pformat(request.session),
         'unattributed_programs': request.session['unattributed_programs'],

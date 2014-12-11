@@ -22,10 +22,10 @@ SECRET_KEY = '4%)5+e-*(_e&ojqo_go37b!ihz(*^tw$1!r_k^8gr_8w*#67%9'
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 DEBUG = True
-
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = [ ]
+#TEMPLATE_DEBUG = False
 
 try:
     import taster_machine

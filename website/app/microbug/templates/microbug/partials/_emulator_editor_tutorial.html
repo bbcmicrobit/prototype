@@ -4,7 +4,7 @@
     buildBtnText: The text to be displayed on the build button.
 {% endcomment %}
 
-<div id="emulator" class="panel emulator col-md-3">
+<div id="emulator" class="panel panel-default emulator col-md-3">
     {% include "microbug/partials/_emulator.html" %}
 </div>
 
@@ -19,7 +19,16 @@
     </ul>
     <div class="tab-content">
         <div role="tabpanel" id="blockly-tab" class="tab-pane active">
-            <button type="button" id="{{ buildBtnId }}" class="btn btn-primary">
+            <button type="button" id="" class="btn btn-primary {{ buildBtnId|default:'createProgram' }}">
+                <i class="fa fa-cog">&nbsp;</i>
+                {{ buildBtnText|default:"Build Program" }}
+            </button>
+            <span id="program_status_update" data-program-id="{{ program.id }}">
+                <i class="fa fa-refresh fa-spin"></i>&nbsp;Fetching program status
+            </span>
+
+
+            <button type="button" class="btn btn-primary clear-code-btn">
                 <i class="fa fa-cog">&nbsp;</i>
                 {{ buildBtnText }}
             </button>
@@ -27,6 +36,7 @@
 
             <div id="blockly" style="width: 100%; margin:0.5em 0 0 0; height: 480px; "></div>
             {% include "microbug/partials/blockly_toolboxes/_main_toolbox.html" %}
+            <xml id="startBlocks" style="display: none"> </xml>
         </div>
         <div role="tabpanel" id="code-tab" class="tab-pane">
             Code

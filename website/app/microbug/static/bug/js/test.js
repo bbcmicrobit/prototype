@@ -1177,6 +1177,7 @@ function setupBlockly() {
 			    Blockly.JavaScript.addReservedWords('highlightBlock');
 			    
 			    var code = Blockly.JavaScript.workspaceToCode();
+                //console.log("RUNNING: ",code);
 
                 if (dalcode === undefined)
                     alert('dalcode undefined');
@@ -1342,5 +1343,9 @@ function recompileProgram(successCallback) {
 }
 
 console.log("Loaded test page");
-enablePageInteraction();
+$(document).ready(function() {
+    console.log("** Document ready");
+    enablePageInteraction();
+});
+
 console.log("All done")
