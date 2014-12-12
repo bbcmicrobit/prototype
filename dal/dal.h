@@ -158,8 +158,8 @@ void showLetter(char c); // Could be just internal, but useful.
 void print_message(const char * message, int pausetime);
 void toggle_eye(char id);// DONE
 
-struct StringSprite;// DONE
-void scroll_sprite(StringSprite theSprite, int pausetime);// DONE
+struct StringImage;// DONE
+void scroll_string_image(StringImage theSprite, int pausetime);// DONE
 
 // Functions internal to the API
 inline int image_point_index(Image& someImage, int x, int y);// DONE
@@ -493,17 +493,17 @@ void ScrollImage(Image someImage, boolean loop=false, int trailing_spaces=false)
     }
 }
 
-typedef struct StringSprite {
+typedef struct StringImage {
     int mPixelPos;
     int mPixelData[50]; // Sufficient to hold two characters.
     char *mString;
     int mStrlen;
 
-    StringSprite() {}
-    StringSprite(const char * str) {
+    StringImage() {}
+    StringImage(const char * str) {
         setString(str);
     }
-    ~StringSprite() {}
+    ~StringImage() {}
 
     void setString(const char * str) {
         mString = (char *) str;
@@ -597,9 +597,9 @@ typedef struct StringSprite {
     int pixel_width() {
         return mStrlen * 5;
     }
-} StringSprite;
+} StringImage;
 
-void scroll_sprite(StringSprite theSprite, int pausetime=100) {
+void scroll_string_image(StringImage theSprite, int pausetime=100) {
     for(int i=0; i<theSprite.pixel_width(); i++) {
         theSprite.render_string();
         theSprite.pan_right();
@@ -608,10 +608,10 @@ void scroll_sprite(StringSprite theSprite, int pausetime=100) {
 }
 
 void scroll_string(const char * str) {
-    scroll_sprite(StringSprite(str), 50);
+    scroll_string_image(StringImage(str), 50);
 }
 void scroll_string(const char * str, int delay) {
-    scroll_sprite(StringSprite(str), delay);
+    scroll_string_image(StringImage(str), delay);
 }
 
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
