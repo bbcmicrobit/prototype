@@ -10,9 +10,10 @@ logging.basicConfig()
 
 # Default to assuming running on michael's machine
 
-INCOMING_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/compiler/../website/python_pending/"
-OUTGOING_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/compiler/../website/docs/compiled/"
-BUILD_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/compiler/../website/tmp/"
+INCOMING_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/website/microbug_store/pending/"
+OUTGOING_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/website/microbug_store/compiled/"
+BUILD_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/website/tmp/"
+
 
 try:
     # Are we running on the shared dev server?
