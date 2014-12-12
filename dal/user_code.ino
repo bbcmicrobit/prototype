@@ -10,7 +10,7 @@ void ScrollSpriteStringSpriteExample_Test18() {
 
     set_eye('L', HIGH);
     set_eye('R', HIGH);
-    scroll_sprite(StringSprite(" MERRY XMAS!"),50);
+    scroll_string_image(StringImage(" MERRY XMAS!"),50);
     delay(300);
     set_eye('L', LOW);
     set_eye('R', LOW);
@@ -26,7 +26,7 @@ void ScrollSpriteStringSpriteExample_Test18() {
 
     set_eye('L', HIGH);
     set_eye('R', HIGH);
-    scroll_sprite(StringSprite(" MERRY XMAS"),50);
+    scroll_string_image(StringImage(" MERRY XMAS"),50);
     delay(300);
 
     set_eye('L', LOW);
@@ -44,7 +44,7 @@ void ScrollSpriteStringSpriteExample_Test18() {
 
     set_eye('L', HIGH);
     set_eye('R', HIGH);
-    scroll_sprite(StringSprite(" NOW BRING US SOME FIGGY PUDDING"),50);
+    scroll_string_image(StringImage(" NOW BRING US SOME FIGGY PUDDING"),50);
     delay(300);
     set_eye('L', LOW);
     set_eye('R', LOW);
@@ -60,7 +60,7 @@ void ScrollSpriteStringSpriteExample_Test18() {
 
     set_eye('L', HIGH);
     set_eye('R', HIGH);
-    scroll_sprite(StringSprite(" AND A HAPPY NEW YEAR!"),50);
+    scroll_string_image(StringImage(" AND A HAPPY NEW YEAR!"),50);
     delay(300);
 
     set_eye('L', LOW);
@@ -96,7 +96,7 @@ void ScrollSpriteStringSpriteExample_Test18() {
             set_eye('R', LOW);
         }
         if (count == 1410) {
-            scroll_sprite(StringSprite(" DO I DO EVERYTHING ROUND HERE?"),50);
+            scroll_string_image(StringImage(" DO I DO EVERYTHING ROUND HERE?"),50);
         }
 
         if (count == 2100)  {
@@ -109,7 +109,7 @@ void ScrollSpriteStringSpriteExample_Test18() {
         }
     }
 
-//    scroll_sprite(StringSprite(":-) (:)"),50);
+//    scroll_string_image(StringImage(":-) (:)"),50);
 //    print_message("* * ", 100);
 //    while(1) {
 //        if (getButton('A') == PRESSED) break;
