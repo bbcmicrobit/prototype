@@ -77,10 +77,15 @@ class Compiler(Actor):
             print "Compiling", source_filename
             source_file = os.path.join(INCOMING_DIRECTORY, source_filename)
             dest_file = os.path.join(OUTGOING_DIRECTORY, dest_filename)
-            main_single(source_file, dest_file, BUILD_DIRECTORY)
-            print "Moving compiled program"
-            os.rename(source_file, os.path.join(OUTGOING_DIRECTORY, source_filename))
-
+            try:
+                main_single(source_file, dest_file, BUILD_DIRECTORY)
+                print "Moving compiled program"
+                os.rename(source_file, os.path.join(OUTGOING_DIRECTORY, source_filename))
+            except Exception, e:
+                print "OK, we failed, how do we handle that then eh clever clogg ?"
+                print "repr(e)"
+        print "Finished processing directory"
+        print "Number of programs compiled", len(filenames)
 
 dw = DirectoryWatcher(INCOMING_DIRECTORY)
 cc = Compiler()
