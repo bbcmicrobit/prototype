@@ -3,6 +3,9 @@
 #include <avr/pgmspace.h>
 
 #define PRESSED HIGH
+#define UNPRESSED LOW
+#define ON HIGH
+#define OFF LOW
 
 #define MICROKIT
 // #define MICROBUG
@@ -110,7 +113,7 @@ int right_eye_state = HIGH; // Initial state is set to high in setup
 int timer4_counter;
 
 int display_strobe_counter;
-int display[5][5] = {
+int display[5][5] = {                                    // DONE
                       { LOW, LOW, LOW, LOW, LOW},
                       { LOW, LOW, LOW, LOW, LOW},
                       { LOW, LOW, LOW, LOW, LOW},
@@ -120,53 +123,55 @@ int display[5][5] = {
 
 /* API ---------------------------------------------------------------------------------------- */
 
+// DONE
 #define DISPLAY_WIDTH 5
 #define DISPLAY_HEIGHT 5
 
+// DONE
 #define ___ 0
 
+// DONE
 typedef struct Image {
     int width;
     int height;
     int *data ;
 } Image;
 
-void set_eye(char id, int state);
-void eye_on(char id);
-void eye_off(char id);
+void set_eye(char id, int state);// DONE
+void eye_on(char id); // DONE
+void eye_off(char id);// DONE
 
-void eye_on(const char *id);
-void eye_off(const char *id);
+void eye_on(const char *id);// DONE
+void eye_off(const char *id);// DONE
 
-int getButton(char id);
-void clear_display();
-void plot(int x, int y);
-void unplot(int x, int y);
-int point(int x, int y);
-void set_display(int sprite[5][5]);
-void showViewport(Image& someImage, int x, int y);
-void ScrollImage(Image someImage, boolean loop, int trailing_spaces);
-int image_point(Image& someImage, int x, int y);
-void set_image_point(Image& someImage, int x, int y, int value);
+int getButton(char id);// DONE
+void clear_display();// DONE
+void plot(int x, int y);// DONE
+void unplot(int x, int y);// DONE
+int point(int x, int y);// DONE
+void set_display(int sprite[5][5]);// DONE
+void showViewport(Image& someImage, int x, int y);// DONE
+void ScrollImage(Image someImage, boolean loop, int trailing_spaces);// DONE
+int image_point(Image& someImage, int x, int y);// DONE
+void set_image_point(Image& someImage, int x, int y, int value);// DONE
 void showLetter(char c); // Could be just internal, but useful.
 void print_message(const char * message, int pausetime);
-void toggle_eye(char id);
+void toggle_eye(char id);// DONE
 
-struct StringSprite;
-void scroll_sprite(StringSprite theSprite, int pausetime);
+struct StringSprite;// DONE
+void scroll_sprite(StringSprite theSprite, int pausetime);// DONE
 
 // Functions internal to the API
-inline int image_point_index(Image& someImage, int x, int y);
-void display_column(int i);
-void setup_display();
-void microbug_setup();
+inline int image_point_index(Image& someImage, int x, int y);// DONE
+void display_column(int i);// DONE
+void setup_display();// DONE
+void microbug_setup();// DONE
 void bootloader_start(void);
-void check_bootkey();
-
+void check_bootkey();// DONE
 
 // Crutch during development
-void scroll_string(const char * str); // FIXME: Crutch during development
-void scroll_string(const char * str, int delay); // FIXME: Crutch during development
+void scroll_string(const char * str); // FIXME: Crutch during development// DONE
+void scroll_string(const char * str, int delay); // FIXME: Crutch during development// DONE
 
 
 /* END API ------------------------------------------------------------------------------------ */
