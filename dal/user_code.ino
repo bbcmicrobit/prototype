@@ -6,27 +6,128 @@ unsigned long lasttime;
 int buttondown;
 
 void ScrollSpriteStringSpriteExample_Test18() {
-    scroll_sprite(StringSprite("HELLO WORLD"),50);
-    delay(70);
-    scroll_sprite(StringSprite(":-) (:)"),50);
-    print_message("* * ", 100);
-    while(1) {
-        if (getButton('A') == PRESSED) break;
-        if (getButton('B') == PRESSED) {
-            buttondown = 1;
-        } else {
-            if (buttondown == 1) { // Button released -- may be nice to wrap this up
-                time = millis();
-                if (time-lasttime > 10) { // Debounce
-                    toggle_eye('A');
-                    toggle_eye('B');
-                    lasttime = time;
-                    buttondown = 0;
-                }
-            }
-        }
+    int count;
+
+    set_eye('L', HIGH);
+    set_eye('R', HIGH);
+    scroll_sprite(StringSprite(" MERRY XMAS!"),50);
+    delay(300);
+    set_eye('L', LOW);
+    set_eye('R', LOW);
+
+
+    count = 0;
+    while (count < 30) {
+        count = count +1;
         delay(50);
+        if (getButton('A') == PRESSED) 
+            break;
     }
+
+    set_eye('L', HIGH);
+    set_eye('R', HIGH);
+    scroll_sprite(StringSprite(" MERRY XMAS"),50);
+    delay(300);
+
+    set_eye('L', LOW);
+    set_eye('R', LOW);
+
+
+    count = 0;
+    while (count < 300) {
+        count = count +1;
+        delay(50);
+        if (getButton('A') == PRESSED) 
+            break;
+    }
+
+
+    set_eye('L', HIGH);
+    set_eye('R', HIGH);
+    scroll_sprite(StringSprite(" NOW BRING US SOME FIGGY PUDDING"),50);
+    delay(300);
+    set_eye('L', LOW);
+    set_eye('R', LOW);
+
+
+    count = 0;
+    while (count < 30) {
+        count = count +1;
+        delay(50);
+        if (getButton('A') == PRESSED) 
+            break;
+    }
+
+    set_eye('L', HIGH);
+    set_eye('R', HIGH);
+    scroll_sprite(StringSprite(" AND A HAPPY NEW YEAR!"),50);
+    delay(300);
+
+    set_eye('L', LOW);
+    set_eye('R', LOW);
+
+
+    count = 0;
+    while (count < 3000) {
+        count = count +1;
+        delay(50);
+        if (getButton('A') == PRESSED) 
+            break;
+        if (count == 100)  {
+            set_eye('L', HIGH);
+            set_eye('R', HIGH);
+        }
+        if (count == 130) {
+            set_eye('L', LOW);
+            set_eye('R', LOW);
+        }
+
+        if (count == 700)  {
+            set_eye('L', HIGH);
+        }
+        if (count == 710) {
+            set_eye('L', LOW);
+        }
+
+        if (count == 1400)  {
+            set_eye('R', HIGH);
+        }
+        if (count == 1410) {
+            set_eye('R', LOW);
+        }
+        if (count == 1410) {
+            scroll_sprite(StringSprite(" DO I DO EVERYTHING ROUND HERE?"),50);
+        }
+
+        if (count == 2100)  {
+            set_eye('L', HIGH);
+            set_eye('R', HIGH);
+        }
+        if (count == 2110) {
+            set_eye('L', LOW);
+            set_eye('R', LOW);
+        }
+    }
+
+//    scroll_sprite(StringSprite(":-) (:)"),50);
+//    print_message("* * ", 100);
+//    while(1) {
+//        if (getButton('A') == PRESSED) break;
+//        if (getButton('B') == PRESSED) {
+//            buttondown = 1;
+//        } else {
+//            if (buttondown == 1) { // Button released -- may be nice to wrap this up
+//                time = millis();
+//                if (time-lasttime > 10) { // Debounce
+//                    toggle_eye('A');
+//                    toggle_eye('B');
+//                    lasttime = time;
+//                    buttondown = 0;
+//                }
+//            }
+//        }
+//        delay(50);
+//    }
 }
 
 void setup()
