@@ -162,7 +162,7 @@ Blockly.Python['microbug_set_image_point'] = function(block) {
 
 Blockly.Python['microbug_make_StringImage'] = function(block) {
   var value_name = Blockly.Python.valueToCode(block, 'NAME', Blockly.Python.ORDER_ATOMIC);
-  var code = 'new StringImage(' + value_name + ')';
+  var code = 'StringImage(' + value_name + ')';
   return [code, Blockly.Python.ORDER_NONE];
 };
 
@@ -183,7 +183,7 @@ Blockly.Python['microbug_pause'] = function(block) {
 Blockly.Python['microbug_forever'] = function(block) {
   var statements_name = Blockly.Python.statementToCode(block, 'NAME');
   // TODO: Assemble JavaScript into code variable.
-  var code = 'while (true) {' + statements_name + '}';
+  var code = 'while True:\n' + statements_name;
   return code;
 };
 
