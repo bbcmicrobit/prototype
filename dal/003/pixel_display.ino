@@ -89,7 +89,7 @@ void unplot(int x, int y);
 int point(int x, int y);
 void set_display(int sprite[5][5]);
 void showViewport(Image& someImage, int x, int y);
-void ScrollImage(Image someImage, boolean loop, int trailing_spaces);
+void ScrollImage(Image someImage, boolean loop);
 int image_point(Image& someImage, int x, int y);
 void set_image_point(Image& someImage, int x, int y, int value);
 void showLetter(char c); // Could be just internal, but useful.
