@@ -9,7 +9,7 @@ try:
     # Succeeds only on michael's machine :-)
     import michaels_machine
     STORE_BASE = "/home/michael/Work/CodeBug/MiniMicro/website/website/microbug_store"
-    DJANGO_BASE = '/tmp/nosuch_directory_this_needs_setting'
+    DJANGO_BASE = "/home/michael/Work/CodeBug/MiniMicro/website/website/app"
 except ImportError:
     # Are we running on the shared dev server?
     try:
