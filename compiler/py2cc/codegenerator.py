@@ -37,7 +37,7 @@ int main(void)
         USBDevice.attach();
 #endif
         setup(); // Switches on "eyes", and switches to bootloader if required
-
+        enable_power_optimisations();
 set_eye('L', LOW);  // Switch off eyes if bootloader not required
 set_eye('R', LOW);
         for (;;) {
