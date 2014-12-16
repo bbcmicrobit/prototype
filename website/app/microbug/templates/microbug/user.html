@@ -71,6 +71,7 @@
             {% for program in viewed_user_profile.programs_owned %}
                 {% include "microbug/partials/_program_card.html" %}
             {% endfor %}
+            <span class="clearfix"></span>
         {% else %}
             <p>
                 {% if viewing_own_details %}
@@ -96,6 +97,7 @@
             {% for program in viewed_user_profile.programs_contributed_to %}
                 {% include "microbug/partials/_program_card.html" %}
             {% endfor %}
+            <span class="clearfix"></span>
         {% else %}
             <p>
                 {% if viewing_own_profile %}

@@ -20,6 +20,8 @@ var facilitator_password_reset_request_btns = $('.facilitatorPasswordResetReques
 var forkCodeBtn = $('.forkCode');
 var needs_facilitator_email = $('#needs_facilitator_email');
 var load_code_btns = $('.load-code-btn');
+var clear_code_btn = $('.clear-code-btn');
+var build_tutorial_btn = $('.buildTutorialProgram');
 
 var runCodeButton = document.getElementById("RunCodeButton");
 var pauseCodeButton = document.getElementById("PauseCodeButton");
@@ -89,6 +91,66 @@ function enablePageInteraction() {
     setupRequireFacilitatorEmail();
 
     setupLoadCodeBtn();
+
+    setupClearCodeBtn();
+
+    setupBuildTutorialButton();
+}
+
+function setupBuildTutorialButton() {
+    if (build_tutorial_btn.length > 0) {
+        build_tutorial_btn.click(function() {
+            bootbox.dialog({
+                // Lorem ipsum
+                title: "Build Program from Tutorial",
+                message: "Enter a name to store your program as.<br/>" +
+                "<label for='program_name'>Program Name:&nbsp;</label>" +
+                "<input id='program_name' name='program_name' style='width:30em' placeholder='The name for your program'></input>",
+                buttons: {
+                    build: {
+                        label: "<i class='fa fa-cog'></i>&nbsp;Store Program",
+                        className: "btn-success",
+                        callback: function () {
+                            //bootbox.alert(
+                            //    "NAME: "+getProgramName()+"<br/>"+
+                            //        "CODE: <pre>"+blocklyCode()+"</pre><br/>"+
+                            //        "XML: <pre>"+blocklyCodeAsPython()+"</pre><br/>"
+                            //);
+                            console.log("NAME: ",getProgramName());
+                            console.log("CODE: ",blocklyCode());
+                            console.log("XML: ",blocklyCodeAsPython());
+                            $.ajax({
+                                type: "POST",
+                                url: "/microbug/build_code/",
+                                data: JSON.stringify({
+                                    "program_name": getProgramName(),
+                                    "program_id": getProgramId(),
+                                    "edit_phrase": getEditPhrase(),
+                                    "repr": {
+                                        "code": blocklyCode(),
+                                        "xml": blocklyCodeAsPython()
+                                    }
+                                }),
+                                success: function (data) {
+                                    console.log("Success, data is "+data);
+                                    bootbox.alert("Your program has been stored")
+                                },
+                                error: function (jqHxr, textStatus, errorText) {
+                                    bootbox.alert("Error saving program, please try again later");
+                                }
+                            });
+                        }
+                    },
+                    cancel: {
+                        label: "<i class='fa fa-close'></i>&nbsp;Cancel",
+                        className: "btn-danger"
+                    }
+                }
+            });
+        });
+    } else {
+        console.log("No build tutorial button, skipping");
+    }
 }
 
 function setupLoadCodeBtn() {
@@ -567,7 +629,6 @@ function updateLoginForm() {
         type: "GET",
         url: "/bug/login_pane",
         success: function(data) {
-            console.log("SUCCESS ON LOGIN FORM, DATA IS ",data);
             login_div.html(data);
             // Close the menu
 
@@ -644,7 +705,13 @@ function setupProgramStatusUpdate() {
 }
 
 function updateProgramStatus(program_id) {
-    var callback = function() { updateProgramStatus(program_id)};
+    if (program_id == '' || program_id==undefined) {
+        console.log("No program ID");
+        return;
+    }
+    var callback = function() {
+        updateProgramStatus(program_id)
+    };
 
     $.ajax({
         type: 'GET',

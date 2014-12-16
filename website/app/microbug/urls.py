@@ -37,7 +37,8 @@ urlpatterns = patterns('',
     # Ez: /tutorials
     url(r'^tutorials', views.tutorials, name='tutorials'),
     # Ex: /user/23
-    url(r'^user/(?P<user_id>\d+)/$', views.user, name='user'),
+    url(r'^user/(?P<user_id>\d+)/$',     # {'request_id': request_id, 'is_accepted': true/false}
+views.user, name='user'),
 
     ###########################################################################
 
@@ -88,7 +89,6 @@ urlpatterns = patterns('',
     url(r'^rename_program/$', views.rename_program, name='rename_program'),
 
     # Ex: /respond_to_facilitator_request
-    # {'request_id': request_id, 'is_accepted': true/false}
     url(r'^respond_to_facilitator_request', views.respond_to_facilitator_request, name='respond_to_facilitator_request'),
 
     # Ex: /request_password_reset
