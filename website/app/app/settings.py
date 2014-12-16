@@ -20,12 +20,22 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '4%)5+e-*(_e&ojqo_go37b!ihz(*^tw$1!r_k^8gr_8w*#67%9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True
 DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ ]
 
+try:
+    import taster_machine
+    DEBUG = False
+
+    TEMPLATE_DEBUG = False
+
+    ALLOWED_HOSTS = [ "bug.iotoy.org", "microbug.iotoy.org"]
+except ImportError:
+    pass
 
 # Application definition
 
