@@ -1,6 +1,13 @@
 
-#include "spark_font.h"
 #include <avr/pgmspace.h>
+#include <avr/sleep.h>
+#include "avr/wdt.h"
+#include <util/atomic.h>
+#include <avr/power.h>
+
+
+#include "spark_font.h"
+#include "atmel_bootloader.h"
 
 #define PRESSED HIGH
 #define UNPRESSED LOW
@@ -176,11 +183,178 @@ void scroll_string(const char * str, int delay); // FIXME: Crutch during develop
 
 /* END API ------------------------------------------------------------------------------------ */
 
+/* START POWER OPTIMISATIONS ------------------------------------------------------------------------------------ */
+// The power optimisations are courtesy of the "Sleepy" code from JeeLabs.
+// Sleepy is (C) Jean-Claude Wippler 2014, used under the MIT License from - https://github.com/jcw/jeelib/blob/master/LICENSE
+
+
+
+class Sleepy {
+public:
+    /// start the watchdog timer (or disable it if mode < 0)
+    /// @param mode Enable watchdog trigger after "16 << mode" milliseconds 
+    ///             (mode 0..9), or disable it (mode < 0).
+    /// @note If you use this function, you MUST included a definition of a WDT
+    /// interrupt handler in your code. The simplest is to include this line:
+    ///
+    ///     ISR(WDT_vect) { Sleepy::watchdogEvent(); }
+    ///
+    /// This will get called when the watchdog fires.
+    static void watchdogInterrupts (char mode);
+
+    /// enter low-power mode, wake up with watchdog, INT0/1, or pin-change
+    static void powerDown ();
+
+    /// Spend some time in low-power mode, the timing is only approximate.
+    /// @param msecs Number of milliseconds to sleep, in range 0..65535.
+    /// @returns 1 if all went normally, or 0 if some other interrupt occurred
+    /// @note If you use this function, you MUST included a definition of a WDT
+    /// interrupt handler in your code. The simplest is to include this line:
+    ///
+    ///     ISR(WDT_vect) { Sleepy::watchdogEvent(); }
+    ///
+    /// This will get called when the watchdog fires.
+    static byte loseSomeTime (word msecs);
+
+    /// This must be called from your watchdog interrupt code.
+    static void watchdogEvent();
+};
+
+static volatile byte watchdogCounter;
+void Sleepy::watchdogInterrupts (char mode) {
+    // correct for the fact that WDP3 is *not* in bit position 3!
+    if (mode & bit(3))
+        mode ^= bit(3) | bit(WDP3);
+    // pre-calculate the WDTCSR value, can't do it inside the timed sequence
+    // we only generate interrupts, no reset
+    byte wdtcsr = mode >= 0 ? bit(WDIE) | mode : 0;
+    MCUSR &= ~(1<<WDRF);
+    ATOMIC_BLOCK(ATOMIC_FORCEON) {
+#ifndef WDTCSR
+#define WDTCSR WDTCR
+#endif
+        WDTCSR |= (1<<WDCE) | (1<<WDE); // timed sequence
+        WDTCSR = wdtcsr;
+    }
+}
+
+
+// ISR(WDT_vect) { Sleepy::watchdogEvent(); }
+
+/// @fn static void Sleepy::powerDown ();
+/// Take the ATmega into the deepest possible power down state. Getting out of
+/// this state requires setting up the watchdog beforehand, or making sure that
+/// suitable interrupts will occur once powered down.
+/// Disables the Brown Out Detector (BOD), the A/D converter (ADC), and other
+/// peripheral functions such as TWI, SPI, and UART before sleeping, and
+/// restores their previous state when back up.
+void Sleepy::powerDown () {
+    byte adcsraSave = ADCSRA;
+    ADCSRA &= ~ bit(ADEN); // disable the ADC
+    set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+    ATOMIC_BLOCK(ATOMIC_FORCEON) {
+        sleep_enable();
+        // sleep_bod_disable(); // can't use this - not in my avr-libc version!
+#ifdef BODSE
+        MCUCR = MCUCR | bit(BODSE) | bit(BODS); // timed sequence
+        MCUCR = (MCUCR & ~ bit(BODSE)) | bit(BODS);
+#endif
+    }
+    sleep_cpu();
+    sleep_disable();
+    // re-enable what we disabled
+    ADCSRA = adcsraSave;
+}
+
+byte Sleepy::loseSomeTime (word msecs) {
+    byte ok = 1;
+    word msleft = msecs;
+    // only slow down for periods longer than the watchdog granularity
+    while (msleft >= 16) {
+        char wdp = 0; // wdp 0..9 corresponds to roughly 16..8192 ms
+        // calc wdp as log2(msleft/16), i.e. loop & inc while next value is ok
+        for (word m = msleft; m >= 32; m >>= 1)
+            if (++wdp >= 9)
+                break;
+        watchdogCounter = 0;
+        watchdogInterrupts(wdp);
+        powerDown();
+        watchdogInterrupts(-1); // off
+        // when interrupted, our best guess is that half the time has passed
+        word halfms = 8 << wdp;
+        msleft -= halfms;
+        if (watchdogCounter == 0) {
+            ok = 0; // lost some time, but got interrupted
+            break;
+        }
+        msleft -= halfms;
+    }
+    // adjust the milli ticks, since we will have missed several
+#if defined(__AVR_ATtiny84__) || defined(__AVR_ATtiny85__) || defined (__AVR_ATtiny44__) || defined (__AVR_ATtiny45__)
+    extern volatile unsigned long millis_timer_millis;
+    millis_timer_millis += msecs - msleft;
+#else
+    extern volatile unsigned long timer0_millis;
+    timer0_millis += msecs - msleft;
+#endif
+    return ok; // true if we lost approx the time planned
+}
+
+void Sleepy::watchdogEvent() {
+    ++watchdogCounter;
+}
+
+
+
+void pause(word millis) {
+#ifdef MICROKIT_DISABLE
+    delay(millis);
+#else
+    delay(millis/4);
+#endif
+}
+
+void sleep(word millis) {
+    Sleepy::loseSomeTime( millis);
+}
+
+
+void enable_power_optimisations() {
+    // Disable lots of things - we need to be able to re-enable these, but not at present
+
+    power_adc_disable();
+    power_usart0_disable();
+    power_spi_disable();
+    power_twi_disable();
+    power_timer1_disable();
+    power_timer2_disable();
+    power_timer3_disable();
+    power_usart1_disable();
+
+    // Some registers need to be written to twice to cause them to be acted upon.
+    (UDCON   |=  (1<<DETACH));           // Detach USB
+    power_usb_disable();                 // Disable USB power
+    USBCON |= (1 << FRZCLK);             // Stop USB Clock
+    PLLCSR &= ~(1 << PLLE);              // Disable USB Clock
+    USBCON &=  ~(1 << USBE  );           // Disable USB 
+    UDINT  &= ~(1 << SUSPI);             // Really suspend USB
+    USBCON |= ( 1 <<FRZCLK);             // Really freeze the USB clock
+    PLLCSR &= ~(1 << PLLE);              // Really disable USB
+
+    CLKSEL0 |= (1 << RCE);                  // Enable internal RC clock
+    while ( (CLKSTA & (1 << RCON)) == 0){}  // Wait for the internal RC clock to be ready
+    CLKSEL0 &= ~(1 << CLKS);                // Select the internal RC clock
+    CLKSEL0 &= ~(1 << EXTE);                // Disable external clock
+
+    clock_prescale_set(clock_div_4);        // Switch the CPU speed right down.
+}
+
+/* END POWER OPTIMISATIONS ------------------------------------------------------------------------------------ */
+
+
 
 // CODE TO SUPPORT SWITCH TO DFU BOOTLOADER -------------------------------------------------------
 
-#include "avr/wdt.h"
-#include "atmel_bootloader.h"
 
 #define Usb_detach()                              (UDCON   |=  (1<<DETACH))
 
@@ -195,7 +369,7 @@ void bootloader_start(void) {
      */
     Usb_detach();
     cli();
-    delay(200);
+    pause(200);
     MCUSR &= ~(1 << WDRF);
     wdt_disable();
 
@@ -214,7 +388,6 @@ void check_bootkey() {
 }
 // END CODE TO SUPPORT SWITCH TO DFU BOOTLOADER -------------------------------------------------------
 
-
 void setup_display() {
 #ifdef MICROBUG
 
@@ -222,7 +395,7 @@ CLKPR = 0x80;
 CLKPR = 0x01;
 #endif
 
-#ifdef MICROKIT
+#ifdef MICROKIT_DISABLE
 
 CLKPR = 0x80;
 CLKPR = 0x01;
@@ -234,11 +407,18 @@ CLKPR = 0x01;
     TCCR4B = 0;
     // Set timer4_counter to the correct value for our interrupt interval
     // timer4_counter = 64911;     // preload timer 65536-16MHz/256/100Hz
-    timer4_counter = 65224;     // preload timer 65536-16MHz/256/200Hz
+//    timer4_counter = 65224;     // preload timer 65536-16MHz/256/200Hz
+//    timer4_counter = 65380;     // preload timer 65536-16MHz/256/400Hz
+//    timer4_counter = 65458;     // preload timer 65536-16MHz/256/800Hz
+    timer4_counter = 65521;     // 65536-(2000000/64/2000)
+
     // timer4_counter = 65497;     // preload timer 65536-2MHz/256/200Hz // For some reason current microbug is operating at 2MHz
 
     TCNT4 = timer4_counter;   // preload timer
-    TCCR4B |= (1 << CS12);    // 256 prescaler 
+    TCCR4B |= (0 << CS12);    //
+    TCCR4B |= (1 << CS11);    // 64 prescaler 
+    TCCR4B |= (1 << CS10);    // 64 prescaler 
+
     TIMSK4 |= (1 << TOIE4);   // enable timer overfLOW interrupt
     interrupts();             // enable all interrupts
 }
@@ -247,10 +427,35 @@ CLKPR = 0x01;
 ISR(TIMER4_OVF_vect)        // interrupt service routine 
 {
     TCNT4 = timer4_counter;   // preload timer
-    display_column(display_strobe_counter % 5);
+    if (display_strobe_counter == 0) {
+         digitalWrite(lefteye, left_eye_state);
+         digitalWrite(righteye, right_eye_state);
+    }
+    if (display_strobe_counter == 1) {
+         digitalWrite(lefteye, LOW);
+         digitalWrite(righteye, LOW);
+    }
+    if (display_strobe_counter <5) {
+        display_column(display_strobe_counter % 5);
+    }
+    if (display_strobe_counter == 5) {
+        digitalWrite(row0, LOW);
+        digitalWrite(row1, LOW);
+        digitalWrite(row2, LOW);
+        digitalWrite(row3, LOW);
+        digitalWrite(row4, LOW);
 
+        digitalWrite(col0, LOW);
+        digitalWrite(col1, LOW);
+        digitalWrite(col2, LOW);
+        digitalWrite(col3, LOW);
+        digitalWrite(col4, LOW);
+        digitalWrite(lefteye, LOW);
+        digitalWrite(righteye, LOW);
+
+    }
     display_strobe_counter += 1;
-    if (display_strobe_counter > 200) {
+    if (display_strobe_counter >= 10) {
         display_strobe_counter = 0; // reset
     }
 }
@@ -290,10 +495,13 @@ void microbug_setup() { // This is a really MicroBug setup
     digitalWrite(col3, HIGH);
     digitalWrite(col4, HIGH);
 
-    digitalWrite(lefteye, HIGH);
-    digitalWrite(righteye, HIGH);
-check_bootkey();
+    digitalWrite(lefteye, HIGH);  // Turn status LEDs on prior to checking bootkey
+    digitalWrite(righteye, HIGH); // If we reboot they will stay on.
 
+check_bootkey();  //. This will never return if we reboot device.
+
+    digitalWrite(lefteye, LOW);
+    digitalWrite(righteye, LOW);
 }
 
 void display_column(int i) {
@@ -421,17 +629,18 @@ void print_message(const char * message, int pausetime=100) {
     while(*message) {
         showLetter(*message);
         message++;
-        delay(pausetime);
+        pause(pausetime);
     }
 }
 
+
 void set_eye(char id, int state) {
     if ((id == 'A') || (id == 'L')) {
-        digitalWrite(lefteye, state );
+//        digitalWrite(lefteye, state );
         left_eye_state = state;
     }
     if ((id == 'B') || (id == 'R')) {
-        digitalWrite(righteye, state );
+//        digitalWrite(righteye, state );
         right_eye_state = state;
     }
 }
@@ -489,7 +698,7 @@ void ScrollImage(Image someImage, boolean loop=false, int trailing_spaces=false)
     for(int i=0; i<someImage.width-DISPLAY_WIDTH+1; i++) {
         clear_display();
         showViewport(someImage, i,0);
-        delay(80);
+        pause(80);
     }
 }
 
@@ -603,7 +812,7 @@ void scroll_string_image(StringImage theSprite, int pausetime=100) {
     for(int i=0; i<theSprite.pixel_width(); i++) {
         theSprite.render_string();
         theSprite.pan_right();
-        delay(pausetime);
+        pause(pausetime);
     }
 }
 

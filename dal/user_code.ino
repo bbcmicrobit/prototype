@@ -4,6 +4,8 @@
 unsigned long time;
 unsigned long lasttime;
 int buttondown;
+ISR(WDT_vect) { Sleepy::watchdogEvent(); }
+
 
 void ScrollSpriteStringSpriteExample_Test18() {
     int count;
@@ -11,7 +13,7 @@ void ScrollSpriteStringSpriteExample_Test18() {
     set_eye('L', HIGH);
     set_eye('R', HIGH);
     scroll_string_image(StringImage(" MERRY XMAS!"),50);
-    delay(300);
+    sleep(30);
     set_eye('L', LOW);
     set_eye('R', LOW);
 
@@ -19,7 +21,7 @@ void ScrollSpriteStringSpriteExample_Test18() {
     count = 0;
     while (count < 30) {
         count = count +1;
-        delay(50);
+        sleep(30);
         if (getButton('A') == PRESSED) 
             break;
     }
@@ -27,7 +29,7 @@ void ScrollSpriteStringSpriteExample_Test18() {
     set_eye('L', HIGH);
     set_eye('R', HIGH);
     scroll_string_image(StringImage(" MERRY XMAS"),50);
-    delay(300);
+    sleep(300);
 
     set_eye('L', LOW);
     set_eye('R', LOW);
@@ -36,7 +38,7 @@ void ScrollSpriteStringSpriteExample_Test18() {
     count = 0;
     while (count < 300) {
         count = count +1;
-        delay(50);
+        sleep(50);
         if (getButton('A') == PRESSED) 
             break;
     }
@@ -45,7 +47,7 @@ void ScrollSpriteStringSpriteExample_Test18() {
     set_eye('L', HIGH);
     set_eye('R', HIGH);
     scroll_string_image(StringImage(" NOW BRING US SOME FIGGY PUDDING"),50);
-    delay(300);
+    sleep(300);
     set_eye('L', LOW);
     set_eye('R', LOW);
 
@@ -53,7 +55,7 @@ void ScrollSpriteStringSpriteExample_Test18() {
     count = 0;
     while (count < 30) {
         count = count +1;
-        delay(50);
+        sleep(50);
         if (getButton('A') == PRESSED) 
             break;
     }
@@ -61,7 +63,7 @@ void ScrollSpriteStringSpriteExample_Test18() {
     set_eye('L', HIGH);
     set_eye('R', HIGH);
     scroll_string_image(StringImage(" AND A HAPPY NEW YEAR!"),50);
-    delay(300);
+    sleep(300);
 
     set_eye('L', LOW);
     set_eye('R', LOW);
@@ -70,7 +72,7 @@ void ScrollSpriteStringSpriteExample_Test18() {
     count = 0;
     while (count < 3000) {
         count = count +1;
-        delay(50);
+        sleep(50);
         if (getButton('A') == PRESSED) 
             break;
         if (count == 100)  {
@@ -126,7 +128,7 @@ void ScrollSpriteStringSpriteExample_Test18() {
 //                }
 //            }
 //        }
-//        delay(50);
+//        sleep(50);
 //    }
 }
 
@@ -136,14 +138,13 @@ void setup()
     lasttime = 0;
     time = 0;
     buttondown = 0;
-set_eye('L', HIGH);
-set_eye('R', HIGH);
 }
 
 void loop()
 {
     ScrollSpriteStringSpriteExample_Test18();
 }
+
 
 int main(void)
 {
@@ -152,10 +153,8 @@ int main(void)
 #if defined(USBCON)
         USBDevice.attach();
 #endif
-set_eye('L', LOW);
-set_eye('R', LOW);
         setup();
-// set_eye('R', LOW);
+        enable_power_optimisations();
         for (;;) {
                 loop();
                 if (serialEventRun) serialEventRun();
