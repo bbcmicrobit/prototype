@@ -45,7 +45,7 @@ function enablePageInteraction() {
             console.log("Building code");
             compileNewProgram(
                 function(program_id) {
-                    window.location.replace('/microbug/program/'+program_id);
+                    window.location.replace('/bug/program/'+program_id);
             });
         })
     } else {
@@ -97,7 +97,7 @@ function requestFacilitatorEmail() {
                     var email_address = $('#facilitatorEmail').val();
                     $.ajax({
                         type: "POST",
-                        url: "/microbug/set_email/",
+                        url: "/bug/set_email/",
                         data: JSON.stringify({
                             "email": email_address
                         }),
@@ -147,13 +147,13 @@ function setupForkCode() {
                     if (!result) { return }
                     $.ajax({
                         type: "POST",
-                        url: "/microbug/fork_code",
+                        url: "/bug/fork_code",
                         data: JSON.stringify({
                             "src_id": $(ev.currentTarget).attr('data-src-id')
                         }),
                         success: function(data) {
                             data = JSON.parse(data);
-                            window.location.replace('/microbug/program/'+data['fork_id'])
+                            window.location.replace('/bug/program/'+data['fork_id'])
                         },
                         error: function (jqXhr, textStatus, errorThrown) {
                             bootbox.alert("Error, cannot create own version");
@@ -177,7 +177,7 @@ function setupFacilitatorPasswordReset() {
                 if (result) {
                     $.ajax({
                         type: "POST",
-                        url: "/microbug/confirm_password_reset",
+                        url: "/bug/confirm_password_reset",
                         data: JSON.stringify({
                             "id": child_id
                         }),
@@ -234,7 +234,7 @@ function setupForgotPasswordButton() {
                         callback: function() {
                             $.ajax({
                                 type: "POST",
-                                url: "/microbug/request_password_reset",
+                                url: "/bug/request_password_reset",
                                 data: JSON.stringify({
                                     "username": $('#requestUsername').val()
                                 }),
@@ -270,7 +270,7 @@ function setupCreateUser() {
             console.log("Creating new user");
             $.ajax({
                 type: "POST",
-                url: "/microbug/create_user/",
+                url: "/bug/create_user/",
                 data: '',
                 dataType: 'json',
                 success: function (data) {
@@ -298,7 +298,7 @@ function setupUserDetailsUpdate() {
             }
             $.ajax({
                 type: "POST",
-                url: "/microbug/update_user_details/",
+                url: "/bug/update_user_details/",
                 data: JSON.stringify({
                     "name": $('#name').val(),
                     "email": email,
@@ -410,7 +410,7 @@ function respondToFacilitatorRequest(request_id, accepted) {
     }
     $.ajax({
         type: "POST",
-        url: "/microbug/respond_to_facilitator_request",
+        url: "/bug/respond_to_facilitator_request",
         data: JSON.stringify({
             "request_id": request_id,
             "is_accepted": accepted
@@ -475,7 +475,7 @@ function makeFacilitorRequest(faciliator_name) {
     $.ajax({
         type: "POST",
         dataType: 'text',
-        url: "/microbug/facilitator_request",
+        url: "/bug/facilitator_request",
         data: JSON.stringify({
             "facilitator_name": faciliator_name
         }),
@@ -515,7 +515,7 @@ function makeFacilitorRequest(faciliator_name) {
 function signOut() {
     $.ajax({
         type: "GET",
-        url: "/microbug/sign_out",
+        url: "/bug/sign_out",
         success: function(data) {
             //updateLoginForm();
             location.reload();
@@ -529,7 +529,7 @@ function updateLoginForm() {
     
     $.ajax({
         type: "GET",
-        url: "/microbug/login_pane",
+        url: "/bug/login_pane",
         success: function(data) {
             console.log("SUCCESS ON LOGIN FORM, DATA IS ",data);
             login_div.html(data);
@@ -549,7 +549,7 @@ function updateLoginForm() {
 
                 $.ajax({
                     type: "POST",
-                    url: "/microbug/authenticate_user/",
+                    url: "/bug/authenticate_user/",
                     data: JSON.stringify({
                         "username": username,
                         "password": password
@@ -612,7 +612,7 @@ function updateProgramStatus(program_id) {
 
     $.ajax({
         type: 'GET',
-        url: '/microbug/queue_status/'+program_id,
+        url: '/bug/queue_status/'+program_id,
         timeout: 2000,
         success: function(data) {
             data = JSON.parse(data);
@@ -632,7 +632,7 @@ function statusElementContent(data) {
         return '';
     } else if (data.status == 'compiled') {
         return(
-            '<a class="btn btn-primary" href="/microbug/download/'+data.id+'">' +
+            '<a class="btn btn-primary" href="/bug/download/'+data.id+'">' +
             '<i class="fa fa-download">&nbsp;</i>Download </a>'
         );
     } else if (data.status == 'in_compile_queue') {
@@ -783,7 +783,7 @@ function programRenameAjax(program_id, program_name_elem, original_program_name_
 
     $.ajax({
         type: "POST",
-        url: "/microbug/rename_program/",
+        url: "/bug/rename_program/",
         data: JSON.stringify({
             "program_id": program_id,
             "program_name": program_name,
@@ -813,7 +813,7 @@ function setupBlockly() {
     if (document.getElementById('blockly')) {
         Blockly.inject(document.getElementById('blockly'),
             {
-                path: '/static/microbug/blockly/',
+                path: '/static/bug/blockly/',
                 toolbox: document.getElementById('toolbox'),
                 trashcan: false
             });
@@ -1098,7 +1098,7 @@ function setupBlockly() {
 			document.getElementById("RunCodeButton").addEventListener("click", runCode);
 			SIMIO.render();
 
-            var jqxhr = $.get('/static/microbug/js/dal_interpreter.txt', function(data, txt, err) {
+            var jqxhr = $.get('/static/bug/js/dal_interpreter.txt', function(data, txt, err) {
                 dalcode = data;
                 console.log("Dalcode success");
             })
@@ -1159,7 +1159,7 @@ function compileNewProgram(successCallback) {
 
     $.ajax({
         type: "POST",
-        url: "/microbug/build_code/",
+        url: "/bug/build_code/",
         data: JSON.stringify({
             "program_name": getProgramName(),
             "program_id": getProgramId(),
@@ -1188,7 +1188,7 @@ function compileNewProgram(successCallback) {
 function recompileProgram(successCallback) {
     $.ajax({
         type: "POST",
-        url: "/microbug/build_code/",
+        url: "/bug/build_code/",
         data: JSON.stringify({
             "program_name": getProgramName(),
             "program_id": getProgramId(),

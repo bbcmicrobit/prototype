@@ -24,7 +24,7 @@ class Command(TemplateCommand):
             self._import_md_file(md_filename)
             pass
 
-        self._copy_tutorial_assets(os.path.abspath(tutorial_directory)+'/static/microbug/tutorial_assets')
+        self._copy_tutorial_assets(os.path.abspath(tutorial_directory)+'/static/bug/tutorial_assets')
 
     def _render_as_django_template(self, template_content, context_hash={}):
         template = Template(template_content)
@@ -60,8 +60,8 @@ class Command(TemplateCommand):
 
     def _fix_static_links(self, content):
         return content.replace(
-            'static/microbug/tutorial_assets',
-            '/static/microbug/tutorial_assets'
+            'static/bug/tutorial_assets',
+            '/static/bug/tutorial_assets'
         )
 
     def _process_pling_page(self, content):

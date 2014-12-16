@@ -84,7 +84,7 @@ var SIMIO = (function(){
 
 	var render = function(display, eyes) {
 
-		// Draw microbug	
+		// Draw bug	
 		context.globalCompositeOperation = "source-over";
 		context.fillStyle = 'white';
 		context.fillRect(0,0,canvas.width, canvas.height);
@@ -177,13 +177,13 @@ var SIMIO = (function(){
 		imageObj.addEventListener('load',function(){
 			SIMIO.render();
 		});
-		imageObj.src = '/static/microbug/media/IMG_8829.png';
+		imageObj.src = '/static/bug/media/IMG_8829.png';
 
 		flareObj = new Image();
-		flareObj.src = '/static/microbug/media/redledwithalpha_sm.png';
+		flareObj.src = '/static/bug/media/redledwithalpha_sm.png';
 
 		flareObj2 = new Image();
-		flareObj2.src = '/static/microbug/media/orangeledwithalpha_sm.png';
+		flareObj2.src = '/static/bug/media/orangeledwithalpha_sm.png';
 
 		document.getElementById(divId).appendChild(canvas);
 	};

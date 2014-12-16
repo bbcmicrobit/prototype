@@ -50,7 +50,7 @@ PENDING_PYTHON_QUEUE_DIRECTORY = STORE_BASE + '/pending'
 COMPILED_PYTHON_PROGRAMS_DIRECTORY = STORE_BASE + '/compiled'
 
 # The directory that the Tutorial Assets live in for the static server
-TUTORIAL_ASSETS_STATIC_DIRECTORY = DJANGO_BASE + '/microbug/static/microbug/tutorial_assets'
+TUTORIAL_ASSETS_STATIC_DIRECTORY = DJANGO_BASE + '/microbug/static/bug/tutorial_assets'
 
 # The word list to use for usernames/passwords
 WORD_LIST_FILE = '/usr/share/dict/words'

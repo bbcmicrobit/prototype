@@ -9,7 +9,7 @@ Normal content
 
 This is **content** for **page 1**.
 
-![Melon Cat](static/microbug/tutorial_assets/melon-cat.jpg)
+![Melon Cat](static/bug/tutorial_assets/melon-cat.jpg)
 
 * One
 * Two

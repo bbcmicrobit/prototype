@@ -36,10 +36,10 @@ The header for Task 2 and Task 3 is the same ("Turning the LED off again").
 IMPORTANT FILES
 
 ./app/settings.py - Contains all of the Django config, including logging and debug.
-./app/urls.py - Top-level routing, if you need to change /microbug or /admin go here.
+./app/urls.py - Top-level routing, if you need to change /bug or /admin go here.
 ./compile_sass.sh - Utility script, one-shot compilation of .scss template files from sass_src into .css
 ./db.sqlite3 - The database
-./manage.py - Django utility script, the microbug/management commands hook into this.
+./manage.py - Django utility script, the bug/management commands hook into this.
 ./microbug/admin.py - Configure the /admin interface, including which models and fields are there
 ./microbug/management/commands/create_users.py - The implementation of the 'create_users' command
 ./microbug/management/commands/import_tutorials.py - The implementation of the 'import_tutorials' command
@@ -48,6 +48,10 @@ IMPORTANT FILES
 ./microbug/models.py - Implementation of all of the Microbug database models- this is what drives the migrations and sets up the actual classes
 ./microbug/settings.py - Microbug-specific settings
 ./microbug/static - Statically-served content.  In debug this is dynamically served, in production this should be served via Apache/Nginx/whatnot.
+
+// In the following bug symlinked into microbug
+// This will improve over time
+
 ./microbug/static/microbug/css - Site CSS lives here, this is mostly generated using the Sass .sh scripts
 ./microbug/static/microbug/css/test.css - This is the one exception, hardcoded CSS rules live here.
 ./microbug/static/microbug/tutorial_assets - The contents of this directory are controlled by the 'import_tutorials' script, and all tutorial assets should live here.

@@ -7,7 +7,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     # Route to the Microbug application.
-    url(r'^microbug/', include("microbug.urls", namespace='microbug')),
+    url(r'^bug/', include("microbug.urls", namespace='microbug')),
 )
 
 
