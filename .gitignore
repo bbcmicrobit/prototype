@@ -4,7 +4,12 @@ website/upload/highest
 website/tmp
 website/docs/compiled
 website/upload/highest.lock
+website/microbug_store/primary/highest.txt
 website/app/microbug/migrations/0*
+website/microbug_store/compiled/*.hex
+website/microbug_store/compiled/*.py
+website/microbug_store/primary/*.py
+website/microbug_store/primary/*.json
 installer/win/PY2EXE/build
 installer/win/PY2EXE/dist
 installer/mac_os_x/build
