@@ -588,7 +588,7 @@ def update_user_details(request):
         return HttpResponseBadRequest("Could not process request, not a valid Json object?")
 
     # Handle email address
-    if 'email' in json_obj and user_profile.is_facilitator:
+    if 'email' in json_obj and json_obj['email'] is not None and user_profile.is_facilitator:
         email_address = json_obj['email'].strip()
         if email_address is not None and email_address != '':
             try:

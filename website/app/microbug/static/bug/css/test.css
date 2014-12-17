@@ -4,6 +4,10 @@ body {
     //background-image: url('/static/bug/img/background/mooning.png');
 }
 
+h1 {
+    font-size: 150%;
+}
+
 .tab-content {
     border-top: 0px;
     border-left: 1px solid #ddd;

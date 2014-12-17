@@ -153,6 +153,22 @@ function setupBuildTutorialButton() {
     }
 }
 
+function setupClearCodeBtn() {
+    if (clear_code_btn.length > 0) {
+        console.log("Setting up clear code button");
+        clear_code_btn.click(function() {            bootbox.confirm(
+                // Lorem ipsum
+                "Clearing your code will lose any unsaved work, continue?",
+                function(result) {
+                    if (result) {
+                        Blockly.mainWorkspace.clear();
+                    }
+                }
+            );
+        })
+    }
+}
+
 function setupLoadCodeBtn() {
     if (load_code_btns.length >0 ) {
         console.log("Setting up load code buttons");
