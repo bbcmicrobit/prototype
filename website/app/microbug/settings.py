@@ -54,11 +54,16 @@ TUTORIAL_ASSETS_STATIC_DIRECTORY = DJANGO_BASE + '/microbug/static/bug/tutorial_
 
 # The word list to use for usernames/passwords
 WORD_LIST_FILE = '/usr/share/dict/words'
+try:
+   import taster_machine
+   WORD_LIST_FILE = "/home/codebug/microbug/website/app/app/wordlist"
+except ImportError:
+   pass
 
 # The time, in seconds, to process each Python item
 PYTHON_ITEM_COMPILATION_TIME = 12
 
 # Controls the complexity of usernames, passwords, and edit phrases.
-WORDS_IN_USERNAMES = 1
-WORDS_IN_PASSWORDS = 1
+WORDS_IN_USERNAMES = 2
+WORDS_IN_PASSWORDS = 2
 WORDS_IN_EDIT_PHRASES = 1
