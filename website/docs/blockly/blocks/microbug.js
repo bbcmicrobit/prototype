@@ -4,23 +4,23 @@ goog.provide('Blockly.Blocks.microbug');
 
 goog.require('Blockly.Blocks');
 
-Blockly.Blocks['microbug_scroll_string'] = {
-  init: function() {
-    this.setHelpUrl('http://www.example.com/');
-    this.setColour(0);
-    this.appendDummyInput()
-        .appendField("scroll_string");
-    this.appendValueInput("Message")
-        .setCheck("String")
-        .appendField("String");
-    this.appendValueInput("Speed")
-        .setCheck("Number")
-        .appendField("Speed");
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
+// Blockly.Blocks['microbug_scroll_string'] = {
+//   init: function() {
+//     this.setHelpUrl('http://www.example.com/');
+//     this.setColour(0);
+//     this.appendDummyInput()
+//         .appendField("scroll_string");
+//     this.appendValueInput("Message")
+//         .setCheck("String")
+//         .appendField("String");
+//     this.appendValueInput("Speed")
+//         .setCheck("Number")
+//         .appendField("Speed");
+//     this.setPreviousStatement(true);
+//     this.setNextStatement(true);
+//     this.setTooltip('');
+//   }
+// };
 
 // https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#83qc3o
 Blockly.Blocks['microbug_set_eye'] = {
