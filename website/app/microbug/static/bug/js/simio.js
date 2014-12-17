@@ -186,6 +186,8 @@ var SIMIO = (function(){
 		flareObj2.src = '/static/bug/media/orangeledwithalpha_sm.png';
 
 		document.getElementById(divId).appendChild(canvas);
+		// canvas.style.marginLeft = "auto";
+		// canvas.style.marginRight = "auto";
 	};
 
 	return {

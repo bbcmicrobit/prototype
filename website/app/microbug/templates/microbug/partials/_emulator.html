@@ -1,5 +1,31 @@
 <!-- Start of _emulator.html, owned by MRB -->
 <div id="SIMIO" style="width:200px;"></div>
-<button type="button" id="RunCodeButton">Run Simulator</button>
-<input type="text" id="pausetime" value="100">    
+<!-- <button type="button" id="RunCodeButton">Run Simulator</button> -->
+
+<div id="emulator-controls">
+	<div id="emulator-speed-slider">
+<!--		<input type="range" min="0" max="2000" value="2000" id="slider" onchange="sliderFunction(value)"> -->
+		<input type="range" min="0" max="2000" value="2000" id="slider" style="width:150px; margin-left:auto; margin-right:auto">
+	</div>
+
+	<div id="emulator-control-buttons">
+		<button type="button" class="btn btn-success" id="RunCodeButton" title="Run">
+			<span class="glyphicon glyphicon-play"></span>
+		</button>
+
+		<button type="button" class="btn btn-success" id="PauseCodeButton"  title="Pause" disabled>
+			<span class="glyphicon glyphicon-pause"></span>
+		</button>
+
+		<button type="button" class="btn btn-warning" id="StepCodeButton" title="Step through">
+			<span class="glyphicon glyphicon-step-forward"></span>
+		</button>
+
+		<button type="button" class="btn btn-danger" id="ResetCodeButton" title="Reset" disabled>
+			<span class="glyphicon glyphicon-fast-backward"></span>
+		</button>
+	</div>
+
+	<input type="text" id="pausetime" value="100">
+</div>
 <!-- End of _emulator.html -->

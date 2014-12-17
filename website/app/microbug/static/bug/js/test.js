@@ -20,6 +20,13 @@ var facilitator_password_reset_request_btns = $('.facilitatorPasswordResetReques
 var forkCodeBtn = $('.forkCode');
 var needs_facilitator_email = $('#needs_facilitator_email');
 
+var runCodeButton = document.getElementById("RunCodeButton");
+var pauseCodeButton = document.getElementById("PauseCodeButton");
+var stepCodeButton = document.getElementById("StepCodeButton");
+var resetCodeButton = document.getElementById("ResetCodeButton");
+
+
+
 function enablePageInteraction() {
     var editor_tabs = $('#editor_tabs');
     editor_tabs.tab();
@@ -844,6 +851,15 @@ function setupBlockly() {
 		    var myInterpreter = null;
 		    var myInterval = null;
 
+            var codeParsed = false;
+            var codePaused = false;
+            var codeComplete = false;
+            var stepMode = false;
+            var stepRequest = false;
+
+            var highlightPause = false;
+
+
 			function initInterpreterApi(interpreter, scope)
 			{
 			    function makeWrapper(fn)
@@ -968,24 +984,162 @@ function setupBlockly() {
 
 			}	    
 
-			var highlightPause = false;
-
 			function highlightBlock(id)
 			{
 			    Blockly.mainWorkspace.highlightBlock(id);
 			    highlightPause = true;
 			}
 
-			function runCode()
-			{
-				//DALJS.reset();
-			    if (parseCode())
+            function stepCode()
+            {
+                var statusMsg = "Everything OK";
+
+                while (!highlightPause)
                 {
-                    stepCode();
+                    try
+                    {
+                        var ok = myInterpreter.step();
+                    }
+                    catch (e) {
+                        statusMsg = "Error: " + e;
+                        console.log(statusMsg);
+                        alert(statusMsg + "\n" + "Program Halted");
+                    }
+                    finally
+                    {
+                        if (!ok)
+                        {
+                            // Program complete, no more code to execute.
+                            console.log("Execution complete. " + statusMsg);
+                            codeComplete = true;
+                            codeParsed = false; //ensure we re-parse when run is pressed to restart JS emu
+
+                            pauseCodeButton.disabled = true;
+                            runCodeButton.disabled = false;
+
+                            Blockly.mainWorkspace.highlightBlock(null);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            function runCode()
+            {
+                // If device not ready or code paused, check back shortly
+                if (!DALJS.deviceReady() || codePaused || (stepMode && !stepRequest))
+                {
+                    setTimeout(function()
+                    {
+                        runCode();
+                    }, 50);
+                    return;
+                }
+
+                // Step! (will keep executing until higlightPause)
+                stepCode();
+
+                if (codeComplete)
+                {
+                    stepMode = false;
+                    return;
+                }
+
+                if (stepMode)
+                {
+                    stepRequest = false;
+                    highlightPause = false;
                 }
                 else
-                    alert("Problem parsing code");
-			}
+                {
+                    // A block has been highlighted.  Pause execution here.
+                    var delay = parseInt(document.getElementById('pausetime').value);
+
+                    setTimeout(function()
+                    {
+                        runCode();
+                        highlightPause = false;
+                    }, delay);
+                }
+            }
+
+            function reparse()
+            {
+                if (!codeParsed)
+                {
+                    codeComplete = false;
+                    if (!parseCode())
+                    {
+                        alert("Problem parsing code!");
+                        return false;
+                    }
+                    Blockly.mainWorkspace.highlightBlock(1);
+                }
+                return true;
+            }
+
+            function runCodeHandler()
+            {
+                //DALJS.reset();
+                if (!reparse())
+                    return;//BADOSITY
+
+                if (codePaused)
+                {
+                    //turn off pause, run freely with delay
+                    pauseCodeHandler();
+                    return;                   
+                }
+                if (stepMode)
+                {
+                    stepMode = false;
+                    stepRequest = false;
+                }
+                console.log("runCodeHandler runCode()");
+                pauseCodeButton.disabled = false;
+                runCodeButton.disabled = true;
+                runCode();
+            }
+
+
+            function stepCodeHandler()
+            {
+                if (!reparse())
+                    return;//BADOSITY
+
+                if (codePaused)
+                {
+                    pauseCodeHandler();
+                    runCodeButton.disabled = false;
+                    pauseCodeButton.disabled = true;
+                }
+
+
+                if (!stepMode)
+                {
+                    console.log("stepCodeHandler enabling step mode");
+                    stepMode = true;
+                    stepRequest = true;
+                    runCode();
+                    return;
+                }
+
+                console.log("stepCodeHandler stepping");
+                stepRequest = true;
+                runCode();
+            }
+
+            function pauseCodeHandler()
+            {
+                runCodeButton.disabled = codePaused;
+                codePaused = !codePaused;
+                console.log("Code Paused " + codePaused);
+            }
+
+            function resetCodeHandler()
+            {
+
+            }
 
 			function parseCode()
 			{
@@ -998,7 +1152,7 @@ function setupBlockly() {
                 if (dalcode === undefined)
                     alert('dalcode undefined');
 
-			    alert('Ready to execute this code:\n\n' + code);
+			    //alert('Ready to execute this code:\n\n' + code);
 			    code = dalcode + "reset();" + code;
 
                 try {
@@ -1019,58 +1173,8 @@ function setupBlockly() {
 			    highlightPause = false;
 			    Blockly.mainWorkspace.traceOn(true);
 			    Blockly.mainWorkspace.highlightBlock(null);
+                codeParsed = true;
                 return true;
-			}
-
-			function stepCode()
-			{
-                var statusMsg = "Everything OK";
-
-			    if (!DALJS.deviceReady())
-			    {
-			        setTimeout(function()
-			        {
-			            stepCode();
-			        }, 50);
-			        return;
-			    }
-
-			    try
-			    {
-			        var ok = myInterpreter.step();
-			    }
-                catch (e) {
-                    statusMsg = "Error: " + e;
-                    console.log(statusMsg);
-                    alert(statusMsg + "\n" + "Program Halted");
-                }
-			    finally
-			    {
-			        if (!ok)
-			        {
-			            // Program complete, no more code to execute.
-                        console.log("Execution complete. " + statusMsg);
-			            return;
-			        }
-			    }
-
-			    if (highlightPause)
-			    {
-			        // A block has been highlighted.  Pause execution here.
-			        var pausebutton = document.getElementById('pausetime');
-			        var delay = parseInt(document.getElementById('pausetime').value);
-
-			        highlightPause = false;
-			        setTimeout(function()
-			        {
-			            stepCode();
-			        }, delay);
-			    }
-			    else
-			    {
-			        // Keep executing until a highlight statement is reached.
-			        stepCode();
-			    }
 			}
 
 			// Code Build
@@ -1095,7 +1199,11 @@ function setupBlockly() {
 			};
 
 			// document.getElementById("BuildCodeButton").addEventListener("click", buildCode);
-			document.getElementById("RunCodeButton").addEventListener("click", runCode);
+            runCodeButton.addEventListener("click", runCodeHandler);
+            pauseCodeButton.addEventListener("click", pauseCodeHandler);
+            stepCodeButton.addEventListener("click", stepCodeHandler);
+            resetCodeButton.addEventListener("click", resetCodeHandler);
+
 			SIMIO.render();
 
             var jqxhr = $.get('/static/bug/js/dal_interpreter.txt', function(data, txt, err) {
@@ -1107,9 +1215,6 @@ function setupBlockly() {
                 dalcode = jqxhr.responseText;
             });
 		});
-
-
-
     }
 }
 
