@@ -1,10 +1,9 @@
 {
-  "title": "Microbug Loader",
-  "_icon": "TestIcon.icns",
-  "background": "microbug-small.png",
+  "title": "BBC Bug",
+  "background": "bbcbug.jpg",
   "icon-size": 80,
   "contents": [
     { "x": 448, "y": 284, "type": "link", "path": "/Applications" },
-    { "x": 92, "y": 284, "type": "file", "path": "./dist/MicrobugLoader.app" }
+    { "x": 92, "y": 284, "type": "file", "path": "./dist/BBCBugLoader.app" }
   ]
 }

@@ -7,8 +7,8 @@ Usage:
 
 from setuptools import setup
 
-APP = ['MicrobugLoader.py']
-DATA_FILES = ['dfu-programmer', 'microbug-small.png']
+APP = ['BBCBugLoader.py']
+DATA_FILES = ['dfu-programmer', 'Instructions1.png']
 OPTIONS = {'argv_emulation': True, 'includes' : ['PySide', 'PySide.QtCore', 'PySide.QtGui']}
 
 setup(

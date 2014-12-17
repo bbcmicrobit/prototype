@@ -1,4 +1,4 @@
-HOW TO BUILD MICROBUGS.DMG
+HOW TO BUILD BBCBUG.DMG
 ==========================
 
 Set up your build environment, as detailed below.
