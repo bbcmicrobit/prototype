@@ -26,7 +26,7 @@ var build_tutorial_btn = $('.buildTutorialProgram');
 var runCodeButton = document.getElementById("RunCodeButton");
 var pauseCodeButton = document.getElementById("PauseCodeButton");
 var stepCodeButton = document.getElementById("StepCodeButton");
-var resetCodeButton = document.getElementById("ResetCodeButton");
+//var resetCodeButton = document.getElementById("ResetCodeButton");
 
 
 
@@ -971,6 +971,7 @@ function setupBlockly() {
 
             var highlightPause = false;
 
+//            resetCodeButton.disabled = true;
 
 			function initInterpreterApi(interpreter, scope)
 			{
@@ -1102,6 +1103,24 @@ function setupBlockly() {
 			    highlightPause = true;
 			}
 
+            function waitForDeviceReady()
+            {
+                if (!DALJS.deviceReady()) {
+                    setTimeout(function() {waitForDeviceReady();}, 50)
+                }
+                else
+                {
+                    console.log("Device available");
+                    codeComplete = true;
+                    codeParsed = false; //ensure we re-parse when run is pressed to restart JS emu
+                    runCodeButton.disabled = false;
+                    stepCodeButton.disabled = false;
+
+                    Blockly.mainWorkspace.highlightBlock(null);
+                    console.log("Last command complete");
+                }
+            }
+
             function stepCode()
             {
                 var statusMsg = "Everything OK";
@@ -1122,19 +1141,24 @@ function setupBlockly() {
                         if (!ok)
                         {
                             // Program complete, no more code to execute.
-                            console.log("Execution complete. " + statusMsg);
-                            codeComplete = true;
-                            codeParsed = false; //ensure we re-parse when run is pressed to restart JS emu
-
+                            console.log("Last command interpreted. Status: " + statusMsg);
                             pauseCodeButton.disabled = true;
-                            runCodeButton.disabled = false;
+//                            resetCodeButton.disabled = true;
+                            stepCodeButton.disabled = true;
+                            waitForDeviceReady();
+                            // codeComplete = true;
+                            // codeParsed = false; //ensure we re-parse when run is pressed to restart JS emu
 
-                            Blockly.mainWorkspace.highlightBlock(null);
+                            // pauseCodeButton.disabled = true;
+                            // runCodeButton.disabled = false;
+
+                            // Blockly.mainWorkspace.highlightBlock(null);
                             return;
                         }
                     }
                 }
             }
+
 
             function runCode()
             {
@@ -1196,6 +1220,8 @@ function setupBlockly() {
                 if (!reparse())
                     return;//BADOSITY
 
+//                resetCodeButton.disabled = false;
+
                 if (codePaused)
                 {
                     //turn off pause, run freely with delay
@@ -1218,6 +1244,8 @@ function setupBlockly() {
             {
                 if (!reparse())
                     return;//BADOSITY
+
+//                resetCodeButton.disabled = false;
 
                 if (codePaused)
                 {
@@ -1250,7 +1278,7 @@ function setupBlockly() {
 
             function resetCodeHandler()
             {
-
+                console.log("BLAH");
             }
 
 			function parseCode()
@@ -1315,7 +1343,7 @@ function setupBlockly() {
             runCodeButton.addEventListener("click", runCodeHandler);
             pauseCodeButton.addEventListener("click", pauseCodeHandler);
             stepCodeButton.addEventListener("click", stepCodeHandler);
-            resetCodeButton.addEventListener("click", resetCodeHandler);
+//            resetCodeButton.addEventListener("click", resetCodeHandler);
 
 			SIMIO.render();
 
