@@ -228,7 +228,7 @@ Blockly.Blocks['microbug_build_image'] = {
         this.appendDummyInput().appendField("1").appendField(new Blockly.FieldCheckbox("FALSE"), "LED01").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED11").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED21").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED31").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED41");
         this.appendDummyInput().appendField("0").appendField(new Blockly.FieldCheckbox("FALSE"), "LED00").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED10").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED20").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED30").appendField(" ").appendField(new Blockly.FieldCheckbox("FALSE"), "LED40");
         this.appendDummyInput().appendField("    0     1     2     3     4");
-        this.setOutput(!0);
+        this.setOutput(true, 'sprite');
     }
 };
 
@@ -255,7 +255,7 @@ Blockly.Blocks['microbug_build_big_image'] = {
 
         this.appendDummyInput().appendField("    0     1     2     3     4     5     6     7     8     9");
 
-        this.setOutput(!0);
+        this.setOutput(true, 'sprite');
     }
 };
 
@@ -277,7 +277,7 @@ Blockly.Blocks['microbug_show_image_offset'] = {
     this.setColour(160);
     this.appendDummyInput()
         .appendField("show image");
-    this.appendValueInput("sprite");
+    this.appendValueInput("sprite").setCheck('sprite');
 //        .appendField("image");
     this.appendValueInput("x")
         .setCheck("Number")
@@ -299,13 +299,13 @@ Blockly.Blocks['microbug_scroll_image'] = {
     this.appendDummyInput()
         .appendField("scroll image");
     this.appendValueInput("sprite")
-//      .setCheck("sprite")
+      .setCheck("sprite")
         .setAlign(Blockly.ALIGN_RIGHT);
 //        .appendField("image");
     this.appendValueInput("delay")
         .setCheck("Number")
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("delay");
+        .appendField("delay (ms)");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
@@ -385,14 +385,14 @@ Blockly.Blocks['microbug_scroll_string_image'] = {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(160);
     this.appendDummyInput()
-        .appendField("scroll_string_image");
+        .appendField("scroll string image");
     this.appendValueInput("string")
-//        .setCheck("StringImage")
+        .setCheck("StringImage")
+        .setAlign(Blockly.ALIGN_RIGHT);
+//        .appendField("String");
+    this.appendValueInput("delay (ms)")
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("String");
-    this.appendValueInput("speed")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("speed");
+        .appendField("delay (ms)");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
