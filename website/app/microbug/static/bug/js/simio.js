@@ -2,11 +2,10 @@ var SIMIO = (function(){
 
 	var canvas, context, imageObj, flareObj, flareObj2;
 
-	var ledColumns = [0.298, 0.368, 0.44, 0.508, 0.58];
-	var ledRows = [0.564,0.636,0.708,0.776,0.846];
-	var ledEyes = [[0.244, 0.196],[0.624, 0.186]];
+	var ledColumns = [0.265, 0.345, 0.42, 0.495, 0.57];
+	var ledRows = [0.52,0.6,0.67,0.75,0.83];
+	var ledEyes = [[0.235, 0.195],[0.605, 0.185]];
 
-	var buttons = [[0.108, 0.274][0.762, 0.27]];
 	var buttonState = [false, false];
 
 	var eyeState = [false, false];
@@ -47,7 +46,8 @@ var SIMIO = (function(){
 			return false;
 	}
 
-	var buttonHitBox = [new BBOX([0.066, 0.232],[0.164, 0.328]),new BBOX([0.704, 0.232],[0.81, 0.332])];
+
+	var buttonHitBox = [new BBOX([0.01, 0.22],[0.12, 0.32]),new BBOX([0.71, 0.21],[0.83, 0.315])];
 
 	function checkButtonsForMouseClick(x, y)
 	{
@@ -137,47 +137,11 @@ var SIMIO = (function(){
 		canvas.id = "simio";
 		context = canvas.getContext('2d');
 
-		function getCursorPosition(e) {
-			var x;
-			var y;
-			if (e.pageX != undefined && e.pageY != undefined) {
-				x = e.pageX;
-				y = e.pageY;
-			}
-			else {
-				x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-				y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-			}
-
-			x -= canvas.offsetLeft;
-			y -= canvas.offsetTop;
-			return [x,y];
-		}
-
-		canvas.addEventListener('mousedown', function(e) {
-			var pos = getCursorPosition(e);
-			var clickedX = pos[0];
-			var clickedY = pos[1];
-			var nx = clickedX / canvas.width, ny = clickedY / canvas.height;
-			var whichButtonPressed = checkButtonsForMouseClick(nx, ny);
-			console.log("canvas clicked at " + nx + ", " + ny + " resulting in button " + whichButtonPressed);
-
-			if (whichButtonPressed !== -1)
-			{
-				buttonState[whichButtonPressed] = true; 
-			}
-		}, false);		
-
-		canvas.addEventListener('mouseup', function(e) {
-			buttonState = [false, false];//MRBTODO what if you have TWO MICE! (or something)
-		}, false);
-
-
 		imageObj = new Image();
 		imageObj.addEventListener('load',function(){
 			SIMIO.render();
 		});
-		imageObj.src = '/static/bug/media/IMG_8829.png';
+		imageObj.src = '/static/bug/media/IMG_9125.png';
 
 		flareObj = new Image();
 		flareObj.src = '/static/bug/media/redledwithalpha_sm.png';
@@ -186,8 +150,33 @@ var SIMIO = (function(){
 		flareObj2.src = '/static/bug/media/orangeledwithalpha_sm.png';
 
 		document.getElementById(divId).appendChild(canvas);
-		// canvas.style.marginLeft = "auto";
-		// canvas.style.marginRight = "auto";
+		var button = document.createElement('button');
+		button.style.position = 'absolute';
+		button.style.width = '200px';
+		button.style.height = '200px';
+		button.style.marginLeft = '-200px';
+		button.style.background = 'none';
+		button.style.border = 'none';
+		button.style.outline = 'none';
+		button.style.padding = '0px';
+		document.getElementById(divId).appendChild(button);
+
+		button.onmousedown=function(e) {
+			var pos = [e.offsetX / canvas.width, e.offsetY / canvas.height];
+			var whichButtonPressed = checkButtonsForMouseClick(pos[0], pos[1]);
+			console.log("canvas clicked at " + pos[0] + ", " + pos[1] + " resulting in button " + whichButtonPressed);
+
+			if (whichButtonPressed !== -1)
+			{
+				buttonState[whichButtonPressed] = true; 
+			}
+		};
+		button.onmouseup=function(e) {
+			buttonState = [false, false];
+		};
+		button.onmouseleave=function(e) {
+			buttonState = [false,false];
+		}
 	};
 
 	return {
