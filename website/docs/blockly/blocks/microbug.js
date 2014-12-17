@@ -390,7 +390,7 @@ Blockly.Blocks['microbug_scroll_string_image'] = {
         .setCheck("StringImage")
         .setAlign(Blockly.ALIGN_RIGHT);
 //        .appendField("String");
-    this.appendValueInput("delay (ms)")
+    this.appendValueInput("speed")
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("delay (ms)");
     this.setPreviousStatement(true);

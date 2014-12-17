@@ -1165,7 +1165,7 @@ function setupBlockly() {
                 else
                 {
                     // A block has been highlighted.  Pause execution here.
-                    var delay = parseInt(document.getElementById('pausetime').value);
+                    var delay = parseInt(document.getElementById('speedslider').value);
 
                     setTimeout(function()
                     {
