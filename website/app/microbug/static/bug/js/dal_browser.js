@@ -408,7 +408,7 @@ var DALJS = (function(){
 		if (id == 'B') {
 			return (butts.B === true);
 		}
-		return -1; // Signify error
+		return false; // Signify error
 	};
 
 //	function StringImage(pp, pd, string, strlen)

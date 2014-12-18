@@ -934,7 +934,7 @@ function setupBlockly() {
             {
                 path: '/static/bug/blockly/',
                 toolbox: document.getElementById('toolbox'),
-                trashcan: false
+                trashcan: true
             });
 
         // Load the XML from blocklyXmlSrc, if it exists.
