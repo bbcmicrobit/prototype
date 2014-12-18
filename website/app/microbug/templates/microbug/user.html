@@ -1,5 +1,6 @@
 {% extends 'microbug/_master.html' %}
 
+{% load realname_for %}
 {% block head %}
     <!-- Head: user.html -->
     <title>BBC Bug: Viewing user {{ viewed_user.username }}</title>
@@ -156,7 +157,10 @@
                 </p>
                 <ul>
                     {% for request in viewed_user_profile.pending_requests_as_child %}
-                        <li>{{ request.facilitator.username }}</li>
+                        <li>
+                            {{ request.facilitator.username }}&nbsp;
+                            ({% realname_for request.facilitator.id %})
+                        </li>
                     {% endfor %}
                 </ul>
             {% else %}
@@ -175,8 +179,8 @@
                     <ul>
                         {% for request in viewed_user_profile.pending_requests_as_facilitator %}
                             <li style="padding-bottom:0.5em">
-                                {{ request.child.username }}
-                                (TODO: Need to fix name extraction from users)
+                                {{ request.child.username }}&nbsp;
+                                ({% realname_for request.child.id %})
                                 <button class="btn btn-success btn-xs facilitator-response" data-request-id="{{ request.id }}" data-child-name="{{ request.child.username }}" data-response="accept">
                                     <i class="fa fa-check"></i>&nbsp;Accept
                                 </button>&nbsp;

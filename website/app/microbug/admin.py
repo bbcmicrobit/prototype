@@ -3,7 +3,7 @@ from microbug.models import Program, Tutorial, UserProfile, Version, Facilitator
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'is_facilitator', 'email', 'has_pending_password_request')
+    list_display = ('id', 'user', 'realname', 'is_facilitator', 'email', 'has_pending_password_request')
     fieldsets = [
         (None, {'fields': ['user', 'facilitators', 'realname', 'email', 'has_pending_password_request']}),
         ('Questions', {'fields': [
