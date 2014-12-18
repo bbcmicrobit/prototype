@@ -2,13 +2,16 @@ var SIMIO = (function(){
 
 	var canvas, context, imageObj, flareObj, flareObj2;
 
-	var ledColumns = [0.265, 0.345, 0.42, 0.495, 0.57];
-	var ledRows = [0.52,0.6,0.67,0.75,0.83];
-	var ledEyes = [[0.235, 0.195],[0.605, 0.185]];
+	var ledColumns = [0.305, 0.38, 0.455, 0.525, 0.6];
+	var ledRows = [0.55,0.625,0.685,0.755,0.83];
+	var ledEyes = [[0.265, 0.205],[0.635, 0.2]];
 
 	var buttonState = [false, false];
 
 	var eyeState = [false, false];
+
+
+
 
 	//a, b, l, r and cursor left right can be used for button inputs
 	window.addEventListener("keydown", function(e){
@@ -47,7 +50,7 @@ var SIMIO = (function(){
 	}
 
 
-	var buttonHitBox = [new BBOX([0.01, 0.22],[0.12, 0.32]),new BBOX([0.71, 0.21],[0.83, 0.315])];
+	var buttonHitBox = [new BBOX([0.05, 0.26],[0.165, 0.36]),new BBOX([0.74, 0.25],[0.86, 0.365])];
 
 	function checkButtonsForMouseClick(x, y)
 	{
@@ -141,7 +144,8 @@ var SIMIO = (function(){
 		imageObj.addEventListener('load',function(){
 			SIMIO.render();
 		});
-		imageObj.src = '/static/bug/media/IMG_9125.png';
+//		imageObj.src = '/static/bug/media/IMG_9125.png';
+		imageObj.src = '/static/bug/media/Bug.jpg';
 
 		flareObj = new Image();
 		flareObj.src = '/static/bug/media/redledwithalpha_sm.png';
