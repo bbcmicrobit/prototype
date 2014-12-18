@@ -1,15 +1,24 @@
 {% extends 'microbug/_master.html' %}
+{% load staticfiles %}
 
 {% block head %}
-    <title>Test Page</title>
+    <title>BBC Bug</title>
 {% endblock %}
 
 {% block body %}
     <h1>BBC Bug</h1>
 
     <p>
-        All features for this are available in the links at the top of the screen.
+        BBC Bug is a brand new programmable device that gets you writing computer code.
+        Simply write your code or edit other peoples and download it to your Bug.
+        Watch the LEDs light up and your Bug come to life.
+    </P>
+    <p>
+        Now you can start getting really creative, share code and amaze your friends.
+        You can show off everything you create!
     </p>
+
+    <img src="{% static 'microbug/img/postcard_640.jpg' %}" style="display:block;margin-left:auto;margin-right:auto" alt="">
 
     <p>
         If you do not have an account then

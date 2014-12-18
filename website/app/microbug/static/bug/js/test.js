@@ -756,7 +756,7 @@ function statusElementContent(data) {
         );
     } else if (data.status == 'in_compile_queue') {
         return(
-            'Program being compiled, expected in <span class="eta">'+data.eta+'</span>'
+            'Building program, <span class="eta">'+data.eta+'</span> left'
         );
     }
 }

@@ -8,10 +8,8 @@
 {% block body %}
     <h1>Create Program</h1>
 
-    <div class="input-group page_level_element">
-        <input type="text" class="form-control" id="program_name"  placeholder="Program name">
-        <span class="input-group-addon createProgram">Save</span>
-    </div>
+    <input type="text" class="form-control" id="program_name"  placeholder="Program name">
+    <br/>
 
-    {% include "microbug/partials/_emulator_editor.html" with buildBtnId='createProgram' buildBtnText='Create Program'%}
+    {% include "microbug/partials/_emulator_editor.html" with buildBtnId='createProgram' buildBtnText='Save Code'%}
 {%  endblock %}
