@@ -132,6 +132,10 @@ var DALJS = (function(){
 	var micro_device_ready = true;
 	var dirtyCallback;
 
+	var timeoutHandle;
+
+	var paused = false;
+
 	function deviceReady() {
 		return micro_device_ready;
 	}
@@ -432,12 +436,14 @@ var DALJS = (function(){
 	};
 
 	function handlePrintMessage(message, pausetime)
-	{
+	{		
+		timeoutHandle = undefined;
+
 		show_letter(message[0]);
 		//console.log(message[0]);
 		var rest = message.substr(1);
 		if (rest.length) {
-				setTimeout(
+				timeoutHandle = setTimeout(
 					function() { handlePrintMessage(rest, pausetime);},
 					pausetime);
 		} else {
@@ -447,12 +453,14 @@ var DALJS = (function(){
 
 	function pause(pausetime)
 	{
+		timeoutHandle = undefined;
 		micro_device_ready = false;
-		setTimeout(function() {micro_device_ready = true;}, pausetime);
+		timeoutHandle = setTimeout(function() {micro_device_ready = true;}, pausetime);
 	}
 
 	function handleScrollImage()
 	{
+		timeoutHandle = undefined;
 		//console.log("handleScrollImage");
 		clear_display();
 		show_image_offset(imageToScroll, imageScrollOffsetH, 0);
@@ -461,7 +469,7 @@ var DALJS = (function(){
 		{
 			//console.log("imageScrollOffsetH " + imageScrollOffsetH);
 			imageScrollOffsetH++;
-			setTimeout(handleScrollImage, imageScrollInterval);
+			timeoutHandle = setTimeout(handleScrollImage, imageScrollInterval);
 		}
 		else
 		{
@@ -471,12 +479,14 @@ var DALJS = (function(){
 
 	function handleScrollSprite(sprite, delay)
 	{
+		timeoutHandle = undefined;
+
 		if (scrollSpriteOffset < sprite.pixel_width())
 		{
 			sprite.render_string();
 			sprite.pan_right();
 			scrollSpriteOffset++;
-			setTimeout(function(){
+			timeoutHandle = setTimeout(function(){
 				handleScrollSprite(sprite, delay);
 			}, delay);
 		} 
@@ -503,6 +513,23 @@ var DALJS = (function(){
 		handleScrollSprite(newSprite, delay);
 	};
 
+	var halt = function()
+	{
+		// Stop execution of any timeout functions
+		if (timeoutHandle !== undefined)
+		{
+			console.log("daljs clearing timeout");
+			clearTimeout(timeoutHandle);
+			timeoutHandle = undefined;
+			micro_device_ready = true;			
+		}
+	}
+
+	// var pause = function(_paused)
+	// {
+	// 	paused = _paused;
+	// }
+
 	return {
 		print_message : print_message,
 		get_button : get_button,
@@ -512,5 +539,7 @@ var DALJS = (function(){
 		pause : pause,
 		setDirtyCallback:setDirtyCallback,
 		deviceReady:deviceReady,
+//		pause: pause,
+		halt: halt
 	};
 })();

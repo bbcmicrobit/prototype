@@ -26,9 +26,7 @@ var build_tutorial_btn = $('.buildTutorialProgram');
 var runCodeButton = document.getElementById("RunCodeButton");
 var pauseCodeButton = document.getElementById("PauseCodeButton");
 var stepCodeButton = document.getElementById("StepCodeButton");
-//var resetCodeButton = document.getElementById("ResetCodeButton");
-
-
+var resetCodeButton = document.getElementById("ResetCodeButton");
 
 function enablePageInteraction() {
     var editor_tabs = $('#editor_tabs');
@@ -975,6 +973,9 @@ function setupBlockly() {
 
             var highlightPause = false;
 
+            var waitForDeviceReadyTimeout = undefined;
+            var runCodeTimeout = undefined;
+
 //            resetCodeButton.disabled = true;
 
 			function initInterpreterApi(interpreter, scope)
@@ -1109,8 +1110,10 @@ function setupBlockly() {
 
             function waitForDeviceReady()
             {
+                waitForDeviceReadyTimeout = undefined;
+
                 if (!DALJS.deviceReady()) {
-                    setTimeout(function() {waitForDeviceReady();}, 50)
+                    waitForDeviceReadyTimeout = setTimeout(function() {waitForDeviceReady();}, 50)
                 }
                 else
                 {
@@ -1166,10 +1169,12 @@ function setupBlockly() {
 
             function runCode()
             {
+                runCodeTimeout = undefined;
+
                 // If device not ready or code paused, check back shortly
                 if (!DALJS.deviceReady() || codePaused || (stepMode && !stepRequest))
                 {
-                    setTimeout(function()
+                    runCodeTimeout = setTimeout(function()
                     {
                         runCode();
                     }, 50);
@@ -1195,7 +1200,7 @@ function setupBlockly() {
                     // A block has been highlighted.  Pause execution here.
                     var delay = parseInt(document.getElementById('speedslider').value);
 
-                    setTimeout(function()
+                    runCodeTimeout = setTimeout(function()
                     {
                         runCode();
                         highlightPause = false;
@@ -1220,6 +1225,12 @@ function setupBlockly() {
 
             function runCodeHandler()
             {
+                if (!DALJS.deviceReady())
+                {
+                    console.log("Ignoring run - simulator busy");
+                    return;
+                }
+
                 //DALJS.reset();
                 if (!reparse())
                     return;//BADOSITY
@@ -1240,12 +1251,19 @@ function setupBlockly() {
                 console.log("runCodeHandler runCode()");
                 pauseCodeButton.disabled = false;
                 runCodeButton.disabled = true;
+                resetCodeButton.disabled = false;
                 runCode();
             }
 
 
             function stepCodeHandler()
             {
+                if (!DALJS.deviceReady())
+                {
+                    console.log("Ignoring step - simulator busy");
+                    return;
+                }
+
                 if (!reparse())
                     return;//BADOSITY
 
@@ -1275,6 +1293,12 @@ function setupBlockly() {
 
             function pauseCodeHandler()
             {
+                if (!DALJS.deviceReady())
+                {
+                    console.log("Ignoring pause - simulator busy");
+                    return;
+                }
+
                 runCodeButton.disabled = codePaused;
                 codePaused = !codePaused;
                 console.log("Code Paused " + codePaused);
@@ -1282,7 +1306,25 @@ function setupBlockly() {
 
             function resetCodeHandler()
             {
-                console.log("BLAH");
+                console.log("RESET");
+                if (waitForDeviceReadyTimeout)
+                    clearTimeout(waitForDeviceReadyTimeout);
+                if (runCodeTimeout)
+                    clearTimeout(runCodeTimeout);
+                DALJS.halt(); //stops DALJS timeouts
+
+                codeParsed = false;
+                codePaused = false;
+                codeComplete = false;
+                stepMode = false;
+                stepRequest = false;
+
+                runCodeButton.disabled = false;
+                stepCodeButton.disabled = false;
+                pauseCodeButton.disabled = true;
+                resetCodeButton.disabled = true;
+
+                SIMIO.render();//clears display
             }
 
 			function parseCode()
@@ -1343,11 +1385,15 @@ function setupBlockly() {
 				});
 			};
 
-			// document.getElementById("BuildCodeButton").addEventListener("click", buildCode);
             runCodeButton.addEventListener("click", runCodeHandler);
             pauseCodeButton.addEventListener("click", pauseCodeHandler);
             stepCodeButton.addEventListener("click", stepCodeHandler);
-//            resetCodeButton.addEventListener("click", resetCodeHandler);
+            resetCodeButton.addEventListener("click", resetCodeHandler);
+            
+            runCodeButton.disabled = false;
+            stepCodeButton.disabled = false;
+            pauseCodeButton.disabled = true;
+            resetCodeButton.disabled = true;
 
 			SIMIO.render();
 
