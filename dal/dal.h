@@ -142,6 +142,7 @@ typedef struct Image {
     int width;
     int height;
     int *data ;
+//    unsigned char *data;
 } Image;
 
 void set_eye(char id, int state);// DONE
@@ -823,4 +824,44 @@ void scroll_string(const char * str, int delay) {
     scroll_string_image(StringImage(str), delay);
 }
 
+typedef int pxl;
+
+Image& _make_image(unsigned short int row1, unsigned short int row2, unsigned short int row3, unsigned short int row4, unsigned short int row5, int width) 
+{
+    unsigned short int rows[5];
+    rows[0] = row5;
+    rows[1] = row4;
+    rows[2] = row3;
+    rows[3] = row2;
+    rows[4] = row1;
+
+    Image* img = (Image*) malloc(sizeof(Image));
+    img->width = width;
+    img->height = 5;
+    img->data = (pxl *) malloc(img->width * img->height * sizeof(pxl));
+
+    pxl *pData = img->data;
+
+    for(int y=0; y < img->height; y++)
+        for(int x=0; x < img->width; x++)
+            *pData++ = (rows[y] & (1<<x)) ? HIGH : LOW;
+    Image& retVal = *img;
+    return retVal;
+}
+
+Image& make_image(unsigned short int row1, unsigned short int row2, unsigned short int row3, unsigned short int row4, unsigned short int row5)
+{
+    return _make_image(row1, row2, row3, row4, row5, 5);
+}
+
+Image& make_big_image(unsigned short int row1, unsigned short int row2, unsigned short int row3, unsigned short int row4, unsigned short int row5)
+{
+    return _make_image(row1, row2, row3, row4, row5, 10);
+}
+
+void show_image_offset(Image& someImage, int x, int y)
+{
+    //passthrough to avoid renaming
+    showViewport(someImage, x, y);
+}
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
