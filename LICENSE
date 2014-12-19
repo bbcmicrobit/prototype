@@ -1,0 +1,76 @@
+PROJECT MICROBUG - REFERENCE IMPLEMENTATION LICENSE
+===================================================
+
+Copyright (C) 2014 BBC.
+
+The reference implementation is provided to assist you in your
+pitch/proposal/ development process.  It is NOT intended as a basis for
+ongoing development.
+
+Improvements to the reference implementation are welcome, but can only be
+made, and may only be accepted as per the license below:
+
+  1 The reference implementation is confidential data, and is confidential
+    as per the NDA.
+
+  2 You may make local modifications which you may not share publically,
+     and these remain under NDA
+
+
+  3 Any changes/bug fixes you make are gratefully accepted. If you wish to
+    contribute these back, you have the following 2 options:
+
+    a Grant of an Apache 2 license over the work to the BBC, with a specific
+      grant allow the apache 2 code to interoperate with any GPL element
+      that we use. (This is the preferred option)
+
+    b Copyright assignment to the BBC, including the right to use any
+      embodiment of patented inventions, within the scope of the microbug
+      project only. (The apache 2 license contains this clause)
+
+  4 We (The BBC) do NOT undertake to accept, merge, review or feedback any
+     of your changes/perceived bug fixes into the reference implementation,
+     though provide.  However, items in section 3 are specifically designed
+     to enable that to happen, and where practical, possible and in keeping
+     with the editorial aspirations, we would be grateful to accept such
+     patches.
+
+     There would be no recompense for such patches beyond thanks.  If
+     patches are provided under section 3, then this allows us to release
+     the reference implementation - for example to prospective parters or as
+     per the RFP as open source at a later point in time.
+
+     If we do accept and/or merge any patches, we reserve the right to modify them
+     to match the project, and also reserve the right to re-release the reference
+     implementation at a later point in time.
+
+  5 The reference implementation is a WORK IN PROGRESS. It covers most of
+     the functional specification, and was used to create the functional
+     spec.  However, in places the the reference implementation deviates
+     from the functional spec.  In such cases, the functional spec is
+     canonical, and over time the reference implementation will improve to
+     match the spec.
+
+  6 The hardware and software is provided "as is", with no warranty.  Please
+    note the warning.
+
+            NO WARRANTY
+
+            THE HARDWARE, HARDWARE DESIGNS AND SOFTWARE ("MICROBUG SYSTEM")
+            IS DISTRIBUTED IN THE HOPE THAT IT WILL BE USEFUL, BUT WITHOUT
+            ANY WARRANTY.  IT IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+            KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED
+            TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+            PARTICULAR PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND
+            PERFORMANCE OF THE MICROBUG SYSTEM IS WITH YOU.  SHOULD THE
+            MICROBUG SYSTEM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
+            NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+            IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW THE AUTHOR WILL BE
+            LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL,
+            INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR
+            INABILITY TO USE THE MICROBUG SYSTEM (INCLUDING BUT NOT LIMITED
+            TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES
+            SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF THE MICROBUG
+            SYSTEM TO OPERATE WITH ANY OTHER SYSTEMS), EVEN IF THE AUTHOR
+            HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.

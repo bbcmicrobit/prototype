@@ -1,2 +1,49 @@
 Project Microbug Reference Implementation
 =========================================
+
+Copyright (C) 2014 BBC.
+
+This reference implementation is confidential information, and MUST be kept
+confidential, as per the NDA you have signed with the BBC.
+
+The reference implementation is provided to assist you in your pitch/proposal/
+development process. It is NOT intended as a basis for ongoing development.
+
+You should use this as a reference for what you want to pitch, rather than as
+a basis for development. While improvements to the reference implementation
+are welcome, the proposition will be better served by those pitches that go
+beyond the reference implementation. Please see the enclosed LICENSE for
+further details.
+
+Licenses of technologies used within the reference implementation can be
+found in the LICENSES.pdf file
+
+The reference implementation is a WORK IN PROGRESS. It covers most of the
+functional specification, and was used to create the functional spec. 
+However, in places the the reference implementation deviates from the
+functional spec.  In such cases, the functional spec is canonical, and over
+time the reference implementation will improve to match the spec.
+
+    NO WARRANTY
+
+    THE HARDWARE, HARDWARE DESIGNS AND SOFTWARE ("MICROBUG SYSTEM")   
+    IS DISTRIBUTED IN THE HOPE THAT IT WILL BE USEFUL, BUT WITHOUT 
+    ANY WARRANTY.  IT IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+    KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED      
+    TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND
+    PERFORMANCE OF THE MICROBUG SYSTEM IS WITH YOU.  SHOULD THE
+    MICROBUG SYSTEM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
+    NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+    IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW THE AUTHOR WILL BE
+    LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL,
+    INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR
+    INABILITY TO USE THE MICROBUG SYSTEM (INCLUDING BUT NOT LIMITED      
+    TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES
+    SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF THE MICROBUG 
+    SYSTEM TO OPERATE WITH ANY OTHER SYSTEMS), EVEN IF THE AUTHOR
+    HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+
+Michael Sparks, Senior Research Engineer, BBC R&D, December 2014
