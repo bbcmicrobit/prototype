@@ -976,8 +976,6 @@ function setupBlockly() {
             var waitForDeviceReadyTimeout = undefined;
             var runCodeTimeout = undefined;
 
-//            resetCodeButton.disabled = true;
-
 			function initInterpreterApi(interpreter, scope)
 			{
 			    function makeWrapper(fn)
@@ -1150,16 +1148,8 @@ function setupBlockly() {
                             // Program complete, no more code to execute.
                             console.log("Last command interpreted. Status: " + statusMsg);
                             pauseCodeButton.disabled = true;
-//                            resetCodeButton.disabled = true;
                             stepCodeButton.disabled = true;
                             waitForDeviceReady();
-                            // codeComplete = true;
-                            // codeParsed = false; //ensure we re-parse when run is pressed to restart JS emu
-
-                            // pauseCodeButton.disabled = true;
-                            // runCodeButton.disabled = false;
-
-                            // Blockly.mainWorkspace.highlightBlock(null);
                             return;
                         }
                     }
@@ -1235,8 +1225,6 @@ function setupBlockly() {
                 if (!reparse())
                     return;//BADOSITY
 
-//                resetCodeButton.disabled = false;
-
                 if (codePaused)
                 {
                     //turn off pause, run freely with delay
@@ -1251,7 +1239,6 @@ function setupBlockly() {
                 console.log("runCodeHandler runCode()");
                 pauseCodeButton.disabled = false;
                 runCodeButton.disabled = true;
-                resetCodeButton.disabled = false;
                 runCode();
             }
 
@@ -1266,8 +1253,6 @@ function setupBlockly() {
 
                 if (!reparse())
                     return;//BADOSITY
-
-//                resetCodeButton.disabled = false;
 
                 if (codePaused)
                 {
@@ -1322,9 +1307,10 @@ function setupBlockly() {
                 runCodeButton.disabled = false;
                 stepCodeButton.disabled = false;
                 pauseCodeButton.disabled = true;
-                resetCodeButton.disabled = true;
 
                 SIMIO.render();//clears display
+
+                Blockly.mainWorkspace.highlightBlock(null);
             }
 
 			function parseCode()
@@ -1393,7 +1379,6 @@ function setupBlockly() {
             runCodeButton.disabled = false;
             stepCodeButton.disabled = false;
             pauseCodeButton.disabled = true;
-            resetCodeButton.disabled = true;
 
 			SIMIO.render();
 
