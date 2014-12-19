@@ -116,9 +116,12 @@
     </category>
     <category name="If">
         <block type="controls_if"></block>
-        <block type="controls_if_if"></block>
-        <block type="controls_if_elseif"></block>
-        <block type="controls_if_else"></block>
+        <block type="controls_if">
+          <mutation else="1"></mutation>
+        </block>
+        <block type="controls_if">
+          <mutation elseif="1" else="1"></mutation>
+        </block>
     </category>
     <category name="Loops">
         <block type="controls_repeat_ext">
