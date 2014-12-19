@@ -49,6 +49,9 @@ PENDING_PYTHON_QUEUE_DIRECTORY = STORE_BASE + '/pending'
 # The directory where compiled programs will be stored by the compiler process
 COMPILED_PYTHON_PROGRAMS_DIRECTORY = STORE_BASE + '/compiled'
 
+# The directory where failed compiles programs will be stored by the compiler process
+FAIL_COMPILED_PYTHON_PROGRAMS_DIRECTORY = STORE_BASE + '/failed_compiles'
+
 # The directory that the Tutorial Assets live in for the static server
 TUTORIAL_ASSETS_STATIC_DIRECTORY = DJANGO_BASE + '/microbug/static/bug/tutorial_assets'
 

@@ -8,7 +8,7 @@ import json
 import settings
 import app.settings as appSettings
 import sys
-from compiled_version_store import CompiledVersionStore
+from compiled_version_store import CompiledVersionStore, FailedCompiledVersionStore
 from primary_version_store import PrimaryVersionStore
 from pending_version_store import PendingVersionStore
 from microbug.models import Program, Tutorial, UserProfile, Version, FacilitatorRequest
@@ -25,6 +25,7 @@ from django.core.validators import validate_email
 
 # Get a version store we can keep uploaded files in.
 compiled_version_store = CompiledVersionStore(settings.COMPILED_PYTHON_PROGRAMS_DIRECTORY)
+failed_compiled_version_store = FailedCompiledVersionStore(settings.FAIL_COMPILED_PYTHON_PROGRAMS_DIRECTORY)
 primary_version_store = PrimaryVersionStore(settings.PRIMARY_STORE_DIRECTORY)
 pending_queue_store = PendingVersionStore(settings.PENDING_PYTHON_QUEUE_DIRECTORY)
 
@@ -459,6 +460,12 @@ def queue_status(request, program_id):
             'id': program_id,
             'version': queried_program.version.id,
         }
+    elif (queried_program.version.is_failed_compile()):
+        json_obj = {
+            'status': 'failedcompile',
+            'id': program_id,
+            'version': queried_program.version.id,
+        } 
     else:
         json_obj = {
             'status': 'in_compile_queue',

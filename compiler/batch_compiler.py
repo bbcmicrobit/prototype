@@ -12,8 +12,8 @@ logging.basicConfig()
 
 INCOMING_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/website/microbug_store/pending/"
 OUTGOING_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/website/microbug_store/compiled/"
+FAIL_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/website/microbug_store/failed_compiles/"
 BUILD_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/website/tmp/"
-
 
 try:
     # Are we running on the shared dev server?
@@ -21,6 +21,7 @@ try:
 
     INCOMING_DIRECTORY = "/srv/Websites/minimicro.iotoy.org/website/microbug_store/pending/"
     OUTGOING_DIRECTORY = "/srv/Websites/minimicro.iotoy.org/website/microbug_store/compiled/"
+    FAIL_DIRECTORY = "/srv/Websites/minimicro.iotoy.org/website/microbug_store/failed_compiles/"
     BUILD_DIRECTORY = "/srv/Websites/minimicro.iotoy.org/website/tmp/"
 
 except ImportError:
@@ -32,6 +33,7 @@ try:
 
     INCOMING_DIRECTORY = "/srv/projects/microbug/website/microbug_store/pending/"
     OUTGOING_DIRECTORY = "/srv/projects/microbug/website/microbug_store/compiled/"
+    FAIL_DIRECTORY = "/srv/projects/microbug/website/microbug_store/failed_compiles/"
     BUILD_DIRECTORY = "/srv/projects/microbug/website/tmp/"
 
 except ImportError:
@@ -83,8 +85,11 @@ class Compiler(Actor):
                 print "Moving compiled program"
                 os.rename(source_file, os.path.join(OUTGOING_DIRECTORY, source_filename))
             except Exception, e:
-                print "OK, we failed, how do we handle that then eh clever clogg ?"
-                print "repr(e)"
+                os.rename(source_file, os.path.join(FAIL_DIRECTORY, source_filename))
+                print "OK, we failed, we've moved the failed program to the failed directory"
+                print "How to we report the fail?"
+                print "repr(e)", repr(e)
+
         print "Finished processing directory"
         print "Number of programs compiled", len(filenames)
 

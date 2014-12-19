@@ -754,6 +754,10 @@ function statusElementContent(data) {
             '<a class="btn btn-primary" href="/bug/download/'+data.id+'">' +
             '<i class="fa fa-download">&nbsp;</i>Download </a>'
         );
+    } else if (data.status == 'failedcompile') {
+        return(
+            '<span style="background-color: #800; color: #fff"><b>&nbsp;Build failed for this program&nbsp;</b></span>'
+        );
     } else if (data.status == 'in_compile_queue') {
         return(
             'Building program, <span class="eta">'+data.eta+'</span> left'

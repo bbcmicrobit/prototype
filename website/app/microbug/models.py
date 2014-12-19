@@ -1,6 +1,6 @@
 from django.db import models
 import settings
-from compiled_version_store import CompiledVersionStore
+from compiled_version_store import CompiledVersionStore, FailedCompiledVersionStore
 from primary_version_store import PrimaryVersionStore
 from pending_version_store import PendingVersionStore
 import json
@@ -13,7 +13,7 @@ from random_phrase_generator import random_phrase
 primary_version_store = PrimaryVersionStore(settings.PRIMARY_STORE_DIRECTORY)
 pending_store = PendingVersionStore(settings.PENDING_PYTHON_QUEUE_DIRECTORY)
 compiled_store = CompiledVersionStore(settings.COMPILED_PYTHON_PROGRAMS_DIRECTORY)
-
+failed_compiled_store = FailedCompiledVersionStore(settings.FAIL_COMPILED_PYTHON_PROGRAMS_DIRECTORY)
 
 # This is an entire tutorial
 class Tutorial(models.Model):
@@ -173,6 +173,12 @@ class Version(models.Model):
     def is_compiled(self):
         return compiled_store.contains(self.base_filename())
     is_compiled.boolean = True
+
+    def is_failed_compile(self):
+        return True
+#        return failed_compiled_store.contains(self.base_filename())
+
+    is_failed_compile.boolean = True
 
     # The base filename
     def base_filename(self):
