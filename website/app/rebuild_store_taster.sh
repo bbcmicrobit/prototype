@@ -17,7 +17,7 @@ python manage.py syncdb
 /usr/bin/python2.7 manage.py import_tutorials tutorial_source/
 /usr/bin/python2.7 manage.py create_users 40 > /tmp/usernames_and_passwords.txt
 
-for i in `seq 1 15`; do
+for i in `seq 1 20`; do
      echo "-------------------------------------" | tee -a /tmp/usernames_and_passwords.txt
      echo "Class $i" | tee -a /tmp/usernames_and_passwords.txt
      echo "=========" | tee -a /tmp/usernames_and_passwords.txt
