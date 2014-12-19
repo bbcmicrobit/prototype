@@ -164,7 +164,7 @@ Blockly.Python['microbug_make_StringImage'] = function(block) {
   var value_name = Blockly.Python.valueToCode(block, 'NAME', Blockly.Python.ORDER_ATOMIC);
   //prepend string with space to 'fix' scrolling issue
   var fixed_value_name = value_name.substr(0, 1) + " " + value_name.substr(1);
-  var code = 'new StringImage(' + fixed_value_name + ')';
+  var code = 'StringImage(' + fixed_value_name + ')';
   return [code, Blockly.Python.ORDER_NONE];
 };
 
