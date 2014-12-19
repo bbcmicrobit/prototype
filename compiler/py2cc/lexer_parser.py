@@ -16,12 +16,13 @@ states = (
 )
 
 reserved_words = ["print", "while", "True", "False", "if", "else", "elif",
-                  "for", "in", "from", "import", "def", "yield"]
+                  "for", "in", "from", "import", "def", "yield",
+                  "and", "or", "not"]
 
 tokens = [ "NUMBER", "EOL", "STRING", "COLON",
            "IDENTIFIER", "PLUS", "MINUS", "TIMES", "DIVIDE",
            "PARENL", "PARENR", "COMMA", "EQUALS",
-           "EQUALITY",
+           "COMP_OP",
            "INDENT", "DEDENT" # , "WS"
           ] + [x.upper() for x in reserved_words]
 
@@ -29,7 +30,6 @@ tadwidth = 8
 
 t_CODE_INITIAL_PRINT = r'print'
 t_CODE_INITIAL_COLON = r':'
-t_CODE_INITIAL_EQUALITY = r'=='
 
 t_CODE_INITIAL_EQUALS = r'='
 t_CODE_INITIAL_MINUS = r'\-'
@@ -49,6 +49,7 @@ def t_CODE_INITIAL_IDENTIFIER(t):
 t_BLOCKS_ignore = ""
 t_EMITDEDENTS_ignore = ""
 t_CODE_ignore = " \t"
+
 
 def t_ANY_EOL(t):
     r'\n+'
@@ -74,6 +75,7 @@ def t_CODE_INITIAL_WS(t):
           v += tadwidth
 
   t.lexer.curr_indent = v
+
 
 def t_BLOCKS_WS(t):
     r'[ \t]+'
@@ -147,6 +149,12 @@ def t_CODE_INITIAL_NUMBER(t):
              print "Line %d: Number %s is too large!" % (t.lineno,t.value)
         t.value = 0
     return t
+
+def t_CODE_INITIAL_COMP_OP(t):
+    r'(<|>|==|>=|<=|<>|!=|in|not +in|is|is +not)'
+    return t
+
+
 
 t_ignore  = ' \t'
 
@@ -235,7 +243,7 @@ class Grammar(object):
         p[0] = ["statement", p[1] ]
 
     def p_statement_2(self,p):
-        "statement : expression"
+        "statement : fullexpression"
         p[0] = ["statement", p[1] ]
 
     def p_statement_4(self,p):
@@ -268,11 +276,58 @@ class Grammar(object):
 
 
     # --------------------------------------------
+    # Full Expression - replaces expression
+    #
+    def p_fullexpression_1(self,p):
+        """fullexpression : or_expression"""
+        p[0] = p[1]
+
+    def p_fullexpression_2(self,p):
+        "or_expression : and_expression"
+        p[0] = p[1]
+
+    def p_fullexpression_3(self,p):
+        "or_expression : and_expression OR or_expression"
+        p[0] = ["or_expression", p[1], p[3] ]
+
+    def p_fullexpression_4(self,p):
+        "and_expression : not_expression"
+        p[0] = p[1]
+
+    def p_fullexpression_5(self,p):
+        "and_expression  : not_expression AND not_expression"
+        p[0] = ["and_expression", p[1], p[3] ]
+
+    def p_fullexpression_6(self,p):
+        "not_expression : comparison"
+        p[0] = p[1]
+
+    def p_fullexpression_7(self,p):
+        "not_expression : NOT not_expression"
+        p[0] = ["not_expression ", p[2] ]
+
+
+    def p_fullexpression_8(self,p):
+        "comparison : expression"
+        p[0] = p[1]
+
+    def p_fullexpression_9(self,p):
+        "comparison : expression COMP_OP expression"
+        p[0] = ["comparison ", p[2], p[1], p[3]]
+
+
+
+
+
+
+
+
+    # --------------------------------------------
     # WHILE Statement
     #
 
     def p_while_statement_1(self,p):
-        "while_statement : WHILE expression COLON EOL block"
+        "while_statement : WHILE fullexpression COLON EOL block"
         if p[2][0] == "expression":
             expr = p[2][1]
             if expr[0] == "literalvalue":
@@ -292,11 +347,11 @@ class Grammar(object):
     # FIXME: elif_clauses are currently nested, they'd be better flattened to make the AST nicer
     #
     def p_if_statement_1(self,p):
-        "if_statement : IF expression COLON EOL block"
-        p[0] = ["if_statement", p[2][1], p[5][1] ]
+        "if_statement : IF fullexpression COLON EOL block"
+        p[0] = ["if_statement", p[2], p[5][1] ]
 
     def p_if_statement_2(self,p):
-        "if_statement : IF expression COLON EOL block if_trailer"
+        "if_statement : IF fullexpression COLON EOL block if_trailer"
         p[0] = ["if_statement", p[2][1], p[5][1], p[6]]
 
     def p_if_trailer_1(self,p):
@@ -316,7 +371,7 @@ class Grammar(object):
         p[0] = p[1]
 
     def p_elif_clause_1(self,p):
-        "elif_clause : ELIF expression COLON EOL block"
+        "elif_clause : ELIF fullexpression COLON EOL block"
         p[0] = ["elif_clause", p[2][1], p[5][1] ]
 
     def p_else_clause_1(self,p):
@@ -327,21 +382,21 @@ class Grammar(object):
     # PRINT statement
     #
     def p_print_statement_1(self,p):
-        "print_statement : PRINT expression"
+        "print_statement : PRINT fullexpression"
         p[0] = ["print_statement", p[2] ]
 
     #-------------------------------------------------
     # YIELD statement
     #
     def p_yield_statement_1(self,p):
-        "yield_statement : YIELD expression"
+        "yield_statement : YIELD fullexpression"
         p[0] = ["yield_statement", p[2] ]
 
     #-------------------------------------------------
     # YIELD statement
     #
     def p_assignment_statement_1(self,p):
-        "assignment_statement : identifier EQUALS expression"
+        "assignment_statement : identifier EQUALS fullexpression"
         p[0] = ["assignment_statement", p[2],p[1],p[3] ]
 
     #-------------------------------------------------
@@ -359,7 +414,7 @@ class Grammar(object):
     # FOR statement
     #
     def p_for_statement_1(self,p):
-        "for_statement : FOR identifier IN expression COLON EOL block"
+        "for_statement : FOR identifier IN fullexpression COLON EOL block"
         p[0] = ["for_statement", p[2], p[4][1], p[7][1] ]
 
     #-------------------------------------------------
@@ -382,9 +437,10 @@ class Grammar(object):
         "expression : arith_expression"
         p[0] = ["expression", p[1] ]
 
-    def p_expression_2(self,p):
-        "expression : PARENL expression PARENR"
-        p[0] = p[2]
+
+
+
+
 
     def p_expression_3(self,p):
         """expression : arith_expression TIMES expression
@@ -425,6 +481,12 @@ class Grammar(object):
         "expression_atom : func_call"
         p[0] = ["expression", p[1] ]
 
+    #def p_expression_2(self,p):
+    def p_expressionatom_6(self,p):
+        "expression_atom : PARENL fullexpression PARENR"
+        p[0] = p[2]
+
+
     def p_func_call1(self,p):
         "func_call : IDENTIFIER PARENL PARENR"
         p[0] = ["func_call", p[1] ]
@@ -441,9 +503,13 @@ class Grammar(object):
         "number : MINUS number"
         p[0] = ["number", -p[2][1] ]
 
-    def p_string(self,p):
+    def p_string_1(self,p):
         "string : STRING"
         p[0] = ["string", p[1] ]
+
+    #def p_string_2(self,p):
+        #"string : STRING STRING"
+        #p[0] = ["string", p[1]+p[2] ]
 
     def p_boolean(self,p):
         """boolean : TRUE
@@ -456,6 +522,7 @@ class Grammar(object):
 
     # ------------------------------
     # FIXME: these lists are currently nested, they'd be better flattened
+    # FIXME: These should probably be "fullexpression"s
     def p_expr_list1(self,p):
         "expr_list : expression "
         p[0] = ["expr_list", p[1] ]
