@@ -1,0 +1,6 @@
+plot(0,0)
+unplot(0,0)
+pause(1000)
+plot(2,0)
+unplot(2,0)
+pause(1000)
