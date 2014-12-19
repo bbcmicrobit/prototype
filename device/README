@@ -1,2 +1,5 @@
 The device design & production data files will go in here, so that
 all the tech materials relating to Microbug are in one place.
+
+The current device is described in ProductionData, and uses Design Spark PCB
+as the editor tool.
