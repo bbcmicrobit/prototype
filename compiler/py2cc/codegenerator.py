@@ -132,7 +132,7 @@ class CodeGenerator(object):
         rvalue = assignment_statement[3]
         if rvalue[0] == "expression":
             if rvalue[1][0] == "literalvalue":
-                print "SKIPPING DECLARATION"
+                # print "SKIPPING DECLARATION"
                 if rvalue[1][1][0] == "identifier":
                     if rvalue[1][1][1] == "None":
                         return "// SKIPPING" + repr(assignment_statement)
