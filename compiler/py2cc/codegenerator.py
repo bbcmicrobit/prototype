@@ -94,6 +94,9 @@ class CodeGenerator(object):
             print_statement_lines = self.print_statement(the_statement)
             return print_statement_lines
 
+        if the_statement[0] == "pass_statement":
+            return "// pass\n"
+
         if the_statement[0] == "forever_statement":
             return self.forever_statement(the_statement)
 
