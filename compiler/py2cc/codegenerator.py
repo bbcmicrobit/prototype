@@ -210,7 +210,16 @@ class CodeGenerator(object):
             # literalvalue_fragment = self.literalvalue(the_expression)
             # return literalvalue_fragment
 
-        return ("tbd", "//TBD (expression)")
+        if the_literalvalue[0] == "boolean":
+            # Generated C code for a literal integer  #FIXME, integer size
+            # Note that this should be a string!
+            if the_literalvalue[1] == "True":
+                return ( "boolean", "true" )
+            if the_literalvalue[1] == "False":
+                return ( "boolean", "false" )
+            return ( "boolean", "false; /* FAILED PARSE " + repr(the_literalvalue[1]) +"*/ " )
+
+        return ("tbd", "//TBD "+ repr(literalvalue) )
 
 
 def gen_code(AST):
