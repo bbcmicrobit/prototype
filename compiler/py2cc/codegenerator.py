@@ -124,6 +124,39 @@ class CodeGenerator(object):
 
         expression = if_statement[1]
 
+        if expression[0] == "comparison":
+            assert len(expression) == 4
+            comparator = expression[1]
+            if comparator == "<>":
+                comparator = "!="
+
+            if comparator == "is":
+                comparator = "=="
+
+            if comparator == "is not":
+                comparator = "!="
+
+            operand_L = expression[2]
+            operand_R = expression[3]
+
+            gen_operand_L = self.expression(operand_L)
+            try:
+                expression_type_operand_L, expression_fragment_operand_L = gen_operand_L
+            except ValueError:
+                if not lexer_parser.quiet_mode:
+                    print repr(gen_operand_L),gen_operand_L.__class__
+                raise
+
+            gen_operand_R = self.expression(operand_R)
+            try:
+                expression_type_operand_R, expression_fragment_operand_R = gen_operand_R
+            except ValueError:
+                if not lexer_parser.quiet_mode:
+                    print repr(gen_operand_R),gen_operand_R.__class__
+                raise
+
+            result += " (" + expression_fragment_operand_L + comparator + expression_fragment_operand_R + " ) "
+
         if expression[0] == "literalvalue":
             expression = ["expression", expression ]
 
