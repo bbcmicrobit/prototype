@@ -17,7 +17,7 @@ states = (
 
 reserved_words = ["print", "while", "True", "False", "if", "else", "elif",
                   "for", "in", "from", "import", "def", "yield",
-                  "and", "or", "not"]
+                  "and", "or", "not", "pass"]
 
 tokens = [ "NUMBER", "EOL", "STRING", "COLON",
            "IDENTIFIER", "PLUS", "MINUS", "TIMES", "DIVIDE",
@@ -274,6 +274,9 @@ class Grammar(object):
         "statement : assignment_statement"
         p[0] = ["statement", p[1] ]
 
+    def p_statement_11(self,p):
+        "statement : pass_statement"
+        p[0] = ["statement", p[1] ]
 
     # --------------------------------------------
     # Full Expression - replaces expression
@@ -384,6 +387,13 @@ class Grammar(object):
     def p_print_statement_1(self,p):
         "print_statement : PRINT fullexpression"
         p[0] = ["print_statement", p[2] ]
+
+    #-------------------------------------------------
+    # PASS statement
+    #
+    def p_pass_statement_1(self,p):
+        "pass_statement : PASS"
+        p[0] = ["pass_statement" ]
 
     #-------------------------------------------------
     # YIELD statement
