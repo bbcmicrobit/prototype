@@ -263,10 +263,13 @@ class CodeGenerator(object):
             sys.stderr.write("\n")
             sys.stderr.flush()
         function_name = func_call[1]
-        function_arglist = func_call[2]
-        gen_function_arglist = self.expr_list(function_arglist)
-        gen_function_arglist_ = ",".join(gen_function_arglist)
-        assert function_arglist[0] == "expr_list"
+        if len(func_call)>=3:
+            function_arglist = func_call[2]
+            gen_function_arglist = self.expr_list(function_arglist)
+            gen_function_arglist_ = ",".join(gen_function_arglist)
+            assert function_arglist[0] == "expr_list"
+        else:
+            gen_function_arglist_ = ""
         function_call = function_name + '("HELLO WORLD")'
         function_call = function_name + "( " + gen_function_arglist_ + " )"
         return ("void", function_call)
