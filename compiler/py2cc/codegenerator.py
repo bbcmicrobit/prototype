@@ -80,6 +80,7 @@ class CodeGenerator(object):
     def statement(self, statement):
         assert statement[0] == "statement"
         the_statement = statement[1]
+
         if the_statement[0] == "expression":
             gen_result = self.expression(the_statement)
             try:
@@ -89,6 +90,14 @@ class CodeGenerator(object):
                     print repr(gen_result),gen_result.__class__
                 raise
             return expression_fragment
+
+        if the_statement[0] == "assignment_statement":
+            gen_result = self.assignment_statement(the_statement)
+            return gen_result
+
+        if the_statement[0] == "and_expression":
+            gen_result = self.and_expression(the_statement)
+            return gen_result
 
         if the_statement[0] == "print_statement":
             print_statement_lines = self.print_statement(the_statement)
@@ -103,19 +112,31 @@ class CodeGenerator(object):
         if the_statement[0] == "while_statement":
             return self.while_statement(the_statement)
 
+        if the_statement[0] == "for_statement":
+            return self.for_statement(the_statement)
+
         if the_statement[0] == "if_statement":
             return self.if_statement(the_statement)
 
         return "//TBD (statement) " + the_statement[0]
 
 
-    def elseclause(self, elseclause):
-        if elseclause[0] == "else_clause":
-            elsestatements = elseclause[1]
-            if elsestatements[0] == "statementlist":
-                else_clause_lines = self.statementlist(elsestatements)
+    def assignment_statement(self, assignment_statement):
+        assert assignment_statement[0] == "assignment_statement"
 
-            return "else {\n " + ";\n".join(else_clause_lines) + "; }\n"
+        # The code generator for blockly generates spurious "i = None" style
+        # statements when creating loops. For now we'll intercept them here
+        # and remove them
+        assigment_type = assignment_statement[1]
+        lvalue = assignment_statement[2]
+        rvalue = assignment_statement[3]
+        if rvalue[0] == "expression":
+            if rvalue[1][0] == "literalvalue":
+                print "SKIPPING DECLARATION"
+                if rvalue[1][1][0] == "identifier":
+                    if rvalue[1][1][1] == "None":
+                        return "// SKIPPING" + repr(assignment_statement)
+        return "// TBD Assignment statement -- " + repr(assignment_statement)
 
     def if_statement(self, if_statement):
         assert if_statement[0] == "if_statement"
@@ -186,6 +207,14 @@ class CodeGenerator(object):
 
         return result
 
+    def elseclause(self, elseclause):
+        if elseclause[0] == "else_clause":
+            elsestatements = elseclause[1]
+            if elsestatements[0] == "statementlist":
+                else_clause_lines = self.statementlist(elsestatements)
+
+            return "else {\n " + ";\n".join(else_clause_lines) + "; }\n"
+
     def if_trailer(self, if_trailer):
         result = ""
         if if_trailer[0] == "else_clause":
@@ -201,6 +230,26 @@ class CodeGenerator(object):
                 result += self.if_trailer(if_trailer_clause)
 
         return result
+
+    def for_statement(self, for_statement):
+        assert for_statement[0] == "for_statement"
+        identifier_spec = for_statement[1]
+        range_spec = for_statement[2] # FIXME: Yes, this is hardcoded here for now
+        block = for_statement[3]
+        identifier = identifier_spec[1]
+        if range_spec[0] == "expression":
+            if range_spec[1][0] == "func_call":
+                if range_spec[1][1] == "range":
+                    if range_spec[1][2][0] == "expr_list":
+                        if range_spec[1][2][1][0] == "expression":
+                            if range_spec[1][2][1][1][0] == "literalvalue":
+                                if range_spec[1][2][1][1][1][0] == "number":
+                                    max_iter = str(range_spec[1][2][1][1][1][1])
+
+        body_lines = ""
+        body_lines = "{\n" + ";\n".join(self.statementlist(block)) + ";\n}"
+
+        return "for(int " + identifier +"=0; "+identifier+"<"+max_iter+"; "+identifier+"++)\n" +body_lines
 
     def forever_statement(self, forever_statement):
         assert forever_statement[0] == "forever_statement"
@@ -290,6 +339,46 @@ class CodeGenerator(object):
 
         return "// TBD print_statemnt " + repr(what_to_print)
 
+    def and_expression(self, and_expression):
+        assert and_expression[0] == "and_expression"
+        result = ""
+        L_expression = and_expression[1]
+        R_expression = and_expression[2]
+        L_gen_result = self.expression(L_expression)
+        (L_expression_type, L_expression_fragment) = L_gen_result
+
+        R_gen_result = self.expression(R_expression)
+        (R_expression_type, R_expression_fragment) = R_gen_result
+        result += "(" + L_expression_fragment + ")"
+        result += " && "
+        result += "(" + R_expression_fragment + ")"
+        return "(" + result + ")"
+
+    def or_expression(self, or_expression):
+        assert or_expression[0] == "or_expression"
+        result = ""
+        L_expression = or_expression[1]
+        R_expression = or_expression[2]
+        L_gen_result = self.expression(L_expression)
+        (L_expression_type, L_expression_fragment) = L_gen_result
+
+        R_gen_result = self.expression(R_expression)
+        (R_expression_type, R_expression_fragment) = R_gen_result
+        result += "(" + L_expression_fragment + ")"
+        result += " || "
+        result += "(" + R_expression_fragment + ")"
+        return "(" + result + ")"
+
+    def not_expression(self, not_expression):
+        assert not_expression[0] == "not_expression"
+        result = ""
+        L_expression = not_expression[1]
+        L_gen_result = self.expression(L_expression)
+        (L_expression_type, L_expression_fragment) = L_gen_result
+
+        result += "! (" + L_expression_fragment + ")"
+        return "(" + result + ")"
+
     def expression(self, expression):
         assert expression[0] == "expression"
         the_expression = expression[1]
@@ -301,6 +390,15 @@ class CodeGenerator(object):
             gen_result = self.expression(the_expression)
             expression_type, expression_fragment = gen_result
             return expression_type, expression_fragment
+
+        if the_expression[0] == "or_expression":
+            return "boolean", self.or_expression(the_expression)
+
+        if the_expression[0] == "and_expression":
+            return "boolean", self.and_expression(the_expression)
+
+        if the_expression[0] == "not_expression":
+            return "boolean", self.not_expression(the_expression)
 
         if the_expression[0] == "func_call":
             if not lexer_parser.quiet_mode:
