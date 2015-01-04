@@ -153,6 +153,7 @@ void eye_on(const char *id);// DONE
 void eye_off(const char *id);// DONE
 
 int getButton(char id);// DONE
+int getButton(char *id); // Alternative for handling data from python code
 void clear_display();// DONE
 void plot(int x, int y);// DONE
 void unplot(int x, int y);// DONE
@@ -163,6 +164,7 @@ void ScrollImage(Image someImage, boolean loop, int trailing_spaces);// DONE
 int image_point(Image& someImage, int x, int y);// DONE
 void set_image_point(Image& someImage, int x, int y, int value);// DONE
 void showLetter(char c); // Could be just internal, but useful.
+void showLetter(char * c);  // Alternative for handling data from python code
 void print_message(const char * message, int pausetime);
 void toggle_eye(char id);// DONE
 
@@ -605,6 +607,15 @@ int getButton(char id) {
     }
     return -1; // Signify error
 }
+
+int getButton(char *id){
+    return getButton(*id);
+}
+
+void showLetter(char * c) {
+    showLetter(*c);
+}
+
 
 void showLetter(char c) {
     int letter_index = c-32;
