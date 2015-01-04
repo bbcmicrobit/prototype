@@ -105,7 +105,7 @@ Blockly.Python['microbug_build_image'] = function(block) {
         }
 		rows[row] = '0x' + rows[row].toString(16);
     }
-    return ["make_image(" + rows[0] + "," + rows[1] + "," + rows[2] + "," + rows[3] + "," + rows[4] +")\n", Blockly.Python.ORDER_FUNCTION_CALL];
+    return ["make_image(" + rows[0] + "," + rows[1] + "," + rows[2] + "," + rows[3] + "," + rows[4] +")", Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Python['microbug_build_big_image'] = function(block) {
@@ -118,7 +118,7 @@ Blockly.Python['microbug_build_big_image'] = function(block) {
         }
         rows[row] = '0x' + rows[row].toString(16);
     }
-    return ["make_big_image(" + rows[0] + "," + rows[1] + "," + rows[2] + "," + rows[3] + "," + rows[4] +")\n", Blockly.Python.ORDER_FUNCTION_CALL];
+    return ["make_big_image(" + rows[0] + "," + rows[1] + "," + rows[2] + "," + rows[3] + "," + rows[4] +")", Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Python['microbug_show_image'] = function(block) {
