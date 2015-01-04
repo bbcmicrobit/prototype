@@ -1,2 +1,2 @@
 while True:
-    scroll_sprite(StringSprite('Wibble', 'R'), 100, 'L')
+    scroll_string_image(StringImage('Wibble'), 100)

@@ -3,12 +3,12 @@ while True:
     print "Hello"
     print "World"
     ScrollSprite()
-    ScrollSprite(StringSprite("Hello"))
-    ScrollSprite(StringSprite("Hello","R"))
+    scroll_string_image(StringImage('Wibble'))
+    scroll_string_image(StringImage('Wibble'))
 
 
 while True:
-    scroll_sprite(StringSprite("Wibble", "R"), 100, "L")
+    scroll_string_image(StringImage('Wibble'), 100)
 
 while True:
-    scroll_sprite(StringSprite('Wibble', 'R'), 100, 'L')
+    scroll_string_image(StringImage('Wibble'), 100)

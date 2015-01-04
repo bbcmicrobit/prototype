@@ -1,5 +1,5 @@
 while True:
-  show_image_offset(makeImage('5,5,1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1') ,0,0)
+  show_image_offset(make_image(0x4,0x4,0x4,0xa,0x1f),0,0)
   pause(500)
-  show_image_offset(makeImage('5,5,1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1') ,0,0)
+  show_image_offset(make_image(0x1f,0x19,0x15,0x13,0x1f),0,0)
   pause(500)

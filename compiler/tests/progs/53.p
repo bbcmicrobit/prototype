@@ -1,4 +1,4 @@
-if False:
-  pass
+if getButton('A'):
+    print "hello"
 else:
-  pass
+    print "world"
