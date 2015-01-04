@@ -358,7 +358,7 @@ class Grammar(object):
 
     def p_if_statement_2(self,p):
         "if_statement : IF fullexpression COLON EOL block if_trailer"
-        p[0] = ["if_statement", p[2][1], p[5][1], p[6]]
+        p[0] = ["if_statement", p[2], p[5][1], p[6]]
 
     def p_if_trailer_1(self,p):
         """if_trailer : elif_clauses"""
