@@ -100,7 +100,71 @@ class CodeGenerator(object):
         if the_statement[0] == "forever_statement":
             return self.forever_statement(the_statement)
 
+        if the_statement[0] == "if_statement":
+            return self.if_statement(the_statement)
+
         return "//TBD (statement) " + the_statement[0]
+
+
+    def elseclause(self, elseclause):
+        if elseclause[0] == "else_clause":
+            elsestatements = elseclause[1]
+            if elsestatements[0] == "statementlist":
+                else_clause_lines = self.statementlist(elsestatements)
+
+            return "else {\n " + ";\n".join(else_clause_lines) + "; }\n"
+
+    def if_statement(self, if_statement):
+        assert if_statement[0] == "if_statement"
+
+        main_clause_lines = []
+        else_clause_lines = []
+
+        result = "if"
+
+        expression = if_statement[1]
+
+        if expression[0] == "literalvalue":
+            expression = ["expression", expression ]
+
+        if expression[0] == "expression":
+            gen_result = self.expression(expression)
+            try:
+                expression_type, expression_fragment = gen_result
+            except ValueError:
+                if not lexer_parser.quiet_mode:
+                    print repr(gen_result),gen_result.__class__
+                raise
+
+            result += " (" + expression_fragment + " ) "
+
+
+        statements = if_statement[2]
+        if statements[0] == "statementlist":
+            main_clause_lines = self.statementlist(statements)
+
+        result += "{\n" + ";\n".join(main_clause_lines) + " ; }\n"
+
+        if len(if_statement) == 4:
+            result += self.if_trailer(if_statement[3])
+
+        return result
+
+    def if_trailer(self, if_trailer):
+        result = ""
+        if if_trailer[0] == "else_clause":
+            result += self.elseclause(if_trailer)
+
+        if if_trailer[0] == "elif_clause":
+            result += " else "
+            if_trailer[0] = "if_statement"
+            result += self.if_statement(if_trailer)
+
+        if type(if_trailer[0]) == list:
+            for if_trailer_clause in if_trailer:
+                result += self.if_trailer(if_trailer_clause)
+
+        return result
 
     def forever_statement(self, forever_statement):
         assert forever_statement[0] == "forever_statement"
