@@ -346,7 +346,7 @@ class Grammar(object):
                         p[0] = ["never_statement", p[5][1] ]
                         return
 
-        p[0] = ["while_statement", p[2][1],p[5][1] ]
+        p[0] = ["while_statement", p[2],p[5][1] ]
 
     #---------------------------------------------------
     # IF Statement
