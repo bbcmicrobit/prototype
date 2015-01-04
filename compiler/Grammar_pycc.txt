@@ -6,7 +6,7 @@ statementlist : statement statementlist?
 block : INDENT statementlist DEDENT
 statement : EOL
           | print_statement
-          | expression
+          | fullexpression
           | while_statement
           | if_statement
           | for_statement
@@ -15,27 +15,33 @@ statement : EOL
           | yield_statement
           | assignment_statement
 
-while_statement : WHILE expression COLON EOL block
+while_statement : WHILE fullexpression COLON EOL block
 
-if_statement : IF expression COLON EOL block if_trailer?
+if_statement : IF fullexpression COLON EOL block if_trailer?
 if_trailer : elif_clauses
            | else_clause
 elif_clauses : elif_clause if_trailer?
-elif_clause : ELIF expression COLON EOL block
+elif_clause : ELIF fullexpression COLON EOL block
 else_clause : ELSE COLON EOL block
 
-print_statement | PRINT expression
-yield_statement | YIELD expression
-assignment_statement | identifier EQUALS expression
+
+print_statement | PRINT fullexpression
+yield_statement | YIELD fullexpression
+assignment_statement | identifier EQUALS fullexpression
 
 import_statement : (FROM identifier)? IMPORT identifier
                  | IMPORT identifier
 
-for_statement : FOR identifier IN expression COLON EOL block
+for_statement : FOR identifier IN fullexpression COLON EOL block
 def_statement : DEF identifier PARENL ident_list? PARENR COLON EOL block
 
+fullexpression : or_expression
+or_expression  : and_expression (OR or_expression)?
+and_expression : not_expression (AND not_expression)?
+not_expression : comparison | NOT not_expression
+comparison     : expression (COMP_OP expression)?
+
 expression : arith_expression
-           | PARENL expression PARENR
            | arith_expression TIMES expression
            | arith_expression DIVIDE expression
 
@@ -48,6 +54,7 @@ expression_atom : MINUS? number
                 | STRING
                 | boolean
                 | func_call
+                | PARENL fullexpression PARENR
 
 boolean : TRUE
         | FALSE
@@ -56,7 +63,6 @@ func_call : IDENTIFIER PARENL expr_list? PARENR
 
 expr_list : expression (COMMA expr_list)?
 ident_list : identifier (COMMA ident_list)?
-
 
 DEF        = 'def'
 ELIF       = 'elif'
@@ -83,7 +89,7 @@ PARENR     : ')'
 PLUS       : '+'
 TIMES      : '*'
 EOL        : '\n'
-
+COMP_OP    : '(<|>|==|>=|<=|<>|!=|in|not +in|is|is +not)'
 IDENTIFIER : '[a-zA-Z_][a-zA-Z0-9_]*'
 NUMBER     : '[0-9]+'
 STRING     : '"[^"]*"'
