@@ -319,7 +319,7 @@ class Grammar(object):
 
     def p_fullexpression_9(self,p):
         "comparison : expression COMP_OP expression"
-        p[0] = ["comparison ", p[2], p[1], p[3]]
+        p[0] = ["comparison", p[2], p[1], p[3]]
 
 
 
