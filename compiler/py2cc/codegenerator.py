@@ -100,6 +100,9 @@ class CodeGenerator(object):
         if the_statement[0] == "forever_statement":
             return self.forever_statement(the_statement)
 
+        if the_statement[0] == "while_statement":
+            return self.while_statement(the_statement)
+
         if the_statement[0] == "if_statement":
             return self.if_statement(the_statement)
 
@@ -207,6 +210,67 @@ class CodeGenerator(object):
             body_lines = self.statementlist(the_statement)
 
         return "while(1) {// Forever\n"+";\n".join(body_lines)+";"+ "\n}\n"
+
+    def while_statement(self, while_statement):
+        assert while_statement[0] == "while_statement"
+        result = "while"
+        expression = while_statement[1]
+
+        if expression[0] == "literalvalue":
+            expression = ["expression", expression ]
+
+        if expression[0] == "expression":
+            gen_result = self.expression(expression)
+            try:
+                expression_type, expression_fragment = gen_result
+            except ValueError:
+                if not lexer_parser.quiet_mode:
+                    print repr(gen_result),gen_result.__class__
+                raise
+
+            result += " (" + expression_fragment + " ) "
+
+        if expression[0] == "comparison":
+            assert len(expression) == 4
+            comparator = expression[1]
+            if comparator == "<>":
+                comparator = "!="
+
+            if comparator == "is":
+                comparator = "=="
+
+            if comparator == "is not":
+                comparator = "!="
+
+            operand_L = expression[2]
+            operand_R = expression[3]
+
+            gen_operand_L = self.expression(operand_L)
+            try:
+                expression_type_operand_L, expression_fragment_operand_L = gen_operand_L
+            except ValueError:
+                if not lexer_parser.quiet_mode:
+                    print repr(gen_operand_L),gen_operand_L.__class__
+                raise
+
+            gen_operand_R = self.expression(operand_R)
+            try:
+                expression_type_operand_R, expression_fragment_operand_R = gen_operand_R
+            except ValueError:
+                if not lexer_parser.quiet_mode:
+                    print repr(gen_operand_R),gen_operand_R.__class__
+                raise
+
+            result += " (" + expression_fragment_operand_L + comparator + expression_fragment_operand_R + " ) "
+
+
+        statements = while_statement[2]
+
+        body_lines = ""
+        if statements[0] == "statementlist":
+            body_lines = self.statementlist(statements)
+
+        return result + "{// Normal\n"+";\n".join(body_lines)+";"+ "\n}\n"
 
     def print_statement(self, print_statement):
         assert print_statement[0] == "print_statement"
