@@ -302,7 +302,7 @@ class Grammar(object):
 
     def p_fullexpression_5(self,p):
         "and_expression  : not_expression AND not_expression"
-        p[0] = ["and_expression", p[1], p[3] ]
+        p[0] = ["expression", ["and_expression", p[1], p[3] ] ]
 
     def p_fullexpression_6(self,p):
         "not_expression : comparison"
@@ -310,7 +310,7 @@ class Grammar(object):
 
     def p_fullexpression_7(self,p):
         "not_expression : NOT not_expression"
-        p[0] = ["not_expression ", p[2] ]
+        p[0] = ["expression", ["not_expression", p[2] ] ]
 
 
     def p_fullexpression_8(self,p):
