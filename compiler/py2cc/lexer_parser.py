@@ -140,10 +140,13 @@ def t_EMITDEDENTS_DEDENT(t):
 
 
 def t_CODE_INITIAL_NUMBER(t):
-    r'\d+'
+    r'(0x[abcdef\d]+|\d+)'
     # r'[-]?\d+'
     try:
-         t.value = int(t.value)
+        base = 10
+        if t.value[:2]=="0x":
+            base = 16
+        t.value = int(t.value, 16)
     except ValueError:
         if not quiet_mode:
              print "Line %d: Number %s is too large!" % (t.lineno,t.value)
