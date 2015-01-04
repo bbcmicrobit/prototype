@@ -319,6 +319,12 @@ class CodeGenerator(object):
                 return ( "boolean", "false" )
             return ( "boolean", "false; /* FAILED PARSE " + repr(the_literalvalue[1]) +"*/ " )
 
+        if the_literalvalue[0] == "identifier":
+            # Generated C code for a literal integer  #FIXME, integer size
+            # Note that this should be a string!
+            return ( "identifier", the_literalvalue[1] )
+
+
         return ("tbd", "//TBD "+ repr(literalvalue) )
 
 
