@@ -237,19 +237,59 @@ class CodeGenerator(object):
         range_spec = for_statement[2] # FIXME: Yes, this is hardcoded here for now
         block = for_statement[3]
         identifier = identifier_spec[1]
+        max_iter = 0
+        arg_one = 0
+        range_args = []
         if range_spec[0] == "expression":
-            if range_spec[1][0] == "func_call":
-                if range_spec[1][1] == "range":
-                    if range_spec[1][2][0] == "expr_list":
-                        if range_spec[1][2][1][0] == "expression":
-                            if range_spec[1][2][1][1][0] == "literalvalue":
-                                if range_spec[1][2][1][1][1][0] == "number":
-                                    max_iter = str(range_spec[1][2][1][1][1][1])
+            range_call = range_spec[1]
+            if range_call[0] == "func_call":
+                if range_call[1] == "range":
+                    if range_call[2][0] == "expr_list":
+                        range_args_raw = range_call[2]
+                        if range_args_raw[1][0] == "expression":
+                            if range_args_raw[1][1][0] == "literalvalue":
+                                if range_args_raw[1][1][1][0] == "number":
+                                    first_arg = str(range_args_raw[1][1][1][1])
+                                    range_args.append(first_arg)
+
+                        if len(range_args_raw)>2:
+                            # Extract second arg
+                            if range_args_raw[2][0] == "expr_list":
+                                if range_args_raw[2][1][0] == "expression":
+                                    if range_args_raw[2][1][1][0] == "literalvalue":
+                                        if range_args_raw[2][1][1][1][0] == "number":
+                                            second_arg = str(range_args_raw[2][1][1][1][1])
+                                            range_args.append(second_arg)
+
+                            if len(range_args_raw[2])>2:
+                                # Extract second arg
+                                if range_args_raw[2][2][0] == "expr_list":
+                                    if range_args_raw[2][2][1][0] == "expression":
+                                        if range_args_raw[2][2][1][1][0] == "literalvalue":
+                                            if range_args_raw[2][2][1][1][1][0] == "number":
+                                                third_arg = str(range_args_raw[2][2][1][1][1][1])
+                                                range_args.append(third_arg)
+
+        init_value = "0"
+        end_value = "5"
+        step = "1"
+
+        if len(range_args) == 1:
+            end_value = range_args[0]
+
+        if len(range_args) == 2:
+            init_value = range_args[0]
+            end_value = range_args[1]
+
+        if len(range_args) == 3:
+            init_value = range_args[0]
+            end_value = range_args[1]
+            step = range_args[2]
 
         body_lines = ""
         body_lines = "{\n" + ";\n".join(self.statementlist(block)) + ";\n}"
 
-        return "for(int " + identifier +"=0; "+identifier+"<"+max_iter+"; "+identifier+"++)\n" +body_lines
+        return "for(int " + identifier +"="+init_value+"; "+identifier+"=="+end_value+"; "+identifier+"= "+identifier+" + "+step+")\n" +body_lines
 
     def forever_statement(self, forever_statement):
         assert forever_statement[0] == "forever_statement"
