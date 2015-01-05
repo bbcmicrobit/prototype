@@ -286,10 +286,14 @@ class CodeGenerator(object):
             end_value = range_args[1]
             step = range_args[2]
 
+        if int(init_value)<int(end_value):
+            comp = "<"
+        else:
+            comp = ">"
         body_lines = ""
         body_lines = "{\n" + ";\n".join(self.statementlist(block)) + ";\n}"
 
-        return "for(int " + identifier +"="+init_value+"; "+identifier+"=="+end_value+"; "+identifier+"= "+identifier+" + "+step+")\n" +body_lines
+        return "for(int " + identifier +"="+init_value+"; "+identifier+comp+end_value+"; "+identifier+"= "+identifier+" + "+step+")\n" +body_lines
 
     def forever_statement(self, forever_statement):
         assert forever_statement[0] == "forever_statement"
