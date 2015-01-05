@@ -419,12 +419,12 @@ function setupUserDetailsUpdate() {
                         $('#question_2').val(),
                         $('#question_3').val(),
                         $('#question_4').val(),
-                        $('#question_5').val(),
-                        $('#question_6').val(),
-                        $('#question_7').val(),
-                        $('#question_8').val(),
-                        $('#question_9').val(),
-                        $('#question_10').val()
+                        $('#question_5').val()
+                        //$('#question_6').val(),
+                        //$('#question_7').val(),
+                        //$('#question_8').val(),
+                        //$('#question_9').val(),
+                        //$('#question_10').val()
                     ]
                 }),
                 success: function (data) {

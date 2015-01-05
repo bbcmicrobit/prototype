@@ -616,11 +616,11 @@ def update_user_details(request):
     user_profile.question_3  = answers[2]
     user_profile.question_4  = answers[3]
     user_profile.question_5  = answers[4]
-    user_profile.question_6  = answers[5]
-    user_profile.question_7  = answers[6]
-    user_profile.question_8  = answers[7]
-    user_profile.question_9  = answers[8]
-    user_profile.question_10 = answers[9]
+#    user_profile.question_6  = answers[5]
+#    user_profile.question_7  = answers[6]
+#    user_profile.question_8  = answers[7]
+#    user_profile.question_9  = answers[8]
+#    user_profile.question_10 = answers[9]
     user_profile.save()
 
     return HttpResponse("Updated")
