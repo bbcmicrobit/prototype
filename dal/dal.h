@@ -154,6 +154,14 @@ void eye_off(const char *id);// DONE
 
 int getButton(char id);// DONE
 int getButton(char *id); // Alternative for handling data from python code
+
+// These next two functions should be deleted - they're there as crutches for the blockly front end.
+// However, they need to be there for the moment (2015/01/05)
+
+int get_button(char id);// DONE
+int get_button(char *id); // Alternative for handling data from python code
+
+
 void clear_display();// DONE
 void plot(int x, int y);// DONE
 void unplot(int x, int y);// DONE
@@ -610,6 +618,17 @@ int getButton(char id) {
 
 int getButton(char *id){
     return getButton(*id);
+}
+
+// These next two functions should be deleted - they're there as crutches for the blockly front end.
+// However, they need to be there for the moment (2015/01/05)
+
+int get_button(char *id){
+    return getButton(*id);
+}
+
+int get_button(char id){
+    return getButton(id);
 }
 
 void showLetter(char * c) {
