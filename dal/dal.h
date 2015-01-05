@@ -145,10 +145,13 @@ typedef struct Image {
 //    unsigned char *data;
 } Image;
 
+int get_eye(char id);
 void set_eye(char id, int state);// DONE
 void eye_on(char id); // DONE
 void eye_off(char id);// DONE
 
+int get_eye(char *id);
+void set_eye(const char *id, int state);// DONE
 void eye_on(const char *id);// DONE
 void eye_off(const char *id);// DONE
 
@@ -173,8 +176,14 @@ int image_point(Image& someImage, int x, int y);// DONE
 void set_image_point(Image& someImage, int x, int y, int value);// DONE
 void showLetter(char c); // Could be just internal, but useful.
 void showLetter(char * c);  // Alternative for handling data from python code
+
+void show_letter(char c); // Could be just internal, but useful.
+void show_letter(char * c);  // Alternative for handling data from python code
+
+
 void print_message(const char * message, int pausetime);
 void toggle_eye(char id);// DONE
+void toggle_eye(const char *id);
 
 struct StringImage;// DONE
 void scroll_string_image(StringImage theSprite, int pausetime);// DONE
@@ -616,6 +625,21 @@ int getButton(char id) {
     return -1; // Signify error
 }
 
+int get_eye(char *id) {
+    return get_eye(*id);
+}
+
+int get_eye(char id) {
+    if ((id == 'A') || (id == 'L')) {
+        return left_eye_state;
+    }
+    if ((id == 'B') || (id == 'R')) {
+        return right_eye_state;
+    }
+    return -1; // Signify error
+}
+
+
 int getButton(char *id){
     return getButton(*id);
 }
@@ -635,6 +659,13 @@ void showLetter(char * c) {
     showLetter(*c);
 }
 
+void show_letter(char * c) {
+    showLetter(*c);
+}
+
+void show_letter(char c) {
+    showLetter(c);
+}
 
 void showLetter(char c) {
     int letter_index = c-32;
@@ -676,6 +707,10 @@ void set_eye(char id, int state) {
     }
 }
 
+void set_eye(const char * id, int state) {
+    set_eye(*id, state);
+}
+
 void toggle_eye(char id) {
     if ((id == 'A') || (id == 'L')) {
         if (left_eye_state == HIGH) {
@@ -691,6 +726,10 @@ void toggle_eye(char id) {
             set_eye(id, HIGH);
         }
     }
+}
+
+void toggle_eye(const char *id){
+    toggle_eye(*id);
 }
 
 void eye_on(char id) {
