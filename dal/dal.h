@@ -719,10 +719,15 @@ typedef struct StringImage {
     int mPixelData[50]; // Sufficient to hold two characters.
     char *mString;
     int mStrlen;
+    char num_buf[12] ; 
 
     StringImage() {}
     StringImage(const char * str) {
         setString(str);
+    }
+    StringImage(int number) {
+        itoa(number, num_buf, 10);
+        setString(num_buf);
     }
     ~StringImage() {}
 
