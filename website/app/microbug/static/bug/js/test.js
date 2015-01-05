@@ -754,9 +754,10 @@ function statusElementContent(data) {
         );
     } else if (data.status == 'failedcompile') {
         return(
-            '<span style="background-color: #800; color: #fff"><b>&nbsp;Build failed for this program&nbsp;</b></span>'
+            '<span style="background-color: #800; color: #fff"><b>&nbsp;Building Program</b></span>'
         );
     } else if (data.status == 'in_compile_queue') {
+        // This is the better solution, but needs implementing differently
         return(
             'Building program, <span class="eta">'+data.eta+'</span> left'
         );
