@@ -20,7 +20,7 @@ reserved_words = ["print", "while", "True", "False", "if", "else", "elif",
                   "and", "or", "not", "pass"]
 
 tokens = [ "NUMBER", "EOL", "STRING", "COLON",
-           "IDENTIFIER", "PLUS", "MINUS", "TIMES", "DIVIDE",
+           "IDENTIFIER", "PLUS", "MINUS", "TIMES", "DIVIDE", "POWER",
            "PARENL", "PARENR", "COMMA", "EQUALS",
            "COMP_OP",
            "INDENT", "DEDENT" # , "WS"
@@ -34,6 +34,7 @@ t_CODE_INITIAL_COLON = r':'
 t_CODE_INITIAL_EQUALS = r'='
 t_CODE_INITIAL_MINUS = r'\-'
 t_CODE_INITIAL_PLUS = r'\+'
+t_CODE_INITIAL_POWER = r'\*\*'
 t_CODE_INITIAL_TIMES = r'\*'
 t_CODE_INITIAL_DIVIDE = r'/'
 t_CODE_INITIAL_PARENL = r'\('
@@ -457,7 +458,8 @@ class Grammar(object):
 
     def p_expression_3(self,p):
         """expression : arith_expression TIMES expression
-                      | arith_expression DIVIDE expression"""
+                      | arith_expression DIVIDE expression
+                      | arith_expression POWER expression"""
         p[0] = ["infix_expression", p[2], p[1], p[3] ]
 
     def p_expression_4(self,p):
