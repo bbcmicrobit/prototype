@@ -630,7 +630,8 @@ function signOut() {
         url: "/bug/sign_out",
         success: function(data) {
             //updateLoginForm();
-            location.reload();
+            location.replace("http://bug.iotoy.org/bug/");
+            // location.reload();
         }
     })
 }
