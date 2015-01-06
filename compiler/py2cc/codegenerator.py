@@ -16,6 +16,7 @@ print_str = """void print(char *value) {
 
 program_template = """\
 #include "dal.h"
+#include <math.h>
 
 %DECLARATIONS%
 
@@ -94,6 +95,9 @@ class CodeGenerator(object):
         if the_statement[0] == "assignment_statement":
             gen_result = self.assignment_statement(the_statement)
             return gen_result
+
+        if the_statement[0] == "infix_expression":
+            return self.statement(["statement", ["expression", the_statement]]) # Treat infix_expression statement as an expression statement
 
         if the_statement[0] == "and_expression":
             gen_result = self.and_expression(the_statement)
@@ -423,6 +427,48 @@ class CodeGenerator(object):
         result += "! (" + L_expression_fragment + ")"
         return "(" + result + ")"
 
+    def infix_expression(self, infix_expression):
+        assert infix_expression[0] == "infix_expression"
+        operator = infix_expression[1]
+        L_value_expression = ["expression", infix_expression[2] ]
+        R_value_expression = ["expression", infix_expression[3] ]
+
+        L_gen_result = self.expression(L_value_expression )
+        L_expression_type, L_expression_fragment = L_gen_result
+
+        R_gen_result = self.expression(R_value_expression )
+        R_expression_type, R_expression_fragment = R_gen_result
+
+        if L_expression_type != R_expression_type:
+            # dunno what to do here really. Types are *wrong*
+            # We should fail, but what's the C rules?
+            # For the moment, we'll say the L_expression_type win
+            # But print a massive warning
+            print "************************** WARNING *******************************"
+            print "************************** WARNING *******************************"
+            print "***                                                            ***"
+            print "*** THE TYPES FOR THE EXPRESSION DO NOT MATCH.                 ***"
+            print "***                                                            ***"
+            print "*** FOR THE MOMENT WE'RE ALLOWING THE LEFT HAND SIDE TO 'WIN'  ***"
+            print "***                                                            ***"
+            print "*** BUT THIS IS WRONG, AND MAY RESULT IN A FAILURE             ***"
+            print "***                                                            ***"
+            print "*** The reason for allowing it is because int and bool can be  ***"
+            print "*** Interchanged on occasions, as can pointers etc, so this    ***"
+            print "*** isn't really quite that clear cut                          ***"
+            print "***                                                            ***"
+            print "************************** WARNING *******************************"
+            print "************************** WARNING *******************************"
+
+        expression_type = L_expression_type
+        # Brackets round sub-expressions, and round the expression as a whole.
+        if operator == "**":
+            result = "( pow((" + L_expression_fragment +  "), " + "(" + R_expression_fragment + ")) )"
+        else:
+            result = "( (" + L_expression_fragment +  ")" + operator + "(" + R_expression_fragment + ") )"
+
+        return expression_type, result
+
     def expression(self, expression):
         assert expression[0] == "expression"
         the_expression = expression[1]
@@ -432,6 +478,11 @@ class CodeGenerator(object):
 
         if the_expression[0] == "expression":
             gen_result = self.expression(the_expression)
+            expression_type, expression_fragment = gen_result
+            return expression_type, expression_fragment
+
+        if the_expression[0] == "infix_expression":
+            gen_result = self.infix_expression(the_expression)
             expression_type, expression_fragment = gen_result
             return expression_type, expression_fragment
 
@@ -460,7 +511,6 @@ class CodeGenerator(object):
         return ("tbd", repr(expression))
 
     def func_call(self, func_call):
-        
         # ['func_call', 'scroll_string', ['expr_list', ['expression', ['literalvalue', ['string', 'HELLO WORLD']]]]]
 
         assert func_call[0] == "func_call"
