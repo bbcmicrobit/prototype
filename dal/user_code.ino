@@ -10,9 +10,12 @@ ISR(WDT_vect) { Sleepy::watchdogEvent(); }
 void ScrollSpriteStringSpriteExample_Test18() {
     int count;
 
+    auto merry = StringImage(" MERRY XMAS!");
+
     set_eye('L', HIGH);
     set_eye('R', HIGH);
-    scroll_string_image(StringImage(" MERRY XMAS!"),50);
+//    scroll_string_image(StringImage(" MERRY XMAS!"),50);
+    scroll_string_image(merry, 50);
     sleep(30);
     set_eye('L', LOW);
     set_eye('R', LOW);
