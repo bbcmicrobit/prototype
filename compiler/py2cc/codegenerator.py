@@ -404,12 +404,6 @@ class CodeGenerator(object):
         L_expression = and_expression[1]
         R_expression = and_expression[2]
 
-        print "L_expression", L_expression
-        if L_expression[0] == "comparison":
-            L_expression = ["expression", L_expression ]
-        if R_expression[0] == "comparison":
-            R_expression = ["expression", R_expression ]
-
         L_gen_result = self.expression(L_expression)
         (L_expression_type, L_expression_fragment) = L_gen_result
 
@@ -488,6 +482,27 @@ class CodeGenerator(object):
         return expression_type, result
 
     def expression(self, expression):
+        if expression[0] != "expression":
+            # It might be that this is being called for something that is really an expression,
+            # and should be handled here, but for some reason isn't being. We can fix the
+            # parse tree here as a result. This is slightly hacky, but we'll be explicit
+            # about it.
+            if expression[0] == "comparison":
+                expression = ["expression", expression]
+            if expression[0] == "literalvalue":
+                expression = ["expression", expression]
+            if expression[0] == "infix_expression":
+                expression = ["expression", expression]
+
+            if expression[0] == "or_expression":
+                expression = ["expression", expression]
+            if expression[0] == "and_expression":
+                expression = ["expression", expression]
+            if expression[0] == "not_expression":
+                expression = ["expression", expression]
+            if expression[0] == "func_call":
+                expression = ["expression", expression]
+
         try:
             assert expression[0] == "expression"
         except AssertionError:
