@@ -330,7 +330,7 @@ void pause(word millis) {
 #ifdef MICROKIT_DISABLE
     delay(millis);
 #else
-    delay(millis/4);
+    delay(millis/8);
 #endif
 }
 
@@ -366,7 +366,7 @@ void enable_power_optimisations() {
     CLKSEL0 &= ~(1 << CLKS);                // Select the internal RC clock
     CLKSEL0 &= ~(1 << EXTE);                // Disable external clock
 
-    clock_prescale_set(clock_div_4);        // Switch the CPU speed right down.
+    clock_prescale_set(clock_div_8);        // Switch the CPU speed right down.
 }
 
 /* END POWER OPTIMISATIONS ------------------------------------------------------------------------------------ */
@@ -430,13 +430,13 @@ CLKPR = 0x01;
 //    timer4_counter = 65224;     // preload timer 65536-16MHz/256/200Hz
 //    timer4_counter = 65380;     // preload timer 65536-16MHz/256/400Hz
 //    timer4_counter = 65458;     // preload timer 65536-16MHz/256/800Hz
-    timer4_counter = 65521;     // 65536-(2000000/64/2000)
+    timer4_counter = 65224;     // 65536-(2000000/64/2000)
 
     // timer4_counter = 65497;     // preload timer 65536-2MHz/256/200Hz // For some reason current microbug is operating at 2MHz
 
     TCNT4 = timer4_counter;   // preload timer
     TCCR4B |= (0 << CS12);    //
-    TCCR4B |= (1 << CS11);    // 64 prescaler 
+    TCCR4B |= (0 << CS11);    // 64 prescaler 
     TCCR4B |= (1 << CS10);    // 64 prescaler 
 
     TIMSK4 |= (1 << TOIE4);   // enable timer overfLOW interrupt
@@ -447,35 +447,65 @@ CLKPR = 0x01;
 ISR(TIMER4_OVF_vect)        // interrupt service routine 
 {
     TCNT4 = timer4_counter;   // preload timer
-    if (display_strobe_counter == 0) {
-         digitalWrite(lefteye, left_eye_state);
-         digitalWrite(righteye, right_eye_state);
-    }
-    if (display_strobe_counter == 1) {
-         digitalWrite(lefteye, LOW);
-         digitalWrite(righteye, LOW);
-    }
-    if (display_strobe_counter <5) {
-        display_column(display_strobe_counter % 5);
-    }
-    if (display_strobe_counter == 5) {
-        digitalWrite(row0, LOW);
-        digitalWrite(row1, LOW);
-        digitalWrite(row2, LOW);
-        digitalWrite(row3, LOW);
-        digitalWrite(row4, LOW);
+        int col = display_strobe_counter % 20;
 
-        digitalWrite(col0, LOW);
-        digitalWrite(col1, LOW);
-        digitalWrite(col2, LOW);
-        digitalWrite(col3, LOW);
-        digitalWrite(col4, LOW);
-        digitalWrite(lefteye, LOW);
-        digitalWrite(righteye, LOW);
+        if (col == 0) {
+            digitalWrite(lefteye, left_eye_state);
+            digitalWrite(righteye, right_eye_state);
+        }
+        if (col == 1) {
+             digitalWrite(lefteye, LOW);
+             digitalWrite(righteye, LOW);
+        }
+        if (col <5) {
+            display_column(col % 5);
+        }
+        if (col == 5) {
+            digitalWrite(row0, LOW);
+            digitalWrite(row1, LOW);
+            digitalWrite(row2, LOW);
+            digitalWrite(row3, LOW);
+            digitalWrite(row4, LOW);
 
-    }
+            digitalWrite(col0, LOW);
+            digitalWrite(col1, LOW);
+            digitalWrite(col2, LOW);
+            digitalWrite(col3, LOW);
+            digitalWrite(col4, LOW);
+            digitalWrite(lefteye, LOW);
+            digitalWrite(righteye, LOW);
+        }
+//     }
+
+//     if (display_strobe_counter == 0) {
+//          digitalWrite(lefteye, left_eye_state);
+//          digitalWrite(righteye, right_eye_state);
+//     }
+//     if (display_strobe_counter == 1) {
+//          digitalWrite(lefteye, LOW);
+//          digitalWrite(righteye, LOW);
+//     }
+//     if (display_strobe_counter <5) {
+//         display_column(display_strobe_counter % 5);
+//     }
+//     if (display_strobe_counter == 5) {
+//         digitalWrite(row0, LOW);
+//         digitalWrite(row1, LOW);
+//         digitalWrite(row2, LOW);
+//         digitalWrite(row3, LOW);
+//         digitalWrite(row4, LOW);
+// 
+//         digitalWrite(col0, LOW);
+//         digitalWrite(col1, LOW);
+//         digitalWrite(col2, LOW);
+//         digitalWrite(col3, LOW);
+//         digitalWrite(col4, LOW);
+//         digitalWrite(lefteye, LOW);
+//         digitalWrite(righteye, LOW);
+// 
+//     }
     display_strobe_counter += 1;
-    if (display_strobe_counter >= 10) {
+    if (display_strobe_counter >= 200) {
         display_strobe_counter = 0; // reset
     }
 }
