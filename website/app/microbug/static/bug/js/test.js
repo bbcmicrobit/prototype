@@ -674,10 +674,12 @@ function updateLoginForm() {
                             location.reload();
                         } else {
                             alert("Could not log in with username and password provided");
+                            location.reload();
                         }
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
-                        alert("Cannot Login: "+textStatus+"\n"+errorThrown)
+                        alert("Cannot Login: "+textStatus+"\n"+errorThrown);
+                        location.reload();
                     }
                 });
 
