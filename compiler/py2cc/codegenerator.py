@@ -55,6 +55,7 @@ class CodeGenerator(object):
     def __init__(self):
         self.need_print_str = False
         self.need_print_int = False
+        self.global_variables = {}  # For the moment all variables are global
         self.declarations = []
 
     def program(self, statementlist):
