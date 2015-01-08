@@ -72,8 +72,8 @@ while True:
             result = os.popen("apachectl start").read()
         else:
             print "Apache is still running despite best efforts to prevent it taking down the system"
-        time.sleep(180)
  
+    time.sleep(5)
  
  
  
