@@ -47,9 +47,6 @@ set_eye('R', LOW);
             pause(1000);
         }
         clear_display();
-        for (;;) {
-            sleep(2000);
-        }
         return 0;
 
 
