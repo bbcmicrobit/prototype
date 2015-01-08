@@ -226,10 +226,18 @@ def build_code(request):
         owner = user_profile
     )
     if new_program:
+        old_version_id = None
+        try:
+            old_version_id = new_program.version.id
+        except:
+            pass
+
         version.program = new_program
         new_program.version = version
         version.previous_version = new_program.version
-        json_obj['previous_version'] = new_program.version.id
+        if old_version_id == None:
+            old_version_id = new_program.version.id
+        json_obj['previous_version'] = old_version_id
         new_program.save()
 
     version.owner = user_profile
