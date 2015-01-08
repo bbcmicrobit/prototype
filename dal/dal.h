@@ -616,10 +616,10 @@ void clear_display() {
 }
 
 int getButton(char id) {
-    if (id == 'A') {
+    if ((id == 'A') || (id == 'a') || (id == 'L') || (id == 'l')) {
         return digitalRead(ButtonA);
     }
-    if (id == 'B') {
+    if ((id == 'B') || (id == 'b') || (id == 'R') || (id == 'r')) {
         return digitalRead(ButtonB);
     }
     return -1; // Signify error
@@ -630,10 +630,10 @@ int get_eye(char *id) {
 }
 
 int get_eye(char id) {
-    if ((id == 'A') || (id == 'L')) {
+    if ((id == 'A') || (id == 'a') || (id == 'L') || (id == 'l')) {
         return left_eye_state;
     }
-    if ((id == 'B') || (id == 'R')) {
+    if ((id == 'B') || (id == 'b') || (id == 'R') || (id == 'r')) {
         return right_eye_state;
     }
     return -1; // Signify error
