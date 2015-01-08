@@ -42,7 +42,7 @@ int main(void)
 set_eye('L', LOW);  // Switch off eyes if bootloader not required
 set_eye('R', LOW);
         loop();
-        if (serialEventRun) serialEventRun();
+//        if (serialEventRun) serialEventRun();
         for (int i;i<180;i++) {
             pause(1000);
         }
