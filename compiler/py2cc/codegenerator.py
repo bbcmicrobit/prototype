@@ -143,6 +143,44 @@ class CodeGenerator(object):
                         return "// SKIPPING" + repr(assignment_statement)
         return "// TBD Assignment statement -- " + repr(assignment_statement)
 
+    def comparison_expression(self, comparison_expression):
+        assert comparison_expression[0] == "comparison"
+        assert len(comparison_expression) == 4
+
+        result = ""
+
+        comparator = comparison_expression[1]
+        if comparator == "<>":
+            comparator = "!="
+
+        if comparator == "is":
+            comparator = "=="
+
+        if comparator == "is not":
+            comparator = "!="
+
+        operand_L = comparison_expression[2]
+        operand_R = comparison_expression[3]
+
+        gen_operand_L = self.expression(operand_L)
+        try:
+            expression_type_operand_L, expression_fragment_operand_L = gen_operand_L
+        except ValueError:
+            if not lexer_parser.quiet_mode:
+                print repr(gen_operand_L),gen_operand_L.__class__
+            raise
+
+        gen_operand_R = self.expression(operand_R)
+        try:
+            expression_type_operand_R, expression_fragment_operand_R = gen_operand_R
+        except ValueError:
+            if not lexer_parser.quiet_mode:
+                print repr(gen_operand_R),gen_operand_R.__class__
+            raise
+
+        result += " (" + expression_fragment_operand_L + comparator + expression_fragment_operand_R + " ) "
+        return result
+
     def if_statement(self, if_statement):
         assert if_statement[0] == "if_statement"
 
@@ -154,37 +192,9 @@ class CodeGenerator(object):
         expression = if_statement[1]
 
         if expression[0] == "comparison":
-            assert len(expression) == 4
-            comparator = expression[1]
-            if comparator == "<>":
-                comparator = "!="
+            frag = self.comparison_expression(expression)
 
-            if comparator == "is":
-                comparator = "=="
-
-            if comparator == "is not":
-                comparator = "!="
-
-            operand_L = expression[2]
-            operand_R = expression[3]
-
-            gen_operand_L = self.expression(operand_L)
-            try:
-                expression_type_operand_L, expression_fragment_operand_L = gen_operand_L
-            except ValueError:
-                if not lexer_parser.quiet_mode:
-                    print repr(gen_operand_L),gen_operand_L.__class__
-                raise
-
-            gen_operand_R = self.expression(operand_R)
-            try:
-                expression_type_operand_R, expression_fragment_operand_R = gen_operand_R
-            except ValueError:
-                if not lexer_parser.quiet_mode:
-                    print repr(gen_operand_R),gen_operand_R.__class__
-                raise
-
-            result += " (" + expression_fragment_operand_L + comparator + expression_fragment_operand_R + " ) "
+            result += frag
 
         if expression[0] == "literalvalue":
             expression = ["expression", expression ]
@@ -393,6 +403,13 @@ class CodeGenerator(object):
         result = ""
         L_expression = and_expression[1]
         R_expression = and_expression[2]
+
+        print "L_expression", L_expression
+        if L_expression[0] == "comparison":
+            L_expression = ["expression", L_expression ]
+        if R_expression[0] == "comparison":
+            R_expression = ["expression", R_expression ]
+
         L_gen_result = self.expression(L_expression)
         (L_expression_type, L_expression_fragment) = L_gen_result
 
@@ -471,7 +488,11 @@ class CodeGenerator(object):
         return expression_type, result
 
     def expression(self, expression):
-        assert expression[0] == "expression"
+        try:
+            assert expression[0] == "expression"
+        except AssertionError:
+            print "ABOUT TO ASSERT ERROR", repr(expression)
+            raise
         the_expression = expression[1]
         if the_expression[0] == "literalvalue":
             (literalvalue_type, literalvalue_fragment) = self.literalvalue(the_expression)
@@ -495,6 +516,10 @@ class CodeGenerator(object):
 
         if the_expression[0] == "not_expression":
             return "boolean", self.not_expression(the_expression)
+
+        if the_expression[0] == "comparison":
+            return "boolean", self.comparison_expression(the_expression)
+
 
         if the_expression[0] == "func_call":
             if not lexer_parser.quiet_mode:
