@@ -41,10 +41,10 @@ int main(void)
         enable_power_optimisations();
 set_eye('L', LOW);  // Switch off eyes if bootloader not required
 set_eye('R', LOW);
-        for (;;) {
+//        for (;;) {
                 loop();
                 if (serialEventRun) serialEventRun();
-        }
+//        }
         return 0;
 }
 
