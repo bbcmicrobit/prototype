@@ -1,4 +1,5 @@
 BOARD_TAG    = leonardo
 ARDUINO_PORT = /dev/ttyACM0
+CPPFLAGS = -std=c++11
 
 include /usr/share/arduino/Arduino.mk
