@@ -1,6 +1,7 @@
 
-bear_name = 0
-bear_name = bear_name + 1
+bear_age = 0
+bear_age = bear_age + 1
+bear_name = "Frank"
 happy_bear = make_image(0xe,0x11,0x4,0xa,0xa)
 sad_bear = make_image(0x11,0xe,0x0,0x4,0x1b)
 oh_bear = make_image(0xe,0xa,0x4,0x1b,0xa)
@@ -17,3 +18,5 @@ while True:
     if (get_button('a')==False and get_button('b')==False):
         show_image_offset(sad_bear,0,0)
     pause(400)
+    print bear_name
+    scroll_string_image(StringImage(bear_name), 100)
