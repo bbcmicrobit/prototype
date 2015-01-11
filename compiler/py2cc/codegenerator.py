@@ -133,18 +133,9 @@ class CodeGenerator(object):
     def assignment_statement(self, assignment_statement):
         assert assignment_statement[0] == "assignment_statement"
 
-        # The code generator for blockly generates spurious "i = None" style
-        # statements when creating loops. For now we'll intercept them here
-        # and remove them
         assigment_type = assignment_statement[1]
         lvalue = assignment_statement[2]
         rvalue = assignment_statement[3]
-        if rvalue[0] == "expression":
-            if rvalue[1][0] == "literalvalue":
-                # print "SKIPPING DECLARATION"
-                if rvalue[1][1][0] == "identifier":
-                    if rvalue[1][1][1] == "None":
-                        return "// SKIPPING" + repr(assignment_statement)
         return "// TBD Assignment statement -- " + repr(assignment_statement)
 
     def comparison_expression(self, comparison_expression):
