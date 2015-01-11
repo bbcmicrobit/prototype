@@ -20,6 +20,8 @@ program_template = """\
 
 %DECLARATIONS%
 
+%VARIABLE_DECLARATIONS%
+
 void setup()
 {
     microbug_setup();
@@ -73,6 +75,14 @@ class CodeGenerator(object):
         program_lines = program_template
         program_lines = program_lines.replace("%STATEMENTS%", ";\n".join(statement_lines))
         program_lines = program_lines.replace("%DECLARATIONS%", "\n".join(self.declarations))
+        global_variables = []
+        for variable in self.global_variables:
+            global_variables.append(self.global_variables[variable])
+
+        program_lines = program_lines.replace("%VARIABLE_DECLARATIONS%", "\n".join(global_variables))
+
+
+
         return program_lines
 
     def statementlist(self, statementlist):
@@ -136,6 +146,23 @@ class CodeGenerator(object):
         assigment_type = assignment_statement[1]
         lvalue = assignment_statement[2]
         rvalue = assignment_statement[3]
+
+        if lvalue[0] == "identifier":
+            identifier = lvalue[1]
+
+            if not self.global_variables.get(identifier, False):
+                self.global_variables
+
+            res = self.expression(rvalue)
+            expression_type, expression_fragment = res
+
+
+            if not self.global_variables.get(identifier, False):
+                # Define the type based on the first usage
+                self.global_variables[identifier] = "auto " + identifier + " = " + expression_fragment + ";" ;
+
+            return identifier + " = " + expression_fragment;
+
         return "// TBD Assignment statement -- " + repr(assignment_statement)
 
     def comparison_expression(self, comparison_expression):
