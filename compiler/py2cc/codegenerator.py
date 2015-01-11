@@ -11,6 +11,9 @@ print_int = """void print(int value) {
 
 print_str = """void print(char *value) {
    print_message(value);
+}
+void print(const char *value) {
+   print_message(value);
 }"""
 
 
@@ -413,6 +416,11 @@ class CodeGenerator(object):
                 self.need_print_str = True
 
             if expression_type == "int":
+                self.need_print_int = True
+
+            if expression_type == "identifier":
+                # assume need both
+                self.need_print_str = True
                 self.need_print_int = True
 
             print_template = 'print(%WHAT%)'
