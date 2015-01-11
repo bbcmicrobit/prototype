@@ -15,7 +15,7 @@ except ImportError:
     try:
         import sparkslabs
         STORE_BASE = "/srv/Websites/minimicro.iotoy.org/website/microbug_store"
-        DJANGO_BASE = '/tmp/nosuch_directory_this_needs_setting'
+        DJANGO_BASE = '/srv/Websites/minimicro.iotoy.org/website/app'
 
     except ImportError:
         # Are we running on the taster machine?
