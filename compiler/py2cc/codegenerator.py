@@ -30,7 +30,7 @@ void setup()
     microbug_setup();
 }
 
-void loop()
+void user_program()
 {
     %STATEMENTS%;
 }
@@ -46,15 +46,13 @@ int main(void)
         enable_power_optimisations();
 set_eye('L', LOW);  // Switch off eyes if bootloader not required
 set_eye('R', LOW);
-        loop();
-//        if (serialEventRun) serialEventRun();
-        for (int i;i<180;i++) {
+        user_program();
+        //        if (serialEventRun) serialEventRun();
+        for (int i=0;i<180;i++) {
             pause(1000);
         }
         clear_display();
         return 0;
-
-
 }
 
 
