@@ -1461,8 +1461,8 @@ function compileNewProgram(successCallback) {
             }
         },
         error: function (jqHxr, textStatus, errorText) {
-            if (errorText == 'METHOD NOT ALLOWED') {
-                bootbox.alert("Sorry, you need to either log in as the author of this program or have the edit password to edit it.")
+            if (errorText.toLowerCase() == 'method not allowed') {
+                bootbox.alert("Sorry, you need to either log in as the author of this program or have the edit password to edit it. <br><br> Try either loggining in, or creating your own version by clicking on 'Make my own Version'")
             } else {
                 bootbox.alert("Error: " + textStatus + "<br/>" + errorText)
             }
