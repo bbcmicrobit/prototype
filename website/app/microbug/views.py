@@ -479,8 +479,10 @@ def queue_status(request, program_id):
             'status': 'in_compile_queue',
             'id': program_id,
             'version': queried_program.version.id,
-            'eta': str(queried_program.version.python_compilation_eta()),
+            'queue_length' : str(queried_program.version.python_pending_queue()+1),
         }
+#            'eta': str(queried_program.version.python_compilation_eta()),
+
     return HttpResponse(json.dumps(json_obj))
 
 # Rename a program at the user's request
