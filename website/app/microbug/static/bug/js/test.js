@@ -758,7 +758,7 @@ function statusElementContent(data) {
         );
     } else if (data.status == 'failedcompile') {
         return(
-            '<span style="background-color: #fbb; color: #212"><b>&nbsp;Sorry, please try again.</b></span>'
+            '<span style="background-color: #fbb; color: #212"><b>&nbsp;Sorry, check your program and please try again.</b></span>'
         );
     } else if (data.status == 'in_compile_queue') {
         return(
