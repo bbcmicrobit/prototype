@@ -406,10 +406,10 @@ var DALJS = (function(){
 	var get_button = function(id) {
 		var butts = SIMIO.getButtons();
 
-		if (id == 'A') {
+		if ((id == 'A') || (id == 'a') || (id == 'L') || (id == 'l')) {
 			return (butts.A === true);
 		}
-		if (id == 'B') {
+		if ((id == 'B') || (id == 'b') || (id == 'R') || (id == 'r')) {
 			return (butts.B === true);
 		}
 		return false; // Signify error
