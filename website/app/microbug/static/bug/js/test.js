@@ -730,6 +730,7 @@ function updateProgramStatus(program_id) {
         updateProgramStatus(program_id)
     };
 
+    program_status_update_elem.html("<b>Saving and building</b>");
     $.ajax({
         type: 'GET',
         url: '/bug/queue_status/'+program_id,
@@ -757,13 +758,9 @@ function statusElementContent(data) {
         );
     } else if (data.status == 'failedcompile') {
         return(
-            '<span style="background-color: #800; color: #fff"><b>&nbsp;Building Program...</b></span>'
+            '<span style="background-color: #fbb; color: #212"><b>&nbsp;Sorry, please try again.</b></span>'
         );
     } else if (data.status == 'in_compile_queue') {
-        // This is the better solution, but needs implementing differently
-//         return(
-//             'Building program, <span class="eta">'+data.eta+'</span> left'
-//         );
         return(
             'Building program, You are number <span class="eta">'+data.queuelength+'</span> in the queue'
         );
