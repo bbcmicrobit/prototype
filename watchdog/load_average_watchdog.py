@@ -11,15 +11,19 @@ import time
 
 LOGFILE = "/tmp/server_restartlogs"
 def log(*args):
-    f = open(LOGFILE, "w")
+    f = open(LOGFILE, "a")
     f.write(time.asctime())
     f.write(" : ")
     f.write( " ".join([ str(x) for x in args ])+"\n" )
     f.flush()
     f.close()
+    print " ".join([repr(x) for x in args])
 
-max_load_average = 50
+max_load_average = 30
+way_too_high = 80
 
+log("Starting up, max load average:", max_load_average)
+log("current load average:", open("/proc/loadavg").read())
 while True:
     uptime = open("/proc/loadavg").read()
     uptime = uptime.strip()
@@ -31,19 +35,21 @@ while True:
     fifteen_min_R = info[2]
 
     five_min = float(five_min_R)
+    one_min = float(one_min_R)
 
-    if five_min > max_load_average:
-        log("Above max load average")
+#    if (five_min > max_load_average) or (one_min > way_too_high):
+    if (one_min > way_too_high):
+        log("Above max load average :" + str(uptime) )
         
         p = os.popen("ps aux").readlines()
         apachelines = [x for x in p if "apache" in x ]
-        log("number of processes")
-        log(len(apachelines)) 
+        log("number of processes " + str(len(apachelines) ))
+
         result = os.popen("apachectl stop").read()
 
         c = 0
         while (len(apachelines) > 0) and c < 60: # WHile there's apache processes still opening after at most 3 minutes, don't move on to next step.
-            log("Waiting for apache to stop", c)
+            log("Waiting for apache to stop this many processes"+ str(c))
             c += 1
             if (c % 3) == 0:
                 p = os.popen("ps aux").readlines()
@@ -54,7 +60,7 @@ while True:
 
         while len(apachelines) > 0:
             # Manually kill all the apache processes
-            log("Manually kill remaining apacheline lines")
+            log("Manually kill remaining apacheline lines num:" +str(len(apachelines)))
             for line in apachelines:
                x = line.strip()
                x = line.split()
@@ -70,8 +76,9 @@ while True:
         apachelines = [x for x in p if "apache" in x ]
         if len(apachelines) == 0:
             result = os.popen("apachectl start").read()
+            log("Restarted apache")
         else:
-            print "Apache is still running despite best efforts to prevent it taking down the system"
+             log("Apache is still running despite best efforts to prevent it taking down the system")
  
     time.sleep(5)
  
