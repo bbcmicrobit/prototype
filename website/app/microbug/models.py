@@ -182,8 +182,8 @@ class Version(models.Model):
     is_compiled.boolean = True
 
     def is_failed_compile(self):
-        return True
-#        return failed_compiled_store.contains(self.base_filename())
+#        return True
+        return failed_compiled_store.contains(self.base_filename())
 
     is_failed_compile.boolean = True
 
@@ -201,8 +201,10 @@ class Version(models.Model):
     # The ETA for the item being processed.
     def python_compilation_eta(self):
         # Add one, this item needs compiling itself
-        time_in_seconds = settings.PYTHON_ITEM_COMPILATION_TIME * (self.python_pending_queue()+1)
-        return datetime.timedelta(seconds=time_in_seconds)
+        # time_in_seconds = settings.PYTHON_ITEM_COMPILATION_TIME * (self.python_pending_queue()+1)
+        pending_queue_length = self.python_pending_queue()+1
+        return pending_queue_length
+#        return datetime.timedelta(seconds=time_in_seconds)
 
     # Stringify as '1_bcff_2313 (11 LoC, base 2_dbff_2312')'
     def __str__(self):
