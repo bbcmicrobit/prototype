@@ -76,8 +76,8 @@ int col2 = 6; // Arduino Pin for row 2  // PIN 27 -- D6
 int col3 = 9; // Arduino Pin for row 3 // PIN 29 -- D9
 int col4 = 13; // Arduino Pin for row 4  // PIN 32 -- D13
 
-int lefteye = 7; // Arduino Pin for left eye // PIN 1     -- D7
-int righteye = 14; // Arduino Pin for left eye // PIN 11  -- D14
+int lefteye = 14; // Arduino Pin for left eye // PIN 1     -- D7
+int righteye = 7; // Arduino Pin for left eye // PIN 11  -- D14
 
 int ButtonA = 17; // Arduino Pin for left button // PIN 8    -- D17
 int ButtonB = 16; // Arduino Pin for right button // PIN 10   -- D16
