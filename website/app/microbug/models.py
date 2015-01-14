@@ -163,7 +163,14 @@ class Version(models.Model):
 
     # Reads the JSON from the primary store and returns the Python code stored therein
     def code(self):
-        return self.json()['repr']['code']
+        result = "None"
+        try:
+            result = self.json()['repr']['code']
+        except:
+            result = "Failed to find"
+        return result
+
+#            return self.json()['repr']['code']
 
     # Reads the JSON from the primary store and returns the Blockly XML stored therein
     def xml(self):
