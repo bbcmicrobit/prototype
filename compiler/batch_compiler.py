@@ -15,6 +15,18 @@ OUTGOING_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/website/micro
 FAIL_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/website/microbug_store/failed_compiles/"
 BUILD_DIRECTORY = "/home/michael/Work/CodeBug/MiniMicro/website/website/tmp/"
 
+LOGFILE = "/tmp/compiler_log"
+def log(*args):
+    f = open(LOGFILE, "a")
+    f.write(time.asctime())
+    f.write(" : ")
+    f.write( " ".join([ str(x) for x in args ])+"\n" )
+    f.flush()
+    f.close()
+    print " ".join([repr(x) for x in args])
+
+
+
 try:
     # Are we running on the shared dev server?
     import sparkslabs
@@ -63,7 +75,7 @@ class Compiler(Actor):
     """This assumes that INCOMING_DIRECTORY and OUTGOING_DIRECTORY above are defined for this class"""
     @actor_method
     def reprocess_directory(self):
-        print "Processing directory"
+        log( "Processing directory" )
         filenames = os.listdir(INCOMING_DIRECTORY)
         filenames = [ x for x in filenames if x != "README" ] # Ignore README
 
@@ -77,21 +89,21 @@ class Compiler(Actor):
 
         for source_filename in filenames:
             dest_filename = source_filename.replace(".py", ".hex")
-            print "Compiling", source_filename
+            log( "Compiling", source_filename )
             source_file = os.path.join(INCOMING_DIRECTORY, source_filename)
             dest_file = os.path.join(OUTGOING_DIRECTORY, dest_filename)
             try:
                 main_single(source_file, dest_file, BUILD_DIRECTORY)
-                print "Moving compiled program"
+                log( "Moving compiled program" )
                 os.rename(source_file, os.path.join(OUTGOING_DIRECTORY, source_filename))
             except Exception, e:
                 os.rename(source_file, os.path.join(FAIL_DIRECTORY, source_filename))
-                print "OK, we failed, we've moved the failed program to the failed directory"
-                print "How to we report the fail?"
-                print "repr(e)", repr(e)
+                log( "OK, we failed, we've moved the failed program to the failed directory")
+                log( "How to we report the fail?" )
+                log( "repr(e)", repr(e) )
 
-        print "Finished processing directory"
-        print "Number of programs compiled", len(filenames)
+        log( "Finished processing directory" )
+        log( "Number of programs compiled", len(filenames) )
 
 dw = DirectoryWatcher(INCOMING_DIRECTORY)
 cc = Compiler()
