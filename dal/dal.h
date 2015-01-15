@@ -959,9 +959,26 @@ Image& make_big_image(unsigned short int row1, unsigned short int row2, unsigned
     return _make_image(row1, row2, row3, row4, row5, 10);
 }
 
-void show_image_offset(Image& someImage, int x, int y)
+void OLD_show_image_offset(Image& someImage, int x, int y)
 {
     //passthrough to avoid renaming
     showViewport(someImage, x, y);
 }
+
+void show_image_offset(Image& someImage, int x, int y)
+{
+    int w = someImage.width;
+    int h = someImage.height;
+    clear_display();
+    for(int i=0; i<w; i++) {
+            for(int j=0; j<h; j++) {
+                    int dx = i + x;
+                    int  dy = j + y;
+                    if ( 0<=dx && dx <= 4 && 0<=dy && dy <= 4 ) {
+                        display[dx][dy] = someImage.data[j*w + i ];
+                    }
+            }
+    }
+}
+
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
