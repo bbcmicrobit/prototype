@@ -379,7 +379,8 @@ class Grammar(object):
 
     def p_elif_clause_1(self,p):
         "elif_clause : ELIF fullexpression COLON EOL block"
-        p[0] = ["elif_clause", p[2][1], p[5][1] ]
+        print "ELIF_CLAUSE", 
+        p[0] = ["elif_clause", p[2], p[5][1] ]
 
     def p_else_clause_1(self,p):
         "else_clause : ELSE COLON EOL block"
