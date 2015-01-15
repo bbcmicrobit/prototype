@@ -40,20 +40,33 @@ def main_test(files):
 
         pprint.pprint(x,width=120)
         print "-"*120
+
         if 1:
-            y  = gen_code(x)
             basedir = "tests/genprogs/"+filename
             os.mkdir(basedir)
+            os.system("rsync -avz ../dal/ "+ basedir+"/")
+            os.system("rsync -avz ../dal/ "+ basedir+"/")
+            os.system("rm -rf " + basedir+"/001/")
+            os.system("rm -rf " + basedir+"/002/")
+            os.system("rm -rf " + basedir+"/003/")
+            os.system("rm -rf " + basedir+"/*.hex")
+            os.system("rm " + basedir+"/MicroFont.odt")
+            os.system("rm " + basedir+"/spark_font.json")
+            os.system("rm " + basedir+"/user_code.ino")
+
+        if 1:
+            y  = gen_code(x)
             f = open(basedir+"/user_code.ino", "w")
             f.write(y)
             f.close()
 
+#            shutil.copyfile("../dal/dal.h", basedir+"/dal.h")
+#            shutil.copyfile("../dal/Makefile", basedir+"/Makefile")
+#            shutil.copyfile("../dal/Makefile_arduino", basedir+"/Makefile_arduino")
+#            shutil.copyfile("../dal/spark_font.h", basedir+"/spark_font.h")
+#            shutil.copyfile("../dal/atmel_bootloader.h", basedir+"/atmel_bootloader.h")
+
         if 1:
-            shutil.copyfile("../dal/dal.h", basedir+"/dal.h")
-            shutil.copyfile("../dal/Makefile", basedir+"/Makefile")
-            shutil.copyfile("../dal/Makefile_arduino", basedir+"/Makefile_arduino")
-            shutil.copyfile("../dal/spark_font.h", basedir+"/spark_font.h")
-            shutil.copyfile("../dal/atmel_bootloader.h", basedir+"/atmel_bootloader.h")
             here = os.getcwd()
             os.chdir(basedir)
             os.system("make")
@@ -84,17 +97,29 @@ def main_single(source_file, dest_file, tmp_directory, cleanup=False):
     x = parse(source, lexer)
     y  = gen_code(x)
 
+
+
     basedir = os.path.join(tmp_directory, basefile)
     os.mkdir(basedir)
+    os.system("rsync >/dev/null -az ../dal/ "+ basedir+"/")
+    os.system("rm -rf " + basedir+"/001/")
+    os.system("rm -rf " + basedir+"/002/")
+    os.system("rm -rf " + basedir+"/003/")
+    os.system("rm -rf " + basedir+"/*.hex")
+    os.system("rm " + basedir+"/MicroFont.odt")
+    os.system("rm " + basedir+"/spark_font.json")
+    os.system("rm " + basedir+"/user_code.ino")
+
     f = open(basedir+"/user_code.ino", "w")
     f.write(y)
     f.close()
 
-    shutil.copyfile(DAL_DIR + "dal.h", basedir+"/dal.h")
-    shutil.copyfile(DAL_DIR + "Makefile", basedir+"/Makefile")
-    shutil.copyfile(DAL_DIR + "Makefile_arduino", basedir+"/Makefile_arduino")
-    shutil.copyfile(DAL_DIR + "spark_font.h", basedir+"/spark_font.h")
-    shutil.copyfile(DAL_DIR + "atmel_bootloader.h", basedir+"/atmel_bootloader.h")
+#   These are the only files that are technically needed:
+#    shutil.copyfile(DAL_DIR + "dal.h", basedir+"/dal.h")
+#    shutil.copyfile(DAL_DIR + "Makefile", basedir+"/Makefile")
+#    shutil.copyfile(DAL_DIR + "Makefile_arduino", basedir+"/Makefile_arduino")
+#    shutil.copyfile(DAL_DIR + "spark_font.h", basedir+"/spark_font.h")
+#    shutil.copyfile(DAL_DIR + "atmel_bootloader.h", basedir+"/atmel_bootloader.h")
     here = os.getcwd()
     os.chdir(basedir)
     os.system("make quiet >build_outer_log 2>&1")
