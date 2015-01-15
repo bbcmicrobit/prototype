@@ -248,8 +248,8 @@ var DALJS = (function(){
                 var h = someImage[0].length;
 
                 clear_display();
-                for(var i=0; i<5; i++) {
-                        for(var j=0; j<5; j++) {
+                for(var i=0; i<w; i++) {
+                        for(var j=0; j<h; j++) {
                                 var dx = i + x;
                                 var dy = j + y;
                                 if ( 0<=dx && dx <= 4 && 0<=dy && dy <= 4 ) {
