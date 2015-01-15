@@ -226,7 +226,7 @@ var DALJS = (function(){
 		daldirty();
 	}
 
-	var show_image_offset = function(someImage, x, y) {
+	var OLD_show_image_offset = function(someImage, x, y) {
 		var w = someImage.length;
 		if (w <= 0)
 			return;
@@ -240,6 +240,22 @@ var DALJS = (function(){
 		}
 		daldirty();
 	};
+
+        var show_image_offset = function(someImage, x, y) {
+                var w = someImage.length;
+                if (w <= 0)
+                        return;
+                var h = someImage[0].length;
+
+                for(var i=0; (i+x<w) && (i<5); i++) {
+                        for(var j=y; (j+y<h) && (j<5); j++) {
+                                var dx = i + x;
+                                var dy = j + y;
+                                display[dx][dy]=someImage[i][j];
+                        }
+                }
+                daldirty();
+        };
 
 	function makeImage(imageAsString)
 	{
