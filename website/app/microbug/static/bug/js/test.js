@@ -51,6 +51,7 @@ function enablePageInteraction() {
         console.log("Activating create program on ", create_program_btn);
         create_program_btn.click(function () {
             console.log("Building code");
+            program_status_update_elem.html("");
             compileNewProgram(
                 function(program_id) {
                     window.location.replace('/bug/program/'+program_id);
@@ -739,11 +740,11 @@ function updateProgramStatus(program_id) {
             data = JSON.parse(data);
             console.log("GOT DATA: ",data);
             program_status_update_elem.html(statusElementContent(data));
-            window.setTimeout(callback, 10000);
+            window.setTimeout(callback, 1000);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             console.log("Error fetching program status");
-            window.setTimeout(callback, 10000);
+            window.setTimeout(callback, 1000);
         }
     });
 }
