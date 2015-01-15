@@ -26,7 +26,7 @@ def main_test(files):
         files = [ x for x in files if "skip" not in x ]
         files.sort()
 
-    ditch = os.listdir("tests/genprogs")
+    ditch = [x for x in os.listdir("tests/genprogs") if x != "README"]
     for filename in ditch:
         os.system("rm -rf tests/genprogs/"+ filename)
 
