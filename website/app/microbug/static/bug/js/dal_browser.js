@@ -247,6 +247,7 @@ var DALJS = (function(){
                         return;
                 var h = someImage[0].length;
 
+                clear_display();
                 for(var i=0; i<5; i++) {
                         for(var j=0; j<5; j++) {
                                 var dx = i + x;
