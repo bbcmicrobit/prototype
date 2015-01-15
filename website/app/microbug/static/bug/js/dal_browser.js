@@ -247,11 +247,13 @@ var DALJS = (function(){
                         return;
                 var h = someImage[0].length;
 
-                for(var i=0; (i+x<w) && (i<5); i++) {
-                        for(var j=y; (j+y<h) && (j<5); j++) {
+                for(var i=0; i<5; i++) {
+                        for(var j=0; j<5; j++) {
                                 var dx = i + x;
                                 var dy = j + y;
-                                display[i][j]=someImage[dx][dy];
+                                if ( 0<=dx && dx <= 4 && 0<=dy && dy <= 4 ) {
+                                    display[dx][dy]=someImage[i][j];
+                                }
                         }
                 }
                 daldirty();
