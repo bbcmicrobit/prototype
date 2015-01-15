@@ -730,8 +730,7 @@ function updateProgramStatus(program_id) {
     var callback = function() {
         updateProgramStatus(program_id)
     };
-
-    program_status_update_elem.html("<b>Saving and building</b>");
+// program_status_update_elem.html("<b>Saving and building</b>");
     $.ajax({
         type: 'GET',
         url: '/bug/queue_status/'+program_id,
@@ -740,7 +739,9 @@ function updateProgramStatus(program_id) {
             data = JSON.parse(data);
             console.log("GOT DATA: ",data);
             program_status_update_elem.html(statusElementContent(data));
-            window.setTimeout(callback, 1000);
+            if ( (data.status != 'compiled') && (data.status != 'failedcompile')) {
+                window.setTimeout(callback, 1000);
+            }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             console.log("Error fetching program status");
@@ -1441,6 +1442,8 @@ function populateCodeTab() {
 
 function compileNewProgram(successCallback) {
     // Start to update the setup as well since it's about to compile.
+    program_status_update_elem.html("<b>Saving and building</b>");
+
     updateProgramStatus(getProgramId());
 
     $.ajax({
