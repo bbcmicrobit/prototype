@@ -408,7 +408,7 @@ var show_image_offset = function(image, x, y) {
                         var dx = i + x;
                         var dy = j + y;
                         if ( 0<=dx && dx <= 4 && 0<=dy && dy <= 4 &&) {
-                            display[dx][dy] = image[i][j];
+                            display[i][j] = image[dx][dx];
                         }
                 }
         }

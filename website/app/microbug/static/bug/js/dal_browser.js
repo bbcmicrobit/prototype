@@ -251,7 +251,7 @@ var DALJS = (function(){
                         for(var j=y; (j+y<h) && (j<5); j++) {
                                 var dx = i + x;
                                 var dy = j + y;
-                                display[dx][dy]=someImage[i][j];
+                                display[i][j]=someImage[dx][dy];
                         }
                 }
                 daldirty();
