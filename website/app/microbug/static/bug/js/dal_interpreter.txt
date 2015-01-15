@@ -407,7 +407,7 @@ var show_image_offset = function(image, x, y) {
                 for(var j=0; j<5; j++) {
                         var dx = i + x;
                         var dy = j + y;
-                        if ( 0<=dx && dx <= 4 && 0<=dy && dy <= 4 &&) {
+                        if ( 0<=dx && dx <= 4 && 0<=dy && dy <= 4 ) {
                             display[i][j] = image[dx][dx];
                         }
                 }
