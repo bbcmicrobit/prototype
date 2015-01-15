@@ -740,12 +740,12 @@ function updateProgramStatus(program_id) {
             console.log("GOT DATA: ",data);
             program_status_update_elem.html(statusElementContent(data));
             if ( (data.status != 'compiled') && (data.status != 'failedcompile')) {
-                window.setTimeout(callback, 1000);
+                window.setTimeout(callback, 3000);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             console.log("Error fetching program status");
-            window.setTimeout(callback, 1000);
+            window.setTimeout(callback, 3000);
         }
     });
 }
