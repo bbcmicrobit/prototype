@@ -27,7 +27,12 @@ void setup()
 void loop()
 {
 //    int time = sleep_time ; //millis();
-    long time = sleep_counter_t2 ; //millis();
+
+    for(int i=5; i>-1; i--) {
+        print_message(i,100);
+        pause(1000);
+    }
+   long time = sleep_counter_t2 ; //millis();
 
    scroll_string_image(StringImage(time), 100);
    scroll_string_image(StringImage("##"), 100);

@@ -188,6 +188,8 @@ void show_letter(char * c);  // Alternative for handling data from python code
 
 
 void print_message(const char * message, int pausetime);
+void print_message(int number, int pausetime);
+
 void toggle_eye(char id);// DONE
 void toggle_eye(const char *id);
 
@@ -758,6 +760,20 @@ void print_message(const char * message, int pausetime=100) {
         message++;
         pause(pausetime);
     }
+}
+
+void print_message(char * message, int pausetime=100) {
+    while(*message) {
+        showLetter(*message);
+        message++;
+        pause(pausetime);
+    }
+}
+
+void print_message(int number, int pausetime) {
+    char num_buf[14];
+    itoa(number, num_buf, 10);
+    print_message(num_buf, 10);
 }
 
 
