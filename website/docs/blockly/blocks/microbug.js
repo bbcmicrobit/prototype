@@ -99,9 +99,8 @@ Blockly.Blocks['microbug_print_message'] = {
     this.appendDummyInput()
         .appendField("print");
     this.appendValueInput("message")
-        .setCheck("String")
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("string");
+        .appendField("string or number");
     this.appendValueInput("pausetime")
         .setCheck("Number")
         .setAlign(Blockly.ALIGN_RIGHT)
