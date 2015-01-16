@@ -21,6 +21,8 @@ program_template = """\
 #include "dal.h"
 #include <math.h>
 
+ISR(WDT_vect) { Sleepy::watchdogEvent(); }
+
 %DECLARATIONS%
 
 %VARIABLE_DECLARATIONS%
@@ -52,12 +54,33 @@ set_eye('R', LOW);
             pause(1000);
         }
         clear_display();
+        while (true) {
+            sleep(1000);
+        }
         return 0;
 }
 
 
 """
 
+# List of global variables used inside the DAL - which the user needs to avoid clobbering...
+# This is sub optimal.
+dal_globals = [
+    "row0","row1","row2","row3","row4",
+    "col0","col1","col2","col3","col4",
+    "lefteye","righteye",
+    "ButtonA","ButtonB",
+    "croc0","croc1","croc2","croc3","croc4","croc5",
+    "h1","h2","h3","h4","h5","h6","h7",
+    "h8","h9","h10","h11","h12","h13","h14",
+    "ee19", "ee20",
+    "DELAY",
+    "left_eye_state", "right_eye_state",
+    "timer4_counter",
+    "DISPLAY_WIDTH","DISPLAY_HEIGHT",
+    "display_strobe_counter", "display",
+    "sleep_time", "sleep_counter_t", "sleep_counter_t2"
+]
 def flatten(some_nested_list):
     def flatten_(foo):
         for x in foo:
@@ -102,7 +125,8 @@ class CodeGenerator(object):
         program_lines = program_lines.replace("%DECLARATIONS%", "\n".join(self.declarations))
         global_variables = []
         for variable in self.global_variables:
-            global_variables.append(self.global_variables[variable])
+            if variable not in dal_globals:
+                global_variables.append(self.global_variables[variable])
 
         program_lines = program_lines.replace("%VARIABLE_DECLARATIONS%", "\n".join(global_variables))
 
@@ -203,9 +227,6 @@ class CodeGenerator(object):
 
         if lvalue[0] == "identifier":
             identifier = lvalue[1]
-
-            if not self.global_variables.get(identifier, False):
-                self.global_variables
 
             res = self.expression(rvalue)
             expression_type, expression_fragment = res

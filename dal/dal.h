@@ -4,7 +4,7 @@
 #include "avr/wdt.h"
 #include <util/atomic.h>
 #include <avr/power.h>
-
+#include <avr/interrupt.h>
 
 #include "spark_font.h"
 #include "atmel_bootloader.h"
@@ -110,14 +110,12 @@ int ee20 = 14; // Emergency/Expert data pin top// PIN 11 -- D14
 
 #endif
 
-
-int counter =0;
 #define DELAY 5
 
 int left_eye_state = HIGH; // Initial state is set to high in setup
 int right_eye_state = HIGH; // Initial state is set to high in setup
-
 int timer4_counter;
+
 
 int display_strobe_counter;
 int display[5][5] = {                                    // DONE
@@ -127,6 +125,12 @@ int display[5][5] = {                                    // DONE
                       { LOW, LOW, LOW, LOW, LOW},
                       { LOW, LOW, LOW, LOW, LOW}
                     };
+
+int sleep_time = 3; // This is the time in minutes before the device switches off
+                     // Having it as a variable allows the user to override this.
+long sleep_counter_t = 0;
+long sleep_counter_t2 = 0;
+
 
 /* API ---------------------------------------------------------------------------------------- */
 
@@ -144,6 +148,8 @@ typedef struct Image {
     int *data ;
 //    unsigned char *data;
 } Image;
+
+
 
 int get_eye(char id);
 void set_eye(char id, int state);// DONE
@@ -508,6 +514,35 @@ ISR(TIMER4_OVF_vect)        // interrupt service routine
     if (display_strobe_counter >= 200) {
         display_strobe_counter = 0; // reset
     }
+    if (sleep_time > 0) {
+        sleep_counter_t = sleep_counter_t + 1;
+        if (sleep_counter_t==28000) { // This is the number of times the display interrupt runs per 30 seconds, approximately.
+           sleep_counter_t = 0;
+           sleep_counter_t2 = sleep_counter_t2 + 1;
+        }
+        if (sleep_counter_t2 >= sleep_time*2) {
+            // It's possible that the display will freeze with pins high, which isn't what we want.
+            // As a result we force pins low.
+            digitalWrite(row0, LOW);
+            digitalWrite(row1, LOW);
+            digitalWrite(row2, LOW);
+            digitalWrite(row3, LOW);
+            digitalWrite(row4, LOW);
+
+            digitalWrite(col0, LOW);
+            digitalWrite(col1, LOW);
+            digitalWrite(col2, LOW);
+            digitalWrite(col3, LOW);
+            digitalWrite(col4, LOW);
+            digitalWrite(lefteye, LOW);
+            digitalWrite(righteye, LOW);
+
+            set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+            cli();                // disable global interrupts
+            sleep_enable();
+            sleep_cpu();
+        }
+    }
 }
 
 void microbug_setup() { // This is a really MicroBug setup
@@ -817,12 +852,16 @@ typedef struct StringImage {
         itoa(number, num_buf, 10);
         setString(num_buf);
     }
+    StringImage(long number) {
+        itoa(number, num_buf, 10);
+        setString(num_buf);
+    }
     ~StringImage() {}
 
     void setString(const char * str) {
         mString = (char *) str;
         mPixelPos = 0;
-        for(int i=0; i++; i<50) {
+        for(int i=0; i<50; i++) {
             mPixelData[i] = 0;
         }
         mStrlen = strlen(mString);
