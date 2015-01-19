@@ -50,12 +50,18 @@ set_eye('L', LOW);  // Switch off eyes if bootloader not required
 set_eye('R', LOW);
         user_program();
         //        if (serialEventRun) serialEventRun();
-        pause(500);
-        clear_display();
-        while (true) {
-            sleep(1000);
+        if (dal_screen_hold_time) { 
+            pause(dal_screen_hold_time);
+            clear_display();
+            while (true) {
+                sleep(1000);
+            }
+            return 0;
+        } else {
+            while(1) {
+                pause(dal_screen_hold_time);
+                }
         }
-        return 0;
 }
 
 
@@ -77,7 +83,7 @@ dal_globals = [
     "timer4_counter",
     "DISPLAY_WIDTH","DISPLAY_HEIGHT",
     "display_strobe_counter", "display",
-    "sleep_time", "sleep_counter_t", "sleep_counter_t2"
+    "sleep_time", "sleep_counter_t", "sleep_counter_t2", "dal_screen_hold_time"
 ]
 def flatten(some_nested_list):
     def flatten_(foo):

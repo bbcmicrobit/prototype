@@ -126,6 +126,8 @@ int display[5][5] = {                                    // DONE
                       { LOW, LOW, LOW, LOW, LOW}
                     };
 
+
+int dal_screen_hold_time = 500; // This is how long the display will hold for before going blank & sleeping after running
 int sleep_time = 3; // This is the time in minutes before the device switches off
                      // Having it as a variable allows the user to override this.
 long sleep_counter_t = 0;
