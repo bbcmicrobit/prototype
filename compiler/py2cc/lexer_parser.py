@@ -163,14 +163,16 @@ def t_CODE_INITIAL_COMP_OP(t):
 t_ignore  = ' \t'
 
 def t_CODE_INITIAL_DSTRING(t):
-    r'"[^"]*"'
+    r'"([^\\"]|(\\.))*"'
     t.value = t.value[1:-1]
+    t.value = t.value.replace('\\\'', '\'')
     t.type = "STRING"
     return t
 
 def t_CODE_INITIAL_SSTRING(t):
-    r'\'[^\']*\''
+    r"'([^\\']|(\\.))*'"
     t.value = t.value[1:-1]
+    t.value = t.value.replace('\\\'', '\'')
     t.type = "STRING"
     return t
 
