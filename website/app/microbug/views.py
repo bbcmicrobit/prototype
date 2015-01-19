@@ -19,6 +19,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 import pprint
 import datetime
+import time
 import random_phrase_generator
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
@@ -73,10 +74,20 @@ def program(request, program_id):
 # List all of the Programs available on the system
 def programs(request):
     programs = Program.objects.all()
-    return render(
+    result = render(
         request, 'microbug/programs.html',
         _add_defaults(request,{'programs':programs})
     )
+    now = time.time()
+    f = open("/tmp/cached_programs.html")
+    f.write(str(result))
+    f.flush()
+    f.close()
+    f = open("/tmp/cached_programs_timestamp.txt")
+    f.write(str(now))
+    f.flush()
+    f.close()
+    return result
 
 # Show a specific tutorial
 def tutorial(request, tutorial_name, page_number=1):
