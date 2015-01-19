@@ -746,8 +746,9 @@ class CodeGenerator(object):
             # FIXME: Do we want these as predeclared constants?
             py_string = the_literalvalue[1]
 
-            x = repr(py_string)
-            x = '"' + x[1:-1] + '"'
+            x = '"' + py_string.replace('"','\\"') + '"'
+            #x = repr(py_string)
+            # x = '"' + x[1:-1] + '"'
 
             return ("string", x)
             # literalvalue_fragment = self.literalvalue(the_expression)
