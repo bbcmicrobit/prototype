@@ -5,7 +5,7 @@ oh_bear = make_image(0xe,0xa,0x4,0x1b,0xa)
 confused_bear = make_image(0x1f,0x0,0x4,0xa,0x1b)
 show_image_offset(happy_bear,0,0)
 while True:
-  if (get_button('a')) == True:
+  if (get_button('A')) == True:
     bear_name = bear_name + 1
     if bear_name == 0:
       show_image_offset(happy_bear,0,0)
@@ -16,5 +16,5 @@ while True:
     else:
       show_image_offset(confused_bear,0,0)
       bear_name = -1
-    while (get_button('a')) == True:
+    while (get_button('A')) == True:
       pass
