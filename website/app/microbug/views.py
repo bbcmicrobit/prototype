@@ -13,6 +13,7 @@ from primary_version_store import PrimaryVersionStore
 from pending_version_store import PendingVersionStore
 from microbug.models import Program, Tutorial, UserProfile, Version, FacilitatorRequest
 import re
+import os
 from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
 from django.contrib import auth
@@ -71,25 +72,32 @@ def program(request, program_id):
         })
     )
 
+from django.http import HttpResponse
+
 # List all of the Programs available on the system
 def programs(request):
     use_cache = False
     result = ""
-    if ( os.path.exists("/tmp/cached_programs_timestamp.txt") and:
+    if ( os.path.exists("/tmp/cached_programs_timestamp.txt") and
          os.path.exists("/tmp/cached_programs.html")):
         try:
             f = open("/tmp/cached_programs_timestamp.txt")
-            timestamp = int(f.read())
+            ts = f.read()
+            timestamp = float(ts)
             f.close()
         except:
             timestamp = 0 # If parsing/reading fails set timestamp to distant past
         s = os.stat(settings.PRIMARY_STORE_DIRECTORY)
         if (timestamp >= s.st_ctime): # Nothing has been written to the primary store since we last served the browse version
             f = open("/tmp/cached_programs.html")
+            content_type = f.readline()
+            content_type = content_type[content_type.find(":")+2:].strip()
+            blank_line = f.readline()
             result = f.read()
             f.close()
             logger.debug("Serving cached version")
             use_cache = True
+            result = HttpResponse(result, content_type=content_type)
 
     if not use_cache:
         programs = Program.objects.all()
