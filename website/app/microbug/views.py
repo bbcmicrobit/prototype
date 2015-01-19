@@ -73,20 +73,39 @@ def program(request, program_id):
 
 # List all of the Programs available on the system
 def programs(request):
-    programs = Program.objects.all()
-    result = render(
-        request, 'microbug/programs.html',
-        _add_defaults(request,{'programs':programs})
-    )
-    now = time.time()
-    f = open("/tmp/cached_programs.html", "wb")
-    f.write(str(result))
-    f.flush()
-    f.close()
-    f = open("/tmp/cached_programs_timestamp.txt","wb")
-    f.write(str(now))
-    f.flush()
-    f.close()
+    use_cache = False
+    result = ""
+    if ( os.path.exists("/tmp/cached_programs_timestamp.txt") and:
+         os.path.exists("/tmp/cached_programs.html")):
+        try:
+            f = open("/tmp/cached_programs_timestamp.txt")
+            timestamp = int(f.read())
+            f.close()
+        except:
+            timestamp = 0 # If parsing/reading fails set timestamp to distant past
+        s = os.stat(settings.PRIMARY_STORE_DIRECTORY)
+        if (timestamp >= s.st_ctime): # Nothing has been written to the primary store since we last served the browse version
+            f = open("/tmp/cached_programs.html")
+            result = f.read()
+            f.close()
+            logger.debug("Serving cached version")
+            use_cache = True
+
+    if not use_cache:
+        programs = Program.objects.all()
+        result = render(
+            request, 'microbug/programs.html',
+            _add_defaults(request,{'programs':programs})
+        )
+        now = time.time()
+        f = open("/tmp/cached_programs.html", "wb")
+        f.write(str(result))
+        f.flush()
+        f.close()
+        f = open("/tmp/cached_programs_timestamp.txt","wb")
+        f.write(str(now))
+        f.flush()
+        f.close()
     return result
 
 # Show a specific tutorial
