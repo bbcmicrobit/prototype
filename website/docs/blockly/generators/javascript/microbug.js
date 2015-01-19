@@ -45,7 +45,7 @@ Blockly.JavaScript['microbug_print_message'] = function(block) {
   var value_message = Blockly.JavaScript.valueToCode(block, 'message', Blockly.JavaScript.ORDER_ATOMIC);
   var value_pausetime = Blockly.JavaScript.valueToCode(block, 'pausetime', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = 'print_message(' + ' ""+ ' + value_message + ',' + value_pausetime + ');';
+  var code = 'print_message(' + ' ""+ (' + value_message + '),' + value_pausetime + ');';
   return code;
 };
 
