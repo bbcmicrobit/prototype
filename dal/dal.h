@@ -269,6 +269,7 @@ void eye_on(const char *id);// DONE
 void eye_off(const char *id);// DONE
 
 int getButton(char id);// DONE
+int getButton(const char *id);// DONE
 void clear_display();// DONE
 //void plot(int x, int y);// DONE
 void plot(uint8_t x, uint8_t y);// DONE
@@ -683,6 +684,33 @@ int getButton(char id) {
     return -1; // Signify error
 }
 
+int getButton(const char *id){
+    return getButton(*id);
+}
+
+int get_button(char *id){
+    return getButton(*id);
+}
+
+int get_button(char id){
+    return getButton(id);
+}
+
+
+int get_eye(char id) {
+    if ((id == 'A') || (id == 'a') || (id == 'L') || (id == 'l')) {
+        return left_eye_state;
+    }
+    if ((id == 'B') || (id == 'b') || (id == 'R') || (id == 'r')) {
+        return right_eye_state;
+    }
+    return -1; // Signify error
+}
+
+int get_eye(char *id) {
+    return get_eye(*id);
+}
+
 void showLetter(char c) {
     int letter_index = c-32;
     if (c>126) return;
@@ -702,6 +730,17 @@ void showLetter(char c) {
         display[4][row] = LOW;
     }
 }
+void showLetter(char * c) {
+    showLetter(*c);
+}
+void show_letter(char * c) {
+    showLetter(*c);
+}
+
+void show_letter(char c) {
+    showLetter(c);
+}
+
 
 void print_message(const char * message, int pausetime=100) {
     while(*message) {
@@ -709,6 +748,18 @@ void print_message(const char * message, int pausetime=100) {
         message++;
         pause(pausetime);
     }
+}
+void print_message(char * message, int pausetime=100) {
+    while(*message) {
+        showLetter(*message);
+        message++;
+        pause(pausetime);
+    }
+}
+void print_message(int number, int pausetime) {
+    char num_buf[14];
+    itoa(number, num_buf, 10);
+    print_message(num_buf, 10);
 }
 
 void set_eye(char id, int state) {
@@ -771,10 +822,19 @@ typedef struct StringImage {
     int mPixelData[50]; // Sufficient to hold two characters.
     char *mString;
     int mStrlen;
+    char num_buf[12] ;
 
     StringImage() {}
     StringImage(const char * str) {
         setString(str);
+    }
+    StringImage(int number) {
+        itoa(number, num_buf, 10);
+        setString(num_buf);
+    }
+    StringImage(long number) {
+        itoa(number, num_buf, 10);
+        setString(num_buf);
     }
     ~StringImage() {}
 

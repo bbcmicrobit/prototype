@@ -21,7 +21,13 @@ program_template = """\
 #include "dal.h"
 #include <math.h>
 
-ISR(WDT_vect) { Sleepy::watchdogEvent(); }
+// ISR(WDT_vect) { Sleepy::watchdogEvent(); } // POWER
+void sleep(int time) { pause(time); }         // POWER
+int dal_screen_hold_time = 500;               // POWER
+// int get_button(char *button) { return getButton(*button); } // POWER
+// int get_button(const char *button) { return getButton(*button); } // POWER
+int sleep_time = 1;                // POWER
+void set_eye(const char* eye,int state) { set_eye(*eye, state); }// POWER
 
 %DECLARATIONS%
 
@@ -42,7 +48,7 @@ int main(void)
         init();
 
 #if defined(USBCON)
-        USBDevice.attach();
+//        USBDevice.attach();
 #endif
         setup(); // Switches on "eyes", and switches to bootloader if required
         enable_power_optimisations();

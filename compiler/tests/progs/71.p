@@ -1,2 +1,2 @@
-a=StringImage( "Hello World",100)
-scroll_string_image(a)
+a=StringImage( "Hello World")
+scroll_string_image(a,100)
