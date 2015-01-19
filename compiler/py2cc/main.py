@@ -128,7 +128,7 @@ def main_single(source_file, dest_file, tmp_directory, cleanup=False):
     basedir = os.path.join(tmp_directory, basefile)
     os.mkdir(basedir)
 
-    f = open(basedir + "/" + filename,"w")
+    f = open(basedir + "/" + basefile,"w")
     f.write(source)
     f.flush()
     f.close()
