@@ -780,11 +780,11 @@ void print_message(int number, int pausetime) {
 
 
 void set_eye(char id, int state) {
-    if ((id == 'A') || (id == 'L')) {
+    if ((id == 'A') || (id == 'L') || (id == 'a') || (id == 'l')) {
 //        digitalWrite(lefteye, state );
         left_eye_state = state;
     }
-    if ((id == 'B') || (id == 'R')) {
+    if ((id == 'B') || (id == 'R') || (id == 'b') || (id == 'r')) {
 //        digitalWrite(righteye, state );
         right_eye_state = state;
     }
@@ -795,14 +795,14 @@ void set_eye(const char * id, int state) {
 }
 
 void toggle_eye(char id) {
-    if ((id == 'A') || (id == 'L')) {
+    if ((id == 'A') || (id == 'L') || (id == 'a') || (id == 'l')) {
         if (left_eye_state == HIGH) {
             set_eye(id, LOW);
         } else {
             set_eye(id, HIGH);
         }
     }
-    if ((id == 'B') || (id == 'R')) {
+    if ((id == 'B') || (id == 'R') || (id == 'b') || (id == 'r')) {
         if (right_eye_state == HIGH) {
             set_eye(id, LOW);
         } else {

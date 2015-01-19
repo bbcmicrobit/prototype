@@ -289,11 +289,11 @@ var set_eye = function(id, state)
 			state = 0;
 	}
 
-	if ((id == "A") || (id == "L")) {
+	if ((id == "A") || (id == "L") || (id == "a") || (id == "l")) {
 		digitalWrite(lefteye, state );
 		left_eye_state = state;
 	}
-	if ((id == "B") || (id == "R")) {
+	if ((id == "B") || (id == "R") || (id == "b") || (id == "r")) {
 		digitalWrite(righteye, state );
 		right_eye_state = state;
 	}
@@ -310,10 +310,10 @@ var eye_off = function(cId) {
 };
 
 var get_eye = function(id) {
-	if ((id == "A") || (id == "L")) {
+	if ((id == "A") || (id == "L") || (id == "a") || (id == "l")) {
 		return left_eye_state;
 	}
-	if ((id == "B") || (id == "R")) {
+	if ((id == "B") || (id == "R") || (id == "b") || (id == "r")) {
 		return right_eye_state;
 	}
 };
@@ -472,14 +472,14 @@ var set_image_point = function(someImage, x, y, value) {
 };
 
 var toggle_eye = function(id) {
-	if ((id == "A") || (id == "L")) {
+	if ((id == "A") || (id == "L") || (id == "a") || (id == "l")) {
 		if (left_eye_state == HIGH) {
 			set_eye(id, LOW);
 		} else {
 			set_eye(id, HIGH);
 		}
 	}
-	if ((id == "B") || (id == "R")) {
+	if ((id == "B") || (id == "R") || (id == "b") || (id == "r")) {
 		if (right_eye_state == HIGH) {
 			set_eye(id, LOW);
 		} else {
