@@ -50,9 +50,7 @@ set_eye('L', LOW);  // Switch off eyes if bootloader not required
 set_eye('R', LOW);
         user_program();
         //        if (serialEventRun) serialEventRun();
-        for (int i=0;i<180;i++) {
-            pause(1000);
-        }
+        pause(500);
         clear_display();
         while (true) {
             sleep(1000);
