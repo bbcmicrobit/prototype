@@ -15,6 +15,24 @@ lexer = configure_lexer()
 
 DAL_DIR = "../dal/"
 
+def strip_comments(source_file):
+    """ FIXME: This cannot handle comments inside strings yet, or after code on a line"""
+    source_lines = source_file.split("\n")
+    result = []
+    for source_line in source_lines:
+        seen_comment = False
+        in_string = False
+        string_char = None
+        # Strip comments from line
+        for char in source_line:
+            if not in_string:
+                if char == "#":
+                    seen_comment = True
+                    break
+        if not(seen_comment):
+            result.append(source_line)
+    return "\n".join(result)
+
 def main_test(files):
     """Mainly used during testing"""
     global os
@@ -34,6 +52,7 @@ def main_test(files):
         print
         print "PARSING", filename
         source = open("tests/progs/"+filename).read()
+        source = strip_comments(source)
         print source
 
         x = parse(source, lexer)
@@ -44,6 +63,10 @@ def main_test(files):
         if 1:
             basedir = "tests/genprogs/"+filename
             os.mkdir(basedir)
+            f = open(basedir + "/" + filename,"w")
+            f.write(source)
+            f.flush()
+            f.close()
             os.system("rsync -avz ../dal/ "+ basedir+"/")
             os.system("rsync -avz ../dal/ "+ basedir+"/")
             os.system("rm -rf " + basedir+"/001/")
@@ -82,6 +105,7 @@ def main_test(files):
 
             print "#"*120
 
+
 def main_single(source_file, dest_file, tmp_directory, cleanup=False):
     """
     Compiles a single source file.
@@ -95,6 +119,7 @@ def main_single(source_file, dest_file, tmp_directory, cleanup=False):
     basefile = os.path.basename(source_file)
 
     source = open(source_file).read()
+    source = strip_comments(source)
     x = parse(source, lexer)
     y  = gen_code(x)
 
@@ -102,6 +127,12 @@ def main_single(source_file, dest_file, tmp_directory, cleanup=False):
 
     basedir = os.path.join(tmp_directory, basefile)
     os.mkdir(basedir)
+
+    f = open(basedir + "/" + filename,"w")
+    f.write(source)
+    f.flush()
+    f.close()
+
     os.system("rsync >/dev/null -az ../dal/ "+ basedir+"/")
     os.system("rm -rf " + basedir+"/001/")
     os.system("rm -rf " + basedir+"/002/")
