@@ -1,3 +1,4 @@
+
 #include <avr/pgmspace.h>
 #include <avr/sleep.h>
 #include "avr/wdt.h"
@@ -26,7 +27,7 @@ const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 0<<WDP1 | 0<<WDP0;		//	Interrupt
 #define LolDebug2		6	//	0	o
 #define LolCol3			5	//	0	o
 #define LolDebug1		4	//	0	o
-#define	LolRightEye		3	//	0	o
+// #define LolRightEye             3       //      0       o
 #define	LolButtonB		2	//	0	i
 //#define				1	//	0	i
 #define	LolButtonA		0	//	0	i
@@ -42,8 +43,11 @@ const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 0<<WDP1 | 0<<WDP0;		//	Interrupt
 #define LolRow4L()		PORTB &= ~(1<<LolRow4)
 #define LolCol3H()		PORTB |= 1<<LolCol3
 #define LolCol3L()		PORTB &= ~(1<<LolCol3)
-#define LolRightEyeH()	PORTB |= 1<<LolRightEye
-#define LolRightEyeL()	PORTB &= ~(1<<LolRightEye)
+// #define LolRightEyeH()  PORTB |= 1<<LolRightEye
+// #define LolRightEyeL()  PORTB &= ~(1<<LolRightEye)
+
+
+
 
 
 //Port C
@@ -95,7 +99,7 @@ const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 0<<WDP1 | 0<<WDP0;		//	Interrupt
 
 //Port E
 //#define 				7	//	0	i
-#define LolLeftEye		6	//	0	o
+// #define LolLeftEye              6       //      0       o
 //#define 				5	//	0	i
 //#define 				4	//	0	i
 //#define				3	//	0	i
@@ -105,11 +109,22 @@ const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 0<<WDP1 | 0<<WDP0;		//	Interrupt
 #define	PORTE_INIT		0b00000000
 #define	DDRE_INIT		0b01000100
 
-#define LolDebug4H()	PORTE |= 1<<LolDebug4
-#define LolDebug4L()	PORTE &= ~(1<<LolDebug4)
+#define LolDebug4H()    PORTE |= 1<<LolDebug4
+#define LolDebug4L()    PORTE &= ~(1<<LolDebug4)
 
-#define LolLeftEyeH()	PORTE |= 1<<LolLeftEye
-#define LolLeftEyeL()	PORTE &= ~(1<<LolLeftEye)
+// #define LolLeftEyeH()   PORTE |= 1<<LolLeftEye
+// #define LolLeftEyeL()   PORTE &= ~(1<<LolLeftEye)
+
+
+#define LolLeftEye             3       //      0       o
+#define LolLeftEyeH()  PORTB |= 1<<LolLeftEye
+#define LolLeftEyeL()  PORTB &= ~(1<<LolLeftEye)
+
+#define LolRightEye              6       //      0       o
+#define LolRightEyeH()   PORTE |= 1<<LolRightEye
+#define LolRightEyeL()   PORTE &= ~(1<<LolRightEye)
+
+
 
 
 //Port F
@@ -200,8 +215,8 @@ int col2 = 6; // Arduino Pin for row 2  // PIN 27 -- D6
 int col3 = 9; // Arduino Pin for row 3 // PIN 29 -- D9
 int col4 = 13; // Arduino Pin for row 4  // PIN 32 -- D13
 
-int lefteye = 7; // Arduino Pin for left eye // PIN 1     -- D7
-int righteye = 14; // Arduino Pin for left eye // PIN 11  -- D14
+int lefteye = 14; // Arduino Pin for left eye // PIN 1     -- D7
+int righteye = 7; // Arduino Pin for left eye // PIN 11  -- D14
 
 int ButtonA = 17; // Arduino Pin for left button // PIN 8    -- D17
 int ButtonB = 16; // Arduino Pin for right button // PIN 10   -- D16
@@ -710,6 +725,11 @@ int get_eye(char id) {
 int get_eye(char *id) {
     return get_eye(*id);
 }
+
+int get_eye(const char *id) {
+    return get_eye(*id);
+}
+
 
 void showLetter(char c) {
     int letter_index = c-32;
