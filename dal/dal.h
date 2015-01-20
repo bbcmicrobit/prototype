@@ -262,6 +262,9 @@ uint8_t display[5][5] = {
 	{ 0, 0, 0, 0, 0}
 };
 
+int dal_screen_hold_time = 500; // This is how long the display will hold for before going blank & sleeping after running
+
+
 
 #define DISPLAY_WIDTH 5
 #define DISPLAY_HEIGHT 5
