@@ -794,11 +794,11 @@ void set_eye(char id, int state) {
 }
 
 void toggle_eye(char id) {
-    if ((id == 'A') || (id == 'L')) {
+    if ((id == 'A') || (id == 'L') || (id == 'a') || (id == 'l')) {
         if (left_eye_state == HIGH) {	set_eye(id, LOW);	}
 		else 						{	set_eye(id, HIGH);	}
     }
-    if ((id == 'B') || (id == 'R')) {
+    if ((id == 'B') || (id == 'R') || (id == 'b') || (id == 'r')) {
         if (right_eye_state == HIGH) {	set_eye(id, LOW);	}
 		else 						{	set_eye(id, HIGH);	}
     }
@@ -822,6 +822,10 @@ void eye_off(char id) {
 
 void eye_off(const char *id) {
     set_eye(*id, LOW);
+}
+
+void set_eye(const char * id, int state) {
+    set_eye(*id, state);
 }
 
 void showViewport(Image& someImage, int x, int y) {
