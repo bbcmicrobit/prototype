@@ -3,6 +3,10 @@
 # ./pycc_test.py noflash true testdir user_compiled
 # ./pycc_test.py testdir user_compiled
 # ./pycc_test.py
+# ./pycc_test.py
+# (P=58; ./pycc_test.py $P.p ; cat tests/genprogs/$P.p/user_code.ino 2>&1)
+# (P=999_fcbaa760-9745-11e4-ab48-02f2a2e5afe5.py; ./pycc_test.py testdir user_compiled $P ; cat tests/genprogs/$P/user_code.ino 2>&1)
+
 
 import sys
 from py2cc.main import main_test
