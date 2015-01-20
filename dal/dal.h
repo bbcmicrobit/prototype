@@ -804,6 +804,10 @@ void toggle_eye(char id) {
     }
 }
 
+void toggle_eye(const char *id){
+    toggle_eye(*id);
+}
+
 void eye_on(char id) {
     set_eye(id, HIGH);
 }
