@@ -867,7 +867,6 @@ typedef struct StringImage {
     void setString(const char * str) {
         mString = (char *) str;
         mPixelPos = 0;
-//        for(int i=0; i++; i<50) {
         for(int i=0; i<50; i++) {
             mPixelData[i] = 0;
         }
@@ -885,38 +884,34 @@ typedef struct StringImage {
     }
     void render_string(){
         // Renders into the pixel data buffer
-        int first_char;
-        int second_char;
-//         unsigned char *first_char_data;
-//         unsigned char *second_char_data;
-
+        int first_char =0;
+        int second_char =0;
         unsigned char first_char_data1[6];
         unsigned char second_char_data1[16];
         int char_index1;
+        int char_index0;
 
-        int char_index0 = (mPixelPos / 5);
+        int vPixelPos = mPixelPos -5;
 
-        char_index0 = char_index0 % mStrlen;
-
-        first_char = mString[char_index0];
-        for(int i=0; i<6; i++){
-            first_char_data1[i] = pgm_read_byte(&(font[first_char-32][i]));
+        if (vPixelPos <0) {
+            first_char = 0;
+            second_char = mString[0]-32;
+        } else {
+            char_index0 = (vPixelPos / 5);
+            char_index0 = char_index0 % mStrlen;
+            char_index1 = (char_index0 +1) ;
+            first_char = mString[char_index0] -32;
+            if (char_index1 < mStrlen) {
+                char_index1 = char_index1 % mStrlen;
+                second_char = mString[char_index1]-32;
+            }
         }
 
-        char_index1 = (char_index0 +1) ;
-        if (char_index1 < mStrlen) {
-            char_index1 = char_index1 % mStrlen;
-            second_char = mString[char_index1];
-//            second_char_data = (unsigned char*) ( font[second_char-32] );
-
-            for(int i=0; i<6; i++){
-                second_char_data1[i] = pgm_read_byte(&(font[second_char-32][i]));
-            }
-        } else {
-//            second_char_data =  (unsigned char*) ( font[0] );
-            for(int i=0; i<6; i++){
-                second_char_data1[i] = pgm_read_byte(&(font[0][i]));
-            }
+        for(int i=0; i<6; i++){
+            first_char_data1[i] = pgm_read_byte(&(font[first_char][i]));
+        }
+        for(int i=0; i<6; i++){
+            second_char_data1[i] = pgm_read_byte(&(font[second_char][i]));
         }
 
         for(int row=0; row<5; row++) {
@@ -967,6 +962,15 @@ void scroll_string_image(StringImage theSprite, int pausetime=100) {
     }
 }
 
+void scroll_string(const char * str) {
+    scroll_string_image(StringImage(str), 50);
+}
+
+void scroll_string(const char * str, int delay) {
+    scroll_string_image(StringImage(str), delay);
+}
+
+
 typedef int pxl;
 
 Image& _make_image(unsigned short int row1, unsigned short int row2, unsigned short int row3, unsigned short int row4, unsigned short int row5, int width) 
@@ -1002,9 +1006,28 @@ Image& make_big_image(unsigned short int row1, unsigned short int row2, unsigned
     return _make_image(row1, row2, row3, row4, row5, 10);
 }
 
-void show_image_offset(Image& someImage, int x, int y)
+void OLD_show_image_offset(Image& someImage, int x, int y)
 {
     //passthrough to avoid renaming
     showViewport(someImage, x, y);
 }
+
+
+void show_image_offset(Image& someImage, int x, int y)
+{
+    int w = someImage.width;
+    int h = someImage.height;
+    clear_display();
+    for(int i=0; i<w; i++) {
+            for(int j=0; j<h; j++) {
+                    int dx = i + x;
+                    int  dy = j + y;
+                    if ( 0<=dx && dx <= 4 && 0<=dy && dy <= 4 ) {
+                        display[dx][dy] = someImage.data[j*w + i ];
+                    }
+            }
+    }
+}
+
+
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
