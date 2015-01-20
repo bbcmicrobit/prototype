@@ -53,6 +53,8 @@ set_eye('R', LOW);
         if (dal_screen_hold_time) { 
             pause(dal_screen_hold_time);
             clear_display();
+            eye_off("A");
+            eye_off("B");
             while (true) {
                 sleep(1000);
             }
