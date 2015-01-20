@@ -974,7 +974,7 @@ void scroll_string(const char * str) {
     scroll_string_image(StringImage(str), 50);
 }
 
-void scroll_string(const char * str, int delay) {
+void scroll_string(const char * str, int delay=100) {
     scroll_string_image(StringImage(str), delay);
 }
 
