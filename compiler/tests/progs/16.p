@@ -2,7 +2,6 @@ while True:
     1
     print "Hello"
     print "World"
-    ScrollSprite()
     scroll_string_image(StringImage('Wibble'))
     scroll_string_image(StringImage('Wibble'))
 
