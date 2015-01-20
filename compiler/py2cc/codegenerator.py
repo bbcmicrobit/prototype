@@ -28,6 +28,7 @@ int dal_screen_hold_time = 500;               // POWER
 // int get_button(const char *button) { return getButton(*button); } // POWER
 int sleep_time = 1;                // POWER
 void set_eye(const char* eye,int state) { set_eye(*eye, state); }// POWER
+int sum(int a, int b, int c) { return a+b+c; } // COMPILER SUPPORT
 
 %DECLARATIONS%
 
