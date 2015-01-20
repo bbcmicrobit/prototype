@@ -1,57 +1,64 @@
-
-
 #include "dal.h"
+#include <math.h>
 
-unsigned long time;
-unsigned long lasttime;
-int buttondown;
-ISR(WDT_vect) { Sleepy::watchdogEvent(); }
+// ISR(WDT_vect) { Sleepy::watchdogEvent(); } // POWER
+void sleep(int time) { pause(time); }         // POWER
+int dal_screen_hold_time = 500;               // POWER
+// int get_button(char *button) { return getButton(*button); } // POWER
+// int get_button(const char *button) { return getButton(*button); } // POWER
+int sleep_time = 1;                // POWER
+void set_eye(const char* eye,int state) { set_eye(*eye, state); }// POWER
+int sum(int a, int b, int c) { return a+b+c; } // COMPILER SUPPORT
+void scroll_string(char * some_string, int delay=100) { scroll_string_image(StringImage(some_string),delay); } // COMPILER TEST SUITE SUPPORT
 
 
-void ScrollSpriteStringSpriteExample_Test18() {
-    auto merry = StringImage("Test");
 
-    set_eye('L', HIGH);
-    set_eye('R', HIGH);
-    scroll_string_image(merry, 50);
-}
+auto x = 0;
 
 void setup()
-{    //.These next three should be merged into one
-    microbug_setup();
-    lasttime = 0;
-    time = 0;
-    buttondown = 0;
-}
-
-void loop()
 {
-//    int time = sleep_time ; //millis();
-
-    for(int i=5; i>-1; i--) {
-        print_message(i,100);
-        pause(1000);
-    }
-   long time = sleep_counter_t2 ; //millis();
-
-   scroll_string_image(StringImage(time), 100);
-   scroll_string_image(StringImage("##"), 100);
+    microbug_setup();
 }
 
+void user_program()
+{
+    // TBD - setting a variable to None is not supported - to simplify variable type tracing;
+    if (get_eye("A")) {
+        x = 0;
+        for(int x=5; x>-1; x= x + -2) {
+          plot( x,0 );
+          pause( 1000 );
+        };
+    }
+}
 
 int main(void)
 {
         init();
 
 #if defined(USBCON)
-        USBDevice.attach();
+//        USBDevice.attach();
 #endif
-        setup();
+        setup(); // Switches on "eyes", and switches to bootloader if required
         enable_power_optimisations();
-        sleep_time = 5;
-        for (;;) {
-                loop();
-                if (serialEventRun) serialEventRun();
+set_eye('L', LOW);  // Switch off eyes if bootloader not required
+set_eye('R', LOW);
+        user_program();
+        //        if (serialEventRun) serialEventRun();
+        if (dal_screen_hold_time) { 
+            pause(dal_screen_hold_time);
+            clear_display();
+            eye_off("A");
+            eye_off("B");
+            while (true) {
+                sleep(1000);
+            }
+            return 0;
+        } else {
+            while(1) {
+                pause(dal_screen_hold_time);
+                }
         }
-        return 0;
 }
+
+
