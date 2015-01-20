@@ -789,8 +789,12 @@ void print_message(int number, int pausetime) {
 }
 
 void set_eye(char id, int state) {
-    if ((id == 'A') || (id == 'L')) {	left_eye_state = state;		}
-    if ((id == 'B') || (id == 'R')) {	right_eye_state = state;	}
+    if ((id == 'A') || (id == 'L') || (id == 'a') || (id == 'l')) {
+        left_eye_state = state;
+    }
+    if ((id == 'B') || (id == 'R') || (id == 'b') || (id == 'r')) {
+        right_eye_state = state;
+    }
 }
 
 void toggle_eye(char id) {
