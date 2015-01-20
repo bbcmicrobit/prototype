@@ -33,14 +33,23 @@ def strip_comments(source_file):
             result.append(source_line)
     return "\n".join(result)
 
-def main_test(files):
+
+def main_test(noflash, testdir, files):
+    #
+    #default noflash is False
+    #default testdir is "progs"
+    #
     """Mainly used during testing"""
     global os
     #
     # Build the example test programs, compile them and run them
     #
+
+    progs_dir = "tests/"+testdir
     if len(files) == 0:
-        files = os.listdir("tests/progs")
+#        files = os.listdir("tests/progs")
+#        files = os.listdir("tests/user_compiled")
+        files = os.listdir(progs_dir)
         files = [ x for x in files if "skip" not in x ]
         files.sort()
 
@@ -48,10 +57,16 @@ def main_test(files):
     for filename in ditch:
         os.system("rm -rf tests/genprogs/"+ filename)
 
+
+    root_dir = os.getcwd()
     for filename in files:
+        os.chdir(root_dir)
         print
         print "PARSING", filename
-        source = open("tests/progs/"+filename).read()
+        #source = open("tests/progs/"+filename).read()
+        # source = open("tests/user_compiled/"+filename).read()
+        source = open(progs_dir + "/" + filename).read()
+
         source = strip_comments(source)
         print source
 
@@ -94,15 +109,20 @@ def main_test(files):
             here = os.getcwd()
             os.chdir(basedir)
             os.system("make")
+
+        if not noflash:
             print "READY TO UPLOAD"
             print "PRESS RETURN TO ERASE"
-            raw_input(">")
-            os.system("make erase")
+            # raw_input(">")
+            # os.system("make erase")
             print "PRESS RETURN TO FLASH DEVICE"
-            raw_input(">")
-            os.system("make flash_device")
+            # raw_input(">")
+            # os.system("make flash_device")
             os.chdir(here)
 
+            print "#"*120
+            print "#"*120
+            print "#"*120
             print "#"*120
 
 
