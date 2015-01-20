@@ -700,15 +700,24 @@ void clear_display() {
 }
 
 int getButton(char id) {
-    if (id == 'A') {	return digitalRead(ButtonA);    }
-    if (id == 'B') {	return digitalRead(ButtonB);    }
+    if ((id == 'A') || (id == 'a') || (id == 'L') || (id == 'l')) {
+        return digitalRead(ButtonA);
+    }
+    if ((id == 'B') || (id == 'b') || (id == 'R') || (id == 'r')) {
+        return digitalRead(ButtonB);
+    }
     return -1; // Signify error
 }
 
 int getButton(const char *id){
     return getButton(*id);
 }
+int getButton(char *id){
+    return getButton(*id);
+}
 
+// These next two functions should be deleted - they're there as crutches for the blockly front end.
+// However, they need to be there for the moment (2015/01/05)
 int get_button(char *id){
     return getButton(*id);
 }
