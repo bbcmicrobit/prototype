@@ -30,6 +30,7 @@ int sleep_time = 1;                // POWER
 void set_eye(const char* eye,int state) { set_eye(*eye, state); }// POWER
 int sum(int a, int b, int c) { return a+b+c; } // COMPILER SUPPORT
 void scroll_string(char * some_string, int delay=100) { scroll_string_image(StringImage(some_string),delay); } // COMPILER TEST SUITE SUPPORT
+int dal_pre_pause_time = 1000;
 
 %DECLARATIONS%
 
@@ -56,6 +57,7 @@ int main(void)
         enable_power_optimisations();
 set_eye('L', LOW);  // Switch off eyes if bootloader not required
 set_eye('R', LOW);
+        pause(dal_pre_pause_time);
         user_program();
         //        if (serialEventRun) serialEventRun();
         if (dal_screen_hold_time) { 
