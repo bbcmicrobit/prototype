@@ -292,6 +292,8 @@ class CodeGenerator(object):
             res = self.expression(rvalue)
             expression_type, expression_fragment = res
 
+            if expression_fragment.strip() == "None":
+                return "// TBD - setting a variable to None is not supported - to simplify variable type tracing"
 
             if not self.global_variables.get(identifier, False):
                 # Define the type based on the first usage
