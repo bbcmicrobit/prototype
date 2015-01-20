@@ -249,7 +249,6 @@ int ee20 = 14; // Emergency/Expert data pin top// PIN 11 -- D14
 #endif
 
 
-int counter =0;
 #define DELAY 5
 
 int left_eye_state = HIGH; // Initial state is set to high in setup
