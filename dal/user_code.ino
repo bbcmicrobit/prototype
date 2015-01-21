@@ -25,10 +25,10 @@ void user_program()
     // TBD - setting a variable to None is not supported - to simplify variable type tracing;
     long last = 0;
 
-    for (int i=0; i < 11; i++) {
-        print_message(i);
-        pause(5000);
-    }
+//     for (int i=0; i < 11; i++) {
+//         print_message(i);
+//         pause(5000);
+//     }
     sleep_counter_t = 0;
     sleep_counter_t2 = 0;
 
