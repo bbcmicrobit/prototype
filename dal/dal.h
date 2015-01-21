@@ -533,6 +533,14 @@ ISR(TIMER3_OVF_vect)
 		}
 	}
 //LolDebug6L();
+
+
+    sleep_counter_t += 1;
+    // One second == 1739?
+    if (sleep_counter_t==52200) { // This is the number of times the display interrupt runs per 30 seconds, approximately.
+       sleep_counter_t = 0;
+       sleep_counter_t2 = sleep_counter_t2 + 1;
+    }
 }
 
 
