@@ -338,7 +338,7 @@ enable_power_optimisations()
 #define power_timer4_enable() (PRR1 &= (uint8_t)~(1 << 4))
 #define power_timer4_disable() (PRR1 |= (uint8_t)(1 << 4))
 
-//	power_adc_disable();
+//	power_adc_disable();  // FIXME: This needs to be more granular - though we've been running like this for 44 hours now though
 	power_usart0_disable();
 	power_spi_disable();
 	power_twi_disable();
@@ -482,14 +482,9 @@ volatile uint8_t UserTick = 0;
 
 ISR(WDT_vect)
 {
-//LolDebug5H();
-
 	TCCR3B = TCCR3B_RUN_VALUE;
-
 	set_sleep_mode(SLEEP_MODE_IDLE);
-//DEBUGSTATE(0xD);
 	UserTick++;
-//LolDebug5L();
 }
 
 
