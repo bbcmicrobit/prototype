@@ -29,4 +29,7 @@ while found_opt and len(argv) >= 3:
         del argv[1]
         del argv[1]
 
+print "main_test(noflash, testdir, argv[1:])"
+print "main_test(",noflash, ",", testdir,",", argv[1:],")"
+
 main_test(noflash, testdir, argv[1:])
