@@ -322,7 +322,7 @@ void pause(word millis) {
 #ifdef MICROKIT_DISABLE
     delay(millis);
 #else
-    delay(millis/4);
+    delay(millis/8);
 #endif
 }
 
@@ -500,7 +500,6 @@ ISR(TIMER3_OVF_vect)
 
 //LolDebug6H();
     TCNT3 = TCNT3_PRELOAD_VALUE;   // preload timer
-
 	if(display_led_x < 5)
 	{
 		display_led(display_led_x,display_led_y);
