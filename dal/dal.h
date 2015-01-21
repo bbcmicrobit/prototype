@@ -535,11 +535,35 @@ ISR(TIMER3_OVF_vect)
 //LolDebug6L();
 
 
-    sleep_counter_t += 1;
-    // One second == 1739?
-    if (sleep_counter_t==52200) { // This is the number of times the display interrupt runs per 30 seconds, approximately.
-       sleep_counter_t = 0;
-       sleep_counter_t2 = sleep_counter_t2 + 1;
+    if (sleep_time > 0) {
+        sleep_counter_t += 1;
+        // One second == 1739?
+        if (sleep_counter_t==52200) { // This is the number of times the display interrupt runs per 30 seconds, approximately.
+           sleep_counter_t = 0;
+           sleep_counter_t2 = sleep_counter_t2 + 1;
+        }
+        if (sleep_counter_t2 >= sleep_time*2) {
+            // It's possible that the display will freeze with pins high, which isn't what we want.
+            // As a result we force pins low.
+            digitalWrite(row0, LOW);
+            digitalWrite(row1, LOW);
+            digitalWrite(row2, LOW);
+            digitalWrite(row3, LOW);
+            digitalWrite(row4, LOW);
+
+            digitalWrite(col0, LOW);
+            digitalWrite(col1, LOW);
+            digitalWrite(col2, LOW);
+            digitalWrite(col3, LOW);
+            digitalWrite(col4, LOW);
+            digitalWrite(lefteye, LOW);
+            digitalWrite(righteye, LOW);
+
+            set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+            cli();                // disable global interrupts
+            sleep_enable();
+            sleep_cpu();
+        }
     }
 }
 
