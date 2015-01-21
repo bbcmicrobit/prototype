@@ -21,16 +21,8 @@ program_template = """\
 #include "dal.h"
 #include <math.h>
 
-// ISR(WDT_vect) { Sleepy::watchdogEvent(); } // POWER
 void sleep(int time) { pause(time); }         // POWER
-int dal_screen_hold_time = 500;               // POWER
-// int get_button(char *button) { return getButton(*button); } // POWER
-// int get_button(const char *button) { return getButton(*button); } // POWER
-int sleep_time = 1;                // POWER
-void set_eye(const char* eye,int state) { set_eye(*eye, state); }// POWER
 int sum(int a, int b, int c) { return a+b+c; } // COMPILER SUPPORT
-void scroll_string(char * some_string, int delay=100) { scroll_string_image(StringImage(some_string),delay); } // COMPILER TEST SUITE SUPPORT
-int dal_pre_pause_time = 1000;
 
 %DECLARATIONS%
 
