@@ -113,11 +113,11 @@ def main_test(noflash, testdir, files):
         if not noflash:
             print "READY TO UPLOAD"
             print "PRESS RETURN TO ERASE"
-            # raw_input(">")
-            # os.system("make erase")
+            raw_input(">")
+            os.system("make erase")
             print "PRESS RETURN TO FLASH DEVICE"
-            # raw_input(">")
-            # os.system("make flash_device")
+            raw_input(">")
+            os.system("make flash_device")
             os.chdir(here)
 
             print "#"*120
