@@ -790,7 +790,13 @@ void print_message(char * message, int pausetime=100) {
         pause(pausetime);
     }
 }
-void print_message(int number, int pausetime) {
+void print_message(int number, int pausetime=100) {
+    char num_buf[14];
+    itoa(number, num_buf, 10);
+    print_message(num_buf, 10);
+}
+
+void print_message(long number, int pausetime=100) {
     char num_buf[14];
     itoa(number, num_buf, 10);
     print_message(num_buf, 10);
