@@ -23,12 +23,23 @@ void setup()
 void user_program()
 {
     // TBD - setting a variable to None is not supported - to simplify variable type tracing;
-    if (get_eye("A")) {
-        x = 0;
-        for(int x=5; x>-1; x= x + -2) {
-          plot( x,0 );
-          pause( 1000 );
-        };
+    long last = 0;
+
+    for (int i=0; i < 11; i++) {
+        print_message(i);
+        pause(5000);
+    }
+    sleep_counter_t = 0;
+    sleep_counter_t2 = 0;
+
+    print_message(last,400);
+
+    while(true) {
+        if (sleep_counter_t2 != last) {
+            last = sleep_counter_t2;
+            print_message(last,400);
+        }
+        pause(10);
     }
 }
 
@@ -43,6 +54,7 @@ int main(void)
         enable_power_optimisations();
 set_eye('L', LOW);  // Switch off eyes if bootloader not required
 set_eye('R', LOW);
+        pause(2000);
         user_program();
         //        if (serialEventRun) serialEventRun();
         if (dal_screen_hold_time) { 
