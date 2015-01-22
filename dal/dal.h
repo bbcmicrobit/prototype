@@ -402,37 +402,6 @@ void check_bootkey() {
 }
 // END CODE TO SUPPORT SWITCH TO DFU BOOTLOADER -------------------------------------------------------
 
-/*
-void setup_display() {
-#ifdef MICROBUG
-CLKPR = 0x80;
-CLKPR = 0x01;
-#endif
-#ifdef MICROKIT_DISABLE
-CLKPR = 0x80;
-CLKPR = 0x01;
-#endif
-    noInterrupts();           // disable all interrupts
-    TCCR4A = 0;
-    TCCR4B = 0;
-	
-    TC4H = TCNT4_PRELOAD_VALUE >> 8 ;   // preload timer
-    TCNT4 = TCNT4_PRELOAD_VALUE & 0xff;   // preload timer
-
-    TCCR4B = 0<<CS43 | 0<<CS42 | 1<<CS41 | 0<<CS40;			// prescaler div 2
-    TIMSK4 |= (1 << TOIE4);			// enable timer overfLOW interrupt
-
-    MCUSR &= ~(1<<WDRF);			//	Clear watchdog system reset flag
-    ATOMIC_BLOCK(ATOMIC_FORCEON) {
-        WDTCSR |= (1<<WDCE) | (1<<WDE); // timed sequence
-        WDTCSR = 1<<WDIE | 0<<WDP2 | 0<<WDP1 | 0<<WDP0;		//	Interrupts only, 15ms
-//        WDTCSR = 1<<WDIE | 0<<WDP2 | 0<<WDP1 | 1<<WDP0;		//	Interrupts only, 30ms
-	}
-    interrupts();             // enable all interrupts
-}
-*/
-
-
 void
 display_led(uint8_t x, uint8_t y)
 {
