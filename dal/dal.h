@@ -562,6 +562,9 @@ HW_Init(void)
 	WDTCSR = WDTCSR_INIT;
 	//	}
 
+        // Disable JTAG - enable analogue input pins
+        MCUCR |= (1 << JTD);    MCUCR |= (1 << JTD);    //    Must be set twice in four cycles
+
 }
 
 
