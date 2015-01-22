@@ -721,6 +721,10 @@ int get_button(char *id){
     return getButton(*id);
 }
 
+int get_button(const char *id){
+    return getButton(*id);
+}
+
 int get_button(char id){
     return getButton(id);
 }
@@ -768,6 +772,9 @@ void showLetter(char * c) {
     showLetter(*c);
 }
 void show_letter(char * c) {
+    showLetter(*c);
+}
+void show_letter(const char * c) {
     showLetter(*c);
 }
 
