@@ -19,7 +19,7 @@ AppPublisher={#MyAppPublisher}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
-OutputDir=C:\Users\Matthew\Desktop\New folder
+OutputDir=C:\Users\IEUser\Desktop\New folder
 OutputBaseFilename=setup
 Compression=lzma
 SolidCompression=yes
@@ -32,12 +32,12 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "C:\Users\Matthew\microbug\installer\win\PY2EXE\dist\BBCBugLoader.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Matthew\microbug\installer\win\PY2EXE\dist\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\IEUser\Documents\GitHub\microbug\installer\win\PY2EXE\dist\BBCBugLoader.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\IEUser\Documents\GitHub\microbug\installer\win\PY2EXE\dist\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-Source: "C:\Users\Matthew\microbug\installer\win\usb_driver\*"; DestDir: "{app}\usb_driver"; Flags: ignoreversion createallsubdirs recursesubdirs; MinVersion: 0,6.0
-Source: "C:\Users\Matthew\microbug\installer\win\usb_driver_xp\*"; DestDir: "{app}\usb_driver"; Flags: ignoreversion createallsubdirs recursesubdirs; OnlyBelowVersion: 0,6.0
+Source: "C:\Users\IEUser\Documents\GitHub\microbug\installer\win\usb_driver\*"; DestDir: "{app}\usb_driver"; Flags: ignoreversion createallsubdirs recursesubdirs; MinVersion: 0,6.0
+Source: "C:\Users\IEUser\Documents\GitHub\microbug\installer\win\usb_driver_xp\*"; DestDir: "{app}\usb_driver"; Flags: ignoreversion createallsubdirs recursesubdirs; OnlyBelowVersion: 0,6.0
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
