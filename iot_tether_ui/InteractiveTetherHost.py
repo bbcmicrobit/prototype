@@ -11,8 +11,8 @@ import subprocess
 import signal
 import random
 
-editorLocation = (20,20,600,400)
-consoleLocation = (20, 440, 600, 200)
+editorLocation = (20,20,760,400)
+consoleLocation = (20, 440, 760, 200)
 
 class TextEdit(QMainWindow):
 
@@ -101,13 +101,30 @@ class TextEdit(QMainWindow):
 
         self.toolbar.addSeparator()
 
+        self.action_TetherOn = QtGui.QAction(self)
+        # self.actionHexfile.setIcon(QtGui.QIcon(":/icons/image1.xpm"))
+        self.action_TetherOn.setObjectName("Tether on")
+        # added this line:
+        self.action_TetherOn.setIconText("Tether on")
+        self.action_TetherOn.triggered.connect(self.program_tether)
+        self.toolbar.addAction(self.action_TetherOn)
+
+        self.action_TetherOff = QtGui.QAction(self)
+        # self.actionHexfile.setIcon(QtGui.QIcon(":/icons/image1.xpm"))
+        self.action_TetherOff.setObjectName("Tether off")
+        # added this line:
+        self.action_TetherOff.setIconText("Tether off")
+        self.action_TetherOff.triggered.connect(self.programHexfile)
+        self.toolbar.addAction(self.action_TetherOff)
+
+        self.toolbar.addSeparator()
+
         actions["quitApp"] = QAction(QtGui.QIcon('window-close.png'), 'Quit', self)
         actions["quitApp"].setShortcut('Ctrl+Q')
         actions["quitApp"].triggered.connect(self.close)
         self.toolbar.addAction(actions["quitApp"])
 
         menuFile.addAction(actions["quitApp"])
-
 
         self.text = QTextEdit(self)
         self.setCentralWidget(self.text)
@@ -132,6 +149,15 @@ class TextEdit(QMainWindow):
 
         console.runFile(filename)
         #self.text.undo()
+
+    def programHexfile(self):
+        # TBD
+        print "TBD: Restore the hexfile that was running on the bug"
+        print "TBD: or install a hexfile on the bug"
+
+    def program_tether(self):
+        # TBD
+        print "TBD: Load the tether hexfile program_tether"
 
     def redoFunc(self):
         self.text.redo()
