@@ -32,3 +32,4 @@ website/docs/stage
 **/.idea
 **/*.sqlite3
 **/.sass-cache
+loader/mac_os_x/npm-debug.log
