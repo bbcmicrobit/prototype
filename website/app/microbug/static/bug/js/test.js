@@ -730,22 +730,22 @@ function updateProgramStatus(program_id) {
     var callback = function() {
         updateProgramStatus(program_id)
     };
-// program_status_update_elem.html("<b>Saving and building</b>");
+    program_status_update_elem.html("<b>Saving and building</b>");
     $.ajax({
         type: 'GET',
         url: '/bug/queue_status/'+program_id,
-        timeout: 2000,
+        timeout: 5000,
         success: function(data) {
             data = JSON.parse(data);
             console.log("GOT DATA: ",data);
             program_status_update_elem.html(statusElementContent(data));
             if ( (data.status != 'compiled') && (data.status != 'failedcompile')) {
-                window.setTimeout(callback, 3000);
+                window.setTimeout(callback, 5000);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             console.log("Error fetching program status");
-            window.setTimeout(callback, 3000);
+            window.setTimeout(callback, 5000);
         }
     });
 }
