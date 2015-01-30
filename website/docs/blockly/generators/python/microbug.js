@@ -207,7 +207,7 @@ Blockly.Python['microbug_logic_onoff_states'] = function(block) {
 };
 
 Blockly.Python['microbug_logic_button_states'] = function(block) {
-    var code = (block.getFieldValue('STATE') == 'PRESSED') ? 'PRESSED' : 'NOT_PRESSED';
+    var code = (block.getFieldValue('STATE') == 'PRESSED') ? 'PRESSED' : 'UNPRESSED';
     return [code, Blockly.Python.ORDER_ATOMIC];
 };
 

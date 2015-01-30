@@ -457,7 +457,7 @@ Blockly.Blocks['microbug_logic_button_states'] = {
   init: function() {
     var BOOLEANS =
         [['pressed', 'PRESSED'],
-         ['not_pressed','NOT_PRESSED']];
+         ['not_pressed','UNPRESSED']];
     this.setColour(210);
     this.setOutput(true, 'ButtonState');
     this.appendDummyInput()
