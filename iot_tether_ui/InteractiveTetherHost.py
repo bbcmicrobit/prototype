@@ -11,14 +11,14 @@ import subprocess
 import signal
 import random
 
-editorLocation = (20,20,760,400)
-consoleLocation = (20, 440, 760, 200)
+editorLocation = (20,20,960,400)
+consoleLocation = (20, 440, 960, 300)
 
 class TextEdit(QMainWindow):
 
     def __init__(self):
         super(TextEdit, self).__init__()
-        font = QFont("Courier", 11)
+        font = QFont("monospace", 9)
         font.setFixedPitch(True)
         self.setFont(font)
         self.filename = False
@@ -132,7 +132,7 @@ class TextEdit(QMainWindow):
         self.setMenuBar(menubar)
 
         self.setGeometry(*editorLocation)
-        self.setWindowTitle('Python Program Editor')
+        self.setWindowTitle('Python Program Editor : [new]')
         self.show()
 
     def undoFunc(self):
@@ -202,11 +202,13 @@ class TextEdit(QMainWindow):
             filedata = self.text.toPlainText()
             f.write(filedata)
             f.close()
+            self.setWindowTitle('Python Program Editor : ' + self.filename)
 
     def newFile(self):
         if not self.unSaved():
             self.text.clear()
             self.filename = False
+            self.setWindowTitle('Python Program Editor : [new]')
 
     def openFile(self):
         filename_tuple = QFileDialog.getOpenFileName(self, 'Open File', os.path.expanduser("~"))
@@ -216,6 +218,7 @@ class TextEdit(QMainWindow):
             filedata = f.read()
             self.text.setText(filedata)
             f.close()
+            self.setWindowTitle('Python Program Editor : ' + self.filename)
 
     def closeEvent(self, event):
         if self.unSaved():
@@ -236,7 +239,7 @@ class Console(QtGui.QPlainTextEdit):
         self.setGeometry(*consoleLocation)
         self.setWordWrapMode(QtGui.QTextOption.WrapAnywhere)
         self.setUndoRedoEnabled(False)
-        self.document().setDefaultFont(QtGui.QFont("monospace", 10, QtGui.QFont.Normal))
+        self.document().setDefaultFont(QtGui.QFont("monospace", 9, QtGui.QFont.Normal))
         self.showMessage(startup_message)
 
         self.setWindowTitle('Python Interactive Console')
