@@ -1,5 +1,4 @@
 !Page:_tutorial_toolbox_1
-
 Normal content
 
 # Header 1
@@ -10,7 +9,7 @@ Normal content
 
 This is **content** for **page 1**.
 
-![Melon Cat](static/bug/tutorial_assets/melon-cat.jpg)
+![Melon Cat](static/microbug/tutorial_assets/melon-cat.jpg)
 
 * One
 * Two
