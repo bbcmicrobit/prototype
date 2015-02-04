@@ -19,7 +19,7 @@ public:
     return "";
   }
   const char * funcs() {
-    return "eyeon,eyeoff,scrollstring";
+    return "eyeon,eyeoff,scrollstring,getbutton,plot,unplot,cleardisplay";
   }
 
   bool has_help(char * name) {
@@ -27,6 +27,10 @@ public:
     if (strcmp(name,"eyeon")==0) return true;
     if (strcmp(name,"eyeoff")==0) return true;
     if (strcmp(name,"scrollstring")==0) return true;
+    if (strcmp(name,"getbutton")==0) return true;
+    if (strcmp(name,"plot")==0) return true;
+    if (strcmp(name,"unplot")==0) return true;
+    if (strcmp(name,"cleardisplay")==0) return true;
 
     return false;
   }
@@ -36,6 +40,10 @@ public:
     if (strcmp(name,"eyeon")==0) Serial.println(F("eyeon myarg:str -> - Switch eye on L or R"));
     else if (strcmp(name,"eyeoff")==0) Serial.println(F("eyeoff myarg:str -> - Switch eye off L or R"));
     else if (strcmp(name,"scrollstring")==0) Serial.println(F("scrollstring myarg:str -> - Scroll a message"));
+    else if (strcmp(name,"getbutton")==0) Serial.println(F("scrollstring myarg:str -> result:int - get button state - A or B"));
+    else if (strcmp(name,"plot")==0) Serial.println(F("plot intlist:str -> - Light up a pixel at x,y - x,y is treated as a string for the moment"));
+    else if (strcmp(name,"unplot")==0) Serial.println(F("unplot intlist:str -> - Light up a pixel at x,y - x,y is treated as a string for the moment"));
+    else if (strcmp(name,"cleardisplay")==0) Serial.println(F("cleardisplay -> - Clear the display"));
 
     else Serial.println(F("-"));
   }
@@ -64,7 +72,41 @@ public:
     eye_off(*raw_value);
   }
   void scrollstring(char *raw_value){
-    scroll_string(raw_value,100);
+    scroll_string(raw_value,50);
+  }
+  void getbutton(char *raw_value) {
+      int value = getButton(*raw_value);
+      itoa (value, result_string, 10);
+  }
+  void com_plot(char *raw_value) {
+      int x,y;
+      char *raw_y;
+      char *pos = strstr(raw_value, ",");
+      char *raw_x = raw_value; // Yes, we mean to point raw_x at the same thing as raw_value
+      raw_y = pos;
+      raw_y++;
+      *pos = 0;
+      x = atoi(raw_x);
+      y = atoi(raw_y);
+
+      plot(x,y);
+  }
+
+  void com_unplot(char *raw_value) {
+      int x,y;
+      char *raw_y;
+      char *pos = strstr(raw_value, ",");
+      char *raw_x = raw_value; // Yes, we mean to point raw_x at the same thing as raw_value
+      raw_y = pos;
+      raw_y++;
+      *pos = 0;
+      x = atoi(raw_x);
+      y = atoi(raw_y);
+
+      unplot(x,y);
+  }
+  void cleardisplay(char *raw_value) {
+      clear_display();
   }
 
   int callfunc(char* funcname, char* raw_args) { 
@@ -72,6 +114,10 @@ public:
     if (strcmp(funcname,"eyeon")==0) { eyeon(raw_args); return 200; }
     if (strcmp(funcname,"eyeoff")==0) { eyeoff(raw_args); return 200; }
     if (strcmp(funcname,"scrollstring")==0)  { scrollstring(raw_args); return 200; }
+    if (strcmp(funcname,"getbutton")==0)  { getbutton(raw_args); return 200; }
+    if (strcmp(funcname,"plot")==0)  { com_plot(raw_args); return 200; }
+    if (strcmp(funcname,"unplot")==0)  { com_unplot(raw_args); return 200; }
+    if (strcmp(funcname,"cleardisplay")==0)  { com_unplot(raw_args); return 200; }
 
     return 200;
   }
