@@ -7,19 +7,8 @@
 #include "spark_font.h"
 #include "atmel_bootloader.h"
 
-#define PRESSED HIGH
-#define UNPRESSED LOW
-#define ON HIGH
-#define OFF LOW
-
-const uint8_t TCCR3A_INIT = 0;
-const uint8_t TCCR3B_RUN_VALUE = 0<<CS32 | 1<<CS31 | 1<<CS30;		// prescaler div 64
-const uint8_t TCCR3B_STOP_VALUE = 0;
-const uint16_t TCNT3_PRELOAD_VALUE = 65523;     // 65536-(2MHz/64*420us)
-
-const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 0<<WDP1 | 0<<WDP0;		//	Interrupts only, 15ms
-//const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 1<<WDP1 | 0<<WDP0;		//	Interrupts only, 60ms
-
+// --------------------------------------------------------------------------------------
+// START Device level related defines
 
 //Port B
 #define LolRow4			7	//	0	o
@@ -144,10 +133,33 @@ const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 0<<WDP1 | 0<<WDP0;		//	Interrupt
 //#define LolDebug6H()	PORTF |= 1<<LolDebug6
 //#define LolDebug6L()	PORTF &= ~(1<<LolDebug6)
 
+#define Usb_detach() (UDCON   |=  (1<<DETACH))
+#define power_timer4_enable() (PRR1 &= (uint8_t)~(1 << 4))
+#define power_timer4_disable() (PRR1 |= (uint8_t)(1 << 4))
 
+// END - Device level related defines
+// --------------------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------------------
+// User level specific implementation defines
+//
 #define MICROKIT
+#define DELAY 5
+#define DISPLAY_WIDTH 5
+#define DISPLAY_HEIGHT 5
+#define ___ 0
+#define PRESSED HIGH
+#define UNPRESSED LOW
+#define ON HIGH
+#define OFF LOW
 
-#ifdef MICROKIT
+// Configure various aspects of hardware
+const uint8_t TCCR3A_INIT = 0;
+const uint8_t TCCR3B_RUN_VALUE = 0<<CS32 | 1<<CS31 | 1<<CS30;               // prescaler div 64
+const uint8_t TCCR3B_STOP_VALUE = 0;
+const uint16_t TCNT3_PRELOAD_VALUE = 65523;                                 // 65536-(2MHz/64*420us)
+const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 0<<WDP1 | 0<<WDP0;          //  Interrupts only, 15ms
+//const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 1<<WDP1 | 0<<WDP0;        //  Interrupts only, 60ms
 
 int row0 = 1; // Arduino Pin for row 4 // PIN 21 -- D1
 int row1 = 0; // Arduino Pin for row 3  // PIN 20 -- D0
@@ -192,10 +204,6 @@ int h14 = A2; // Header data pin 13// PIN 38 -- A2
 int ee19 = 16; // Emergency/Expert data pin lower// PIN 10 -- D16
 int ee20 = 14; // Emergency/Expert data pin top// PIN 11 -- D14
 
-#endif
-
-#define DELAY 5
-
 int left_eye_state = HIGH; // Initial state is set to high in setup
 int right_eye_state = HIGH; // Initial state is set to high in setup
 
@@ -213,29 +221,26 @@ int sleep_time = 3; // This is the time in minutes before the device switches of
                      // Having it as a variable allows the user to override this.
 long sleep_counter_t = 0;
 long sleep_counter_t2 = 0;
+volatile uint8_t UserTick = 0;
 
-#define DISPLAY_WIDTH 5
-#define DISPLAY_HEIGHT 5
+// Function prototypes
 
-#define ___ 0
-
-
-void set_eye(char id, int state);       // CORE
-int getButton(char id);                 // CORE
-void plot(uint8_t x, uint8_t y);        // CORE
-void unplot(uint8_t x, uint8_t y);      // CORE
-int point(int x, int y);                // CORE
-void set_point(uint8_t x, uint8_t y, uint8_t state); // CORE
-void set_display(uint8_t sprite[5][5]); // CORE
-void showLetter(char c);                // CORE -- useful for testing
-void clear_display();                   // CORE
+void set_eye(char id, int state);
+int getButton(char id);
+void plot(uint8_t x, uint8_t y);
+void unplot(uint8_t x, uint8_t y);
+int point(int x, int y);
+void set_point(uint8_t x, uint8_t y, uint8_t state);
+void set_display(uint8_t sprite[5][5]);
+void showLetter(char c); // Useful for testing
+void clear_display();
 
 // Functions internal to the API
-void microbug_setup();       // CORE
-void bootloader_start(void); // CORE
-void check_bootkey();        // CORE
+void microbug_setup();
+void bootloader_start(void);
+void check_bootkey();
 
-void pause(word millis) {   // CORE
+void pause(word millis) {
 #ifdef MICROKIT_DISABLE
     delay(millis);
 #else
@@ -249,9 +254,9 @@ void sleep(word millis) {
 }
 */
 
+// FIXME: Allow this to be granular
+
 void enable_power_optimisations(){
-#define power_timer4_enable() (PRR1 &= (uint8_t)~(1 << 4))
-#define power_timer4_disable() (PRR1 |= (uint8_t)(1 << 4))
 
 //  power_adc_disable();  // FIXME: This needs to be more granular - though we've been running like this for 44 hours now though
     power_usart0_disable();
@@ -285,7 +290,6 @@ void enable_power_optimisations(){
 
 
 // CODE TO SUPPORT SWITCH TO DFU BOOTLOADER -------------------------------------------------------
-#define Usb_detach()                              (UDCON   |=  (1<<DETACH))
 void bootloader_start(void) {
     /* This needs to reset the devive to a state the bootloader expects.
      * This means for example:
@@ -360,8 +364,6 @@ void display_led(uint8_t x, uint8_t y) {
 }
 
 
-volatile uint8_t UserTick = 0;
-
 ISR(WDT_vect)
 {
     TCCR3B = TCCR3B_RUN_VALUE;
@@ -411,7 +413,6 @@ ISR(TIMER3_OVF_vect)
     }
 //LolDebug6L();
 
-
     if (sleep_time > 0) {
         sleep_counter_t += 1;
         // One second == 1739?
@@ -444,9 +445,7 @@ ISR(TIMER3_OVF_vect)
     }
 }
 
-
-static void
-HW_Init(void)
+static void HW_Init(void)
 {
     //ports:	direction and level (inc pullups)
     PORTB	= PORTB_INIT;	DDRB	= DDRB_INIT;
@@ -491,6 +490,11 @@ void microbug_setup() { // This is a really MicroBug setup
 
 }
 
+// ---------------------------------------------------------------
+//
+// Functions for reading and updating device internal state
+//
+
 void set_display(uint8_t sprite[5][5]) {
     for(uint8_t i=0; i<5; i++) {
         for(uint8_t j=0; j<5; j++) {
@@ -498,11 +502,6 @@ void set_display(uint8_t sprite[5][5]) {
         }
     }
 }
-
-// ---------------------------------------------------------------
-//
-// Functions for reading and updating device internal state
-//
 
 void set_point(uint8_t x, uint8_t y, uint8_t state) {
     if (x <0) return;
