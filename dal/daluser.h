@@ -170,7 +170,7 @@ void showViewport(Image& someImage, int x, int y) {
     for(int i=0; (i+x<someImage.width) && (i<5); i++) {
         for(int j=y; (j+y<someImage.height) && (j<5); j++) {
             int value = someImage.data[(j+y)*someImage.width+ x+i ];
-            display[i][j]=(uint8_t)value;
+            set_point(i, j, (uint8_t)value);
         }
     }
 }
@@ -367,11 +367,12 @@ void show_image_offset(Image& someImage, int x, int y)
                     int dx = i + x;
                     int  dy = j + y;
                     if ( 0<=dx && dx <= 4 && 0<=dy && dy <= 4 ) {
-                        display[dx][dy] = someImage.data[j*w + i ];
+                        set_point(dx, dy, someImage.data[j*w + i ]);
                     }
             }
     }
 }
+
 
 
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
