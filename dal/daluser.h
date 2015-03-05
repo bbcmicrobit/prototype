@@ -33,6 +33,13 @@ inline int image_point_index(Image& someImage, int x, int y);// DONE
 
 
 
+void set_display(uint8_t sprite[5][5]) {
+    for(uint8_t i=0; i<5; i++) {
+        for(uint8_t j=0; j<5; j++) {
+            set_point(i,j,sprite[i][j]);
+        }
+    }
+}
 
 
 
