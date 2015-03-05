@@ -129,14 +129,11 @@ void print_message(long number, int pausetime=100) {
     print_message(num_buf, 10);
 }
 
-void toggle_eye(char id) {  //FIXME: use get_eye() and 
-    if ((id == 'A') || (id == 'L') || (id == 'a') || (id == 'l')) {
-        if (left_eye_state == HIGH) {	set_eye(id, LOW);	}
-		else 						{	set_eye(id, HIGH);	}
-    }
-    if ((id == 'B') || (id == 'R') || (id == 'b') || (id == 'r')) {
-        if (right_eye_state == HIGH) {	set_eye(id, LOW);	}
-		else 						{	set_eye(id, HIGH);	}
+void toggle_eye(char id) {
+    if (get_eye(id) == HIGH) {
+        set_eye(id, LOW);
+    } else {
+        set_eye(id, HIGH);
     }
 }
 
