@@ -749,14 +749,15 @@ int get_eye(const char *id) {
 }
 
 
+
 void showLetter(char c) {
-    int letter_index = c-32;
+    int letter_index = c;
     if (c>126) return;
     if (c<32) return;
-    if (pgm_read_byte(&(font[letter_index][0])) != c) return;
+    if (get_font_data(letter_index,0) != c) return;
     clear_display();
     for(int row=0; row<5; row++) {
-        unsigned char this_row = pgm_read_byte(&(font[letter_index][row+1]));
+        unsigned char this_row = get_font_data(letter_index,row+1);
         unsigned char L0 = 0b1000 & this_row ? HIGH : LOW;
         unsigned char L1 = 0b0100 & this_row ? HIGH : LOW;
         unsigned char L2 = 0b0010 & this_row ? HIGH : LOW;
@@ -927,24 +928,24 @@ typedef struct StringImage {
         int vPixelPos = mPixelPos -5;
 
         if (vPixelPos <0) {
-            first_char = 0;
-            second_char = mString[0]-32;
+            first_char = 32;
+            second_char = mString[0];
         } else {
             char_index0 = (vPixelPos / 5);
             char_index0 = char_index0 % mStrlen;
             char_index1 = (char_index0 +1) ;
-            first_char = mString[char_index0] -32;
+            first_char = mString[char_index0];
             if (char_index1 < mStrlen) {
                 char_index1 = char_index1 % mStrlen;
-                second_char = mString[char_index1]-32;
+                second_char = mString[char_index1];
             }
         }
 
         for(int i=0; i<6; i++){
-            first_char_data1[i] = pgm_read_byte(&(font[first_char][i]));
+            first_char_data1[i] = get_font_data(first_char,i);
         }
         for(int i=0; i<6; i++){
-            second_char_data1[i] = pgm_read_byte(&(font[second_char][i]));
+            second_char_data1[i] = get_font_data(second_char,i);
         }
 
         for(int row=0; row<5; row++) {
