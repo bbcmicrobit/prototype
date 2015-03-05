@@ -1,4 +1,3 @@
-
 #include <avr/pgmspace.h>
 #include <avr/sleep.h>
 #include "avr/wdt.h"
@@ -195,19 +194,18 @@ int ee20 = 14; // Emergency/Expert data pin top// PIN 11 -- D14
 
 #endif
 
-
 #define DELAY 5
 
 int left_eye_state = HIGH; // Initial state is set to high in setup
 int right_eye_state = HIGH; // Initial state is set to high in setup
 
 uint8_t display[5][5] = {
-	{ 0, 0, 0, 0, 0},
-	{ 0, 0, 0, 0, 0},
-	{ 0, 0, 0, 0, 0},
-	{ 0, 0, 0, 0, 0},
-	{ 0, 0, 0, 0, 0}
-};
+                            { 0, 0, 0, 0, 0},
+                            { 0, 0, 0, 0, 0},
+                            { 0, 0, 0, 0, 0},
+                            { 0, 0, 0, 0, 0},
+                            { 0, 0, 0, 0, 0}
+                        };
 
 int dal_pre_pause_time = 1000; // Time to wait before starting the user program - allow the screen to settle
 int dal_screen_hold_time = 500; // This is how long the display will hold for before going blank & sleeping after running
@@ -251,40 +249,38 @@ void sleep(word millis) {
 }
 */
 
-void
-enable_power_optimisations()
-{
+void enable_power_optimisations(){
 #define power_timer4_enable() (PRR1 &= (uint8_t)~(1 << 4))
 #define power_timer4_disable() (PRR1 |= (uint8_t)(1 << 4))
 
-//	power_adc_disable();  // FIXME: This needs to be more granular - though we've been running like this for 44 hours now though
-	power_usart0_disable();
-	power_spi_disable();
-	power_twi_disable();
-	power_timer1_disable();
-	power_timer2_disable();
-//	power_timer3_disable();
-	power_timer4_disable();
-	power_usart1_disable();
+//  power_adc_disable();  // FIXME: This needs to be more granular - though we've been running like this for 44 hours now though
+    power_usart0_disable();
+    power_spi_disable();
+    power_twi_disable();
+    power_timer1_disable();
+    power_timer2_disable();
+//  power_timer3_disable();
+    power_timer4_disable();
+    power_usart1_disable();
 
-	// Some registers need to be written to twice to cause them to be acted upon.
-	(UDCON   |=  (1<<DETACH));           // Detach USB
-	power_usb_disable();                 // Disable USB power
-	USBCON |= (1 << FRZCLK);             // Stop USB Clock
-	PLLCSR &= ~(1 << PLLE);              // Disable USB Clock
-	USBCON &=  ~(1 << USBE  );           // Disable USB
-	UDINT  &= ~(1 << SUSPI);             // Really suspend USB
-	USBCON |= ( 1 <<FRZCLK);             // Really freeze the USB clock
-	PLLCSR &= ~(1 << PLLE);              // Really disable USB
+    // Some registers need to be written to twice to cause them to be acted upon.
+    (UDCON   |=  (1<<DETACH));           // Detach USB
+    power_usb_disable();                 // Disable USB power
+    USBCON |= (1 << FRZCLK);             // Stop USB Clock
+    PLLCSR &= ~(1 << PLLE);              // Disable USB Clock
+    USBCON &=  ~(1 << USBE  );           // Disable USB
+    UDINT  &= ~(1 << SUSPI);             // Really suspend USB
+    USBCON |= ( 1 <<FRZCLK);             // Really freeze the USB clock
+    PLLCSR &= ~(1 << PLLE);              // Really disable USB
 
-	CLKSEL0 |= (1 << RCE);                  // Enable internal RC clock
-	while ( (CLKSTA & (1 << RCON)) == 0){}  // Wait for the internal RC clock to be ready
-	CLKSEL0 &= ~(1 << CLKS);                // Select the internal RC clock
-	CLKSEL0 &= ~(1 << EXTE);                // Disable external clock
-	
-	PLLFRQ |= 1<<PINMUX;
+    CLKSEL0 |= (1 << RCE);                  // Enable internal RC clock
+    while ( (CLKSTA & (1 << RCON)) == 0){}  // Wait for the internal RC clock to be ready
+    CLKSEL0 &= ~(1 << CLKS);                // Select the internal RC clock
+    CLKSEL0 &= ~(1 << EXTE);                // Disable external clock
+    
+    PLLFRQ |= 1<<PINMUX;
 
-//	clock_prescale_set(clock_div_4);        // Switch the CPU speed right down.
+//  clock_prescale_set(clock_div_4);        // Switch the CPU speed right down.
 }
 
 
@@ -320,49 +316,47 @@ void check_bootkey() {
 }
 // END CODE TO SUPPORT SWITCH TO DFU BOOTLOADER -------------------------------------------------------
 
-void
-display_led(uint8_t x, uint8_t y)
-{
+void display_led(uint8_t x, uint8_t y) {
 
-	LolCol0H();
-	LolCol1H();
-	LolCol2H();
-	LolCol3H();
-	LolCol4H();
+    LolCol0H();
+    LolCol1H();
+    LolCol2H();
+    LolCol3H();
+    LolCol4H();
 
-	switch(y)
-	{
-	case 0:
-		LolRow4L();
-		if(display[x][0])	{	LolRow0H();	}
-		break;
-	case 1:
-		LolRow0L();
-		if(display[x][1])	{	LolRow1H();	}
-		break;
-	case 2:
-		LolRow1L();
-		if(display[x][2])	{	LolRow2H();	}
-		break;
-	case 3:
-		LolRow2L();
-		if(display[x][3])	{	LolRow3H();	}
-		break;
-	case 4:
-		LolRow3L();
-		if(display[x][4])	{	LolRow4H();	}
-		break;
-	default:
-		break;
-	}
-		
-	switch(x)	{
-		case 0:		LolCol0L();		break;
-		case 1:		LolCol1L();		break;
-		case 2:		LolCol2L();		break;
-		case 3:		LolCol3L();		break;
-		case 4:		LolCol4L();		break;
-		default:					break;	}
+    switch(y)
+    {
+    case 0:
+        LolRow4L();
+        if(display[x][0])   {   LolRow0H(); }
+        break;
+    case 1:
+        LolRow0L();
+        if(display[x][1])   {   LolRow1H(); }
+        break;
+    case 2:
+        LolRow1L();
+        if(display[x][2])   {   LolRow2H(); }
+        break;
+    case 3:
+        LolRow2L();
+        if(display[x][3])   {   LolRow3H(); }
+        break;
+    case 4:
+        LolRow3L();
+        if(display[x][4])   {   LolRow4H(); }
+        break;
+    default:
+        break;
+    }
+        
+    switch(x)   {
+        case 0:     LolCol0L();     break;
+        case 1:     LolCol1L();     break;
+        case 2:     LolCol2L();     break;
+        case 3:     LolCol3L();     break;
+        case 4:     LolCol4L();     break;
+        default:                    break;  }
 }
 
 
@@ -370,51 +364,51 @@ volatile uint8_t UserTick = 0;
 
 ISR(WDT_vect)
 {
-	TCCR3B = TCCR3B_RUN_VALUE;
-	set_sleep_mode(SLEEP_MODE_IDLE);
-	UserTick++;
+    TCCR3B = TCCR3B_RUN_VALUE;
+    set_sleep_mode(SLEEP_MODE_IDLE);
+    UserTick++;
 }
 
 
 ISR(TIMER3_OVF_vect)
 {
-	static uint8_t display_led_x = 0;
-	static uint8_t display_led_y = 0;
+    static uint8_t display_led_x = 0;
+    static uint8_t display_led_y = 0;
 
 //LolDebug6H();
     TCNT3 = TCNT3_PRELOAD_VALUE;   // preload timer
-	if(display_led_x < 5)
-	{
-		display_led(display_led_x,display_led_y);
-		if(++display_led_y == 5)
-		{
-			display_led_y = 0;
-			display_led_x++;
-		}
-	}
-	else
-	{
-		switch(display_led_y++)
-		{
-		case 0:
-			LolRow4L();
-			LolCol4H();
-			if(left_eye_state)		{			LolLeftEyeH();		}
-			break;
-		case 1:
-			LolLeftEyeL();
-			if(right_eye_state)		{			LolRightEyeH();		}
-			break;
-		default:
-			LolRightEyeL();
-			display_led_y = 0;
-			display_led_x = 0;
-			TCCR3B = TCCR3B_STOP_VALUE;
-			set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+    if(display_led_x < 5)
+    {
+        display_led(display_led_x,display_led_y);
+        if(++display_led_y == 5)
+        {
+            display_led_y = 0;
+            display_led_x++;
+        }
+    }
+    else
+    {
+        switch(display_led_y++)
+        {
+        case 0:
+            LolRow4L();
+            LolCol4H();
+            if(left_eye_state)      {           LolLeftEyeH();      }
+            break;
+        case 1:
+            LolLeftEyeL();
+            if(right_eye_state)     {           LolRightEyeH();     }
+            break;
+        default:
+            LolRightEyeL();
+            display_led_y = 0;
+            display_led_x = 0;
+            TCCR3B = TCCR3B_STOP_VALUE;
+            set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 //DEBUGSTATE(0xE);
-			break;	
-		}
-	}
+            break;  
+        }
+    }
 //LolDebug6L();
 
 
@@ -454,46 +448,43 @@ ISR(TIMER3_OVF_vect)
 static void
 HW_Init(void)
 {
-	//ports:	direction and level (inc pullups)
-	PORTB	= PORTB_INIT;	DDRB	= DDRB_INIT;
-	PORTC	= PORTC_INIT;	DDRC	= DDRC_INIT;
-	PORTD	= PORTD_INIT;	DDRD	= DDRD_INIT;
-	PORTE	= PORTE_INIT;	DDRE	= DDRE_INIT;
-	PORTF	= PORTF_INIT;	DDRF	= DDRF_INIT;
-//	DIDR0 = DIDR0_INIT;
-//	DIDR1 = DIDR1_INIT;
-//	DIDR2 = DIDR2_INIT;
+    //ports:	direction and level (inc pullups)
+    PORTB	= PORTB_INIT;	DDRB	= DDRB_INIT;
+    PORTC	= PORTC_INIT;	DDRC	= DDRC_INIT;
+    PORTD	= PORTD_INIT;	DDRD	= DDRD_INIT;
+    PORTE	= PORTE_INIT;	DDRE	= DDRE_INIT;
+    PORTF	= PORTF_INIT;	DDRF	= DDRF_INIT;
+    //DIDR0 = DIDR0_INIT;
+    //DIDR1 = DIDR1_INIT;
+    //DIDR2 = DIDR2_INIT;
 
-	//clock:
-	CLKPR = 1<<CLKPCE;	CLKPR = 0b0010<<CLKPS0;	//	8MHz / 4 = 2MHz
+    //clock:
+    CLKPR = 1<<CLKPCE;	CLKPR = 0b0010<<CLKPS0;     // 8MHz / 4 = 2MHz
 
-	//timers:
-	TCCR3B = TCCR3B_STOP_VALUE;
-    TCNT3 = TCNT3_PRELOAD_VALUE;   // preload timer
-	TCCR3A = TCCR3A_INIT;
-	TCCR3B = TCCR3B_RUN_VALUE;
-	TIMSK3 |= (1 << TOIE3);			// enable timer overflow interrupt
+    //timers:
+    TCCR3B = TCCR3B_STOP_VALUE;
+    TCNT3 = TCNT3_PRELOAD_VALUE;    // preload timer
+    TCCR3A = TCCR3A_INIT;
+    TCCR3B = TCCR3B_RUN_VALUE;
+    TIMSK3 |= (1 << TOIE3);         // enable timer overflow interrupt
 
-	MCUSR &= ~(1<<WDRF);			//	Clear watchdog system reset flag
-	//    ATOMIC_BLOCK(ATOMIC_FORCEON) {
-	WDTCSR |= (1<<WDCE) | (1<<WDE); // timed sequence
-	WDTCSR = WDTCSR_INIT;
-	//	}
+    MCUSR &= ~(1<<WDRF);            // Clear watchdog system reset flag
+    WDTCSR |= (1<<WDCE) | (1<<WDE); // timed sequence
+    WDTCSR = WDTCSR_INIT;
 
-        // Disable JTAG - enable analogue input pins
-        MCUCR |= (1 << JTD);    MCUCR |= (1 << JTD);    //    Must be set twice in four cycles
+    // Disable JTAG - enable analogue input pins
+    MCUCR |= (1 << JTD); MCUCR |= (1 << JTD);    //    Must be set twice in four cycles
 
 }
 
-
 void microbug_setup() { // This is a really MicroBug setup
 
-	HW_Init();
+    HW_Init();
 
     digitalWrite(lefteye, HIGH);  // Turn status LEDs on prior to checking bootkey
     digitalWrite(righteye, HIGH); // If we reboot they will stay on.
 
-check_bootkey();  //. This will never return if we reboot device.
+    check_bootkey();              // This will never return if we reboot device.
 
     digitalWrite(lefteye, LOW);
     digitalWrite(righteye, LOW);
