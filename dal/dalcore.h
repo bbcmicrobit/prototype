@@ -46,10 +46,6 @@ const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 0<<WDP1 | 0<<WDP0;		//	Interrupt
 // #define LolRightEyeH()  PORTB |= 1<<LolRightEye
 // #define LolRightEyeL()  PORTB &= ~(1<<LolRightEye)
 
-
-
-
-
 //Port C
 #define LolCol4			7	//	0	o
 #define	LolDebug3		6	//	0	o
@@ -124,9 +120,6 @@ const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 0<<WDP1 | 0<<WDP0;		//	Interrupt
 #define LolRightEyeH()   PORTE |= 1<<LolRightEye
 #define LolRightEyeL()   PORTE &= ~(1<<LolRightEye)
 
-
-
-
 //Port F
 #define LolCroc0		7	//	0	i
 #define LolCroc1		6	//	0	i
@@ -154,52 +147,6 @@ const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 0<<WDP1 | 0<<WDP0;		//	Interrupt
 
 
 #define MICROKIT
-// #define MICROBUG
-// #define Megabug
-
-#ifdef MEGABUG
-
-int row0 = 11; // Arduino Pin for row 0
-int row1 = 3; // Arduino Pin for row 1
-int row2 = 2; // Arduino Pin for row 2
-int row3 = 4; // Arduino Pin for row 3
-int row4 = 12; // Arduino Pin for row 4
-
-int col0 = 6; // Arduino Pin for row 0
-int col1 = 8; // Arduino Pin for row 1
-int col2 = 9; // Arduino Pin for row 2
-int col3 = 10; // Arduino Pin for row 3
-int col4 = 5; // Arduino Pin for row 4
-
-int lefteye = 7; // Arduino Pin for left eye
-int righteye = 17; // Arduino Pin for left eye
-
-int ButtonA = 15; // Arduino Pin for left button
-int ButtonB = 16; // Arduino Pin for right button
-
-#endif
-
-#ifdef MICROBUG
-
-int row0 = 12; // Arduino Pin for row 0
-int row1 = 4; // Arduino Pin for row 1
-int row2 = 2; // Arduino Pin for row 2
-int row3 = 3; // Arduino Pin for row 3
-int row4 = 11; // Arduino Pin for row 4
-
-int col0 = 6; // Arduino Pin for row 0
-int col1 = 8; // Arduino Pin for row 1
-int col2 = 9; // Arduino Pin for row 2
-int col3 = 10; // Arduino Pin for row 3
-int col4 = 5; // Arduino Pin for row 4
-
-int lefteye = 7; // Arduino Pin for left eye
-int righteye = 17; // Arduino Pin for left eye
-
-int ButtonA = 16; // Arduino Pin for left button
-int ButtonB = 15; // Arduino Pin for right button
-
-#endif
 
 #ifdef MICROKIT
 
@@ -269,8 +216,6 @@ int sleep_time = 3; // This is the time in minutes before the device switches of
 long sleep_counter_t = 0;
 long sleep_counter_t2 = 0;
 
-
-
 #define DISPLAY_WIDTH 5
 #define DISPLAY_HEIGHT 5
 
@@ -317,7 +262,6 @@ void display_column(uint8_t i);// DONE
 void microbug_setup();// DONE
 void bootloader_start(void);
 void check_bootkey();// DONE
-
 
 void pause(word millis) {
 #ifdef MICROKIT_DISABLE
@@ -569,40 +513,8 @@ HW_Init(void)
 
 
 void microbug_setup() { // This is a really MicroBug setup
-//    setup_display();
+
 	HW_Init();
-
-/*
-    pinMode(row0, OUTPUT);
-    pinMode(row1, OUTPUT);
-    pinMode(row2, OUTPUT);
-    pinMode(row3, OUTPUT);
-    pinMode(row4, OUTPUT);
-
-    pinMode(col0, OUTPUT);
-    pinMode(col1, OUTPUT);
-    pinMode(col2, OUTPUT);
-    pinMode(col3, OUTPUT);
-    pinMode(col4, OUTPUT);
-
-    pinMode(lefteye, OUTPUT);
-    pinMode(righteye, OUTPUT);
-
-    pinMode(ButtonA, INPUT);
-    pinMode(ButtonB, INPUT);
-
-    digitalWrite(row0, LOW);
-    digitalWrite(row1, LOW);
-    digitalWrite(row2, LOW);
-    digitalWrite(row3, LOW);
-    digitalWrite(row4, LOW);
-
-    digitalWrite(col0, HIGH);
-    digitalWrite(col1, HIGH);
-    digitalWrite(col2, HIGH);
-    digitalWrite(col3, HIGH);
-    digitalWrite(col4, HIGH);
-*/
 
     digitalWrite(lefteye, HIGH);  // Turn status LEDs on prior to checking bootkey
     digitalWrite(righteye, HIGH); // If we reboot they will stay on.
@@ -613,25 +525,6 @@ check_bootkey();  //. This will never return if we reboot device.
     digitalWrite(righteye, LOW);
 
 }
-
-/*
-void display_column(uint8_t i)	{
-	PORTD |= (1<<4) | (1<<6) | (1<<7);
-	PORTB |= (1<<5);
-	PORTC |= (1<<7);
-	if(display[i][0])	{		PORTD |= (1<<3);	}
-	if(display[i][1])	{		PORTD |= (1<<2);	}
-	if(display[i][2])	{		PORTD |= (1<<1);	}
-	if(display[i][3])	{		PORTD |= (1<<0);	}
-	if(display[i][4])	{		PORTB |= (1<<7);	}
-	switch(i)	{
-		case 0:		PORTD &= ~(1<<4);		break;
-		case 1:		PORTD &= ~(1<<6);		break;
-		case 2:		PORTD &= ~(1<<7);		break;
-		case 3:		PORTB &= ~(1<<5);		break;
-		case 4:		PORTC &= ~(1<<7);		break;	}
-}
-*/
 
 void set_display(uint8_t sprite[5][5]) {
     for(uint8_t i=0; i<5; i++) {
@@ -651,7 +544,6 @@ plot(uint8_t x, uint8_t y)
 	display[x][y] = 1;
 }
 
-
 void
 unplot(uint8_t x, uint8_t y)
 {
@@ -670,34 +562,6 @@ int point(int x, int y) {
      return display[x][y];
 }
 
-inline int image_point_index(Image& someImage, int x, int y) {
-   return x*someImage.width +y;
-}
-
-int image_point(Image& someImage, int x, int y) {
-    if (x<0) return -1;
-    if (y<0) return -2;
-    if (x>someImage.width-1) return -1;
-    if (x>someImage.height-1) return -2;
-    return someImage.data[image_point_index(someImage, x, y)];
-}
-
-void set_image_point(Image& someImage, int x, int y, int value) {
-    if (x<0);
-    if (y<0);
-    if (x>someImage.width-1);
-    if (x>someImage.height-1);
-    someImage.data[image_point_index(someImage, x, y)] = value;
-}
-
-void clear_display() {
-    for(uint8_t i=0; i< DISPLAY_WIDTH; i++) {
-        for(uint8_t j=0; j< DISPLAY_HEIGHT; j++) {
-            unplot(i,j);
-        }
-    }
-}
-
 int getButton(char id) {
     if ((id == 'A') || (id == 'a') || (id == 'L') || (id == 'l')) {
         return digitalRead(ButtonA);
@@ -707,28 +571,6 @@ int getButton(char id) {
     }
     return -1; // Signify error
 }
-
-int getButton(const char *id){
-    return getButton(*id);
-}
-int getButton(char *id){
-    return getButton(*id);
-}
-
-// These next two functions should be deleted - they're there as crutches for the blockly front end.
-// However, they need to be there for the moment (2015/01/05)
-int get_button(char *id){
-    return getButton(*id);
-}
-
-int get_button(const char *id){
-    return getButton(*id);
-}
-
-int get_button(char id){
-    return getButton(id);
-}
-
 
 int get_eye(char id) {
     if ((id == 'A') || (id == 'a') || (id == 'L') || (id == 'l')) {
@@ -740,75 +582,6 @@ int get_eye(char id) {
     return -1; // Signify error
 }
 
-int get_eye(char *id) {
-    return get_eye(*id);
-}
-
-int get_eye(const char *id) {
-    return get_eye(*id);
-}
-
-
-void showLetter(char c) {
-    int letter_index = c-32;
-    if (c>126) return;
-    if (c<32) return;
-    if (pgm_read_byte(&(font[letter_index][0])) != c) return;
-    clear_display();
-    for(int row=0; row<5; row++) {
-        unsigned char this_row = pgm_read_byte(&(font[letter_index][row+1]));
-        unsigned char L0 = 0b1000 & this_row ? HIGH : LOW;
-        unsigned char L1 = 0b0100 & this_row ? HIGH : LOW;
-        unsigned char L2 = 0b0010 & this_row ? HIGH : LOW;
-        unsigned char L3 = 0b0001 & this_row ? HIGH : LOW;
-        display[0][row] = L0;
-        display[1][row] = L1;
-        display[2][row] = L2;
-        display[3][row] = L3;
-        display[4][row] = LOW;
-    }
-}
-void showLetter(char * c) {
-    showLetter(*c);
-}
-void show_letter(char * c) {
-    showLetter(*c);
-}
-void show_letter(const char * c) {
-    showLetter(*c);
-}
-
-void show_letter(char c) {
-    showLetter(c);
-}
-
-
-void print_message(const char * message, int pausetime=100) {
-    while(*message) {
-        showLetter(*message);
-        message++;
-        pause(pausetime);
-    }
-}
-void print_message(char * message, int pausetime=100) {
-    while(*message) {
-        showLetter(*message);
-        message++;
-        pause(pausetime);
-    }
-}
-void print_message(int number, int pausetime=100) {
-    char num_buf[14];
-    itoa(number, num_buf, 10);
-    print_message(num_buf, 10);
-}
-
-void print_message(long number, int pausetime=100) {
-    char num_buf[14];
-    itoa(number, num_buf, 10);
-    print_message(num_buf, 10);
-}
-
 void set_eye(char id, int state) {
     if ((id == 'A') || (id == 'L') || (id == 'a') || (id == 'l')) {
         left_eye_state = state;
@@ -818,249 +591,7 @@ void set_eye(char id, int state) {
     }
 }
 
-void toggle_eye(char id) {
-    if ((id == 'A') || (id == 'L') || (id == 'a') || (id == 'l')) {
-        if (left_eye_state == HIGH) {	set_eye(id, LOW);	}
-		else 						{	set_eye(id, HIGH);	}
-    }
-    if ((id == 'B') || (id == 'R') || (id == 'b') || (id == 'r')) {
-        if (right_eye_state == HIGH) {	set_eye(id, LOW);	}
-		else 						{	set_eye(id, HIGH);	}
-    }
-}
-
-void toggle_eye(const char *id){
-    toggle_eye(*id);
-}
-
-void eye_on(char id) {
-    set_eye(id, HIGH);
-}
-
-void eye_on(const char *id) {
-    set_eye(*id, HIGH);
-}
-
-void eye_off(char id) {
-    set_eye(id, LOW);
-}
-
-void eye_off(const char *id) {
-    set_eye(*id, LOW);
-}
-
-void set_eye(const char * id, int state) {
-    set_eye(*id, state);
-}
-
-void showViewport(Image& someImage, int x, int y) {
-    if (someImage.width<4) return; // Not implemented yet
-    if (someImage.height<4) return; // Not implemented yet
-    for(int i=0; (i+x<someImage.width) && (i<5); i++) {
-        for(int j=y; (j+y<someImage.height) && (j<5); j++) {
-            int value = someImage.data[(j+y)*someImage.width+ x+i ];
-            display[i][j]=(uint8_t)value;
-        }
-    }
-}
-
-void ScrollImage(Image someImage, boolean loop=false, int trailing_spaces=false) {
-    // Example, width is 16
-    // Display width is 5
-    // This counts from 0 <= i < 12 -- ie from 0 to 11
-    // The last viewport therefore tries to display indices 11, 12, 13, 14, 15
-    for(int i=0; i<someImage.width-DISPLAY_WIDTH+1; i++) {
-        clear_display();
-        showViewport(someImage, i,0);
-        pause(80);
-    }
-}
-
-typedef struct StringImage {
-    int mPixelPos;
-    int mPixelData[50]; // Sufficient to hold two characters.
-    char *mString;
-    int mStrlen;
-    char num_buf[12] ;
-
-    StringImage() {}
-    StringImage(const char * str) {
-        setString(str);
-    }
-    StringImage(int number) {
-        itoa(number, num_buf, 10);
-        setString(num_buf);
-    }
-    StringImage(long number) {
-        itoa(number, num_buf, 10);
-        setString(num_buf);
-    }
-    ~StringImage() {}
-
-    void setString(const char * str) {
-        mString = (char *) str;
-        mPixelPos = 0;
-        for(int i=0; i<50; i++) {
-            mPixelData[i] = 0;
-        }
-        mStrlen = strlen(mString);
-    }
-
-    void update_display() {
-        Image myImage;
-        int mPP = mPixelPos%5;
-        myImage.width=10;
-        myImage.height=5;
-        myImage.data = mPixelData;
-        showViewport(myImage, mPP,0);
-
-    }
-    void render_string(){
-        // Renders into the pixel data buffer
-        int first_char =0;
-        int second_char =0;
-        unsigned char first_char_data1[6];
-        unsigned char second_char_data1[16];
-        int char_index1;
-        int char_index0;
-
-        int vPixelPos = mPixelPos -5;
-
-        if (vPixelPos <0) {
-            first_char = 0;
-            second_char = mString[0]-32;
-        } else {
-            char_index0 = (vPixelPos / 5);
-            char_index0 = char_index0 % mStrlen;
-            char_index1 = (char_index0 +1) ;
-            first_char = mString[char_index0] -32;
-            if (char_index1 < mStrlen) {
-                char_index1 = char_index1 % mStrlen;
-                second_char = mString[char_index1]-32;
-            }
-        }
-
-        for(int i=0; i<6; i++){
-            first_char_data1[i] = pgm_read_byte(&(font[first_char][i]));
-        }
-        for(int i=0; i<6; i++){
-            second_char_data1[i] = pgm_read_byte(&(font[second_char][i]));
-        }
-
-        for(int row=0; row<5; row++) {
-            int row_first = first_char_data1[row + 1];
-            int row_second = second_char_data1[row + 1];
-
-            int F0 = 0b1000 & row_first ? HIGH : LOW;
-            int F1 = 0b0100 & row_first ? HIGH : LOW;
-            int F2 = 0b0010 & row_first ? HIGH : LOW;
-            int F3 = 0b0001 & row_first ? HIGH : LOW;
-
-            int S0 = 0b1000 & row_second ? HIGH : LOW;
-            int S1 = 0b0100 & row_second ? HIGH : LOW;
-            int S2 = 0b0010 & row_second ? HIGH : LOW;
-            int S3 = 0b0001 & row_second ? HIGH : LOW;
-
-            mPixelData[0+row*10] = F0;
-            mPixelData[1+row*10] = F1;
-            mPixelData[2+row*10] = F2;
-            mPixelData[3+row*10] = F3;
-            mPixelData[4+row*10] = 0;
-
-            mPixelData[5+row*10] = S0;
-            mPixelData[6+row*10] = S1;
-            mPixelData[7+row*10] = S2;
-            mPixelData[8+row*10] = S3;
-            mPixelData[9+row*10] = 0;
-        }
-        update_display();
-    }
-    void pan_right() {
-        // Move the viewport 1 pixel to the right. (Looks like scrolling left)
-        mPixelPos += 1;
-        if (mPixelPos>=pixel_width()) {
-            mPixelPos =0;
-        }
-    }
-    int pixel_width() {
-        return mStrlen * 5;
-    }
-} StringImage;
-
-void scroll_string_image(StringImage theSprite, int pausetime=100) {
-    for(int i=0; i<theSprite.pixel_width(); i++) {
-        theSprite.render_string();
-        theSprite.pan_right();
-        pause(pausetime);
-    }
-}
-
-void scroll_string(const char * str) {
-    scroll_string_image(StringImage(str), 50);
-}
-
-void scroll_string(const char * str, int delay=100) {
-    scroll_string_image(StringImage(str), delay);
-}
-
-
 typedef int pxl;
-
-Image& _make_image(unsigned short int row1, unsigned short int row2, unsigned short int row3, unsigned short int row4, unsigned short int row5, int width) 
-{
-    unsigned short int rows[5];
-    rows[0] = row5;
-    rows[1] = row4;
-    rows[2] = row3;
-    rows[3] = row2;
-    rows[4] = row1;
-
-    Image* img = (Image*) malloc(sizeof(Image));
-    img->width = width;
-    img->height = 5;
-    img->data = (pxl *) malloc(img->width * img->height * sizeof(pxl));
-
-    pxl *pData = img->data;
-
-    for(int y=0; y < img->height; y++)
-        for(int x=0; x < img->width; x++)
-            *pData++ = (rows[y] & (1<<x)) ? HIGH : LOW;
-    Image& retVal = *img;
-    return retVal;
-}
-
-Image& make_image(unsigned short int row1, unsigned short int row2, unsigned short int row3, unsigned short int row4, unsigned short int row5)
-{
-    return _make_image(row1, row2, row3, row4, row5, 5);
-}
-
-Image& make_big_image(unsigned short int row1, unsigned short int row2, unsigned short int row3, unsigned short int row4, unsigned short int row5)
-{
-    return _make_image(row1, row2, row3, row4, row5, 10);
-}
-
-void OLD_show_image_offset(Image& someImage, int x, int y)
-{
-    //passthrough to avoid renaming
-    showViewport(someImage, x, y);
-}
-
-
-void show_image_offset(Image& someImage, int x, int y)
-{
-    int w = someImage.width;
-    int h = someImage.height;
-    clear_display();
-    for(int i=0; i<w; i++) {
-            for(int j=0; j<h; j++) {
-                    int dx = i + x;
-                    int  dy = j + y;
-                    if ( 0<=dx && dx <= 4 && 0<=dy && dy <= 4 ) {
-                        display[dx][dy] = someImage.data[j*w + i ];
-                    }
-            }
-    }
-}
 
 
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
