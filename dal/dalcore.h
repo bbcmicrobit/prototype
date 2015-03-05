@@ -606,4 +606,24 @@ unsigned char get_font_data(int ascii_value, row) {
     return result;
 }
 
+void showLetter(char c) {
+    int letter_index = c;
+    if (c>126) return;
+    if (c<32) return;
+    if (get_font_data(letter_index,0) != c) return;
+    clear_display();
+    for(int row=0; row<5; row++) {
+        unsigned char this_row = get_font_data(letter_index,row+1);
+        unsigned char L0 = 0b1000 & this_row ? HIGH : LOW;
+        unsigned char L1 = 0b0100 & this_row ? HIGH : LOW;
+        unsigned char L2 = 0b0010 & this_row ? HIGH : LOW;
+        unsigned char L3 = 0b0001 & this_row ? HIGH : LOW;
+        display[0][row] = L0;
+        display[1][row] = L1;
+        display[2][row] = L2;
+        display[3][row] = L3;
+        display[4][row] = LOW;
+    }
+}
+
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
