@@ -1,10 +1,8 @@
-#include "dal.h"
+#include "daluser.h"
 #include <math.h>
 
 void sleep(int time) { pause(time); }         // POWER
 int sum(int a, int b, int c) { return a+b+c; } // COMPILER SUPPORT
-
-
 
 auto x = 0;
 
@@ -18,10 +16,6 @@ void user_program()
     // TBD - setting a variable to None is not supported - to simplify variable type tracing;
     long last = 0;
 
-//     for (int i=0; i < 11; i++) {
-//         print_message(i);
-//         pause(5000);
-//     }
     sleep_counter_t = 0;
     sleep_counter_t2 = 0;
 
