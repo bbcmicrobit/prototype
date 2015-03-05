@@ -508,6 +508,11 @@ void set_display(uint8_t sprite[5][5]) {
     }
 }
 
+// ---------------------------------------------------------------
+//
+// Functions for reading and updating device internal state
+//
+
 void set_point(uint8_t x, uint8_t y, uint8_t state) {
     if (x <0) return;
     if (x >DISPLAY_WIDTH-1) return;
