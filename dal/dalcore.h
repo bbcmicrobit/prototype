@@ -222,49 +222,21 @@ long sleep_counter_t2 = 0;
 
 #define ___ 0
 
-typedef struct Image {
-    int width;
-    int height;
-    int *data ;
-//    unsigned char *data;
-} Image;
 
-void set_eye(char id, int state);// DONE
-void eye_on(char id); // DONE
-void eye_off(char id);// DONE
-
-void eye_on(const char *id);// DONE
-void eye_off(const char *id);// DONE
-
-int getButton(char id);// DONE
-int getButton(const char *id);// DONE
-void clear_display();// DONE
-//void plot(int x, int y);// DONE
-void plot(uint8_t x, uint8_t y);// DONE
-//void unplot(int x, int y);// DONE
-void unplot(uint8_t x, uint8_t y);// DONE
-int point(int x, int y);// DONE
-void set_display(uint8_t sprite[5][5]);// DONE
-void showViewport(Image& someImage, int x, int y);// DONE
-void ScrollImage(Image someImage, boolean loop, int trailing_spaces);// DONE
-int image_point(Image& someImage, int x, int y);// DONE
-void set_image_point(Image& someImage, int x, int y, int value);// DONE
-void showLetter(char c); // Could be just internal, but useful.
-void print_message(const char * message, int pausetime);
-void toggle_eye(char id);// DONE
-
-struct StringImage;// DONE
-void scroll_string_image(StringImage theSprite, int pausetime);// DONE
+void set_eye(char id, int state);       // CORE
+int getButton(char id);                 // CORE
+void plot(uint8_t x, uint8_t y);        // CORE
+void unplot(uint8_t x, uint8_t y);      // CORE
+int point(int x, int y);                // CORE
+void set_display(uint8_t sprite[5][5]); // CORE
+void showLetter(char c);                // CORE -- useful for testing
 
 // Functions internal to the API
-inline int image_point_index(Image& someImage, int x, int y);// DONE
-void display_column(uint8_t i);// DONE
-//void setup_display();// DONE
-void microbug_setup();// DONE
-void bootloader_start(void);
-void check_bootkey();// DONE
+void microbug_setup();       // CORE
+void bootloader_start(void); // CORE
+void check_bootkey();        // CORE
 
-void pause(word millis) {
+void pause(word millis) {   // CORE
 #ifdef MICROKIT_DISABLE
     delay(millis);
 #else
