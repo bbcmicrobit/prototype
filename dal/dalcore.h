@@ -5,6 +5,7 @@
 #include <util/atomic.h>
 #include <avr/power.h>
 
+// Handling the font should be in core
 #include "spark_font.h"
 #include "atmel_bootloader.h"
 
