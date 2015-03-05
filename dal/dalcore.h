@@ -564,8 +564,6 @@ void set_eye(char id, int state) {
     }
 }
 
-typedef int pxl;
-
 unsigned char get_font_data(int ascii_value, row) {
     // For characters and rows out of range returns 0
     unsigned char result;
