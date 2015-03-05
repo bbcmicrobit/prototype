@@ -7,6 +7,26 @@
 #include "spark_font.h"
 #include "atmel_bootloader.h"
 
+// Core API Functionality
+void microbug_setup();
+static void HW_Init(void);
+void check_bootkey();
+void bootloader_start(void);
+void enable_power_optimisations();
+void display_led(uint8_t x, uint8_t y);
+void set_point(uint8_t x, uint8_t y, uint8_t state);
+void plot(uint8_t x, uint8_t y);
+void unplot(uint8_t x, uint8_t y);
+int point(int x, int y);
+int getButton(char id);
+int get_eye(char id);
+void set_eye(char id, int state);
+unsigned char get_font_data(int ascii_value, int row);
+void showLetter(char c);    
+void clear_display();
+void pause(word millis);
+
+
 // --------------------------------------------------------------------------------------
 // START Device level related defines
 
@@ -223,23 +243,6 @@ long sleep_counter_t = 0;
 long sleep_counter_t2 = 0;
 volatile uint8_t UserTick = 0;
 
-// Function prototypes
-
-void set_eye(char id, int state);
-int getButton(char id);
-void plot(uint8_t x, uint8_t y);
-void unplot(uint8_t x, uint8_t y);
-int point(int x, int y);
-void set_point(uint8_t x, uint8_t y, uint8_t state);
-void set_display(uint8_t sprite[5][5]);
-void showLetter(char c); // Useful for testing
-void clear_display();
-
-// Functions internal to the API
-void microbug_setup();
-void bootloader_start(void);
-void check_bootkey();
-
 void pause(word millis) {
 #ifdef MICROKIT_DISABLE
     delay(millis);
@@ -255,7 +258,6 @@ void sleep(word millis) {
 */
 
 // FIXME: Allow this to be granular
-
 void enable_power_optimisations(){
 
 //  power_adc_disable();  // FIXME: This needs to be more granular - though we've been running like this for 44 hours now though
@@ -445,8 +447,7 @@ ISR(TIMER3_OVF_vect)
     }
 }
 
-static void HW_Init(void)
-{
+static void HW_Init(void) {
     //ports:	direction and level (inc pullups)
     PORTB	= PORTB_INIT;	DDRB	= DDRB_INIT;
     PORTC	= PORTC_INIT;	DDRC	= DDRC_INIT;
@@ -494,15 +495,6 @@ void microbug_setup() { // This is a really MicroBug setup
 //
 // Functions for reading and updating device internal state
 //
-
-void set_display(uint8_t sprite[5][5]) {
-    for(uint8_t i=0; i<5; i++) {
-        for(uint8_t j=0; j<5; j++) {
-            display[i][j] = sprite[i][j];
-        }
-    }
-}
-
 void set_point(uint8_t x, uint8_t y, uint8_t state) {
     if (x <0) return;
     if (x >DISPLAY_WIDTH-1) return;
