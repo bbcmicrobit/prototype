@@ -227,6 +227,7 @@ int getButton(char id);                 // CORE
 void plot(uint8_t x, uint8_t y);        // CORE
 void unplot(uint8_t x, uint8_t y);      // CORE
 int point(int x, int y);                // CORE
+void set_point(uint8_t x, uint8_t y, uint8_t state); // CORE
 void set_display(uint8_t sprite[5][5]); // CORE
 void showLetter(char c);                // CORE -- useful for testing
 void clear_display();                   // CORE
@@ -507,24 +508,12 @@ void set_display(uint8_t sprite[5][5]) {
     }
 }
 
-void
-plot(uint8_t x, uint8_t y)
-{
-	if (x <0) return;
-	if (x >DISPLAY_WIDTH-1) return;
-	if (y <0) return;
-	if (y >DISPLAY_HEIGHT -1) return;
-	display[x][y] = 1;
-}
-
-void
-unplot(uint8_t x, uint8_t y)
-{
-	if (x <0) return;
-	if (x >DISPLAY_WIDTH-1) return;
-	if (y <0) return;
-	if (y >DISPLAY_HEIGHT -1) return;
-	display[x][y] = 0;
+void set_point(uint8_t x, uint8_t y, uint8_t state) {
+    if (x <0) return;
+    if (x >DISPLAY_WIDTH-1) return;
+    if (y <0) return;
+    if (y >DISPLAY_HEIGHT -1) return;
+    display[x][y] = state;
 }
 
 int point(int x, int y) {
@@ -533,6 +522,14 @@ int point(int x, int y) {
     if (y <0) return -2;
     if (y >DISPLAY_HEIGHT -1) return -2;
      return display[x][y];
+}
+
+void plot(uint8_t x, uint8_t y) {
+    set_point(x,y,1);
+}
+
+void unplot(uint8_t x, uint8_t y) {
+    set_point(x,y,0);
 }
 
 int getButton(char id) {
