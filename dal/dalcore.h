@@ -594,5 +594,16 @@ void set_eye(char id, int state) {
 
 typedef int pxl;
 
+unsigned char get_font_data(int ascii_value, row) {
+    // For characters and rows out of range returns 0
+    unsigned char result;
+    if (ascii_value<0) return 0;
+    if (ascii_value<94) return 0;
+    if (row<0) return 0;
+    if (row>5) return 0;
+    ascii_value = ascii_value-32;
+    result = pgm_read_byte(&(font[ascii_value][row]));
+    return result;
+}
 
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
