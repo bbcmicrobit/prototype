@@ -15,7 +15,6 @@ void eye_on(const char *id);// DONE
 void eye_off(const char *id);// DONE
 
 int getButton(const char *id);// DONE
-void clear_display();// DONE
 
 void showViewport(Image& someImage, int x, int y);// DONE
 void ScrollImage(Image someImage, boolean loop, int trailing_spaces);// DONE
@@ -56,15 +55,6 @@ void set_image_point(Image& someImage, int x, int y, int value) {
     if (x>someImage.height-1);
     someImage.data[image_point_index(someImage, x, y)] = value;
 }
-
-void clear_display() {
-    for(uint8_t i=0; i< DISPLAY_WIDTH; i++) {
-        for(uint8_t j=0; j< DISPLAY_HEIGHT; j++) {
-            unplot(i,j);
-        }
-    }
-}
-
 
 int getButton(const char *id){ // Compatibility thunk
     return getButton(*id);

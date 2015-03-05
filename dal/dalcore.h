@@ -5,7 +5,6 @@
 #include <util/atomic.h>
 #include <avr/power.h>
 
-// Handling the font should be in core
 #include "spark_font.h"
 #include "atmel_bootloader.h"
 
@@ -230,6 +229,7 @@ void unplot(uint8_t x, uint8_t y);      // CORE
 int point(int x, int y);                // CORE
 void set_display(uint8_t sprite[5][5]); // CORE
 void showLetter(char c);                // CORE -- useful for testing
+void clear_display();                   // CORE
 
 // Functions internal to the API
 void microbug_setup();       // CORE
@@ -564,7 +564,7 @@ void set_eye(char id, int state) {
     }
 }
 
-unsigned char get_font_data(int ascii_value, row) {
+unsigned char get_font_data(int ascii_value, int row) {
     // For characters and rows out of range returns 0
     unsigned char result;
     if (ascii_value<0) return 0;
@@ -574,6 +574,14 @@ unsigned char get_font_data(int ascii_value, row) {
     ascii_value = ascii_value-32;
     result = pgm_read_byte(&(font[ascii_value][row]));
     return result;
+}
+
+void clear_display() {
+    for(uint8_t i=0; i< DISPLAY_WIDTH; i++) {
+        for(uint8_t j=0; j< DISPLAY_HEIGHT; j++) {
+            unplot(i,j);
+        }
+    }
 }
 
 void showLetter(char c) {
