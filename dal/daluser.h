@@ -30,9 +30,6 @@ void scroll_string_image(StringImage theSprite, int pausetime);// DONE
 // Functions internal to the API
 inline int image_point_index(Image& someImage, int x, int y);// DONE
 
-
-
-
 void set_display(uint8_t sprite[5][5]) {
     for(uint8_t i=0; i<5; i++) {
         for(uint8_t j=0; j<5; j++) {
@@ -40,8 +37,6 @@ void set_display(uint8_t sprite[5][5]) {
         }
     }
 }
-
-
 
 inline int image_point_index(Image& someImage, int x, int y) {
    return x*someImage.width +y;
@@ -62,53 +57,6 @@ void set_image_point(Image& someImage, int x, int y, int value) {
     if (x>someImage.height-1);
     someImage.data[image_point_index(someImage, x, y)] = value;
 }
-
-int getButton(const char *id){ // Compatibility thunk
-    return getButton(*id);
-}
-int getButton(char *id){       // Compatibility thunk
-    return getButton(*id);
-}
-
-// These next two functions should be deleted - they're there as crutches for the blockly front end.
-// However, they need to be there for the moment (2015/01/05)
-int get_button(char *id){       // Compatibility thunk
-    return getButton(*id);
-}
-
-int get_button(const char *id){       // Compatibility thunk
-    return getButton(*id);
-}
-
-int get_button(char id){       // Compatibility thunk
-    return getButton(id);
-}
-
-
-int get_eye(char *id) {       // Compatibility thunk
-    return get_eye(*id);
-}
-
-int get_eye(const char *id) {       // Compatibility thunk
-    return get_eye(*id);
-}
-
-
-
-void showLetter(char * c) {       // Compatibility thunk
-    showLetter(*c);
-}
-void show_letter(char * c) {       // Compatibility thunk
-    showLetter(*c);
-}
-void show_letter(const char * c) {       // Compatibility thunk
-    showLetter(*c);
-}
-
-void show_letter(char c) {       // Compatibility thunk
-    showLetter(c);
-}
-
 
 void print_message(const char * message, int pausetime=100) {
     while(*message) {
@@ -144,28 +92,12 @@ void toggle_eye(char id) {
     }
 }
 
-void toggle_eye(const char *id){       // Compatibility thunk
-    toggle_eye(*id);
-}
-
 void eye_on(char id) {
     set_eye(id, HIGH);
 }
 
 void eye_off(char id) {
     set_eye(id, LOW);
-}
-
-void eye_on(const char *id) {       // Compatibility thunk
-    set_eye(*id, HIGH);
-}
-
-void eye_off(const char *id) {       // Compatibility thunk
-    set_eye(*id, LOW);
-}
-
-void set_eye(const char * id, int state) {       // Compatibility thunk
-    set_eye(*id, state);
 }
 
 void showViewport(Image& someImage, int x, int y) {
@@ -314,7 +246,7 @@ void scroll_string(const char * str) {
     scroll_string_image(StringImage(str), 50);
 }
 
-void scroll_string(const char * str, int delay=100) {       // Compatibility thunk
+void scroll_string(const char * str, int delay=100) {       // FIXME: Duplication
     scroll_string_image(StringImage(str), delay);
 }
 
@@ -377,6 +309,25 @@ void show_image_offset(Image& someImage, int x, int y)
     }
 }
 
+// -----------------------------------------------------------------------------------------------
+//
+// Compatibility thunks
+//
+int getButton(const char *id) { return getButton(*id); }
+int getButton(char *id) { return getButton(*id); }
+int get_button(char *id) { return getButton(*id); }
+int get_button(const char *id) { return getButton(*id); }
+int get_button(char id) { return getButton(id); }
+int get_eye(char *id) { return get_eye(*id); }
+int get_eye(const char *id) { return get_eye(*id); }
+void showLetter(char * c) { showLetter(*c); }
+void show_letter(char * c) { showLetter(*c); }
+void show_letter(const char * c) { showLetter(*c); }
+void show_letter(char c) { showLetter(c); }
 
+void toggle_eye(const char *id){ toggle_eye(*id); }
+void eye_on(const char *id) { set_eye(*id, HIGH); }
+void eye_off(const char *id) { set_eye(*id, LOW); }
+void set_eye(const char * id, int state) { set_eye(*id, state); }
 
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
