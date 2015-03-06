@@ -7,6 +7,10 @@
 #include "spark_font.h"
 #include "atmel_bootloader.h"
 
+// typedef int pixel;
+typedef uint8_t pixel;
+typedef uint8_t coord;
+
 // Power, display & device driving functions
 static void HW_Init(void);
 void enable_power_optimisations();

@@ -1,11 +1,10 @@
 
 #include "dalcore.h"
 
-typedef int pxl;
 typedef struct Image {
-    int width;
-    int height;
-    int *data ;
+    coord width;
+    coord height;
+    pixel *data ;
 //    unsigned char *data;
 } Image;
 
@@ -17,10 +16,10 @@ void eye_off(const char *id);// DONE
 
 int getButton(const char *id);// DONE
 
-void showViewport(Image& someImage, int x, int y);// DONE
+void showViewport(Image& someImage, coord x, coord y);// DONE
 void ScrollImage(Image someImage, boolean loop, int trailing_spaces);// DONE
-int image_point(Image& someImage, int x, int y);// DONE
-void set_image_point(Image& someImage, int x, int y, int value);// DONE
+pixel image_point(Image& someImage, coord x, coord y);// DONE
+void set_image_point(Image& someImage, coord x, coord y, pixel value);// DONE
 
 void print_message(const char * message, int pausetime);
 void toggle_eye(char id);// DONE
@@ -29,21 +28,21 @@ struct StringImage;// DONE
 void scroll_string_image(StringImage theSprite, int pausetime);// DONE
 
 // Functions internal to the API
-inline int image_point_index(Image& someImage, int x, int y);// DONE
+inline int image_point_index(Image& someImage, coord x, coord y);// DONE
 
-void set_display(uint8_t sprite[5][5]) {
-    for(uint8_t i=0; i<5; i++) {
-        for(uint8_t j=0; j<5; j++) {
+void set_display(pixel sprite[5][5]) {
+    for(coord i=0; i<5; i++) {
+        for(coord j=0; j<5; j++) {
             set_point(i,j,sprite[i][j]);
         }
     }
 }
 
-inline int image_point_index(Image& someImage, int x, int y) {
+inline int image_point_index(Image& someImage, coord x, coord y) {
    return x*someImage.width +y;
 }
 
-int image_point(Image& someImage, int x, int y) {
+pixel image_point(Image& someImage, coord x, coord y) {
     if (x<0) return -1;
     if (y<0) return -2;
     if (x>someImage.width-1) return -1;
@@ -51,7 +50,7 @@ int image_point(Image& someImage, int x, int y) {
     return someImage.data[image_point_index(someImage, x, y)];
 }
 
-void set_image_point(Image& someImage, int x, int y, int value) {
+void set_image_point(Image& someImage, coord x, coord y, pixel value) {
     if (x<0);
     if (y<0);
     if (x>someImage.width-1);
@@ -101,13 +100,13 @@ void eye_off(char id) {
     set_eye(id, LOW);
 }
 
-void showViewport(Image& someImage, int x, int y) {
+void showViewport(Image& someImage, coord x, coord y) {
     if (someImage.width<4) return; // Not implemented yet
     if (someImage.height<4) return; // Not implemented yet
-    for(int i=0; (i+x<someImage.width) && (i<5); i++) {
-        for(int j=y; (j+y<someImage.height) && (j<5); j++) {
-            int value = someImage.data[(j+y)*someImage.width+ x+i ];
-            set_point(i, j, (uint8_t)value);
+    for(coord i=0; (i+x<someImage.width) && (i<5); i++) {
+        for(coord j=y; (j+y<someImage.height) && (j<5); j++) {
+            pixel value = someImage.data[(j+y)*someImage.width+ x+i ];
+            set_point(i, j, value);
         }
     }
 }
@@ -117,7 +116,7 @@ void ScrollImage(Image someImage, boolean loop=false, int trailing_spaces=false)
     // Display width is 5
     // This counts from 0 <= i < 12 -- ie from 0 to 11
     // The last viewport therefore tries to display indices 11, 12, 13, 14, 15
-    for(int i=0; i<someImage.width-DISPLAY_WIDTH+1; i++) {
+    for(coord i=0; i<someImage.width-DISPLAY_WIDTH+1; i++) {
         clear_display();
         showViewport(someImage, i,0);
         pause(80);
@@ -126,7 +125,7 @@ void ScrollImage(Image someImage, boolean loop=false, int trailing_spaces=false)
 
 typedef struct StringImage {
     int mPixelPos;
-    int mPixelData[50]; // Sufficient to hold two characters.
+    pixel mPixelData[50]; // Sufficient to hold two characters.
     char *mString;
     int mStrlen;
     char num_buf[12] ;
@@ -199,15 +198,15 @@ typedef struct StringImage {
             int row_first = first_char_data1[row + 1];
             int row_second = second_char_data1[row + 1];
 
-            int F0 = 0b1000 & row_first ? HIGH : LOW;
-            int F1 = 0b0100 & row_first ? HIGH : LOW;
-            int F2 = 0b0010 & row_first ? HIGH : LOW;
-            int F3 = 0b0001 & row_first ? HIGH : LOW;
+            pixel F0 = 0b1000 & row_first ? HIGH : LOW;
+            pixel F1 = 0b0100 & row_first ? HIGH : LOW;
+            pixel F2 = 0b0010 & row_first ? HIGH : LOW;
+            pixel F3 = 0b0001 & row_first ? HIGH : LOW;
 
-            int S0 = 0b1000 & row_second ? HIGH : LOW;
-            int S1 = 0b0100 & row_second ? HIGH : LOW;
-            int S2 = 0b0010 & row_second ? HIGH : LOW;
-            int S3 = 0b0001 & row_second ? HIGH : LOW;
+            pixel S0 = 0b1000 & row_second ? HIGH : LOW;
+            pixel S1 = 0b0100 & row_second ? HIGH : LOW;
+            pixel S2 = 0b0010 & row_second ? HIGH : LOW;
+            pixel S3 = 0b0001 & row_second ? HIGH : LOW;
 
             mPixelData[0+row*10] = F0;
             mPixelData[1+row*10] = F1;
@@ -262,12 +261,12 @@ Image& _make_image(unsigned short int row1, unsigned short int row2, unsigned sh
     Image* img = (Image*) malloc(sizeof(Image));
     img->width = width;
     img->height = 5;
-    img->data = (pxl *) malloc(img->width * img->height * sizeof(pxl));
+    img->data = (pixel *) malloc(img->width * img->height * sizeof(pixel));
 
-    pxl *pData = img->data;
+    pixel *pData = img->data;
 
-    for(int y=0; y < img->height; y++)
-        for(int x=0; x < img->width; x++)
+    for(coord y=0; y < img->height; y++)
+        for(coord x=0; x < img->width; x++)
             *pData++ = (rows[y] & (1<<x)) ? HIGH : LOW;
     Image& retVal = *img;
     return retVal;
@@ -281,20 +280,20 @@ Image& make_big_image(unsigned short int row1, unsigned short int row2, unsigned
     return _make_image(row1, row2, row3, row4, row5, 10);
 }
 
-void OLD_show_image_offset(Image& someImage, int x, int y) {
+void OLD_show_image_offset(Image& someImage, coord x, coord y) {
     //passthrough to avoid renaming
     showViewport(someImage, x, y);
 }
 
 // FIXME: Use plot/unplot - or perhaps "set point" - since more logical here
-void show_image_offset(Image& someImage, int x, int y) {
-    int w = someImage.width;
-    int h = someImage.height;
+void show_image_offset(Image& someImage, coord x, coord y) {
+    coord w = someImage.width;
+    coord h = someImage.height;
     clear_display();
-    for(int i=0; i<w; i++) {
-            for(int j=0; j<h; j++) {
-                    int dx = i + x;
-                    int  dy = j + y;
+    for(coord i=0; i<w; i++) {
+            for(coord j=0; j<h; j++) {
+                    coord dx = i + x;
+                    coord  dy = j + y;
                     if ( 0<=dx && dx <= 4 && 0<=dy && dy <= 4 ) {
                         set_point(dx, dy, someImage.data[j*w + i ]);
                     }
@@ -311,8 +310,8 @@ int getButton(char *id) { return getButton(*id); }
 int get_button(char *id) { return getButton(*id); }
 int get_button(const char *id) { return getButton(*id); }
 int get_button(char id) { return getButton(id); }
-int get_eye(char *id) { return get_eye(*id); }
-int get_eye(const char *id) { return get_eye(*id); }
+pixel get_eye(char *id) { return get_eye(*id); }
+pixel get_eye(const char *id) { return get_eye(*id); }
 void showLetter(char * c) { showLetter(*c); }
 void show_letter(char * c) { showLetter(*c); }
 void show_letter(const char * c) { showLetter(*c); }
@@ -321,6 +320,6 @@ void show_letter(char c) { showLetter(c); }
 void toggle_eye(const char *id){ toggle_eye(*id); }
 void eye_on(const char *id) { set_eye(*id, HIGH); }
 void eye_off(const char *id) { set_eye(*id, LOW); }
-void set_eye(const char * id, int state) { set_eye(*id, state); }
+void set_eye(const char * id, pixel state) { set_eye(*id, state); }
 
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
