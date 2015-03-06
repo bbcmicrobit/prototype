@@ -7,25 +7,28 @@
 #include "spark_font.h"
 #include "atmel_bootloader.h"
 
-// Core API Functionality
-void microbug_setup();
+// Power, display & device driving functions
 static void HW_Init(void);
-void check_bootkey();
-void bootloader_start(void);
 void enable_power_optimisations();
 void display_led(uint8_t x, uint8_t y);
+
+// Common internal API functions
+void check_bootkey();
+void bootloader_start(void);
+
+// Core API Functionality
+void microbug_setup();
+void pause(word millis);
 void set_point(uint8_t x, uint8_t y, uint8_t state);
+int point(int x, int y);
 void plot(uint8_t x, uint8_t y);
 void unplot(uint8_t x, uint8_t y);
-int point(int x, int y);
 int getButton(char id);
 int get_eye(char id);
 void set_eye(char id, int state);
 unsigned char get_font_data(int ascii_value, int row);
-void showLetter(char c);    
 void clear_display();
-void pause(word millis);
-
+void showLetter(char c);
 
 // --------------------------------------------------------------------------------------
 // START Device level related defines
@@ -243,19 +246,45 @@ long sleep_counter_t = 0;
 long sleep_counter_t2 = 0;
 volatile uint8_t UserTick = 0;
 
-void pause(word millis) {
-#ifdef MICROKIT_DISABLE
-    delay(millis);
-#else
-    delay(millis/8);
-#endif
-}
 
 /*
 void sleep(word millis) {
     Sleepy::loseSomeTime( millis);
 }
 */
+
+/* ------ START Power, display & device driving functions  ------------- */
+
+static void HW_Init(void) {
+    //ports:    direction and level (inc pullups)
+    PORTB   = PORTB_INIT;   DDRB    = DDRB_INIT;
+    PORTC   = PORTC_INIT;   DDRC    = DDRC_INIT;
+    PORTD   = PORTD_INIT;   DDRD    = DDRD_INIT;
+    PORTE   = PORTE_INIT;   DDRE    = DDRE_INIT;
+    PORTF   = PORTF_INIT;   DDRF    = DDRF_INIT;
+    //DIDR0 = DIDR0_INIT;
+    //DIDR1 = DIDR1_INIT;
+    //DIDR2 = DIDR2_INIT;
+
+    //clock:
+    CLKPR = 1<<CLKPCE;  CLKPR = 0b0010<<CLKPS0;     // 8MHz / 4 = 2MHz
+
+    //timers:
+    TCCR3B = TCCR3B_STOP_VALUE;
+    TCNT3 = TCNT3_PRELOAD_VALUE;    // preload timer
+    TCCR3A = TCCR3A_INIT;
+    TCCR3B = TCCR3B_RUN_VALUE;
+    TIMSK3 |= (1 << TOIE3);         // enable timer overflow interrupt
+
+    MCUSR &= ~(1<<WDRF);            // Clear watchdog system reset flag
+    WDTCSR |= (1<<WDCE) | (1<<WDE); // timed sequence
+    WDTCSR = WDTCSR_INIT;
+
+    // Disable JTAG - enable analogue input pins
+    MCUCR |= (1 << JTD); MCUCR |= (1 << JTD);    //    Must be set twice in four cycles
+
+}
+
 
 // FIXME: Allow this to be granular
 void enable_power_optimisations(){
@@ -289,82 +318,6 @@ void enable_power_optimisations(){
 
 //  clock_prescale_set(clock_div_4);        // Switch the CPU speed right down.
 }
-
-
-// CODE TO SUPPORT SWITCH TO DFU BOOTLOADER -------------------------------------------------------
-void bootloader_start(void) {
-    /* This needs to reset the devive to a state the bootloader expects.
-     * This means for example:
-     *   Detaching from USB
-     *   Waiting for the host to register the detach (we wait for 200 milli)
-     *   Switch off all timers
-     *   Reset registers to initial states
-     *   Then and only then jump to the DFU bootloader
-     */
-    Usb_detach();
-    cli();
-    pause(200);
-    MCUSR &= ~(1 << WDRF);
-    wdt_disable();
-
-    TIMSK0 = USBINT = OTGCON = OTGTCON = OTGIEN = OTGINT = PLLCSR = TCNT1L = TCNT1H = TIMSK3 = TCCR1B = TCNT4L = TCNT4H = TCCR4B = 0x00;
-    USBCON = 0x20;
-    UHWCON = 0x80;
-    USBSTA = 0x08;
-
-    run_bootloader();
-}
-
-void check_bootkey() {
-    if (digitalRead(ButtonA) == PRESSED) {
-        bootloader_start();
-    }
-}
-// END CODE TO SUPPORT SWITCH TO DFU BOOTLOADER -------------------------------------------------------
-
-void display_led(uint8_t x, uint8_t y) {
-
-    LolCol0H();
-    LolCol1H();
-    LolCol2H();
-    LolCol3H();
-    LolCol4H();
-
-    switch(y)
-    {
-    case 0:
-        LolRow4L();
-        if(display[x][0])   {   LolRow0H(); }
-        break;
-    case 1:
-        LolRow0L();
-        if(display[x][1])   {   LolRow1H(); }
-        break;
-    case 2:
-        LolRow1L();
-        if(display[x][2])   {   LolRow2H(); }
-        break;
-    case 3:
-        LolRow2L();
-        if(display[x][3])   {   LolRow3H(); }
-        break;
-    case 4:
-        LolRow3L();
-        if(display[x][4])   {   LolRow4H(); }
-        break;
-    default:
-        break;
-    }
-        
-    switch(x)   {
-        case 0:     LolCol0L();     break;
-        case 1:     LolCol1L();     break;
-        case 2:     LolCol2L();     break;
-        case 3:     LolCol3L();     break;
-        case 4:     LolCol4L();     break;
-        default:                    break;  }
-}
-
 
 ISR(WDT_vect)
 {
@@ -447,35 +400,82 @@ ISR(TIMER3_OVF_vect)
     }
 }
 
-static void HW_Init(void) {
-    //ports:	direction and level (inc pullups)
-    PORTB	= PORTB_INIT;	DDRB	= DDRB_INIT;
-    PORTC	= PORTC_INIT;	DDRC	= DDRC_INIT;
-    PORTD	= PORTD_INIT;	DDRD	= DDRD_INIT;
-    PORTE	= PORTE_INIT;	DDRE	= DDRE_INIT;
-    PORTF	= PORTF_INIT;	DDRF	= DDRF_INIT;
-    //DIDR0 = DIDR0_INIT;
-    //DIDR1 = DIDR1_INIT;
-    //DIDR2 = DIDR2_INIT;
+void display_led(uint8_t x, uint8_t y) {
 
-    //clock:
-    CLKPR = 1<<CLKPCE;	CLKPR = 0b0010<<CLKPS0;     // 8MHz / 4 = 2MHz
+    LolCol0H();
+    LolCol1H();
+    LolCol2H();
+    LolCol3H();
+    LolCol4H();
 
-    //timers:
-    TCCR3B = TCCR3B_STOP_VALUE;
-    TCNT3 = TCNT3_PRELOAD_VALUE;    // preload timer
-    TCCR3A = TCCR3A_INIT;
-    TCCR3B = TCCR3B_RUN_VALUE;
-    TIMSK3 |= (1 << TOIE3);         // enable timer overflow interrupt
+    switch(y)
+    {
+    case 0:
+        LolRow4L();
+        if(display[x][0])   {   LolRow0H(); }
+        break;
+    case 1:
+        LolRow0L();
+        if(display[x][1])   {   LolRow1H(); }
+        break;
+    case 2:
+        LolRow1L();
+        if(display[x][2])   {   LolRow2H(); }
+        break;
+    case 3:
+        LolRow2L();
+        if(display[x][3])   {   LolRow3H(); }
+        break;
+    case 4:
+        LolRow3L();
+        if(display[x][4])   {   LolRow4H(); }
+        break;
+    default:
+        break;
+    }
 
-    MCUSR &= ~(1<<WDRF);            // Clear watchdog system reset flag
-    WDTCSR |= (1<<WDCE) | (1<<WDE); // timed sequence
-    WDTCSR = WDTCSR_INIT;
-
-    // Disable JTAG - enable analogue input pins
-    MCUCR |= (1 << JTD); MCUCR |= (1 << JTD);    //    Must be set twice in four cycles
-
+    switch(x)   {
+        case 0:     LolCol0L();     break;
+        case 1:     LolCol1L();     break;
+        case 2:     LolCol2L();     break;
+        case 3:     LolCol3L();     break;
+        case 4:     LolCol4L();     break;
+        default:                    break;  }
 }
+
+
+/* ------ END Power, display & device driving functions  ------------- */
+
+// CODE TO SUPPORT SWITCH TO DFU BOOTLOADER -------------------------------------------------------
+void check_bootkey() {
+    if (digitalRead(ButtonA) == PRESSED) {
+        bootloader_start();
+    }
+}
+
+void bootloader_start(void) {
+    /* This needs to reset the devive to a state the bootloader expects.
+     * This means for example:
+     *   Detaching from USB
+     *   Waiting for the host to register the detach (we wait for 200 milli)
+     *   Switch off all timers
+     *   Reset registers to initial states
+     *   Then and only then jump to the DFU bootloader
+     */
+    Usb_detach();
+    cli();
+    pause(200);
+    MCUSR &= ~(1 << WDRF);
+    wdt_disable();
+
+    TIMSK0 = USBINT = OTGCON = OTGTCON = OTGIEN = OTGINT = PLLCSR = TCNT1L = TCNT1H = TIMSK3 = TCCR1B = TCNT4L = TCNT4H = TCCR4B = 0x00;
+    USBCON = 0x20;
+    UHWCON = 0x80;
+    USBSTA = 0x08;
+
+    run_bootloader();
+}
+// END CODE TO SUPPORT SWITCH TO DFU BOOTLOADER -------------------------------------------------------
 
 void microbug_setup() { // This is a really MicroBug setup
 
@@ -489,6 +489,14 @@ void microbug_setup() { // This is a really MicroBug setup
     digitalWrite(lefteye, LOW);
     digitalWrite(righteye, LOW);
 
+}
+
+void pause(word millis) {
+#ifdef MICROKIT_DISABLE
+    delay(millis);
+#else
+    delay(millis/8);
+#endif
 }
 
 // ---------------------------------------------------------------

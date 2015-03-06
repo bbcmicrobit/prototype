@@ -75,66 +75,31 @@ int display[5][5] = {
 
 #define ___ 0
 
-void bootloader_start(void);
-void check_bootkey();
+// Power, display & device driving functions
 void setup_display();
-void microbug_setup();
 void display_column(int i);
-void set_display(int sprite[5][5]);
+
+// Common internal API functions
+void check_bootkey();
+void bootloader_start(void);
+
+// Core API Functionality
+void microbug_setup();
+void pause(word millis);
+void set_point(int x, int y, int state);
+int point(int x, int y);
 void plot(int x, int y);
 void unplot(int x, int y);
-int point(int x, int y);
-void clear_display();
 int getButton(char id);
-void showLetter(char c);
-void set_eye(char id, int state);
-void pause(word millis);
-unsigned char get_font_data(int ascii_value, int row);
-void set_point(int x, int y, int state);
 int get_eye(char id);
+void set_eye(char id, int state);
+unsigned char get_font_data(int ascii_value, int row);
+void clear_display();
+void showLetter(char c);
 
-void pause(word millis) {
-#ifdef MICROKIT_DISABLE
-    delay(millis);
-#else
-    delay(millis/8);
-#endif
-}
+void set_display(int sprite[5][5]);
 
-// CODE TO SUPPORT SWITCH TO DFU BOOTLOADER -------------------------------------------------------
-
-
-
-
-void bootloader_start(void) {
-    /* This needs to reset the devive to a state the bootloader expects.
-     * This means for example:
-     *   Detaching from USB
-     *   Waiting for the host to register the detach (we wait for 200 milli)
-     *   Switch off all timers
-     *   Reset registers to initial states
-     *   Then and only then jump to the DFU bootloader
-     */
-    Usb_detach();
-    cli();
-    delay(200);
-    MCUSR &= ~(1 << WDRF);
-    wdt_disable();
-
-    TIMSK0 = USBINT = OTGCON = OTGTCON = OTGIEN = OTGINT = PLLCSR = TCNT1L = TCNT1H = TIMSK3 = TCCR1B = TCNT4L = TCNT4H = TCCR4B = 0x00;
-    USBCON = 0x20;
-    UHWCON = 0x80;
-    USBSTA = 0x08;
-
-    run_bootloader();
-}
-
-void check_bootkey() {
-    if (digitalRead(ButtonA) == PRESSED) {
-        bootloader_start();
-    }
-}
-// END CODE TO SUPPORT SWITCH TO DFU BOOTLOADER -------------------------------------------------------
+/* ------ START Power, display & device driving functions  ------------- */
 
 void setup_display() {
 
@@ -167,6 +132,61 @@ ISR(TIMER4_OVF_vect)        // interrupt service routine
         display_strobe_counter = 0; // reset
     }
 }
+
+void display_column(int i) {
+    digitalWrite(col0, HIGH);
+    digitalWrite(col1, HIGH);
+    digitalWrite(col2, HIGH);
+    digitalWrite(col3, HIGH);
+    digitalWrite(col4, HIGH);
+
+    digitalWrite(row0, display[i][0] );
+    digitalWrite(row1, display[i][1] );
+    digitalWrite(row2, display[i][2] );
+    digitalWrite(row3, display[i][3] );
+    digitalWrite(row4, display[i][4] );
+
+    if (i == 0) digitalWrite(col0, LOW );
+    if (i == 1) digitalWrite(col1, LOW );
+    if (i == 2) digitalWrite(col2, LOW );
+    if (i == 3) digitalWrite(col3, LOW );
+    if (i == 4) digitalWrite(col4, LOW );
+}
+
+
+/* ------ END Power, display & device driving functions  ------------- */
+
+
+// CODE TO SUPPORT SWITCH TO DFU BOOTLOADER -------------------------------------------------------
+void check_bootkey() {
+    if (digitalRead(ButtonA) == PRESSED) {
+        bootloader_start();
+    }
+}
+
+void bootloader_start(void) {
+    /* This needs to reset the devive to a state the bootloader expects.
+     * This means for example:
+     *   Detaching from USB
+     *   Waiting for the host to register the detach (we wait for 200 milli)
+     *   Switch off all timers
+     *   Reset registers to initial states
+     *   Then and only then jump to the DFU bootloader
+     */
+    Usb_detach();
+    cli();
+    delay(200);
+    MCUSR &= ~(1 << WDRF);
+    wdt_disable();
+
+    TIMSK0 = USBINT = OTGCON = OTGTCON = OTGIEN = OTGINT = PLLCSR = TCNT1L = TCNT1H = TIMSK3 = TCCR1B = TCNT4L = TCNT4H = TCCR4B = 0x00;
+    USBCON = 0x20;
+    UHWCON = 0x80;
+    USBSTA = 0x08;
+
+    run_bootloader();
+}
+// END CODE TO SUPPORT SWITCH TO DFU BOOTLOADER -------------------------------------------------------
 
 void microbug_setup() { // This is a really MicroBug setup
     setup_display();
@@ -205,7 +225,7 @@ void microbug_setup() { // This is a really MicroBug setup
 
     digitalWrite(lefteye, HIGH);
     digitalWrite(righteye, HIGH);
-check_bootkey();
+    check_bootkey();
 
     digitalWrite(lefteye, LOW);
     digitalWrite(righteye, LOW);
@@ -215,32 +235,12 @@ check_bootkey();
 
 }
 
-void display_column(int i) {
-    digitalWrite(col0, HIGH);
-    digitalWrite(col1, HIGH);
-    digitalWrite(col2, HIGH);
-    digitalWrite(col3, HIGH);
-    digitalWrite(col4, HIGH);
-
-    digitalWrite(row0, display[i][0] );
-    digitalWrite(row1, display[i][1] );
-    digitalWrite(row2, display[i][2] );
-    digitalWrite(row3, display[i][3] );
-    digitalWrite(row4, display[i][4] );
-
-    if (i == 0) digitalWrite(col0, LOW );
-    if (i == 1) digitalWrite(col1, LOW );
-    if (i == 2) digitalWrite(col2, LOW );
-    if (i == 3) digitalWrite(col3, LOW );
-    if (i == 4) digitalWrite(col4, LOW );
-}
-
-void set_display(int sprite[5][5]) {
-    for(int i=0; i<5; i++) {
-        for(int j=0; j<5; j++) {
-            set_point(i,j,sprite[i][j]);
-        }
-    }
+void pause(word millis) {
+#ifdef MICROKIT_DISABLE
+    delay(millis);
+#else
+    delay(millis/8);
+#endif
 }
 
 void set_point(int x, int y, int state) {
@@ -336,6 +336,14 @@ void showLetter(char c) {
         display[2][row] = L2;
         display[3][row] = L3;
         display[4][row] = LOW;
+    }
+}
+
+void set_display(int sprite[5][5]) {
+    for(int i=0; i<5; i++) {
+        for(int j=0; j<5; j++) {
+            set_point(i,j,sprite[i][j]);
+        }
     }
 }
 
