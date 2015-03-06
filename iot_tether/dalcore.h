@@ -54,18 +54,18 @@ int ee19 = 16; // Emergency/Expert data pin lower// PIN 10 -- D16
 int ee20 = 14; // Emergency/Expert data pin top// PIN 11 -- D14
 
 // typedef int pixel;
-typedef int pixel;
-typedef int coord;
+typedef uint8_t pixel;
+typedef uint8_t coord;
 
 #define DELAY 5
 
-int left_eye_state = HIGH; // Initial state is set to high in setup
-int right_eye_state = HIGH; // Initial state is set to high in setup
+pixel left_eye_state = HIGH; // Initial state is set to high in setup
+pixel right_eye_state = HIGH; // Initial state is set to high in setup
 
 int timer4_counter;
 
-int display_strobe_counter;
-int display[5][5] = {
+coord display_strobe_counter;
+pixel display[5][5] = {
                       { LOW, LOW, LOW, LOW, LOW},
                       { LOW, LOW, LOW, LOW, LOW},
                       { LOW, LOW, LOW, LOW, LOW},
@@ -80,7 +80,7 @@ int display[5][5] = {
 
 // Power, display & device driving functions
 void setup_display();
-void display_column(int i);
+void display_column(coord i);
 
 // Common internal API functions
 void check_bootkey();
@@ -89,13 +89,13 @@ void bootloader_start(void);
 // Core API Functionality
 void microbug_setup();
 void pause(word millis);
-void set_point(int x, int y, int state);
-int point(int x, int y);
-void plot(int x, int y);
-void unplot(int x, int y);
+void set_point(coord x, coord y, pixel state);
+pixel point(coord x, coord y);
+void plot(coord x, coord y);
+void unplot(coord x, coord y);
 int getButton(char id);
 int get_eye(char id);
-void set_eye(char id, int state);
+void set_eye(char id, pixel state);
 unsigned char get_font_data(int ascii_value, int row);
 void clear_display();
 void showLetter(char c);
@@ -136,7 +136,7 @@ ISR(TIMER4_OVF_vect)        // interrupt service routine
     }
 }
 
-void display_column(int i) {
+void display_column(coord i) {
     digitalWrite(col0, HIGH);
     digitalWrite(col1, HIGH);
     digitalWrite(col2, HIGH);
@@ -246,7 +246,7 @@ void pause(word millis) {
 #endif
 }
 
-void set_point(int x, int y, int state) {
+void set_point(coord x, coord y, pixel state) {
     if (x <0) return;
     if (x >DISPLAY_WIDTH-1) return;
     if (y <0) return;
@@ -254,8 +254,7 @@ void set_point(int x, int y, int state) {
     display[x][y] = state;
 }
 
-int point(int x, int y) {
-    // Bounds checking
+pixel point(coord x, coord y) {
     if (x <0) return -1;
     if (x >DISPLAY_WIDTH-1) return -1;
     if (y <0) return -2;
@@ -263,11 +262,11 @@ int point(int x, int y) {
      return display[x][y];
 }
 
-void plot(int x, int y) {
+void plot(coord x, coord y) {
     set_point(x,y,1);
 }
 
-void unplot(int x, int y) {
+void unplot(coord x, coord y) {
     set_point(x,y,0);
 }
 
@@ -315,8 +314,8 @@ unsigned char get_font_data(int ascii_value, int row) {
 }
 
 void clear_display() {
-    for(int i=0; i< DISPLAY_WIDTH; i++) {
-        for(int j=0; j< DISPLAY_HEIGHT; j++) {
+    for(coord i=0; i< DISPLAY_WIDTH; i++) {
+        for(coord j=0; j< DISPLAY_HEIGHT; j++) {
             unplot(i,j);
         }
     }
@@ -328,7 +327,7 @@ void showLetter(char c) {
     if (c<32) return;
     if (get_font_data(letter_index,0) != c) return;
     clear_display();
-    for(int row=0; row<5; row++) {
+    for(coord row=0; row<5; row++) {
         unsigned char this_row = get_font_data(letter_index,row+1);
         unsigned char L0 = 0b1000 & this_row ? HIGH : LOW;
         unsigned char L1 = 0b0100 & this_row ? HIGH : LOW;
