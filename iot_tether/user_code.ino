@@ -111,7 +111,7 @@ public:
   }
 
   int callfunc(char* funcname, char* raw_args) { 
-    // Since this is a test host, it doesn't actually do anything
+
     if (strcmp(funcname,"eyeon")==0) { eyeon(raw_args); return 200; }
     if (strcmp(funcname,"eyeoff")==0) { eyeoff(raw_args); return 200; }
     if (strcmp(funcname,"scrollstring")==0)  { scrollstring(raw_args); return 200; }
