@@ -53,6 +53,9 @@ int h14 = A2; // Header data pin 13// PIN 38 -- A2
 int ee19 = 16; // Emergency/Expert data pin lower// PIN 10 -- D16
 int ee20 = 14; // Emergency/Expert data pin top// PIN 11 -- D14
 
+// typedef int pixel;
+typedef int pixel;
+typedef int coord;
 
 #define DELAY 5
 
@@ -97,7 +100,7 @@ unsigned char get_font_data(int ascii_value, int row);
 void clear_display();
 void showLetter(char c);
 
-void set_display(int sprite[5][5]);
+// void set_display(int sprite[5][5]);
 
 /* ------ START Power, display & device driving functions  ------------- */
 
@@ -339,12 +342,12 @@ void showLetter(char c) {
     }
 }
 
-void set_display(int sprite[5][5]) {
-    for(int i=0; i<5; i++) {
-        for(int j=0; j<5; j++) {
-            set_point(i,j,sprite[i][j]);
-        }
-    }
-}
+// void set_display(int sprite[5][5]) {
+//     for(int i=0; i<5; i++) {
+//         for(int j=0; j<5; j++) {
+//             set_point(i,j,sprite[i][j]);
+//         }
+//     }
+// }
 
 /* END - API IMPLEMENTATION ------------------------------------------------------------------*/
