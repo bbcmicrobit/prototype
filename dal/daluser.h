@@ -1,6 +1,7 @@
 
 #include "dalcore.h"
 
+typedef int pxl;
 typedef struct Image {
     int width;
     int height;
@@ -250,11 +251,7 @@ void scroll_string(const char * str, int delay=100) {       // FIXME: Duplicatio
     scroll_string_image(StringImage(str), delay);
 }
 
-
-typedef int pxl;
-
-Image& _make_image(unsigned short int row1, unsigned short int row2, unsigned short int row3, unsigned short int row4, unsigned short int row5, int width) 
-{
+Image& _make_image(unsigned short int row1, unsigned short int row2, unsigned short int row3, unsigned short int row4, unsigned short int row5, int width) {
     unsigned short int rows[5];
     rows[0] = row5;
     rows[1] = row4;
@@ -276,25 +273,21 @@ Image& _make_image(unsigned short int row1, unsigned short int row2, unsigned sh
     return retVal;
 }
 
-Image& make_image(unsigned short int row1, unsigned short int row2, unsigned short int row3, unsigned short int row4, unsigned short int row5)
-{
+Image& make_image(unsigned short int row1, unsigned short int row2, unsigned short int row3, unsigned short int row4, unsigned short int row5) {
     return _make_image(row1, row2, row3, row4, row5, 5);
 }
 
-Image& make_big_image(unsigned short int row1, unsigned short int row2, unsigned short int row3, unsigned short int row4, unsigned short int row5)
-{
+Image& make_big_image(unsigned short int row1, unsigned short int row2, unsigned short int row3, unsigned short int row4, unsigned short int row5) {
     return _make_image(row1, row2, row3, row4, row5, 10);
 }
 
-void OLD_show_image_offset(Image& someImage, int x, int y)
-{
+void OLD_show_image_offset(Image& someImage, int x, int y) {
     //passthrough to avoid renaming
     showViewport(someImage, x, y);
 }
 
 // FIXME: Use plot/unplot - or perhaps "set point" - since more logical here
-void show_image_offset(Image& someImage, int x, int y)
-{
+void show_image_offset(Image& someImage, int x, int y) {
     int w = someImage.width;
     int h = someImage.height;
     clear_display();
