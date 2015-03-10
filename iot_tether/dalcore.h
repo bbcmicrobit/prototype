@@ -1,12 +1,53 @@
+#include <avr/pgmspace.h>
+#include <avr/sleep.h>
+#include "avr/wdt.h"
+#include <util/atomic.h>
+#include <avr/power.h>
 
 #include "spark_font.h"
-#include <avr/pgmspace.h>
-
-#include "avr/wdt.h"
 #include "atmel_bootloader.h"
+
+// typedef int pixel;
+typedef uint8_t pixel;
+typedef uint8_t coord;
+
+// Power, display & device driving functions
+void setup_display();
+void display_column(coord i);
+
+
+// Common internal API functions
+void check_bootkey();
+void bootloader_start(void);
+
+// Core API Functionality
+void microbug_setup();
+void pause(word millis);
+void set_point(coord x, coord y, pixel state);
+pixel point(coord x, coord y);
+void plot(coord x, coord y);
+void unplot(coord x, coord y);
+int getButton(char id);
+int get_eye(char id);
+void set_eye(char id, pixel state);
+unsigned char get_font_data(int ascii_value, int row);
+void clear_display();
+void showLetter(char c);
+
 #define Usb_detach()                              (UDCON   |=  (1<<DETACH))
 
+// --------------------------------------------------------------------------------------
+// User level specific implementation defines
+//
+#define MICROKIT
+#define DELAY 5
+#define DISPLAY_WIDTH 5
+#define DISPLAY_HEIGHT 5
+#define ___ 0
 #define PRESSED HIGH
+#define UNPRESSED LOW
+#define ON HIGH
+#define OFF LOW
 
 int row0 = 1; // Arduino Pin for row 4 // PIN 21 -- D1
 int row1 = 0; // Arduino Pin for row 3  // PIN 20 -- D0
@@ -35,7 +76,7 @@ int croc3 = A3; // Arduino Pin crocodile clip 3 // PIN 39 -- A3
 int croc4 = A4; // Arduino Pin crocodile clip 4 // PIN 40 -- A4
 int croc5 = A5; // Arduino Pin crocodile clip 5 // PIN 41 -- A5
 
-int h1 = A0; // Header data pin 0// PIN 36 -- A0
+// This looks like it needs fixing, ALOTint h1 = A0; // Header data pin 0// PIN 36 -- A0
 int h2 = A1; // Header data pin 1// PIN 37 -- A1
 int h3 = A2; // Header data pin 2 // PIN 38 -- A2
 int h4 = A2; // Header data pin 3// PIN 38 -- A2
@@ -53,11 +94,7 @@ int h14 = A2; // Header data pin 13// PIN 38 -- A2
 int ee19 = 16; // Emergency/Expert data pin lower// PIN 10 -- D16
 int ee20 = 14; // Emergency/Expert data pin top// PIN 11 -- D14
 
-// typedef int pixel;
-typedef uint8_t pixel;
-typedef uint8_t coord;
 
-#define DELAY 5
 
 pixel left_eye_state = HIGH; // Initial state is set to high in setup
 pixel right_eye_state = HIGH; // Initial state is set to high in setup
@@ -73,32 +110,8 @@ pixel display[5][5] = {
                       { LOW, LOW, LOW, LOW, LOW}
                     };
 
-#define DISPLAY_WIDTH 5
-#define DISPLAY_HEIGHT 5
 
-#define ___ 0
 
-// Power, display & device driving functions
-void setup_display();
-void display_column(coord i);
-
-// Common internal API functions
-void check_bootkey();
-void bootloader_start(void);
-
-// Core API Functionality
-void microbug_setup();
-void pause(word millis);
-void set_point(coord x, coord y, pixel state);
-pixel point(coord x, coord y);
-void plot(coord x, coord y);
-void unplot(coord x, coord y);
-int getButton(char id);
-int get_eye(char id);
-void set_eye(char id, pixel state);
-unsigned char get_font_data(int ascii_value, int row);
-void clear_display();
-void showLetter(char c);
 
 // void set_display(int sprite[5][5]);
 
