@@ -34,6 +34,8 @@ unsigned char get_font_data(int ascii_value, int row);
 void clear_display();
 void showLetter(char c);
 
+#define Usb_detach() (UDCON   |=  (1<<DETACH))
+
 // --------------------------------------------------------------------------------------
 // START Device level related defines
 
@@ -160,9 +162,17 @@ void showLetter(char c);
 //#define LolDebug6H()	PORTF |= 1<<LolDebug6
 //#define LolDebug6L()	PORTF &= ~(1<<LolDebug6)
 
-#define Usb_detach() (UDCON   |=  (1<<DETACH))
 #define power_timer4_enable() (PRR1 &= (uint8_t)~(1 << 4))
 #define power_timer4_disable() (PRR1 |= (uint8_t)(1 << 4))
+
+
+// Configure various aspects of hardware
+const uint8_t TCCR3A_INIT = 0;
+const uint8_t TCCR3B_RUN_VALUE = 0<<CS32 | 1<<CS31 | 1<<CS30;               // prescaler div 64
+const uint8_t TCCR3B_STOP_VALUE = 0;
+const uint16_t TCNT3_PRELOAD_VALUE = 65523;                                 // 65536-(2MHz/64*420us)
+const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 0<<WDP1 | 0<<WDP0;          //  Interrupts only, 15ms
+//const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 1<<WDP1 | 0<<WDP0;        //  Interrupts only, 60ms
 
 // END - Device level related defines
 // --------------------------------------------------------------------------------------
@@ -180,14 +190,6 @@ void showLetter(char c);
 #define ON HIGH
 #define OFF LOW
 
-// Configure various aspects of hardware
-const uint8_t TCCR3A_INIT = 0;
-const uint8_t TCCR3B_RUN_VALUE = 0<<CS32 | 1<<CS31 | 1<<CS30;               // prescaler div 64
-const uint8_t TCCR3B_STOP_VALUE = 0;
-const uint16_t TCNT3_PRELOAD_VALUE = 65523;                                 // 65536-(2MHz/64*420us)
-const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 0<<WDP1 | 0<<WDP0;          //  Interrupts only, 15ms
-//const uint8_t WDTCSR_INIT = 1<<WDIE | 0<<WDP2 | 1<<WDP1 | 0<<WDP0;        //  Interrupts only, 60ms
-
 int row0 = 1; // Arduino Pin for row 4 // PIN 21 -- D1
 int row1 = 0; // Arduino Pin for row 3  // PIN 20 -- D0
 int row2 = 2; // Arduino Pin for row 2  // PIN 19 -- D2
@@ -200,6 +202,8 @@ int col2 = 6; // Arduino Pin for row 2  // PIN 27 -- D6
 int col3 = 9; // Arduino Pin for row 3 // PIN 29 -- D9
 int col4 = 13; // Arduino Pin for row 4  // PIN 32 -- D13
 
+// int lefteye = 7; // Arduino Pin for left eye // PIN 1     -- D7
+// int righteye = 14; // Arduino Pin for left eye // PIN 11  -- D14
 int lefteye = 14; // Arduino Pin for left eye // PIN 1     -- D7
 int righteye = 7; // Arduino Pin for left eye // PIN 11  -- D14
 
@@ -213,6 +217,7 @@ int croc3 = A3; // Arduino Pin crocodile clip 3 // PIN 39 -- A3
 int croc4 = A4; // Arduino Pin crocodile clip 4 // PIN 40 -- A4
 int croc5 = A5; // Arduino Pin crocodile clip 5 // PIN 41 -- A5
 
+// This looks like it needs fixing, ALOT
 int h1 = A0; // Header data pin 0// PIN 36 -- A0
 int h2 = A1; // Header data pin 1// PIN 37 -- A1
 int h3 = A2; // Header data pin 2 // PIN 38 -- A2
