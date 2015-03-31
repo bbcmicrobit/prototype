@@ -118,7 +118,7 @@ public:
     if (strcmp(funcname,"getbutton")==0)  { getbutton(raw_args); return 200; }
     if (strcmp(funcname,"plot")==0)  { com_plot(raw_args); return 200; }
     if (strcmp(funcname,"unplot")==0)  { com_unplot(raw_args); return 200; }
-    if (strcmp(funcname,"cleardisplay")==0)  { com_unplot(raw_args); return 200; }
+    if (strcmp(funcname,"cleardisplay")==0)  { cleardisplay(raw_args); return 200; }
 
     return 200;
   }
