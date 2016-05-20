@@ -1,4 +1,12 @@
-PROJECT MICROBUG - REFERENCE IMPLEMENTATION LICENSE
+This is the historical license as originally provided to the parterners
+
+**This license is now superceded by the contents of the LICENSE file**
+
+Updated: Michael Sparks, May 2016
+
+
+
+PROJECT MICROBIT - REFERENCE IMPLEMENTATION LICENSE
 ===================================================
 
 Copyright (C) 2014 BBC.
@@ -25,7 +33,7 @@ made, and may only be accepted as per the license below:
       that we use. (This is the preferred option)
 
     b Copyright assignment to the BBC, including the right to use any
-      embodiment of patented inventions, within the scope of the microbug
+      embodiment of patented inventions, within the scope of the microbit
       project only. (The apache 2 license contains this clause)
 
   4 We (The BBC) do NOT undertake to accept, merge, review or feedback any
@@ -56,21 +64,21 @@ made, and may only be accepted as per the license below:
 
             NO WARRANTY
 
-            THE HARDWARE, HARDWARE DESIGNS AND SOFTWARE ("MICROBUG SYSTEM")
+            THE HARDWARE, HARDWARE DESIGNS AND SOFTWARE ("MICROBIT SYSTEM")
             IS DISTRIBUTED IN THE HOPE THAT IT WILL BE USEFUL, BUT WITHOUT
             ANY WARRANTY.  IT IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
             KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED
             TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
             PARTICULAR PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND
-            PERFORMANCE OF THE MICROBUG SYSTEM IS WITH YOU.  SHOULD THE
-            MICROBUG SYSTEM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
+            PERFORMANCE OF THE MICROBIT SYSTEM IS WITH YOU.  SHOULD THE
+            MICROBIT SYSTEM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
             NECESSARY SERVICING, REPAIR OR CORRECTION.
 
             IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW THE AUTHOR WILL BE
             LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL,
             INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR
-            INABILITY TO USE THE MICROBUG SYSTEM (INCLUDING BUT NOT LIMITED
+            INABILITY TO USE THE MICROBIT SYSTEM (INCLUDING BUT NOT LIMITED
             TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES
-            SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF THE MICROBUG
+            SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF THE MICROBIT
             SYSTEM TO OPERATE WITH ANY OTHER SYSTEMS), EVEN IF THE AUTHOR
             HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
