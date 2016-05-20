@@ -1,5 +1,38 @@
 The device design & production data files will go in here, so that
-all the tech materials relating to Microbug are in one place.
+all the tech materials relating to the production microbit are in one place.
 
 The current device is described in ProductionData, and uses Design Spark PCB
 as the editor tool.
+
+Note: The gerber/etc files in here are as provided to the PCB-A
+print/assembly house *that we used* and while maybe could be used as-is you
+are required to check that they are suitable for your use before you do.
+
+Files in this directory and all the directories below this one are covered by this license:
+
+#
+# Copyright 2016 British Broadcasting Corporation and Contributors(1)
+#
+# (1) Contributors are listed in the AUTHORS file (please extend AUTHORS,
+#     not this header)
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance this license (or the alternative
+# license below).
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# This file is also alternatively licensed under the terms of the Creative
+# Commons Attribution License (cc-by) version 2.  You may obtain a copy of
+# the license at:
+#
+#     https://creativecommons.org/licenses/by/2.0/uk/
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
