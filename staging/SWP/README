@@ -1,0 +1,4 @@
+SWP is an old test-driven-development created simple language parser -
+created by Michael Sparks.  The same approach was used for the py2cc
+compiler subsystem in this repository, and so this is included here for
+reference only.
