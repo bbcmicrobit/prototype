@@ -1,0 +1,50 @@
+What is Microbit - prototype technical overview
+===============================================
+
+NOTE; This, and all materials related to the reference implementation are
+CONFIDENTIAL INFORMATION, and must not be made public, as per NDA with BBC.
+
+
+The project entails a simple programmable wearable device. The current
+reference implementation is based on an Atmel ATMega 32u4 which makes it
+similar to an leonardo arduino - indeed we using the command line suite of
+tools configured as a leonardo. (The device doesn't have an Arduino
+bootloader however)
+
+The user uses a website (which is implemented using Django) to create
+programs for the device using Blockly. Blockly generates javascript to drive
+a simulator for verification of the behaviour. Blockly also generates python
+- that is stored on a server.
+
+The python is compiled to C++ - using a barebone python to C++ compiler I've
+written using David Beazeley's ply.
+
+The C++ is then injected into the arduino command line tools, compiled and a
+.hex file image extracted from the build
+
+That .hex file can be downloaded by users
+They then have a local application - a loader - (PyQT & shell out to a
+command line tool) for loading the code onto the device.
+The device then runs the code.
+
+There's also an IOT library (http://github.com/sparkslabs/iotoy) which is
+available to allow the device to be controlled and used as a sensor by a
+host machine. The primary client side library for that is written in python.
+
+Buried in that toolchain is a cut down python to C++ compiler intended for
+targetting microcontrollers. (I did look at all the others I'm aware of, but
+they weren't really suitable). 
+
+There's also the aspect that actually while blockly is used as *a* editor,
+the system's primary target is python.
+
+While technologies are used in this reference implementation, please
+rememeber it is illustrative, not prescriptive. The functional specification
+is the canonical description of prescriptive functionality.
+
+There are many some parts of this are not as fleshed out as they could be -
+in particular the python/C++ code is nowhere near as far along as we'd like.
+It works, but within more constrained limits than it should. 
+
+
+Michael Sparks, Senior Research Engineer, BBC R&D, December 2014
